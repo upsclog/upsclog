@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC LoG - Prelims Booster</title>
+<style>
+
+:root {
+  --bg: #f5f5f5;
+  --surface: #ffffff;
+  --text: #1a1a1a;
+  --text-secondary: #555;
+  --border: #ddd;
+  --option-hover: #f0f0f0;
+  --correct: #b7f7b7;
+  --correct-text: #145214;
+  --wrong: #ffb6b6;
+  --wrong-text: #6b0000;
+  --exp-bg: #eef;
+  --exp-text: #1a1a2e;
+  --timer-bg: #222;
+  --timer-text: #fff;
+  --btn-bg: #1a1a2e;
+  --btn-text: #fff;
+  --btn-hover: #2e2e50;
+  --shadow: rgba(0,0,0,0.1);
+  --track: #ccc;
+  --thumb: #1a1a2e;
+  --toggle-bg: #ccc;
+  --toggle-knob: #fff;
+  --toggle-active: #4a6fa5;
+}
+
+[data-theme="dark"] {
+  --bg: #12121e;
+  --surface: #1e1e30;
+  --text: #e8e8f0;
+  --text-secondary: #aaa;
+  --border: #333;
+  --option-hover: #2a2a40;
+  --correct: #1a4d1a;
+  --correct-text: #7ef07e;
+  --wrong: #4d1a1a;
+  --wrong-text: #f07e7e;
+  --exp-bg: #1a1a35;
+  --exp-text: #c8c8e8;
+  --timer-bg: #0d0d1a;
+  --timer-text: #e8e8f0;
+  --btn-bg: #4a6fa5;
+  --btn-hover: #5a80b8;
+  --btn-text: #fff;
+  --shadow: rgba(0,0,0,0.4);
+  --track: #444;
+  --thumb: #4a6fa5;
+  --toggle-bg: #444;
+  --toggle-knob: #fff;
+  --toggle-active: #4a6fa5;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 30px;
+  transition: background 0.25s, color 0.25s;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  background: var(--surface);
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px var(--shadow);
+  transition: background 0.25s, box-shadow 0.25s;
+}
+
+h1 { text-align: center; color: var(--text); }
+h2 { text-align: center; color: var(--text); }
+
+ul { color: var(--text-secondary); }
+ul a { color: #4a6fa5; }
+
+.question {
+  border: 1px solid var(--border);
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  transition: border-color 0.25s;
+}
+
+.question h3 {
+  margin-top: 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.option {
+  display: block;
+  margin: 8px 0;
+  padding: 10px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+  color: var(--text);
+}
+
+.option:hover {
+  background: var(--option-hover);
+  border-color: var(--border);
+}
+
+.correct {
+  background: var(--correct) !important;
+  color: var(--correct-text) !important;
+  border-color: transparent !important;
+}
+
+.wrong {
+  background: var(--wrong) !important;
+  color: var(--wrong-text) !important;
+  border-color: transparent !important;
+}
+
+/* orange outline = what the user actually selected */
+.user-selected {
+  outline: 3px solid #f97316 !important;
+  outline-offset: -2px;
+  border-radius: 6px;
+}
+
+.explanation {
+  display: none;
+  margin-top: 15px;
+  background: var(--exp-bg);
+  color: var(--exp-text);
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.6;
+  border-left: 3px solid #4a6fa5;
+}
+
+button.submit-btn {
+  display: block;
+  padding: 12px 32px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 24px;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border: none;
+  border-radius: 8px;
+  transition: background 0.2s, transform 0.1s;
+}
+
+button.submit-btn:hover { background: var(--btn-hover); }
+button.submit-btn:active { transform: scale(0.98); }
+
+#score {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 20px 0;
+  padding: 16px;
+  border-radius: 8px;
+  background: var(--exp-bg);
+  color: var(--exp-text);
+}
+
+/* ── Timer ── */
+#timer {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--timer-bg);
+  color: var(--timer-text);
+  padding: 12px 20px;
+  font-size: 22px;
+  border-radius: 8px;
+  font-weight: bold;
+  box-shadow: 0 2px 10px var(--shadow);
+  transition: background 0.25s, color 0.25s;
+  z-index: 100;
+}
+
+/* ── Dark mode toggle ── */
+.theme-toggle {
+  position: fixed;
+  top: 74px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  padding: 6px 12px;
+  box-shadow: 0 2px 8px var(--shadow);
+  z-index: 100;
+  cursor: pointer;
+  transition: background 0.25s, border-color 0.25s;
+  user-select: none;
+}
+
+.theme-toggle .icon {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.toggle-track {
+  width: 36px;
+  height: 20px;
+  background: var(--toggle-bg);
+  border-radius: 999px;
+  position: relative;
+  transition: background 0.25s;
+  flex-shrink: 0;
+}
+
+[data-theme="dark"] .toggle-track {
+  background: var(--toggle-active);
+}
+
+.toggle-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+  background: var(--toggle-knob);
+  border-radius: 50%;
+  transition: transform 0.25s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+[data-theme="dark"] .toggle-knob {
+  transform: translateX(16px);
+}
+
+/* ── Mobile ── */
+@media (max-width: 700px) {
+  body { margin: 10px; }
+
+  #timer {
+    position: static;
+    width: fit-content;
+    margin: 0 auto 12px;
+    display: block;
+    text-align: center;
+  }
+
+  .theme-toggle {
+    position: static;
+    width: fit-content;
+    margin: 0 auto 16px;
+  }
+
+  .mobile-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .mobile-bar #timer,
+  .mobile-bar .theme-toggle {
+    position: static;
+    margin: 0;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<!-- Mobile: group timer + toggle -->
+<div class="mobile-bar" id="mobileBar" style="display:none;">
+  <div id="timerMobile" style="background:var(--timer-bg);color:var(--timer-text);padding:10px 18px;font-size:20px;border-radius:8px;font-weight:bold;box-shadow:0 2px 10px var(--shadow);">30:00</div>
+  <div class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode" role="button">
+    <span class="icon" id="iconM">☀️</span>
+    <div class="toggle-track"><div class="toggle-knob"></div></div>
+    <span class="icon" id="iconM2">🌙</span>
+  </div>
+</div>
+
+<!-- Desktop: fixed position -->
+<div id="timerDesktop" class="timer-desktop" style="position:fixed;top:20px;right:20px;background:var(--timer-bg);color:var(--timer-text);padding:12px 20px;font-size:22px;border-radius:8px;font-weight:bold;box-shadow:0 2px 10px var(--shadow);z-index:100;transition:background 0.25s,color 0.25s;">30:00</div>
+
+<div class="theme-toggle" id="toggleDesktop" onclick="toggleTheme()" aria-label="Toggle dark mode" role="button" style="position:fixed;top:74px;right:20px;">
+  <span class="icon">☀️</span>
+  <div class="toggle-track"><div class="toggle-knob"></div></div>
+  <span class="icon">🌙</span>
+</div>
+
+<div class="container">
+  <h1>
+    <a href="https://upsclog.github.io/upsclog/" target="_blank" style="color: black; background-color: #C4A484; border-radius: 8px; padding: 4px 12px; text-decoration: none; display: inline-block;">
+      <img src="../logo.png" alt="." style="height: 1.5em; vertical-align: middle; margin-right: 8px;">
+      UPSC LoG
+    </a>
+    — Prelims Booster 2027
+  </h1>
+  <h2>Miscellaneous Test CODE-2027-7</h2>
+  <p>
+    <b>Instructions</b>
+    <ul>
+      <li>25 UPSC CSE Thematic Test Series (with explanations)</li>
+      <li><b>Correct = 2.0 &nbsp;|&nbsp; Incorrect = −0.67</b></li>
+      <li><b><i>30-minute timer</i></b></li>
+      <li>Join <a href="https://t.me/upsclog" target="_blank">UPSC LoG Telegram ↗</a></li>
+    </ul>
+  </p>
+
+  <div id="score"></div>
+  <div id="quiz"></div>
+  <button class="submit-btn" onclick="submitQuiz()">Submit</button>
+</div>
+
+<script>
+
+// ── Theme ──────────────────────────────────────────────────────────────────────
+function toggleTheme() {
+  const html = document.documentElement;
+  const next = html.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  html.setAttribute("data-theme", next);
+  localStorage.setItem("upsc-theme", next);
+}
+
+(function () {
+  const saved = localStorage.getItem("upsc-theme");
+  if (saved) document.documentElement.setAttribute("data-theme", saved);
+})();
+
+// ── Responsive bar ─────────────────────────────────────────────────────────────
+function applyLayout() {
+  const mobile = window.innerWidth <= 700;
+  document.getElementById("mobileBar").style.display = mobile ? "flex" : "none";
+  document.getElementById("timerDesktop").style.display = mobile ? "none" : "block";
+  document.getElementById("toggleDesktop").style.display = mobile ? "none" : "flex";
+}
+applyLayout();
+window.addEventListener("resize", applyLayout);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ───────────────────────────────────────────────────────────────── Questions ──────────────────────────────────────────────────────────────────
+const questions = [
+{
+    question: "With reference to the history of Special Economic Zones (SEZs) in India, consider the following statements:<br>1. India's first Export Processing Zone (EPZ) was established at Kandla in 1965.<br>2. The SEZ policy was first announced in the year 2000 as part of the EXIM Policy.<br>3. The SEZ Act was enacted by Parliament in 2005.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 3,
+    explanation: "All three statements are correct. India's first EPZ was set up at Kandla in 1965. The SEZ policy was announced in April 2000 as part of the EXIM Policy to overcome shortcomings of the EPZ model. The Special Economic Zones Act was enacted in 2005 and came into force in 2006."
+},
+{
+    question: "Which of the following is the most appropriate description of 'Inclusive Growth' as emphasized in India's planning framework?",
+    options: [
+        "Growth that focuses exclusively on the agricultural sector",
+        "Growth that ensures benefits reach all sections of society, especially the marginalized",
+        "Growth measured solely by the rise in GDP at factor cost",
+        "Growth achieved through liberalization of foreign direct investment"
+    ],
+    answer: 1,
+    explanation: "Inclusive Growth refers to economic growth that is broad-based, equitable, and ensures that its benefits percolate to all sections of society, particularly the poor and marginalized. It encompasses employment generation, poverty reduction, regional balance, and social sector development, and is a key theme of India's Five-Year Plans and NITI Aayog framework."
+},
+{
+    question: "Consider the following statements regarding Environmental Indicators and Sustainability:<br>1. The Genuine Progress Indicator (GPI) is a broader measure of welfare than GDP as it accounts for environmental degradation.<br>2. The Ecological Footprint measures the demand on nature relative to what ecosystems can regenerate.<br>3. The Human Development Index (HDI) directly incorporates environmental sustainability as one of its components.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "GPI adjusts GDP for factors like income inequality, crime, and environmental degradation, making it broader than GDP — statement 1 is correct. The Ecological Footprint measures human demand on nature versus biocapacity — statement 2 is correct. However, the HDI comprises only three components: health, education, and standard of living, and does not directly include environmental sustainability — statement 3 is incorrect."
+},
+{
+    question: "Under the Prevention of Money Laundering Act (PMLA), 2002 in India, money laundering is defined as:",
+    options: [
+        "Transfer of funds across borders without RBI approval",
+        "Projecting proceeds of a scheduled offence as untainted property",
+        "Concealment of tax liability through shell companies only",
+        "Hawala transactions above a prescribed threshold limit"
+    ],
+    answer: 1,
+    explanation: "Under Section 3 of the PMLA, 2002, money laundering is defined as directly or indirectly attempting to indulge in or assisting in any process or activity connected with the proceeds of crime and projecting them as untainted property. The offence is linked to 'scheduled offences' listed in the Schedule to the Act."
+},
+{
+    question: "Which of the following international programmes or frameworks is directly associated with addressing challenges related to World Climatic Regions?",
+    options: [
+        "UNFCCC and its associated Paris Agreement",
+        "Basel Convention on Hazardous Wastes",
+        "Ramsar Convention on Wetlands",
+        "Cartagena Protocol on Biosafety"
+    ],
+    answer: 0,
+    explanation: "The UNFCCC and the Paris Agreement are the primary international frameworks dealing with climate change across world climatic regions, setting targets to limit global temperature rise and support adaptation. The Basel Convention deals with hazardous waste, the Ramsar Convention with wetlands, and the Cartagena Protocol with biosafety — none of which directly address world climatic regions."
+},
+{
+    question: "Consider the following statements about Deflation:<br>1. Deflation refers to a sustained decrease in the general price level of goods and services.<br>2. Deflation always leads to higher real wages and is therefore beneficial for the economy.<br>3. Deflation can lead to a deflationary spiral where reduced spending further depresses prices.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 1,
+    explanation: "Deflation is correctly defined as a sustained fall in the general price level — statement 1 is correct. Deflation can trigger a deflationary spiral: falling prices lead to reduced spending, lower production, higher unemployment, and further price falls — statement 3 is correct. Statement 2 is incorrect as deflation is broadly detrimental to economic growth despite any nominal rise in real wages."
+},
+{
+    question: "Which of the following is a key provision of the Fiscal Responsibility and Budget Management (FRBM) Act, 2003 in India?",
+    options: [
+        "It mandates zero fiscal deficit within three years of enactment",
+        "It prohibits the RBI from subscribing to primary issuances of government securities",
+        "It requires the Finance Commission to approve the Union Budget annually",
+        "It empowers NITI Aayog to set deficit targets for States"
+    ],
+    answer: 1,
+    explanation: "A key provision of the FRBM Act is that the RBI shall not subscribe to the primary issuances of Central Government securities from April 1, 2006 onwards, eliminating monetization of deficit. The Act sets targets for eliminating revenue deficit and reducing fiscal deficit but does not mandate zero fiscal deficit in three years. The roles attributed to the Finance Commission and NITI Aayog in other options are incorrect."
+},
+{
+    question: "Consider the following statements about Soils of India:<br>1. Black soil (Regur) is found predominantly in the Deccan Plateau and is known for its high moisture retention capacity.<br>2. Laterite soil is rich in nitrogen and organic matter, making it ideal for plantation crops.<br>3. Alluvial soil is the most widespread soil type in India and is highly fertile.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 2,
+    explanation: "Black soil is found in the Deccan trap region and has high moisture retention due to its clay content — statement 1 is correct. Alluvial soil is the most widespread in India, covering the Indo-Gangetic plain, and is highly fertile — statement 3 is correct. Laterite soil is poor in nitrogen and organic matter due to heavy leaching; plantation crops are grown in it only with added fertilizers — statement 2 is incorrect."
+},
+{
+    question: "With reference to the Lucknow Pact of 1916, which of the following statements is correct?",
+    options: [
+        "It was signed between the Indian National Congress and the British Government",
+        "It provided for separate electorates for Muslims and was agreed upon by both the Congress and the Muslim League",
+        "It rejected the demand for provincial autonomy put forward by the Muslim League",
+        "It was negotiated primarily to address the demands of the extremist faction of the Congress"
+    ],
+    answer: 1,
+    explanation: "The Lucknow Pact of 1916 was an agreement between the Indian National Congress and the All India Muslim League. It accepted the principle of separate electorates for Muslims and agreed on a joint scheme of constitutional reforms to be presented to the British. It signified a rare moment of Hindu-Muslim political unity during the freedom struggle."
+},
+{
+    question: "Consider the following statements about Vedic Age society:<br>1. The Varna system in the early Rigvedic period was based strictly on birth.<br>2. Women in the early Vedic period had relatively more freedom compared to the later Vedic period.<br>3. The Vaishyas in the Vedic period were primarily engaged in trade, agriculture, and cattle rearing.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    answer: 1,
+    explanation: "In the early Rigvedic period, the Varna system was based on occupation and merit, not birth — statement 1 is incorrect. Women in early Vedic society enjoyed greater freedom, could attend assemblies, and some composed Vedic hymns — statement 2 is correct. Vaishyas were indeed the producing class engaged in agriculture, trade, and cattle rearing — statement 3 is correct."
+},
+{
+    question: "Which of the following is a constitutionally recognised form of budget presented in the Indian Parliament?",
+    options: [
+        "Vote on Account, Supplementary Demands for Grants, and Excess Grants",
+        "Contingency Fund Budget, Emergency Budget, and Plan Budget",
+        "Rolling Budget, Zero-Base Budget, and Outcome Budget only",
+        "Interim Budget, Annual Financial Statement, and Revised Estimates"
+    ],
+    answer: 0,
+    explanation: "Parliament can pass a Vote on Account (Article 116) to meet government expenditure pending full budget approval, Supplementary Demands for Grants (Article 115) when approved expenditure is insufficient, and Excess Grants for expenditure already incurred beyond approved amounts. These are constitutionally or statutorily recognized forms of budgetary authorisation."
+},
+{
+    question: "Consider the following statements regarding the spread of Jainism in India:<br>1. Jainism spread significantly in South India, particularly in Karnataka, due to the patronage of Ganga and Rashtrakuta rulers.<br>2. Jainism never gained a foothold in western India and remained confined to the Gangetic plains.<br>3. Jain merchants played a significant role in spreading Jainism along trade routes.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 1,
+    explanation: "Jainism spread widely in South India, especially Karnataka, under the patronage of the Ganga and Rashtrakuta dynasties — statement 1 is correct. Jain merchants played a pivotal role in spreading Jainism along trade routes to western India, particularly Rajasthan and Gujarat, where it became very prominent — statement 3 is correct. Statement 2 is factually incorrect as western India became one of Jainism's strongest regional bases."
+},
+{
+    question: "With reference to the Southern Oscillation, which of the following statements is correct?",
+    options: [
+        "It refers to the periodic reversal of wind direction over the Indian Ocean",
+        "It is the atmospheric pressure variation between the eastern and western tropical Pacific associated with El Nino",
+        "It was first identified by Indian meteorologist Gilbert Walker in the Atlantic Ocean",
+        "It causes warming of sea surface temperatures in the western Pacific during its positive phase"
+    ],
+    answer: 1,
+    explanation: "The Southern Oscillation is the see-saw pattern of atmospheric pressure between the eastern tropical Pacific (near Tahiti) and the western Pacific (near Darwin, Australia). It is closely linked with El Nino and together they form ENSO. It was identified by Sir Gilbert Walker, a British meteorologist, while studying Indian monsoon patterns — not in the Atlantic Ocean."
+},
+{
+    question: "Which of the following best describes the nature of causes that led to the Revolt of 1857?",
+    options: [
+        "Purely military in nature, triggered solely by the greased cartridge episode",
+        "Exclusively economic, caused by the drain of wealth from India",
+        "Multidimensional, encompassing political, economic, military, social, and religious causes",
+        "Primarily religious, as it was a reaction to Christian missionary activities"
+    ],
+    answer: 2,
+    explanation: "The Revolt of 1857 had multidimensional causes. Politically, the Doctrine of Lapse and annexations caused resentment. Economically, the destruction of Indian industry and drain of wealth angered the public. Socially and religiously, interference in customs and the greased cartridge episode provoked sepoys. Militarily, discrimination against Indian soldiers added to grievances. No single factor alone can explain the revolt."
+},
+{
+    question: "Consider the following statements about the Sufi Movement in India:<br>1. The Chishtiya order emphasized poverty, renunciation, and was closely associated with royal courts for patronage.<br>2. The Sufi concept of 'Fana' refers to the annihilation of the self in the divine.<br>3. Qawwali music was an important medium used by Sufi saints to induce spiritual experience.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 1,
+    explanation: "The Chishtiya order deliberately kept away from royal courts and state patronage, emphasizing poverty and service to the poor — statement 1 is incorrect. 'Fana' correctly refers to the annihilation of the ego or self in union with God — statement 2 is correct. Qawwali was extensively used by Sufi saints, especially the Chishtis, as a medium of devotion and spiritual experience — statement 3 is correct."
+},
+{
+    question: "With reference to the Schedules of the Indian Constitution relating to States, which of the following statements is correct?",
+    options: [
+        "The First Schedule contains the names of States and Union Territories and their territories",
+        "The Second Schedule deals with the allocation of seats in the Rajya Sabha for each State",
+        "Admission of new States into the Union is governed by the Third Schedule",
+        "The Fourth Schedule lists the languages recognised as official languages of each State"
+    ],
+    answer: 0,
+    explanation: "The First Schedule of the Indian Constitution lists the names of States and Union Territories along with their territorial extent. The Second Schedule deals with emoluments of constitutional functionaries. The Fourth Schedule specifies the allocation of Rajya Sabha seats for States and UTs. The Eighth Schedule lists languages recognised by the Constitution."
+},
+{
+    question: "Which of the following is the correct descending order of depth among the major ocean trenches?",
+    options: [
+        "Mariana Trench > Tonga Trench > Philippine Trench > Kuril-Kamchatka Trench",
+        "Tonga Trench > Mariana Trench > Kuril-Kamchatka Trench > Philippine Trench",
+        "Philippine Trench > Mariana Trench > Tonga Trench > Kuril-Kamchatka Trench",
+        "Mariana Trench > Philippine Trench > Kuril-Kamchatka Trench > Tonga Trench"
+    ],
+    answer: 0,
+    explanation: "The Mariana Trench is the deepest known point on Earth (Challenger Deep, ~11,034 m). The Tonga Trench is the second deepest (~10,882 m), followed by the Philippine Trench (~10,540 m), and the Kuril-Kamchatka Trench (~10,500 m). This sequence reflects the correct descending order of ocean trench depths."
+},
+{
+    question: "Consider the following deficit concepts used in India's public finance:<br>1. Revenue Deficit = Revenue Expenditure minus Revenue Receipts<br>2. Fiscal Deficit = Total Expenditure minus Total Receipts excluding borrowings<br>3. Primary Deficit = Fiscal Deficit minus Capital Expenditure<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "Revenue Deficit is correctly defined as Revenue Expenditure minus Revenue Receipts — statement 1 is correct. Fiscal Deficit is Total Expenditure minus Total Receipts excluding borrowings — statement 2 is correct. Primary Deficit is Fiscal Deficit minus Interest Payments (not capital expenditure) — statement 3 is incorrect. Primary deficit indicates debt-creating borrowing excluding the interest burden."
+},
+{
+    question: "Consider the following statements about the Coastal Plains of India:<br>1. The Western Coastal Plain is narrower compared to the Eastern Coastal Plain.<br>2. The Eastern Coastal Plain is formed by the deltas of rivers like the Mahanadi, Godavari, Krishna, and Kaveri.<br>3. The Konkan Coast forms part of the Eastern Coastal Plain.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "2 only",
+        "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "The Western Coastal Plain is narrower than the Eastern Coastal Plain — statement 1 is correct. The Eastern Coastal Plain is formed by major river deltas such as the Mahanadi, Godavari, Krishna, and Kaveri — statement 2 is correct. The Konkan Coast is part of the Western Coastal Plain, not the Eastern — statement 3 is incorrect."
+},
+{
+    question: "Consider the following statements about restrictions on Fundamental Rights in India:<br>1. Article 19 rights can be restricted only on grounds explicitly mentioned in the Constitution.<br>2. The right to life under Article 21 can be suspended during a National Emergency.<br>3. Reasonable restrictions on Fundamental Rights can be imposed only by Parliament and not by State Legislatures.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "Article 19 rights can only be restricted on grounds specifically enumerated in clauses (2) to (6) of Article 19 — statement 1 is correct. Article 21 cannot be suspended even during a National Emergency after the 44th Constitutional Amendment, 1978 — statement 2 is incorrect. State Legislatures can also impose reasonable restrictions on Fundamental Rights within their legislative domain — statement 3 is incorrect."
+},
+{
+    question: "With reference to Town Planning in the Harappan Civilization, consider the following statements:<br>1. The cities were divided into two parts: the Citadel (upper town) and the Lower Town.<br>2. The drainage system of Harappan cities was an advanced covered drainage network.<br>3. The streets of Harappan cities followed a strict grid pattern oriented to the cardinal directions.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 3,
+    explanation: "All three statements are correct. Harappan cities were divided into a raised Citadel and a Lower Town. The drainage system was remarkably advanced, with covered drains running along streets. The street layout followed a grid pattern aligned to cardinal directions, demonstrating sophisticated urban planning unprecedented in the ancient world."
+},
+{
+    question: "Which of the following is a characteristic feature of Local Winds?",
+    options: [
+        "They are permanent winds that blow throughout the year in a fixed direction",
+        "They are seasonal winds driven by differential heating between land and sea",
+        "They are small-scale winds blowing over limited areas due to local pressure and temperature differences",
+        "They are upper tropospheric winds associated with jet streams"
+    ],
+    answer: 2,
+    explanation: "Local winds are small-scale air movements that develop due to local differences in temperature and pressure. Examples include the Loo (hot dry wind in northern India), Mistral (cold wind in France), Foehn (warm wind in Alps), and Sirocco (hot wind from Sahara). They are neither permanent nor seasonal winds and are unrelated to jet streams."
+},
+{
+    question: "With reference to India's Union Budget, the document called the 'Annual Financial Statement' is significant because:",
+    options: [
+        "It is the only budget document required to be laid before Parliament under the Constitution",
+        "It presents the detailed demands for grants of each ministry",
+        "It exclusively contains capital expenditure projections for infrastructure",
+        "It is presented by the Finance Minister only in election years"
+    ],
+    answer: 0,
+    explanation: "Under Article 112 of the Indian Constitution, the President shall cause to be laid before both Houses of Parliament a statement of estimated receipts and expenditure called the Annual Financial Statement — it is the only budget document mandatorily required by the Constitution. Detailed Demands for Grants and other documents are statutory or conventional additions, not constitutionally mandated."
+},
+{
+    question: "Which of the following statements correctly distinguishes between a Vote on Account and an Interim Budget in India?",
+    options: [
+        "A Vote on Account covers only expenditure, while an Interim Budget covers both receipts and expenditure",
+        "An Interim Budget is constitutionally mandated, while a Vote on Account is a convention",
+        "A Vote on Account is presented only in election years, while an Interim Budget can be presented any time",
+        "Both are identical in legal status and content as per the Constitution"
+    ],
+    answer: 0,
+    explanation: "A Vote on Account (under Article 116) grants Parliament's approval only for expenditure for a part of the financial year without a full budget discussion. An Interim Budget, while not mentioned in the Constitution, is a full budget covering both receipts and expenditure, presented when a government is in its last year before elections. The key distinction is that a Vote on Account covers expenditure only, whereas an Interim Budget is comprehensive."
+}
+];
+// ────────────────────────────────────────────────────────────────── Render quiz ────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const quiz = document.getElementById("quiz");
+
+questions.forEach((q, index) => {
+  let html = `<div class="question">
+  <p><b>Q${index + 1}.</b> ${q.question}</p>`;
+
+  q.options.forEach((opt, i) => {
+    html += `<label class="option">
+      <input type="radio" name="q${index}" value="${i}">
+      ${String.fromCharCode(65 + i)}. ${opt}
+    </label>`;
+  });
+
+  html += `<div class="explanation" id="exp${index}"></div></div>`;
+  quiz.innerHTML += html;
+});
+
+// ── Submit ─────────────────────────────────────────────────────────────────────
+let submitted = false;
+
+function submitQuiz() {
+  if (submitted) return;
+  submitted = true;
+  clearInterval(countdown);
+
+  const correctMarks = 2;
+  const negativeMarks = 2 / 3;
+  let score = 0;
+
+  questions.forEach((q, index) => {
+    const radios = document.getElementsByName("q" + index);
+    let selected = -1;
+    radios.forEach(r => { if (r.checked) selected = parseInt(r.value); r.disabled = true; });
+
+    radios.forEach(r => {
+      const label = r.parentElement;
+      const value = parseInt(r.value);
+      if (value === q.answer) label.classList.add("correct");
+      if (value === selected && value !== q.answer) label.classList.add("wrong");
+      if (value === selected) label.classList.add("user-selected");
+    });
+
+    if (selected === q.answer) score += correctMarks;
+    else if (selected !== -1) score -= negativeMarks;
+
+    const exp = document.getElementById("exp" + index);
+    exp.style.display = "block";
+    exp.innerHTML = "<b>Correct Answer:</b> " + String.fromCharCode(65 + q.answer) +
+      "<br><br><b>Explanation:</b> " + q.explanation;
+  });
+
+  const maxScore = questions.length * correctMarks;
+  const percentage = (score / maxScore) * 100;
+
+  document.getElementById("score").innerHTML =
+    "Score: <b>" + score.toFixed(2) + " / " + maxScore.toFixed(2) + "</b>" +
+    "&nbsp;&nbsp;|&nbsp;&nbsp;Percentage: <b>" + percentage.toFixed(2) + "%</b>";
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// ── Timer ──────────────────────────────────────────────────────────────────────
+let totalSeconds = 1800;
+
+function updateTimers(text, urgent) {
+  ["timerDesktop", "timerMobile"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.textContent = text;
+      el.style.background = urgent ? "#c62828" : "var(--timer-bg)";
+    }
+  });
+}
+
+const countdown = setInterval(() => {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  const text = String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+
+  updateTimers(text, totalSeconds <= 60);
+
+  if (totalSeconds === 0) {
+    updateTimers("Time Up!", true);
+    submitQuiz();
+  }
+  totalSeconds--;
+}, 1000);
+
+</script>
+</body>
+</html>

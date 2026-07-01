@@ -277,7 +277,7 @@
     display:grid;
     grid-template-columns:repeat(6, 1fr);
     grid-template-rows:repeat(2, 260px);
-    gap:20px;
+    gap:4px;
     max-width:1180px;
     margin:0 auto;
   }
@@ -346,14 +346,41 @@
 
   /* ---------- Responsive ---------- */
   @media (max-width:820px){
-    .gallery-grid{grid-template-columns:repeat(2,1fr); grid-template-rows:none;}
-    .g-item.large, .g-item.tall, .g-item.wide{grid-column:span 2; grid-row:auto; height:280px;}
+    .gallery-grid{
+      grid-template-columns:repeat(3, 1fr);
+      grid-auto-rows:auto;
+      gap:4px;
+    }
+    .g-item.large , .g-item.wide{
+      grid-column:1 / -1;
+      grid-row:span 1;
+      height:260px;
+    }
+    .g-item.tall{
+      grid-column:span 1;
+      height:150px;
+    }
     .pillar{width:42%;}
   }
   @media (max-width:520px){
-    .pillar{width:100%;}
+    .pillar{width:42%;}
     .masthead{padding:28px 6vw 0 6vw;}
-    .logo-mark{width:64px;height:64px;}
+    .gallery-grid{
+      grid-template-columns:repeat(3, 1fr);
+      grid-auto-rows:auto;
+      gap:3px;
+    }
+    .g-item.large , .g-item.wide{
+      grid-column:1 / -1;
+      height:260px;
+    }
+    .g-item.tall{
+      grid-column:span 1;
+      height:150px;
+    }
+        .logo-mark{width:64px;height:64px;}
+    .g-eyebrow.small{font-size: 9px}
+    .g-title.small{font-size: 7px}
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -383,12 +410,12 @@
     <p class="lede">A quiet, disciplined space to study the syllabus that shapes India's civil services — organised the way the exam actually tests you.</p>
 
     <nav class="pillars" aria-label="Subject sections">
-      <a class="pillar" href="./geography_test_page.html">
+      <a class="pillar" href="miscellaneous/miscellaneous_test_page.html">
         <svg class="pillar-icon" viewBox="0 0 40 40"><path d="M20 4 L23 15 L34 15 L25 22 L28 33 L20 26 L12 33 L15 22 L6 15 L17 15 Z" stroke-linejoin="round"/></svg>
         <div class="pillar-name">Miscellaneous</div>
         <div class="pillar-go">Enter →</div>
       </a>
-      <a class="pillar" href="PASTE_HISTORY_LINK_HERE">
+      <a class="pillar" href="history/history_test_page.html">
         <svg class="pillar-icon" viewBox="0 0 40 40"><path d="M8 34h24M11 34V16M17 34V16M23 34V16M29 34V16M6 16h28L20 6 6 16Z" stroke-linejoin="round"/></svg>
         <div class="pillar-name">History</div>
         <div class="pillar-go">Enter →</div>
@@ -398,17 +425,17 @@
         <div class="pillar-name">Geography</div>
         <div class="pillar-go">Enter →</div>
       </a>
-      <a class="pillar" href="PASTE_ECONOMICS_LINK_HERE">
+      <a class="pillar" href="economics/economics_test_page.html">
         <svg class="pillar-icon" viewBox="0 0 40 40"><path d="M7 33V21M16 33V13M25 33V25M34 33V8" stroke-linecap="round"/><path d="M6 15l9-8 8 5 10-9" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <div class="pillar-name">Economics</div>
+        <div class="pillar-name">Economy</div>
         <div class="pillar-go">Enter →</div>
       </a>
-      <a class="pillar" href="PASTE_POLITY_ENVIRONMENT_LINK_HERE">
+      <a class="pillar" href="polity/polity_test_page.html">
         <svg class="pillar-icon" viewBox="0 0 40 40"><path d="M20 6v28M8 12h24M8 12l-5 9h10l-5-9ZM32 12l-5 9h10l-5-9Z" stroke-linejoin="round"/><path d="M12 34h16" stroke-linecap="round"/></svg>
         <div class="pillar-name">Polity</div>
         <div class="pillar-go">Enter →</div>
       </a>
-      <a class="pillar" href="PASTE_POLITY_ENVIRONMENT_LINK_HERE">
+      <a class="pillar" href="environment/environment_test_page.html">
         <svg class="pillar-icon" viewBox="0 0 40 40"><path d="M20 6v28M8 12h24M8 12l-5 9h10l-5-9ZM32 12l-5 9h10l-5-9Z" stroke-linejoin="round"/><path d="M12 34h16" stroke-linecap="round"/></svg>
         <div class="pillar-name">Environment</div>
         <div class="pillar-go">Enter →</div>
@@ -434,7 +461,7 @@
         <div class="g-title">The Himalayan Frontier</div>
       </div>
     </div>
-    <div class="g-item tall">
+    <div class="g-item wide">
       <img src="https://images.unsplash.com/photo-1760872646618-13594fc00567?fm=jpg&q=80&w=1400&auto=format&fit=crop" alt="Grand sandstone government building with dome and columns">
       <div class="g-caption">
         <div class="g-eyebrow">Polity</div>
@@ -456,11 +483,11 @@
       </div>
     </div>
     <!-----------------------------smalls-------------------->
-    <div class="g-item small">
+    <div class="g-item">
       <img src="https://images.unsplash.com/photo-1526034332220-067b0f400e06?q=80&w=706&auto=format&fit=crop" alt="The Ecological Hotspots">
       <div class="g-caption">
-        <div class="g-eyebrow">Environment &amp; Ecology</div>
-        <div class="g-title">Ecological Hotspots</div>
+        <div class="g-eyebrow small">Environment &amp; Ecology</div>
+        <div class="g-title small">Ecological Hotspots</div>
       </div>
     </div>
     <div class="g-item small">
@@ -491,8 +518,10 @@
 </section>
 
 <footer>
-  <div class="made-with">Made with <span class="heart">♥</span></div>
-  <div class="fine-print">The Civil List</div>
+  <div class="made-with">Made with <span class="heart">♥</span> by the  UPSC LoG Team</div>
+  <footer style="text-align: center; color: gray; font-size: 0.9em; padding: 16px 0;">
+    &copy; 2027 UPSC LoG. All Rights Reserved.
+  </footer>
 </footer>
 
 <script>

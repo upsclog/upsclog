@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC LoG - Prelims Booster</title>
+<style>
+
+:root {
+  --bg: #f5f5f5;
+  --surface: #ffffff;
+  --text: #1a1a1a;
+  --text-secondary: #555;
+  --border: #ddd;
+  --option-hover: #f0f0f0;
+  --correct: #b7f7b7;
+  --correct-text: #145214;
+  --wrong: #ffb6b6;
+  --wrong-text: #6b0000;
+  --exp-bg: #eef;
+  --exp-text: #1a1a2e;
+  --timer-bg: #222;
+  --timer-text: #fff;
+  --btn-bg: #1a1a2e;
+  --btn-text: #fff;
+  --btn-hover: #2e2e50;
+  --shadow: rgba(0,0,0,0.1);
+  --track: #ccc;
+  --thumb: #1a1a2e;
+  --toggle-bg: #ccc;
+  --toggle-knob: #fff;
+  --toggle-active: #4a6fa5;
+}
+
+[data-theme="dark"] {
+  --bg: #12121e;
+  --surface: #1e1e30;
+  --text: #e8e8f0;
+  --text-secondary: #aaa;
+  --border: #333;
+  --option-hover: #2a2a40;
+  --correct: #1a4d1a;
+  --correct-text: #7ef07e;
+  --wrong: #4d1a1a;
+  --wrong-text: #f07e7e;
+  --exp-bg: #1a1a35;
+  --exp-text: #c8c8e8;
+  --timer-bg: #0d0d1a;
+  --timer-text: #e8e8f0;
+  --btn-bg: #4a6fa5;
+  --btn-hover: #5a80b8;
+  --btn-text: #fff;
+  --shadow: rgba(0,0,0,0.4);
+  --track: #444;
+  --thumb: #4a6fa5;
+  --toggle-bg: #444;
+  --toggle-knob: #fff;
+  --toggle-active: #4a6fa5;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 30px;
+  transition: background 0.25s, color 0.25s;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  background: var(--surface);
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px var(--shadow);
+  transition: background 0.25s, box-shadow 0.25s;
+}
+
+h1 { text-align: center; color: var(--text); }
+h2 { text-align: center; color: var(--text); }
+
+ul { color: var(--text-secondary); }
+ul a { color: #4a6fa5; }
+
+.question {
+  border: 1px solid var(--border);
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  transition: border-color 0.25s;
+}
+
+.question h3 {
+  margin-top: 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.option {
+  display: block;
+  margin: 8px 0;
+  padding: 10px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+  color: var(--text);
+}
+
+.option:hover {
+  background: var(--option-hover);
+  border-color: var(--border);
+}
+
+.correct {
+  background: var(--correct) !important;
+  color: var(--correct-text) !important;
+  border-color: transparent !important;
+}
+
+.wrong {
+  background: var(--wrong) !important;
+  color: var(--wrong-text) !important;
+  border-color: transparent !important;
+}
+
+/* orange outline = what the user actually selected */
+.user-selected {
+  outline: 3px solid #f97316 !important;
+  outline-offset: -2px;
+  border-radius: 6px;
+}
+
+.explanation {
+  display: none;
+  margin-top: 15px;
+  background: var(--exp-bg);
+  color: var(--exp-text);
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.6;
+  border-left: 3px solid #4a6fa5;
+}
+
+button.submit-btn {
+  display: block;
+  padding: 12px 32px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 24px;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border: none;
+  border-radius: 8px;
+  transition: background 0.2s, transform 0.1s;
+}
+
+button.submit-btn:hover { background: var(--btn-hover); }
+button.submit-btn:active { transform: scale(0.98); }
+
+#score {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 20px 0;
+  padding: 16px;
+  border-radius: 8px;
+  background: var(--exp-bg);
+  color: var(--exp-text);
+}
+
+/* ── Timer ── */
+#timer {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--timer-bg);
+  color: var(--timer-text);
+  padding: 12px 20px;
+  font-size: 22px;
+  border-radius: 8px;
+  font-weight: bold;
+  box-shadow: 0 2px 10px var(--shadow);
+  transition: background 0.25s, color 0.25s;
+  z-index: 100;
+}
+
+/* ── Dark mode toggle ── */
+.theme-toggle {
+  position: fixed;
+  top: 74px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  padding: 6px 12px;
+  box-shadow: 0 2px 8px var(--shadow);
+  z-index: 100;
+  cursor: pointer;
+  transition: background 0.25s, border-color 0.25s;
+  user-select: none;
+}
+
+.theme-toggle .icon {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.toggle-track {
+  width: 36px;
+  height: 20px;
+  background: var(--toggle-bg);
+  border-radius: 999px;
+  position: relative;
+  transition: background 0.25s;
+  flex-shrink: 0;
+}
+
+[data-theme="dark"] .toggle-track {
+  background: var(--toggle-active);
+}
+
+.toggle-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+  background: var(--toggle-knob);
+  border-radius: 50%;
+  transition: transform 0.25s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+[data-theme="dark"] .toggle-knob {
+  transform: translateX(16px);
+}
+
+/* ── Mobile ── */
+@media (max-width: 700px) {
+  body { margin: 10px; }
+
+  #timer {
+    position: static;
+    width: fit-content;
+    margin: 0 auto 12px;
+    display: block;
+    text-align: center;
+  }
+
+  .theme-toggle {
+    position: static;
+    width: fit-content;
+    margin: 0 auto 16px;
+  }
+
+  .mobile-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .mobile-bar #timer,
+  .mobile-bar .theme-toggle {
+    position: static;
+    margin: 0;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<!-- Mobile: group timer + toggle -->
+<div class="mobile-bar" id="mobileBar" style="display:none;">
+  <div id="timerMobile" style="background:var(--timer-bg);color:var(--timer-text);padding:10px 18px;font-size:20px;border-radius:8px;font-weight:bold;box-shadow:0 2px 10px var(--shadow);">30:00</div>
+  <div class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode" role="button">
+    <span class="icon" id="iconM">☀️</span>
+    <div class="toggle-track"><div class="toggle-knob"></div></div>
+    <span class="icon" id="iconM2">🌙</span>
+  </div>
+</div>
+
+<!-- Desktop: fixed position -->
+<div id="timerDesktop" class="timer-desktop" style="position:fixed;top:20px;right:20px;background:var(--timer-bg);color:var(--timer-text);padding:12px 20px;font-size:22px;border-radius:8px;font-weight:bold;box-shadow:0 2px 10px var(--shadow);z-index:100;transition:background 0.25s,color 0.25s;">30:00</div>
+
+<div class="theme-toggle" id="toggleDesktop" onclick="toggleTheme()" aria-label="Toggle dark mode" role="button" style="position:fixed;top:74px;right:20px;">
+  <span class="icon">☀️</span>
+  <div class="toggle-track"><div class="toggle-knob"></div></div>
+  <span class="icon">🌙</span>
+</div>
+
+<div class="container">
+  <h1>
+    <a href="https://upsclog.github.io/upsclog/" target="_blank" style="color: black; background-color: #C4A484; border-radius: 8px; padding: 4px 12px; text-decoration: none; display: inline-block;">
+      <img src="../logo.png" alt="." style="height: 1.5em; vertical-align: middle; margin-right: 8px;">
+      UPSC LoG
+    </a>
+    — Prelims Booster 2027
+  </h1>
+  <h2>Economics Test CODE-2027-5</h2>
+  <p>
+    <b>Instructions</b>
+    <ul>
+      <li>25 UPSC CSE Thematic Test Series (with explanations)</li>
+      <li><b>Correct = 2.0 &nbsp;|&nbsp; Incorrect = −0.67</b></li>
+      <li><b><i>30-minute timer</i></b></li>
+      <li>Join <a href="https://t.me/upsclog" target="_blank">UPSC LoG Telegram ↗</a></li>
+    </ul>
+  </p>
+
+  <div id="score"></div>
+  <div id="quiz"></div>
+  <button class="submit-btn" onclick="submitQuiz()">Submit</button>
+</div>
+
+<script>
+
+// ── Theme ──────────────────────────────────────────────────────────────────────
+function toggleTheme() {
+  const html = document.documentElement;
+  const next = html.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  html.setAttribute("data-theme", next);
+  localStorage.setItem("upsc-theme", next);
+}
+
+(function () {
+  const saved = localStorage.getItem("upsc-theme");
+  if (saved) document.documentElement.setAttribute("data-theme", saved);
+})();
+
+// ── Responsive bar ─────────────────────────────────────────────────────────────
+function applyLayout() {
+  const mobile = window.innerWidth <= 700;
+  document.getElementById("mobileBar").style.display = mobile ? "flex" : "none";
+  document.getElementById("timerDesktop").style.display = mobile ? "none" : "block";
+  document.getElementById("toggleDesktop").style.display = mobile ? "none" : "flex";
+}
+applyLayout();
+window.addEventListener("resize", applyLayout);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ───────────────────────────────────────────────────────────────── Questions ──────────────────────────────────────────────────────────────────
+const questions = [
+    {
+        question: "With reference to the background of Microfinance and Self-Help Groups (SHGs) in India, consider the following statements:<br>1. The SHG-Bank Linkage Programme was launched by NABARD in 1992 as a pilot project and is currently the world's largest microfinance programme.<br>2. SHGs in India are primarily formal bodies registered under the Societies Registration Act, making them eligible for bank credit.<br>3. Microfinance Institutions (MFIs) in India are regulated by the Reserve Bank of India under the Microfinance Institutions (Development and Regulation) Act, 2012.<br>Which of the statements given above is/are correct?",
+        options: [
+            "1 only",
+            "1 and 3 only",
+            "2 and 3 only",
+            "1, 2 and 3"
+        ],
+        answer: 0,
+        explanation: "Only Statement 1 is correct. NABARD launched the SHG-Bank Linkage Programme in 1992 and it is indeed the world's largest microfinance programme. Statement 2 is incorrect because SHGs are typically informal groups, not registered formal bodies, yet banks extend credit to them. Statement 3 is incorrect because a standalone Microfinance Institutions (Development and Regulation) Act has not been enacted; MFIs are regulated through RBI guidelines under the existing legal framework."
+    },
+    {
+        question: "Which of the following best distinguishes the Make in India initiative from earlier industrial policies of India?",
+        options: [
+            "Make in India focuses exclusively on manufacturing, while earlier policies like the Industrial Policy 1991 covered both manufacturing and services.",
+            "Unlike earlier policies that relied on import substitution industrialisation, Make in India emphasises export-led manufacturing growth integrated with global value chains.",
+            "Make in India restricts foreign direct investment to joint ventures with domestic firms, unlike the liberalisation policies of 1991.",
+            "Make in India was specifically designed to replace the Public Sector Undertakings model with complete privatisation of all industries."
+        ],
+        answer: 1,
+        explanation: "Make in India (launched 2014) marks a shift from the earlier import substitution model — which focused on protecting domestic industries from foreign competition — to a strategy of integrating India into global value chains through export-led manufacturing, ease of doing business, and attracting FDI. It covers 25 sectors including services, not just manufacturing. FDI norms were liberalised, not restricted to joint ventures, and it does not mandate complete privatisation."
+    },
+    {
+        question: "Consider the following statements about Priority Sector Lending (PSL) and its impact:<br>1. Under RBI guidelines, domestic commercial banks are required to lend 40% of their Adjusted Net Bank Credit (ANBC) to priority sectors.<br>2. Foreign banks with 20 or more branches in India are required to meet the same 40% PSL target as domestic commercial banks.<br>3. Shortfalls in PSL targets by banks must be deposited with the Rural Infrastructure Development Fund (RIDF) maintained by NABARD.<br>Which of the statements given above is/are correct?",
+        options: [
+            "1 and 3 only",
+            "2 and 3 only",
+            "1 and 2 only",
+            "1, 2 and 3"
+        ],
+        answer: 0,
+        explanation: "Statements 1 and 3 are correct. Domestic commercial banks must lend 40% of ANBC to priority sectors, and PSL shortfalls are deposited in RIDF or other funds managed by NABARD, MUDRA, etc. Statement 2 is incorrect — foreign banks with 20 or more branches are required to achieve the 40% target, but those with fewer than 20 branches have a lower target of 32% with a different sub-target structure, introduced to be phased in over time."
+    },
+    {
+        question: "Which of the following correctly explains a key conceptual difference between the Wholesale Price Index (WPI) and the Consumer Price Index (CPI) in India?",
+        options: [
+            "WPI measures price changes at the retail level, while CPI measures price changes at the producer or wholesale level.",
+            "CPI captures the cost of a fixed basket of goods and services paid by consumers, including services, whereas WPI tracks prices of goods traded in bulk between businesses and does not include services.",
+            "WPI is released by the Ministry of Statistics and Programme Implementation, while CPI is released by the Ministry of Commerce and Industry.",
+            "Both WPI and CPI use the same base year and identical commodity basket, differing only in geographic coverage."
+        ],
+        answer: 1,
+        explanation: "The key distinction is that CPI measures price changes faced by consumers and includes services (housing, education, health), whereas WPI tracks prices of goods at the wholesale/producer stage and excludes services. WPI is released by the Office of the Economic Adviser under the Ministry of Commerce and Industry, while CPI is released by the Ministry of Statistics and Programme Implementation (MoSPI). Their commodity baskets and base years differ."
+    },
+    {
+        question: "The declining share of agriculture in India's GDP, while the sector still employs over 40% of the workforce, is best described by which of the following concepts?",
+        options: [
+            "Dutch Disease",
+            "Structural transformation with incomplete occupational transition",
+            "Stagflation in the primary sector",
+            "Disguised unemployment leading to negative marginal productivity"
+        ],
+        answer: 1,
+        explanation: "The phenomenon where agriculture's share in GDP declines with economic growth (structural transformation) but the workforce dependent on agriculture remains disproportionately large is called incomplete or lagging occupational transition. It is a classic feature of developing economies where labour moves out of agriculture slowly relative to the sector's declining output share. This creates a large productivity gap between agriculture and other sectors, not Dutch Disease (resource curse) or stagflation."
+    },
+    {
+        question: "With reference to fiscal policy and budget concepts in India, which of the following statements about deficits is correct?",
+        options: [
+            "Fiscal Deficit equals Revenue Deficit plus Capital Expenditure minus Capital Receipts excluding borrowings.",
+            "Revenue Deficit indicates that the government's revenue expenditure exceeds its revenue receipts, implying borrowing for consumption rather than investment.",
+            "Primary Deficit is the difference between fiscal deficit and total interest payments, and a zero primary deficit implies that current borrowings finance only past debt interest.",
+            "The Effective Revenue Deficit was introduced to capture only the monetised portion of the fiscal deficit."
+        ],
+        answer: 1,
+        explanation: "Revenue Deficit = Revenue Expenditure minus Revenue Receipts. A revenue deficit means the government borrows to finance current consumption expenditure (salaries, subsidies, interest), which is considered fiscally imprudent as it does not create assets. Option A's formula is imprecise. Option C is correct in definition but the inference is reversed — zero primary deficit means current borrowings only service interest on past debt, which is the correct implication. Effective Revenue Deficit (introduced 2011-12) excludes grants for capital asset creation from revenue deficit, not the monetised portion."
+    },
+    {
+        question: "Consider the following criticisms levelled against the IMF, World Bank, and Asian Development Bank (ADB):<br>1. The IMF's Structural Adjustment Programmes have been criticised for imposing fiscal austerity on developing nations, which often led to cuts in social sector spending.<br>2. The World Bank's voting structure is weighted by capital subscription, giving disproportionate influence to developed nations, particularly the United States.<br>3. The ADB has been criticised for prioritising infrastructure lending linked to donor-country contractors, raising concerns about tied aid.<br>Which of the statements given above is/are correct?",
+        options: [
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only",
+            "1, 2 and 3"
+        ],
+        answer: 3,
+        explanation: "All three statements reflect well-documented criticisms. IMF's SAPs required fiscal consolidation that frequently reduced social spending. The World Bank, like the IMF, uses a weighted voting system tied to capital contributions, giving the US effective veto power over major decisions. The ADB has faced criticism for procurement practices that benefited donor-country firms, a form of tied aid that reduces the development effectiveness of loans."
+    },
+    {
+        question: "With reference to the evolution of Priority Sector Lending (PSL) norms in India, which of the following sequences is correct?",
+        options: [
+            "The concept of PSL was first introduced by the Narasimham Committee (1991) → formalised by RBI in 1972 → targets revised post-nationalisation of banks.",
+            "Bank nationalisation in 1969 created the impetus → RBI formalised PSL targets in 1972 → Nair Committee (2012) revised the PSL framework including new categories like renewable energy.",
+            "PSL was introduced at independence in 1947 → targets were set at 25% in 1969 → revised to 40% after liberalisation in 1991.",
+            "PSL norms were first introduced by NABARD in 1982 → adopted by RBI in 1991 → targets set at 40% for all banks."
+        ],
+        answer: 1,
+        explanation: "The correct sequence is: the nationalisation of 14 major banks in 1969 created the policy environment for directed credit. RBI formalised PSL targets in 1972, initially at 33.33% and later raised to 40%. The M. V. Nair Committee (2012) revised PSL guidelines, adding new categories such as renewable energy and social infrastructure. NABARD was established in 1982 for agricultural refinance, separate from the PSL framework's origin."
+    },
+    {
+        question: "Consider the following statements about the Balance of Payments (BoP) and its components:<br>1. The Current Account of BoP records transactions in goods, services, income, and current transfers.<br>2. A Current Account Deficit necessarily implies that a country is running a Capital Account Surplus.<br>3. Foreign Direct Investment inflows are recorded under the Current Account of the Balance of Payments.<br>Which of the statements given above is/are correct?",
+        options: [
+            "1 only",
+            "1 and 2 only",
+            "2 and 3 only",
+            "1, 2 and 3"
+        ],
+        answer: 1,
+        explanation: "Statement 1 is correct — the Current Account records trade in goods (visible trade), services (invisible trade), income (investment income, remittances), and current transfers. Statement 2 is broadly correct as the BoP must balance; a current account deficit is financed by a surplus in the capital and financial account. Statement 3 is incorrect — FDI is a capital/financial account transaction, not a current account transaction."
+    },
+    {
+        question: "Which of the following correctly arranges the macroeconomic aggregates in descending order of their value for a typical economy with positive net factor income from abroad and positive depreciation?",
+        options: [
+            "GDP > GNP > NNP at Market Price > NNP at Factor Cost",
+            "GNP > GDP > NNP at Market Price > NNP at Factor Cost",
+            "GDP > NNP at Market Price > GNP > NNP at Factor Cost",
+            "GNP > NNP at Market Price > GDP > NNP at Factor Cost"
+        ],
+        answer: 1,
+        explanation: "GNP = GDP + Net Factor Income from Abroad (NFIA). If NFIA is positive, GNP > GDP. NNP at Market Price = GNP minus Depreciation, so NNP (MP) < GNP. NNP at Factor Cost = NNP at Market Price minus Net Indirect Taxes, so NNP (FC) < NNP (MP). The descending order is: GNP > GDP > NNP at Market Price > NNP at Factor Cost, assuming positive NFIA and positive depreciation and net indirect taxes."
+    },
+    {
+        question: "With reference to the Human Development Index (HDI), consider the following statements:<br>1. The HDI was developed by the United Nations Development Programme (UNDP) and was first published in the Human Development Report of 1990, conceptualised by Mahbub ul Haq and Amartya Sen.<br>2. The HDI currently uses four indicators: per capita GNI (PPP), mean years of schooling, expected years of schooling, and life expectancy at birth.<br>3. A country can have a high per capita income but a low HDI if it performs poorly on health and education dimensions.<br>Which of the statements given above is/are correct?",
+        options: [
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only",
+            "1, 2 and 3"
+        ],
+        answer: 3,
+        explanation: "All three statements are correct. The HDI was introduced in the 1990 UNDP Human Development Report, with Mahbub ul Haq as the principal architect and Amartya Sen as an intellectual contributor. The current HDI uses three dimensions (health, education, income) measured by four indicators: life expectancy, mean years of schooling, expected years of schooling, and GNI per capita at PPP. Countries like Gulf states historically had high incomes but lower HDI due to gaps in health and education."
+    },
+    {
+        question: "Consider the following statements about WTO and India's trade policy:<br>1. India has consistently opposed the inclusion of labour standards and environmental norms within the WTO framework, viewing them as potential protectionist barriers by developed nations.<br>2. The Agreement on Agriculture (AoA) under WTO prohibits India from providing Minimum Support Price (MSP) to farmers under any circumstance.<br>3. India successfully negotiated the Peace Clause at the Bali Ministerial Conference (2013) to protect its food security programme from WTO dispute action.<br>Which of the statements given above is/are correct?",
+        options: [
+            "1 and 3 only",
+            "2 and 3 only",
+            "1 and 2 only",
+            "1, 2 and 3"
+        ],
+        answer: 0,
+        explanation: "Statements 1 and 3 are correct. India has strongly opposed inserting labour and environmental conditionalities into WTO trade rules, terming them disguised protectionism. At Bali (2013), India secured the Peace Clause, shielding its public stockholding for food security from WTO challenge until a permanent solution is found. Statement 2 is incorrect — the AoA does not prohibit MSP; it limits trade-distorting subsidies (Amber Box) above a de minimis threshold, and India's food security programme is the subject of ongoing WTO negotiations."
+    },
+    {
+        question: "Which of the following best captures the fiscal significance of the distinction between Revenue and Capital budgets in India?",
+        options: [
+            "Revenue budget surpluses can be used to retire public debt, while capital budget deficits require mandatory monetisation by the RBI.",
+            "Capital expenditure creates assets or reduces liabilities, and its financing through borrowing is considered more sustainable than borrowing to meet revenue expenditure.",
+            "The Revenue Budget includes all borrowings of the government, which distinguishes it from the Capital Budget that covers only tax revenues.",
+            "Under the FRBM Act, the government is mandated to eliminate the capital deficit but is allowed to maintain a revenue deficit up to 3% of GDP."
+        ],
+        answer: 1,
+        explanation: "The core fiscal principle is that capital expenditure — spending on infrastructure, assets, and repayment of loans — is investment-oriented and borrowing for it is considered acceptable since it generates future returns. Borrowing to finance revenue expenditure (salaries, subsidies, interest) is considered unsustainable as it creates no assets. The FRBM Act targets fiscal deficit and revenue deficit reduction, not capital deficit; and RBI monetisation of deficit was discontinued in 1997."
+    },
+    {
+        question: "Consider the following statements about the Mahatma Gandhi National Rural Employment Guarantee Act (MGNREGA):<br>1. MGNREGA legally guarantees 100 days of wage employment per financial year to every rural household whose adult members volunteer to do unskilled manual work.<br>2. If employment is not provided within 15 days of application, the applicant is entitled to an unemployment allowance paid by the state government.<br>3. Women must constitute at least one-third of the beneficiaries of MGNREGA in every state.<br>Which of the statements given above is/are correct?",
+        options: [
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only",
+            "1, 2 and 3"
+        ],
+        answer: 3,
+        explanation: "All three statements are correct. MGNREGA provides a legal guarantee of 100 days of unskilled manual work per household per year. If employment is not provided within 15 days, the state government must pay an unemployment allowance (one-fourth of wage rate for the first 30 days, one-half thereafter). Women's participation is mandated at not less than one-third — a provision that has contributed to women constituting over 50% of MGNREGA workers nationally."
+    },
+    {
+        question: "With reference to the measurement of poverty in India, which of the following is correctly matched?",
+        options: [
+            "Tendulkar Committee (2009) — introduced the concept of calorie-based poverty line using 2,400 kcal (rural) and 2,100 kcal (urban) norms",
+            "Rangarajan Committee (2014) — recommended a higher poverty line based on consumption expenditure, estimating a higher poverty ratio than Tendulkar",
+            "Lakdawala Committee (1993) — first introduced the Multidimensional Poverty Index as India's official measure of poverty",
+            "Alagh Committee (1979) — recommended poverty lines based solely on income thresholds rather than consumption expenditure"
+        ],
+        answer: 1,
+        explanation: "The Rangarajan Committee (2014) recommended a revised poverty line based on broader consumption expenditure norms and estimated a higher poverty ratio than the Tendulkar Committee. The Tendulkar Committee (2009) moved away from the calorie-based norm (introduced by the Alagh/Lakdawala committees) to a consumption expenditure basket approach. Lakdawala (1993) used calorie norms, not MPI. The MPI was introduced by UNDP/OPHI, not by any Indian committee."
+    },
+    {
+        question: "Which of the following correctly distinguishes Revenue Expenditure from Capital Expenditure in the Union Budget of India?",
+        options: [
+            "Revenue Expenditure includes interest payments on debt, while Capital Expenditure includes repayment of the principal amount of debt.",
+            "Capital Expenditure refers only to expenditure on physical infrastructure like roads and bridges; expenditure on education and health is classified as Revenue Expenditure regardless of asset creation.",
+            "Revenue Expenditure always leads to a deficit, while Capital Expenditure always leads to a surplus in the respective accounts.",
+            "Grants given by the Centre to states for capital works are classified as Capital Expenditure in the Union Budget."
+        ],
+        answer: 0,
+        explanation: "Interest payments are recurring obligations classified as Revenue Expenditure, while repayment of the principal amount of public debt reduces the government's liability and is classified as Capital Expenditure. Option B is partially incorrect — grants to states for capital formation are classified as Revenue Expenditure in the Union Budget (a source of criticism leading to the Effective Revenue Deficit concept). Option C is incorrect as deficits/surpluses depend on receipts versus expenditure, not the type of expenditure alone."
+    },
+    {
+        question: "With reference to the role of Revenue Expenditure in public finance, which of the following statements is most accurate?",
+        options: [
+            "Revenue Expenditure is always unproductive and should be minimised in all circumstances to ensure fiscal prudence.",
+            "High revenue expenditure relative to revenue receipts reduces the government's capacity for capital formation and may crowd out private investment through higher borrowings.",
+            "Revenue Expenditure on subsidies is classified separately from Revenue Expenditure on salaries and pensions under Indian budget classification.",
+            "The FRBM Act, 2003 mandates that Revenue Expenditure must not exceed 60% of total government expenditure."
+        ],
+        answer: 1,
+        explanation: "When revenue expenditure consistently exceeds revenue receipts (causing revenue deficit), the government must borrow to finance consumption spending. This crowds out private investment by raising interest rates and reduces fiscal space for capital expenditure. Not all revenue expenditure is unproductive — expenditure on education and health has long-term productivity effects. The FRBM Act targets deficit ratios, not expenditure composition percentages."
+    },
+    {
+        question: "Consider the following statements about the Pradhan Mantri Jan Dhan Yojana (PMJDY):<br>1. PMJDY was launched in 2014 with the objective of ensuring financial inclusion by providing universal access to banking facilities.<br>2. Accounts opened under PMJDY are zero-balance accounts and provide an overdraft facility of up to ₹10,000 after six months of satisfactory operation.<br>3. PMJDY accounts are linked to the JAM trinity — Jan Dhan, Aadhaar, and Mobile — to enable direct benefit transfers.<br>Which of the statements given above is/are correct?",
+        options: [
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only",
+            "1, 2 and 3"
+        ],
+        answer: 3,
+        explanation: "All three statements are correct. PMJDY was launched on August 28, 2014 to universalise banking access. PMJDY accounts are zero-balance accounts offering an overdraft facility (initially ₹5,000, later enhanced to ₹10,000) after satisfactory account operation for six months. The JAM trinity (Jan Dhan-Aadhaar-Mobile) forms the infrastructure for direct benefit transfers, eliminating leakages in subsidy delivery — a key reform outcome of PMJDY."
+    },
+    {
+        question: "With reference to the MUDRA (Micro Units Development and Refinance Agency) scheme, which of the following statements is correct?",
+        options: [
+            "MUDRA provides loans directly to micro-entrepreneurs through its own branch network across India.",
+            "MUDRA classifies its loan products into three categories — Shishu (up to ₹50,000), Kishor (₹50,001 to ₹5 lakh), and Tarun (₹5 lakh to ₹10 lakh) — targeting different stages of enterprise growth.",
+            "MUDRA loans are backed by a mandatory government guarantee, making them risk-free for lending institutions.",
+            "MUDRA was established as a subsidiary of the Reserve Bank of India under the RBI Act, 1934."
+        ],
+        answer: 1,
+        explanation: "MUDRA's three loan products — Shishu (up to ₹50,000), Kishor (₹50,001 to ₹5 lakh), and Tarun (₹5 lakh to ₹10 lakh) — correspond to the early, growing, and developed stages of a micro-enterprise's lifecycle. MUDRA does not lend directly; it refinances banks, MFIs, and NBFCs that on-lend to micro-entrepreneurs. MUDRA loans do not carry a mandatory government guarantee, and MUDRA was set up under the SIDBI Act as a subsidiary of SIDBI, not directly under the RBI."
+    },
+    {
+        question: "In the context of factors of production, which of the following statements best explains the declining share of wages in national income in many developing economies including India?",
+        options: [
+            "Labour as a factor of production is being substituted by capital due to technological advancement and automation, reducing the relative demand for unskilled labour.",
+            "The concept of diminishing marginal returns to labour ensures that wages must always fall as the economy grows.",
+            "Land, being a fixed factor, absorbs an increasing share of national income as rent, leaving less for wages.",
+            "The decline in wages share is a natural consequence of transitioning from an agrarian to an industrial economy, after which wages always recover fully."
+        ],
+        answer: 0,
+        explanation: "The declining labour share of income in many economies is primarily attributed to capital-biased technological change and automation, which raises the marginal productivity of capital relative to labour, especially unskilled labour. This is a key concern in development economics. Diminishing marginal returns to labour do not guarantee falling wages — wages depend on marginal productivity and labour market conditions. The relationship between structural transformation and wage share is not as deterministic as option D suggests."
+    },
+    {
+        question: "Which of the following best explains why land is sometimes described as a 'passive' factor of production compared to labour, capital, and enterprise?",
+        options: [
+            "Land does not earn any return in a modern market economy as rent has been eliminated by competition.",
+            "Land is a gift of nature that requires no human effort to create, is fixed in total supply nationally, and is geographically immobile, making its supply perfectly inelastic.",
+            "Land can be created through reclamation, making it the most elastic factor of production in the long run.",
+            "Land earns profit rather than rent as its return, unlike labour which earns wages and capital which earns interest."
+        ],
+        answer: 1,
+        explanation: "Land is described as 'passive' because it is a free gift of nature — not produced by human effort — is fixed in aggregate supply (perfectly inelastic at the national level), and cannot be moved geographically, unlike capital or labour. The return to land is rent, not profit. Land reclamation can marginally increase usable land but does not fundamentally alter its supply inelasticity. These characteristics distinguish it from the other factors of production."
+    },
+    {
+        question: "Consider the following statements about inflation and its measurement in India:<br>1. Core inflation excludes food and fuel prices from the CPI basket to measure underlying demand-driven price pressures.<br>2. Cost-push inflation is caused by a rise in aggregate demand, while demand-pull inflation results from supply-side shocks.<br>3. The RBI's Monetary Policy Committee (MPC) uses CPI-based inflation (headline) as its nominal anchor with a target of 4% with a tolerance band of +/- 2%.<br>Which of the statements given above is/are correct?",
+        options: [
+            "1 and 3 only",
+            "2 and 3 only",
+            "1 and 2 only",
+            "1, 2 and 3"
+        ],
+        answer: 0,
+        explanation: "Statements 1 and 3 are correct. Core inflation excludes volatile food and fuel components to capture underlying inflationary momentum. The RBI's MPC, established under the amended RBI Act, uses CPI headline inflation with a target of 4% (+/- 2%) as its flexible inflation targeting framework. Statement 2 is incorrect — it reverses the definitions. Demand-pull inflation is caused by excess aggregate demand; cost-push inflation results from supply-side shocks (rising input costs like oil prices)."
+    },
+    {
+        question: "With reference to the significance of poverty measurement in India, which of the following statements is most accurate about the Multidimensional Poverty Index (MPI)?",
+        options: [
+            "The MPI is India's official measure of poverty and has replaced the consumption expenditure-based poverty line for all government planning purposes.",
+            "The MPI captures deprivations across health, education, and living standards using ten indicators, providing a richer picture of poverty than income or consumption-based lines alone.",
+            "A household is classified as multidimensionally poor only if it is simultaneously deprived on all ten indicators of the MPI.",
+            "The global MPI was developed jointly by the Planning Commission of India and the World Bank to assess poverty in South Asian countries."
+        ],
+        answer: 1,
+        explanation: "The MPI, developed by UNDP and Oxford Poverty and Human Development Initiative (OPHI), measures poverty across three dimensions — health, education, and living standards — using ten indicators (nutrition, child mortality, years of schooling, school attendance, cooking fuel, sanitation, drinking water, electricity, housing, assets). A household is considered MPI-poor if deprived in at least one-third of the weighted indicators, not all ten. India has not officially replaced consumption-based poverty lines with MPI for all planning purposes."
+    },
+    {
+        question: "India's ranking on the Human Development Index (HDI) has often been lower than what its per capita income ranking would suggest. Which of the following best explains this divergence?",
+        options: [
+            "India's HDI rank suffers primarily because the UNDP uses Purchasing Power Parity adjustments that systematically undervalue the Indian rupee.",
+            "High income inequality within India means that per capita income does not reflect actual living standards, combined with persistent gaps in health outcomes and educational attainment, particularly for women and marginalised groups.",
+            "India's HDI rank is lowered solely because of low life expectancy, which is the most heavily weighted component of the HDI.",
+            "The HDI penalises countries with large populations regardless of their actual development outcomes, placing India at a disadvantage compared to smaller nations."
+        ],
+        answer: 1,
+        explanation: "India's divergence between income rank and HDI rank is best explained by: (a) high income inequality — average per capita income masks extreme poverty for a large segment of the population; (b) gaps in health outcomes (maternal mortality, child malnutrition); and (c) low educational attainment especially for women and marginalised groups (SC/ST). The HDI components are equally weighted in the geometric mean formula, and HDI does not penalise for population size. PPP adjustments are standard across all countries."
+    },
+    {
+        question: "With reference to the Sustainable Development Goals (SDGs), consider the following statements:<br>1. The SDGs were adopted by all United Nations member states in 2015 as part of the 2030 Agenda for Sustainable Development, replacing the Millennium Development Goals (MDGs).<br>2. Unlike the MDGs which focused primarily on developing countries, the SDGs are universal in application and apply to all nations including developed ones.<br>3. India's NITI Aayog has been designated as the nodal agency for coordinating SDG implementation and monitoring in India.<br>Which of the statements given above is/are correct?",
+        options: [
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only",
+            "1, 2 and 3"
+        ],
+        answer: 3,
+        explanation: "All three statements are correct. The 17 SDGs and 169 targets were adopted unanimously by UN member states in September 2015, succeeding the 8 MDGs (2000–2015). A defining feature of the SDGs over the MDGs is their universality — they apply to developed and developing nations alike, covering issues like climate action, inequality, and sustainable consumption that are relevant globally. NITI Aayog serves as the nodal agency for SDG implementation in India and publishes the SDG India Index annually to track progress."
+    }
+];
+// ────────────────────────────────────────────────────────────────── Render quiz ────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const quiz = document.getElementById("quiz");
+
+questions.forEach((q, index) => {
+  let html = `<div class="question">
+    <h3>${q.topic}</h3>
+    <p><b>Q${index + 1}.</b> ${q.question}</p>`;
+
+  q.options.forEach((opt, i) => {
+    html += `<label class="option">
+      <input type="radio" name="q${index}" value="${i}">
+      ${String.fromCharCode(65 + i)}. ${opt}
+    </label>`;
+  });
+
+  html += `<div class="explanation" id="exp${index}"></div></div>`;
+  quiz.innerHTML += html;
+});
+
+// ── Submit ─────────────────────────────────────────────────────────────────────
+let submitted = false;
+
+function submitQuiz() {
+  if (submitted) return;
+  submitted = true;
+  clearInterval(countdown);
+
+  const correctMarks = 2;
+  const negativeMarks = 2 / 3;
+  let score = 0;
+
+  questions.forEach((q, index) => {
+    const radios = document.getElementsByName("q" + index);
+    let selected = -1;
+    radios.forEach(r => { if (r.checked) selected = parseInt(r.value); r.disabled = true; });
+
+    radios.forEach(r => {
+      const label = r.parentElement;
+      const value = parseInt(r.value);
+      if (value === q.answer) label.classList.add("correct");
+      if (value === selected && value !== q.answer) label.classList.add("wrong");
+      if (value === selected) label.classList.add("user-selected");
+    });
+
+    if (selected === q.answer) score += correctMarks;
+    else if (selected !== -1) score -= negativeMarks;
+
+    const exp = document.getElementById("exp" + index);
+    exp.style.display = "block";
+    exp.innerHTML = "<b>Correct Answer:</b> " + String.fromCharCode(65 + q.answer) +
+      "<br><br><b>Explanation:</b> " + q.explanation;
+  });
+
+  const maxScore = questions.length * correctMarks;
+  const percentage = (score / maxScore) * 100;
+
+  document.getElementById("score").innerHTML =
+    "Score: <b>" + score.toFixed(2) + " / " + maxScore.toFixed(2) + "</b>" +
+    "&nbsp;&nbsp;|&nbsp;&nbsp;Percentage: <b>" + percentage.toFixed(2) + "%</b>";
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// ── Timer ──────────────────────────────────────────────────────────────────────
+let totalSeconds = 1800;
+
+function updateTimers(text, urgent) {
+  ["timerDesktop", "timerMobile"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.textContent = text;
+      el.style.background = urgent ? "#c62828" : "var(--timer-bg)";
+    }
+  });
+}
+
+const countdown = setInterval(() => {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  const text = String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+
+  updateTimers(text, totalSeconds <= 60);
+
+  if (totalSeconds === 0) {
+    updateTimers("Time Up!", true);
+    submitQuiz();
+  }
+  totalSeconds--;
+}, 1000);
+
+</script>
+</body>
+</html>
