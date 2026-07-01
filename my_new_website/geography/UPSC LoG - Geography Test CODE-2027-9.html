@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC LoG - Prelims Booster</title>
+<style>
+
+:root {
+  --bg: #f5f5f5;
+  --surface: #ffffff;
+  --text: #1a1a1a;
+  --text-secondary: #555;
+  --border: #ddd;
+  --option-hover: #f0f0f0;
+  --correct: #b7f7b7;
+  --correct-text: #145214;
+  --wrong: #ffb6b6;
+  --wrong-text: #6b0000;
+  --exp-bg: #eef;
+  --exp-text: #1a1a2e;
+  --timer-bg: #222;
+  --timer-text: #fff;
+  --btn-bg: #1a1a2e;
+  --btn-text: #fff;
+  --btn-hover: #2e2e50;
+  --shadow: rgba(0,0,0,0.1);
+  --track: #ccc;
+  --thumb: #1a1a2e;
+  --toggle-bg: #ccc;
+  --toggle-knob: #fff;
+  --toggle-active: #4a6fa5;
+}
+
+[data-theme="dark"] {
+  --bg: #12121e;
+  --surface: #1e1e30;
+  --text: #e8e8f0;
+  --text-secondary: #aaa;
+  --border: #333;
+  --option-hover: #2a2a40;
+  --correct: #1a4d1a;
+  --correct-text: #7ef07e;
+  --wrong: #4d1a1a;
+  --wrong-text: #f07e7e;
+  --exp-bg: #1a1a35;
+  --exp-text: #c8c8e8;
+  --timer-bg: #0d0d1a;
+  --timer-text: #e8e8f0;
+  --btn-bg: #4a6fa5;
+  --btn-hover: #5a80b8;
+  --btn-text: #fff;
+  --shadow: rgba(0,0,0,0.4);
+  --track: #444;
+  --thumb: #4a6fa5;
+  --toggle-bg: #444;
+  --toggle-knob: #fff;
+  --toggle-active: #4a6fa5;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 30px;
+  transition: background 0.25s, color 0.25s;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  background: var(--surface);
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px var(--shadow);
+  transition: background 0.25s, box-shadow 0.25s;
+}
+
+h1 { text-align: center; color: var(--text); }
+h2 { text-align: center; color: var(--text); }
+
+ul { color: var(--text-secondary); }
+ul a { color: #4a6fa5; }
+
+.question {
+  border: 1px solid var(--border);
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  transition: border-color 0.25s;
+}
+
+.question h3 {
+  margin-top: 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.option {
+  display: block;
+  margin: 8px 0;
+  padding: 10px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+  color: var(--text);
+}
+
+.option:hover {
+  background: var(--option-hover);
+  border-color: var(--border);
+}
+
+.correct {
+  background: var(--correct) !important;
+  color: var(--correct-text) !important;
+  border-color: transparent !important;
+}
+
+.wrong {
+  background: var(--wrong) !important;
+  color: var(--wrong-text) !important;
+  border-color: transparent !important;
+}
+
+/* orange outline = what the user actually selected */
+.user-selected {
+  outline: 3px solid #f97316 !important;
+  outline-offset: -2px;
+  border-radius: 6px;
+}
+
+.explanation {
+  display: none;
+  margin-top: 15px;
+  background: var(--exp-bg);
+  color: var(--exp-text);
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.6;
+  border-left: 3px solid #4a6fa5;
+}
+
+button.submit-btn {
+  display: block;
+  padding: 12px 32px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 24px;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border: none;
+  border-radius: 8px;
+  transition: background 0.2s, transform 0.1s;
+}
+
+button.submit-btn:hover { background: var(--btn-hover); }
+button.submit-btn:active { transform: scale(0.98); }
+
+#score {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 20px 0;
+  padding: 16px;
+  border-radius: 8px;
+  background: var(--exp-bg);
+  color: var(--exp-text);
+}
+
+/* ── Timer ── */
+#timer {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--timer-bg);
+  color: var(--timer-text);
+  padding: 12px 20px;
+  font-size: 22px;
+  border-radius: 8px;
+  font-weight: bold;
+  box-shadow: 0 2px 10px var(--shadow);
+  transition: background 0.25s, color 0.25s;
+  z-index: 100;
+}
+
+/* ── Dark mode toggle ── */
+.theme-toggle {
+  position: fixed;
+  top: 74px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  padding: 6px 12px;
+  box-shadow: 0 2px 8px var(--shadow);
+  z-index: 100;
+  cursor: pointer;
+  transition: background 0.25s, border-color 0.25s;
+  user-select: none;
+}
+
+.theme-toggle .icon {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.toggle-track {
+  width: 36px;
+  height: 20px;
+  background: var(--toggle-bg);
+  border-radius: 999px;
+  position: relative;
+  transition: background 0.25s;
+  flex-shrink: 0;
+}
+
+[data-theme="dark"] .toggle-track {
+  background: var(--toggle-active);
+}
+
+.toggle-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+  background: var(--toggle-knob);
+  border-radius: 50%;
+  transition: transform 0.25s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+[data-theme="dark"] .toggle-knob {
+  transform: translateX(16px);
+}
+
+/* ── Mobile ── */
+@media (max-width: 700px) {
+  body { margin: 10px; }
+
+  #timer {
+    position: static;
+    width: fit-content;
+    margin: 0 auto 12px;
+    display: block;
+    text-align: center;
+  }
+
+  .theme-toggle {
+    position: static;
+    width: fit-content;
+    margin: 0 auto 16px;
+  }
+
+  .mobile-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .mobile-bar #timer,
+  .mobile-bar .theme-toggle {
+    position: static;
+    margin: 0;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<!-- Mobile: group timer + toggle -->
+<div class="mobile-bar" id="mobileBar" style="display:none;">
+  <div id="timerMobile" style="background:var(--timer-bg);color:var(--timer-text);padding:10px 18px;font-size:20px;border-radius:8px;font-weight:bold;box-shadow:0 2px 10px var(--shadow);">30:00</div>
+  <div class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode" role="button">
+    <span class="icon" id="iconM">☀️</span>
+    <div class="toggle-track"><div class="toggle-knob"></div></div>
+    <span class="icon" id="iconM2">🌙</span>
+  </div>
+</div>
+
+<!-- Desktop: fixed position -->
+<div id="timerDesktop" class="timer-desktop" style="position:fixed;top:20px;right:20px;background:var(--timer-bg);color:var(--timer-text);padding:12px 20px;font-size:22px;border-radius:8px;font-weight:bold;box-shadow:0 2px 10px var(--shadow);z-index:100;transition:background 0.25s,color 0.25s;">30:00</div>
+
+<div class="theme-toggle" id="toggleDesktop" onclick="toggleTheme()" aria-label="Toggle dark mode" role="button" style="position:fixed;top:74px;right:20px;">
+  <span class="icon">☀️</span>
+  <div class="toggle-track"><div class="toggle-knob"></div></div>
+  <span class="icon">🌙</span>
+</div>
+
+<div class="container">
+  <h1>
+    <a href="https://upsclog.github.io/upsclog/" target="_blank" style="color: black; background-color: #C4A484; border-radius: 8px; padding: 4px 12px; text-decoration: none; display: inline-block;">
+      <img src="../logo.png" alt="." style="height: 1.5em; vertical-align: middle; margin-right: 8px;">
+      UPSC LoG
+    </a>
+    — Prelims Booster 2027
+  </h1>
+  <h2>Geography Test CODE-2027-9</h2>
+  <p>
+    <b>Instructions</b>
+    <ul>
+      <li>25 UPSC CSE Thematic Test Series (with explanations)</li>
+      <li><b>Correct = 2.0 &nbsp;|&nbsp; Incorrect = −0.67</b></li>
+      <li><b><i>30-minute timer</i></b></li>
+      <li>Join <a href="https://t.me/upsclog" target="_blank">UPSC LoG Telegram ↗</a></li>
+    </ul>
+  </p>
+
+  <div id="score"></div>
+  <div id="quiz"></div>
+  <button class="submit-btn" onclick="submitQuiz()">Submit</button>
+</div>
+
+<script>
+
+// ── Theme ──────────────────────────────────────────────────────────────────────
+function toggleTheme() {
+  const html = document.documentElement;
+  const next = html.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  html.setAttribute("data-theme", next);
+  localStorage.setItem("upsc-theme", next);
+}
+
+(function () {
+  const saved = localStorage.getItem("upsc-theme");
+  if (saved) document.documentElement.setAttribute("data-theme", saved);
+})();
+
+// ── Responsive bar ─────────────────────────────────────────────────────────────
+function applyLayout() {
+  const mobile = window.innerWidth <= 700;
+  document.getElementById("mobileBar").style.display = mobile ? "flex" : "none";
+  document.getElementById("timerDesktop").style.display = mobile ? "none" : "block";
+  document.getElementById("toggleDesktop").style.display = mobile ? "none" : "flex";
+}
+applyLayout();
+window.addEventListener("resize", applyLayout);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ───────────────────────────────────────────────────────────────── Questions ──────────────────────────────────────────────────────────────────
+const questions = [
+{
+    question: "Consider the following passes:<br>1. Nathu La<br>2. Shipki La<br>3. Zoji La<br>4. Bomdi La<br>Which of the above passes connect India with China (Tibet)?",
+    options: [
+        "1 and 3 only",
+        "1, 2 and 4 only",
+        "1 and 2 only",
+        "2, 3 and 4 only"
+    ],
+    answer: 2,
+    explanation: "Nathu La (Sikkim) and Shipki La (Himachal Pradesh) connect India with the Tibet Autonomous Region of China and are used for border trade. Zoji La connects Srinagar with Leh within India, while Bomdi La is located in Arunachal Pradesh and does not connect to China."
+},
+{
+    question: "With reference to natural vegetation zones of the world, which one of the following factors is the primary basis for their classification?",
+    options: [
+        "Soil type and mineral composition",
+        "Climate, particularly temperature and precipitation",
+        "Population density of the region",
+        "Political boundaries of countries"
+    ],
+    answer: 1,
+    explanation: "Natural vegetation zones are primarily classified on the basis of climatic conditions, especially temperature and rainfall, which determine plant life such as tropical rainforest, savanna, or tundra. Soil is a secondary factor, while population and political boundaries have no bearing on natural vegetation classification."
+},
+{
+    question: "Consider the following statements regarding ocean currents:<br>1. The Gulf Stream is a warm current flowing along the eastern coast of North America.<br>2. The Labrador Current is a cold current that meets the Gulf Stream near Newfoundland.<br>3. The Peru (Humboldt) Current is a warm current flowing along the western coast of South America.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "The Gulf Stream is indeed a warm current along the eastern USA coast, and the cold Labrador Current meets it near Newfoundland, creating the Grand Banks fog. The Peru (Humboldt) Current is a cold current, not warm, flowing along the western coast of South America."
+},
+{
+    question: "With reference to volcanoes and volcanic landforms, consider the following statements:<br>1. A caldera is formed due to the collapse of a volcanic cone after a violent eruption.<br>2. Shield volcanoes are formed by highly viscous lava and have steep slopes.<br>3. Batholiths are intrusive volcanic landforms.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 1,
+    explanation: "A caldera forms when a volcanic cone collapses following a violent eruption that empties the magma chamber. Batholiths are large intrusive igneous bodies formed from cooled magma beneath the surface. Shield volcanoes, however, are formed by highly fluid (low viscosity) basaltic lava and have gentle slopes, not steep ones."
+},
+{
+    question: "With reference to wetlands of India, consider the following statements:<br>1. The Ramsar Convention is an intergovernmental treaty for the conservation of wetlands.<br>2. Chilika Lake was the first Ramsar site designated in India.<br>3. All Ramsar sites in India are located within notified National Parks.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "The Ramsar Convention (1971) is indeed an intergovernmental treaty for wetland conservation, and Chilika Lake (Odisha) was among the first Ramsar sites designated in India in 1981. However, Ramsar sites include lakes, marshes, and coastal wetlands that are not necessarily located within notified National Parks."
+},
+{
+    question: "Which one of the following best explains a major consequence of rapid and unplanned urbanisation in India?",
+    options: [
+        "Decline in rural-to-urban migration",
+        "Growth of slums and pressure on urban infrastructure",
+        "Uniform distribution of urban population across all states",
+        "Reduction in urban heat island effect"
+    ],
+    answer: 1,
+    explanation: "Rapid and unplanned urbanisation in India has led to the proliferation of slums and immense pressure on infrastructure such as housing, water supply, sanitation, and transport. It has actually increased rural-to-urban migration, worsened the urban heat island effect, and urban population growth remains highly uneven across states."
+},
+{
+    question: "Consider the following statements regarding Himalayan passes:<br>1. Mana Pass is located in Uttarakhand.<br>2. Lipulekh Pass connects India with Nepal.<br>3. Passes in the Himalayas have historically served as routes for trade and cultural exchange.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "Mana Pass is located in Uttarakhand near the India-China border, and Himalayan passes have historically facilitated trade routes such as the ancient Silk Route branches and pilgrimage to Kailash Mansarovar. Lipulekh Pass connects India with the Tibet Autonomous Region of China (near the India-Nepal-China trijunction), not directly with Nepal."
+},
+{
+    question: "With reference to the major biomes of the world, consider the following statements:<br>1. Tundra biome is characterized by permafrost and low biodiversity.<br>2. Tropical rainforest biome has the highest species diversity among terrestrial biomes.<br>3. Taiga (Boreal forest) is dominated by broad-leaved deciduous trees.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "Tundra is indeed marked by permafrost, extreme cold, and low biodiversity, and tropical rainforests have the highest species diversity of any terrestrial biome due to stable warm and wet conditions. Taiga, however, is dominated by coniferous (needle-leaved, evergreen) trees such as pine and fir, not broad-leaved deciduous trees."
+},
+{
+    question: "Which of the following is/are correctly matched with respect to causes and effects of urbanisation trends in India?<br>1. Push factors from rural areas — lack of employment opportunities<br>2. Pull factors towards cities — better healthcare and education facilities<br>3. Urban sprawl — decrease in demand for land on city peripheries<br>Select the correct answer using the code below:",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "Lack of rural employment is a classic push factor, while better healthcare, education, and job opportunities are pull factors drawing migrants to cities. Urban sprawl, contrary to statement 3, is actually associated with an increase in demand for land on city peripheries as cities expand outward."
+},
+{
+    question: "With reference to the classification of world biomes, which one of the following is a correct pairing of biome and its typical characteristic?",
+    options: [
+        "Savanna — dense evergreen forest cover throughout the year",
+        "Steppe — temperate grassland with low and erratic rainfall",
+        "Chaparral — hot and humid climate with heavy rainfall",
+        "Desert biome — high biodiversity and dense vegetation"
+    ],
+    answer: 1,
+    explanation: "Steppe is a temperate grassland biome characterized by low and erratic rainfall, found in regions like Central Asia. Savanna has grassland with scattered trees, not dense evergreen forest; Chaparral has a Mediterranean climate with dry summers, not hot and humid conditions; and deserts typically have low biodiversity and sparse vegetation."
+},
+{
+    question: "Consider the following statements regarding the significance of wetlands:<br>1. Wetlands act as natural water purifiers by filtering pollutants.<br>2. Wetlands help in groundwater recharge and flood control.<br>3. Wetlands have no role in carbon sequestration.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "Wetlands are known as 'kidneys of the landscape' as they filter pollutants and sediments, and they aid in groundwater recharge and act as natural flood buffers by absorbing excess water. Wetlands, particularly peatlands and mangroves, are actually significant carbon sinks, making statement 3 incorrect."
+},
+{
+    question: "With reference to Census 2011 of India, consider the following statements:<br>1. The overall sex ratio improved compared to Census 2001.<br>2. Kerala recorded the highest literacy rate among Indian states.<br>3. Uttar Pradesh was the most populous state of India.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 3,
+    explanation: "As per Census 2011, the sex ratio improved to 943 females per 1000 males from 933 in 2001; Kerala had the highest literacy rate (about 94%); and Uttar Pradesh was the most populous state with over 199 million people. All three statements are correct."
+},
+{
+    question: "Which one of the following best reflects a key demographic legacy of Census 2011 that has significant policy implications for India?",
+    options: [
+        "Complete stabilization of India's population growth rate",
+        "Declining child sex ratio despite an improving overall sex ratio",
+        "Uniform literacy rates across all states and union territories",
+        "Majority of India's population residing in urban areas"
+    ],
+    answer: 1,
+    explanation: "Census 2011 revealed a worrying decline in the child sex ratio (0-6 years) to 919, even as the overall sex ratio improved, pointing to persistent issues of sex-selective practices. India's population growth had not stabilized, literacy rates varied widely across states, and the majority of India's population still resided in rural areas as per Census 2011."
+},
+{
+    question: "Consider the following statements comparing Himalayan and Peninsular rivers of India:<br>1. Himalayan rivers are perennial as they are fed by both rainfall and snowmelt.<br>2. Peninsular rivers generally flow through deep gorges in their upper courses due to young topography.<br>3. Himalayan rivers exhibit features of youthful stage even in their lower courses due to continued upliftment.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 1,
+    explanation: "Himalayan rivers are perennial, fed by both monsoon rains and melting snow/glaciers, and they continue to show youthful characteristics like gorges even in later stages due to ongoing tectonic upliftment of the Himalayas. Peninsular rivers flow over a stable, ancient landmass and generally have shallow valleys, not deep gorges, since the peninsula is geologically much older and more stable."
+},
+{
+    question: "With reference to soil types in India, consider the following statements:<br>1. Black soil is ideal for cotton cultivation and is also known as regur soil.<br>2. Laterite soil is rich in humus and nitrogen content.<br>3. Alluvial soil is the most widespread and fertile soil type found in India.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 2,
+    explanation: "Black soil (regur soil), formed from Deccan trap lava, is well suited for cotton cultivation, and alluvial soil, deposited by rivers, is the most widespread and fertile soil type in India, covering the northern plains. Laterite soil, however, is typically poor in humus and nitrogen due to leaching in high rainfall areas, making it less fertile without treatment."
+},
+{
+    question: "Which one of the following statements best explains the significance of natural vegetation zones for human civilization?",
+    options: [
+        "They have no influence on agricultural practices of a region",
+        "They determine the type of economic activities, food habits, and settlement patterns of a region",
+        "They are solely responsible for determining political boundaries of nations",
+        "They remain unaffected by human activities like deforestation"
+    ],
+    answer: 1,
+    explanation: "Natural vegetation zones significantly influence economic activities (like farming, forestry, or pastoralism), food habits, and settlement patterns, as seen in the difference between forest-dependent communities and grassland pastoralists. Vegetation zones do not determine political boundaries and are significantly affected by human activities such as deforestation."
+},
+{
+    question: "With reference to agricultural regions of India, consider the following statements:<br>1. The Green Revolution primarily benefited the states of Punjab, Haryana, and western Uttar Pradesh.<br>2. Rice-wheat cropping pattern is predominantly followed in the Indo-Gangetic plains.<br>3. Excessive reliance on the Green Revolution model has led to groundwater depletion in some regions.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 3,
+    explanation: "The Green Revolution indeed had its major impact in Punjab, Haryana, and western UP, popularizing the rice-wheat cropping pattern in the Indo-Gangetic plains. However, this input-intensive model has also caused serious groundwater depletion and soil degradation issues in these very regions, making all three statements correct."
+},
+{
+    question: "The Indian Ocean Dipole (IOD) is significant for India primarily because of its influence on which one of the following?",
+    options: [
+        "Frequency of earthquakes along the Himalayan belt",
+        "Variability of the Indian summer monsoon rainfall",
+        "Formation of the Deccan Plateau's black soil",
+        "Movement of the Indian tectonic plate"
+    ],
+    answer: 1,
+    explanation: "The Indian Ocean Dipole refers to the difference in sea surface temperatures between the western and eastern Indian Ocean, and a positive IOD is known to enhance monsoon rainfall over India, sometimes offsetting the adverse effects of El Nino. IOD has no bearing on earthquakes, soil formation, or plate tectonic movement."
+},
+{
+    question: "Consider the following statements regarding coral reefs:<br>1. Coral reefs are formed by colonies of tiny marine organisms called coral polyps.<br>2. Coral reefs thrive best in cold, nutrient-rich waters.<br>3. Rising sea surface temperatures can lead to coral bleaching.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 1,
+    explanation: "Coral reefs are built by colonies of coral polyps that secrete calcium carbonate skeletons, and elevated sea temperatures cause corals to expel their symbiotic algae, leading to coral bleaching. However, corals thrive best in warm, clear, and relatively nutrient-poor tropical waters, not cold nutrient-rich waters."
+},
+{
+    question: "With reference to plate tectonics, consider the following statements:<br>1. The Himalayas were formed due to the collision of the Indian Plate and the Eurasian Plate.<br>2. Divergent plate boundaries are associated with the formation of mid-ocean ridges.<br>3. Transform faults involve plates moving vertically away from each other.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "The Himalayas resulted from the collision of the Indian and Eurasian plates (convergent boundary), and divergent boundaries, such as mid-ocean ridges, are formed where plates move apart. Transform faults, however, involve plates sliding horizontally past one another, not moving vertically apart, as seen in the San Andreas Fault."
+},
+{
+    question: "With reference to the interior of the Earth, consider the following statements:<br>1. The Mohorovicic Discontinuity separates the crust from the mantle.<br>2. The outer core is in a liquid state while the inner core is solid.<br>3. The asthenosphere is a rigid layer located above the lithosphere.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "The Mohorovicic Discontinuity (Moho) marks the boundary between the crust and mantle, and the Earth's core has a liquid outer core and a solid inner core due to immense pressure. The asthenosphere, however, is a partially molten, plastic/ductile layer located below the rigid lithosphere, not a rigid layer above it."
+},
+{
+    question: "Consider the following statements regarding earthquake zones of India:<br>1. India is divided into four seismic zones based on earthquake intensity.<br>2. Zone V is the region of highest seismic risk in India.<br>3. The entire Indo-Gangetic plain falls under Zone I, the lowest risk category.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "India's seismic zoning map, prepared by the Bureau of Indian Standards, divides the country into four zones (II to V), with Zone V being the most seismically active and risk-prone, including regions like Kashmir, the Northeast, and parts of Gujarat. However, large parts of the Indo-Gangetic plain actually fall under Zone III and IV, not the lowest-risk Zone I, as Zone I is not even used in the current classification."
+},
+{
+    question: "With reference to the International Date Line (IDL), consider the following statements:<br>1. The IDL roughly follows the 180-degree meridian.<br>2. Crossing the IDL from west to east results in a gain of one day.<br>3. The IDL passes through the middle of major continental landmasses to maintain uniformity.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "The International Date Line broadly follows the 180-degree meridian, and travelling eastward across it results in gaining a day (subtracting a day), while travelling westward results in losing a day. In reality, the IDL deviates significantly from a straight line specifically to avoid cutting through landmasses and splitting countries into different dates."
+},
+{
+    question: "The Golden Quadrilateral, a key component of India's transport network, connects which of the following four major cities?",
+    options: [
+        "Delhi, Mumbai, Chennai, and Kolkata",
+        "Delhi, Bengaluru, Hyderabad, and Kolkata",
+        "Mumbai, Chennai, Bengaluru, and Delhi",
+        "Delhi, Mumbai, Bengaluru, and Kolkata"
+    ],
+    answer: 0,
+    explanation: "The Golden Quadrilateral is a highway network connecting the four major metropolitan cities of India — Delhi, Mumbai, Chennai, and Kolkata — forming a quadrilateral shape and covering the four corners of the country. It is one of the largest highway projects in India, implemented under the National Highways Development Project (NHDP)."
+},
+{
+    question: "Which one of the following is a major criticism associated with the pattern of agricultural regions in India?",
+    options: [
+        "Uniform and balanced development of agriculture across all regions",
+        "Regional disparities due to concentration of irrigation and subsidies in a few areas",
+        "Complete absence of any cash crop cultivation in the country",
+        "Excessive dependence of agriculture on industrial inputs alone"
+    ],
+    answer: 1,
+    explanation: "A major criticism of India's agricultural regions is the regional disparity created because irrigation facilities, subsidies, and MSP benefits have been concentrated in a few areas like Punjab and Haryana, leaving rain-fed and less-developed regions lagging behind. This has led to unbalanced regional development rather than uniform growth."
+}
+];
+// ────────────────────────────────────────────────────────────────── Render quiz ────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const quiz = document.getElementById("quiz");
+
+questions.forEach((q, index) => {
+  let html = `<div class="question">
+    <p><b>Q${index + 1}.</b> ${q.question}</p>`;
+
+  q.options.forEach((opt, i) => {
+    html += `<label class="option">
+      <input type="radio" name="q${index}" value="${i}">
+      ${String.fromCharCode(65 + i)}. ${opt}
+    </label>`;
+  });
+
+  html += `<div class="explanation" id="exp${index}"></div></div>`;
+  quiz.innerHTML += html;
+});
+
+// ── Submit ─────────────────────────────────────────────────────────────────────
+let submitted = false;
+
+function submitQuiz() {
+  if (submitted) return;
+  submitted = true;
+  clearInterval(countdown);
+
+  const correctMarks = 2;
+  const negativeMarks = 2 / 3;
+  let score = 0;
+
+  questions.forEach((q, index) => {
+    const radios = document.getElementsByName("q" + index);
+    let selected = -1;
+    radios.forEach(r => { if (r.checked) selected = parseInt(r.value); r.disabled = true; });
+
+    radios.forEach(r => {
+      const label = r.parentElement;
+      const value = parseInt(r.value);
+      if (value === q.answer) label.classList.add("correct");
+      if (value === selected && value !== q.answer) label.classList.add("wrong");
+      if (value === selected) label.classList.add("user-selected");
+    });
+
+    if (selected === q.answer) score += correctMarks;
+    else if (selected !== -1) score -= negativeMarks;
+
+    const exp = document.getElementById("exp" + index);
+    exp.style.display = "block";
+    exp.innerHTML = "<b>Correct Answer:</b> " + String.fromCharCode(65 + q.answer) +
+      "<br><br><b>Explanation:</b> " + q.explanation;
+  });
+
+  const maxScore = questions.length * correctMarks;
+  const percentage = (score / maxScore) * 100;
+
+  document.getElementById("score").innerHTML =
+    "Score: <b>" + score.toFixed(2) + " / " + maxScore.toFixed(2) + "</b>" +
+    "&nbsp;&nbsp;|&nbsp;&nbsp;Percentage: <b>" + percentage.toFixed(2) + "%</b>";
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// ── Timer ──────────────────────────────────────────────────────────────────────
+let totalSeconds = 1800;
+
+function updateTimers(text, urgent) {
+  ["timerDesktop", "timerMobile"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.textContent = text;
+      el.style.background = urgent ? "#c62828" : "var(--timer-bg)";
+    }
+  });
+}
+
+const countdown = setInterval(() => {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  const text = String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+
+  updateTimers(text, totalSeconds <= 60);
+
+  if (totalSeconds === 0) {
+    updateTimers("Time Up!", true);
+    submitQuiz();
+  }
+  totalSeconds--;
+}, 1000);
+
+</script>
+</body>
+</html>
