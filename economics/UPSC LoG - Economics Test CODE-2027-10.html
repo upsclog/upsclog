@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC LoG - Prelims Booster</title>
+<style>
+
+:root {
+  --bg: #f5f5f5;
+  --surface: #ffffff;
+  --text: #1a1a1a;
+  --text-secondary: #555;
+  --border: #ddd;
+  --option-hover: #f0f0f0;
+  --correct: #b7f7b7;
+  --correct-text: #145214;
+  --wrong: #ffb6b6;
+  --wrong-text: #6b0000;
+  --exp-bg: #eef;
+  --exp-text: #1a1a2e;
+  --timer-bg: #222;
+  --timer-text: #fff;
+  --btn-bg: #1a1a2e;
+  --btn-text: #fff;
+  --btn-hover: #2e2e50;
+  --shadow: rgba(0,0,0,0.1);
+  --track: #ccc;
+  --thumb: #1a1a2e;
+  --toggle-bg: #ccc;
+  --toggle-knob: #fff;
+  --toggle-active: #4a6fa5;
+}
+
+[data-theme="dark"] {
+  --bg: #12121e;
+  --surface: #1e1e30;
+  --text: #e8e8f0;
+  --text-secondary: #aaa;
+  --border: #333;
+  --option-hover: #2a2a40;
+  --correct: #1a4d1a;
+  --correct-text: #7ef07e;
+  --wrong: #4d1a1a;
+  --wrong-text: #f07e7e;
+  --exp-bg: #1a1a35;
+  --exp-text: #c8c8e8;
+  --timer-bg: #0d0d1a;
+  --timer-text: #e8e8f0;
+  --btn-bg: #4a6fa5;
+  --btn-hover: #5a80b8;
+  --btn-text: #fff;
+  --shadow: rgba(0,0,0,0.4);
+  --track: #444;
+  --thumb: #4a6fa5;
+  --toggle-bg: #444;
+  --toggle-knob: #fff;
+  --toggle-active: #4a6fa5;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 30px;
+  transition: background 0.25s, color 0.25s;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  background: var(--surface);
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px var(--shadow);
+  transition: background 0.25s, box-shadow 0.25s;
+}
+
+h1 { text-align: center; color: var(--text); }
+h2 { text-align: center; color: var(--text); }
+
+ul { color: var(--text-secondary); }
+ul a { color: #4a6fa5; }
+
+.question {
+  border: 1px solid var(--border);
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  transition: border-color 0.25s;
+}
+
+.question h3 {
+  margin-top: 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.option {
+  display: block;
+  margin: 8px 0;
+  padding: 10px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+  color: var(--text);
+}
+
+.option:hover {
+  background: var(--option-hover);
+  border-color: var(--border);
+}
+
+.correct {
+  background: var(--correct) !important;
+  color: var(--correct-text) !important;
+  border-color: transparent !important;
+}
+
+.wrong {
+  background: var(--wrong) !important;
+  color: var(--wrong-text) !important;
+  border-color: transparent !important;
+}
+
+/* orange outline = what the user actually selected */
+.user-selected {
+  outline: 3px solid #f97316 !important;
+  outline-offset: -2px;
+  border-radius: 6px;
+}
+
+.explanation {
+  display: none;
+  margin-top: 15px;
+  background: var(--exp-bg);
+  color: var(--exp-text);
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.6;
+  border-left: 3px solid #4a6fa5;
+}
+
+button.submit-btn {
+  display: block;
+  padding: 12px 32px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 24px;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border: none;
+  border-radius: 8px;
+  transition: background 0.2s, transform 0.1s;
+}
+
+button.submit-btn:hover { background: var(--btn-hover); }
+button.submit-btn:active { transform: scale(0.98); }
+
+#score {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 20px 0;
+  padding: 16px;
+  border-radius: 8px;
+  background: var(--exp-bg);
+  color: var(--exp-text);
+}
+
+/* ── Timer ── */
+#timer {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--timer-bg);
+  color: var(--timer-text);
+  padding: 12px 20px;
+  font-size: 22px;
+  border-radius: 8px;
+  font-weight: bold;
+  box-shadow: 0 2px 10px var(--shadow);
+  transition: background 0.25s, color 0.25s;
+  z-index: 100;
+}
+
+/* ── Dark mode toggle ── */
+.theme-toggle {
+  position: fixed;
+  top: 74px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  padding: 6px 12px;
+  box-shadow: 0 2px 8px var(--shadow);
+  z-index: 100;
+  cursor: pointer;
+  transition: background 0.25s, border-color 0.25s;
+  user-select: none;
+}
+
+.theme-toggle .icon {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.toggle-track {
+  width: 36px;
+  height: 20px;
+  background: var(--toggle-bg);
+  border-radius: 999px;
+  position: relative;
+  transition: background 0.25s;
+  flex-shrink: 0;
+}
+
+[data-theme="dark"] .toggle-track {
+  background: var(--toggle-active);
+}
+
+.toggle-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+  background: var(--toggle-knob);
+  border-radius: 50%;
+  transition: transform 0.25s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+[data-theme="dark"] .toggle-knob {
+  transform: translateX(16px);
+}
+
+/* ── Mobile ── */
+@media (max-width: 700px) {
+  body { margin: 10px; }
+
+  #timer {
+    position: static;
+    width: fit-content;
+    margin: 0 auto 12px;
+    display: block;
+    text-align: center;
+  }
+
+  .theme-toggle {
+    position: static;
+    width: fit-content;
+    margin: 0 auto 16px;
+  }
+
+  .mobile-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .mobile-bar #timer,
+  .mobile-bar .theme-toggle {
+    position: static;
+    margin: 0;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<!-- Mobile: group timer + toggle -->
+<div class="mobile-bar" id="mobileBar" style="display:none;">
+  <div id="timerMobile" style="background:var(--timer-bg);color:var(--timer-text);padding:10px 18px;font-size:20px;border-radius:8px;font-weight:bold;box-shadow:0 2px 10px var(--shadow);">30:00</div>
+  <div class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode" role="button">
+    <span class="icon" id="iconM">☀️</span>
+    <div class="toggle-track"><div class="toggle-knob"></div></div>
+    <span class="icon" id="iconM2">🌙</span>
+  </div>
+</div>
+
+<!-- Desktop: fixed position -->
+<div id="timerDesktop" class="timer-desktop" style="position:fixed;top:20px;right:20px;background:var(--timer-bg);color:var(--timer-text);padding:12px 20px;font-size:22px;border-radius:8px;font-weight:bold;box-shadow:0 2px 10px var(--shadow);z-index:100;transition:background 0.25s,color 0.25s;">30:00</div>
+
+<div class="theme-toggle" id="toggleDesktop" onclick="toggleTheme()" aria-label="Toggle dark mode" role="button" style="position:fixed;top:74px;right:20px;">
+  <span class="icon">☀️</span>
+  <div class="toggle-track"><div class="toggle-knob"></div></div>
+  <span class="icon">🌙</span>
+</div>
+
+<div class="container">
+  <h1>
+    <a href="https://upsclog.github.io/upsclog/" target="_blank" style="color: black; background-color: #C4A484; border-radius: 8px; padding: 4px 12px; text-decoration: none; display: inline-block;">
+      <img src="../logo.png" alt="." style="height: 1.5em; vertical-align: middle; margin-right: 8px;">
+      UPSC LoG
+    </a>
+    — Prelims Booster 2027
+  </h1>
+  <h2>Economics Test CODE-2027-10</h2>
+  <p>
+    <b>Instructions</b>
+    <ul>
+      <li>25 UPSC CSE Thematic Test Series (with explanations)</li>
+      <li><b>Correct = 2.0 &nbsp;|&nbsp; Incorrect = −0.67</b></li>
+      <li><b><i>30-minute timer</i></b></li>
+      <li>Join <a href="https://t.me/upsclog" target="_blank">UPSC LoG Telegram ↗</a></li>
+    </ul>
+  </p>
+
+  <div id="score"></div>
+  <div id="quiz"></div>
+  <button class="submit-btn" onclick="submitQuiz()">Submit</button>
+</div>
+
+<script>
+
+// ── Theme ──────────────────────────────────────────────────────────────────────
+function toggleTheme() {
+  const html = document.documentElement;
+  const next = html.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  html.setAttribute("data-theme", next);
+  localStorage.setItem("upsc-theme", next);
+}
+
+(function () {
+  const saved = localStorage.getItem("upsc-theme");
+  if (saved) document.documentElement.setAttribute("data-theme", saved);
+})();
+
+// ── Responsive bar ─────────────────────────────────────────────────────────────
+function applyLayout() {
+  const mobile = window.innerWidth <= 700;
+  document.getElementById("mobileBar").style.display = mobile ? "flex" : "none";
+  document.getElementById("timerDesktop").style.display = mobile ? "none" : "block";
+  document.getElementById("toggleDesktop").style.display = mobile ? "none" : "flex";
+}
+applyLayout();
+window.addEventListener("resize", applyLayout);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ───────────────────────────────────────────────────────────────── Questions ──────────────────────────────────────────────────────────────────
+const questions = [
+{
+    question: "With reference to India's Balance of Payments (BoP), consider the following statements:<br>1. It records all economic transactions between residents of India and the rest of the world during a given period.<br>2. The Capital Account records transactions relating to change in assets and liabilities.<br>3. The Errors and Omissions component is included to balance the BoP account.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 3,
+    explanation: "All three statements are correct. BoP is a systematic record of all economic transactions between a country's residents and the rest of the world; the Capital Account records changes in foreign assets/liabilities; and Errors and Omissions is a balancing item to account for statistical discrepancies."
+},
+{
+    question: "Fiscal deficit is defined as the excess of total expenditure over total receipts excluding:",
+    options: [
+        "Borrowings",
+        "Revenue receipts",
+        "Capital receipts",
+        "Grants-in-aid"
+    ],
+    answer: 0,
+    explanation: "Fiscal deficit = Total expenditure – Total receipts (excluding borrowings). It represents the total borrowing requirement of the government to meet its expenditure. Borrowings themselves are a receipt but are excluded while calculating this deficit since they are the very item being measured."
+},
+{
+    question: "Which one of the following categories of goods violates the law of demand, i.e., an increase in price leads to an increase in quantity demanded?",
+    options: [
+        "Giffen goods",
+        "Normal goods",
+        "Luxury goods",
+        "Complementary goods"
+    ],
+    answer: 0,
+    explanation: "Giffen goods are inferior goods for which demand rises as price rises, because the income effect outweighs the substitution effect, thus violating the standard law of demand. Normal and luxury goods follow the usual inverse price-demand relationship."
+},
+{
+    question: "With reference to instruments of monetary policy used by the RBI, consider the following statements:<br>1. Repo rate is the rate at which RBI lends short-term funds to commercial banks.<br>2. Cash Reserve Ratio (CRR) is a portion of deposits banks must keep with RBI in the form of gold and other liquid assets.<br>3. Statutory Liquidity Ratio (SLR) is maintained by banks only in the form of cash.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "Only statement 1 is correct. CRR must be maintained by banks with RBI purely in cash form, not gold or other liquid assets. SLR, on the other hand, can be maintained in cash, gold, or approved government securities, not cash alone, so statement 3 is also incorrect."
+},
+{
+    question: "Government expenditure that neither creates any asset for the government nor reduces any liability is classified as:",
+    options: [
+        "Revenue expenditure",
+        "Capital expenditure",
+        "Plan expenditure",
+        "Development expenditure"
+    ],
+    answer: 0,
+    explanation: "Revenue expenditure is incurred for normal functioning of government departments and various services, and does not result in the creation of assets or reduction of liabilities. Capital expenditure, in contrast, creates assets (like infrastructure) or reduces liabilities (like loan repayment)."
+},
+{
+    question: "Which of the following are examples of direct taxes in India?<br>1. Income Tax<br>2. Corporate Tax<br>3. Goods and Services Tax (GST)<br>4. Customs Duty<br>Select the correct answer using the code given below:",
+    options: [
+        "1 and 2 only",
+        "1, 2 and 3",
+        "2, 3 and 4",
+        "1, 3 and 4"
+    ],
+    answer: 0,
+    explanation: "Income Tax and Corporate Tax are direct taxes since their burden falls directly on the person/entity on whom they are levied and cannot be shifted. GST and Customs Duty are indirect taxes, as their burden can be shifted to the final consumer."
+},
+{
+    question: "Which of the following statements correctly distinguish Balance of Trade (BoT) from Balance of Payments (BoP)?<br>1. BoT records only visible trade in goods, while BoP records both visible and invisible transactions.<br>2. BoP includes capital transfers and financial transactions, while BoT does not.<br>Select the correct answer using the code given below:",
+    options: [
+        "1 only",
+        "2 only",
+        "Both 1 and 2",
+        "Neither 1 nor 2"
+    ],
+    answer: 2,
+    explanation: "Balance of Trade is a narrower concept confined to trade in physical goods (exports minus imports of merchandise), whereas Balance of Payments is a broader record covering goods, services, income, transfers, and capital/financial account transactions. Hence, both statements are correct."
+},
+{
+    question: "Primary deficit is calculated by deducting which of the following from the fiscal deficit?",
+    options: [
+        "Interest payments",
+        "Subsidies",
+        "Capital expenditure",
+        "Revenue expenditure"
+    ],
+    answer: 0,
+    explanation: "Primary Deficit = Fiscal Deficit – Interest Payments. It indicates the government's borrowing requirement excluding interest liabilities on past borrowings, thus reflecting the current fiscal stance of the government."
+},
+{
+    question: "With reference to the Minimum Support Price (MSP) in India, consider the following statements:<br>1. MSP is recommended by the Commission for Agricultural Costs and Prices (CACP).<br>2. MSP is approved by the Cabinet Committee on Economic Affairs (CCEA).<br>3. MSP has statutory backing under the Essential Commodities Act.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "1 only",
+        "1, 2 and 3",
+        "2 and 3 only"
+    ],
+    answer: 0,
+    explanation: "CACP recommends MSP for various crops, and it is approved by the CCEA. However, statement 3 is incorrect as MSP does not have any statutory backing in India; it is merely an assurance price, and there is no legal obligation on government or private traders to purchase at MSP."
+},
+{
+    question: "The 'Make in India' initiative, launched in 2014, aimed to increase the share of the manufacturing sector in India's GDP to what percentage by 2022, a target that was not achieved?",
+    options: [
+        "25%",
+        "15%",
+        "40%",
+        "50%"
+    ],
+    answer: 0,
+    explanation: "Make in India set a target of raising manufacturing's share in GDP to 25% by 2022, but this was not achieved, with manufacturing's share remaining around 15-17%, which has been a major point of criticism regarding the initiative's outcomes."
+},
+{
+    question: "Consider the following statements regarding the PM-KISAN scheme:<br>1. It provides income support of ₹6,000 per year to eligible landholding farmer families.<br>2. The scheme is implemented by the Ministry of Rural Development.<br>3. The benefit amount is released in three equal installments.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 3 only",
+        "1 only",
+        "1, 2 and 3",
+        "2 and 3 only"
+    ],
+    answer: 0,
+    explanation: "PM-KISAN provides ₹6,000 per year in three equal installments of ₹2,000 each. Statement 2 is incorrect because the scheme is implemented by the Ministry of Agriculture and Farmers Welfare, not the Ministry of Rural Development."
+},
+{
+    question: "Which of the following statements correctly distinguish Foreign Direct Investment (FDI) from Foreign Institutional Investment (FII)?<br>1. FDI involves a lasting management interest and control in an enterprise, while FII involves passive investment in financial assets.<br>2. FDI is generally considered more stable than FII, which can be volatile and easily withdrawn.<br>Select the correct answer using the code given below:",
+    options: [
+        "1 only",
+        "2 only",
+        "Both 1 and 2",
+        "Neither 1 nor 2"
+    ],
+    answer: 2,
+    explanation: "FDI implies a long-term stake and management control in a business enterprise, making it relatively stable, whereas FII refers to portfolio investment in stocks and securities without management control, making it volatile due to easy entry and exit. Hence, both statements are correct."
+},
+{
+    question: "Which of the following statements about the Pradhan Mantri MUDRA Yojana (PMMY) is/are correct?<br>1. Loans under the 'Shishu' category cover loans up to ₹50,000.<br>2. Loans under the 'Tarun' category cover loans between ₹5 lakh and ₹10 lakh.<br>3. MUDRA loans can be availed by large corporate entities.<br>Select the correct answer using the code given below:",
+    options: [
+        "1 and 2 only",
+        "1 only",
+        "1, 2 and 3",
+        "2 and 3 only"
+    ],
+    answer: 0,
+    explanation: "PMMY classifies loans into Shishu (up to ₹50,000), Kishor (₹50,000 to ₹5 lakh), and Tarun (₹5 lakh to ₹10 lakh) categories. Statement 3 is incorrect as MUDRA loans are meant for non-corporate, non-farm small and micro enterprises, not large corporates."
+},
+{
+    question: "Which of the following is the nodal central agency responsible for procurement, storage, and distribution of foodgrains under the MSP mechanism in India?",
+    options: [
+        "Food Corporation of India (FCI)",
+        "NABARD",
+        "Small Farmers' Agribusiness Consortium",
+        "Agricultural and Processed Food Products Export Development Authority"
+    ],
+    answer: 0,
+    explanation: "The Food Corporation of India (FCI), along with state agencies, undertakes procurement of foodgrains at MSP, maintains buffer stocks, and distributes foodgrains under the Public Distribution System. NABARD deals with agricultural credit, not procurement."
+},
+{
+    question: "MUDRA, under the Pradhan Mantri MUDRA Yojana, stands for:",
+    options: [
+        "Micro Units Development and Refinance Agency",
+        "Micro Units Development and Rural Agency",
+        "Micro Undertakings Development and Refinance Association",
+        "Micro Units Deposit and Refinance Agency"
+    ],
+    answer: 0,
+    explanation: "MUDRA stands for Micro Units Development and Refinance Agency. It was set up to provide funding to non-corporate, non-farm small and micro enterprises through refinancing of loans given by banks, NBFCs, and MFIs."
+},
+{
+    question: "Under the PM-KISAN scheme, the total annual financial benefit of ₹6,000 is transferred to beneficiary farmer families in how many installments?",
+    options: [
+        "Three installments of ₹2,000 each",
+        "Two installments of ₹3,000 each",
+        "Four installments of ₹1,500 each",
+        "A single installment of ₹6,000"
+    ],
+    answer: 0,
+    explanation: "PM-KISAN transfers ₹6,000 per year to eligible farmer families in three equal four-monthly installments of ₹2,000 each, directly into their bank accounts through Direct Benefit Transfer."
+},
+{
+    question: "With reference to the Index of Industrial Production (IIP) in India, consider the following statements:<br>1. It is compiled and released by the National Statistical Office (NSO).<br>2. The current base year for IIP is 2011-12.<br>3. IIP covers three sectors: Mining, Manufacturing, and Electricity.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1, 2 and 3",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only"
+    ],
+    answer: 0,
+    explanation: "IIP is a monthly index compiled by the NSO with base year 2011-12, covering three broad sectors—Mining, Manufacturing, and Electricity—to measure short-term changes in industrial production volume. All three statements are correct."
+},
+{
+    question: "The 'Make in India' initiative was launched in which year, with the objective of transforming India into a global manufacturing hub?",
+    options: [
+        "2014",
+        "2015",
+        "2016",
+        "2012"
+    ],
+    answer: 0,
+    explanation: "Make in India was launched in September 2014 to encourage companies to manufacture in India and boost investment, innovation, and skill development, aiming to increase the manufacturing sector's contribution to GDP and generate employment."
+},
+{
+    question: "With reference to India's public debt, consider the following statements:<br>1. Internal debt constitutes a larger proportion of India's total public debt than external debt.<br>2. External debt of the Government of India is denominated only in Indian Rupees.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 only",
+        "2 only",
+        "Both 1 and 2",
+        "Neither 1 nor 2"
+    ],
+    answer: 0,
+    explanation: "Internal debt, mainly through market borrowings, constitutes the bulk of India's public debt, while external debt forms a much smaller share. Statement 2 is incorrect since external debt is largely denominated in foreign currencies, not Indian Rupees, exposing it to exchange rate risk."
+},
+{
+    question: "Which of the following is correctly matched, with reference to the classical factors of production and their respective rewards?",
+    options: [
+        "Land – Rent",
+        "Labour – Interest",
+        "Capital – Profit",
+        "Entrepreneurship – Wages"
+    ],
+    answer: 0,
+    explanation: "In classical economics, the four factors of production and their rewards are: Land–Rent, Labour–Wages, Capital–Interest, and Entrepreneurship–Profit. Only the pairing of Land with Rent given in the options is correctly matched."
+},
+{
+    question: "With reference to inflation measurement in India, consider the following statements:<br>1. Wholesale Price Index (WPI) does not capture prices of services.<br>2. Consumer Price Index (CPI) is used by the RBI for flexible inflation targeting.<br>3. The RBI's inflation target under flexible inflation targeting is 4%, with a tolerance band of +/- 2%.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1, 2 and 3",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only"
+    ],
+    answer: 0,
+    explanation: "WPI measures wholesale prices of goods only and excludes services, while CPI is used by RBI as the target variable under the flexible inflation targeting framework, with a target of 4% inflation within a band of +/- 2 percentage points. All three statements are correct."
+},
+{
+    question: "With reference to the Goods and Services Tax (GST) in India, consider the following statements:<br>1. IGST is levied on inter-state supply of goods and services.<br>2. CGST and SGST are levied simultaneously on intra-state supply.<br>3. Petroleum crude, diesel, and petrol currently fall outside the purview of GST.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1, 2 and 3",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only"
+    ],
+    answer: 0,
+    explanation: "IGST applies to inter-state supplies, while CGST and SGST are levied together on intra-state supplies. Petroleum crude, diesel, petrol, natural gas, and ATF are currently kept outside GST and continue to attract central excise duty and state VAT. All three statements are correct."
+},
+{
+    question: "Revenue Deficit in the Union Budget refers to the excess of:",
+    options: [
+        "Revenue expenditure over revenue receipts",
+        "Total expenditure over total receipts",
+        "Capital expenditure over capital receipts",
+        "Revenue receipts over revenue expenditure"
+    ],
+    answer: 0,
+    explanation: "Revenue Deficit = Revenue Expenditure – Revenue Receipts. It indicates that the government's current receipts are insufficient to meet its current (revenue) expenditure, implying that the government is dissaving and borrowing even to meet its consumption needs."
+},
+{
+    question: "Assertion (A): Entrepreneurship is considered a distinct factor of production apart from land, labour, and capital.<br>Reason (R): The entrepreneur bears the risk of business and organizes the other factors of production to earn profit.<br>Select the correct answer using the code given below:",
+    options: [
+        "Both A and R are true, and R is the correct explanation of A",
+        "Both A and R are true, but R is not the correct explanation of A",
+        "A is true, but R is false",
+        "A is false, but R is true"
+    ],
+    answer: 0,
+    explanation: "Entrepreneurship is treated as a separate factor of production because the entrepreneur takes on business risk, innovates, and combines land, labour, and capital to produce goods and services, earning profit as the reward for this risk-bearing and organizational function. Hence, R correctly explains A."
+},
+{
+    question: "With reference to Priority Sector Lending (PSL) norms of the RBI, consider the following statements:<br>1. Domestic scheduled commercial banks are required to lend 40% of Adjusted Net Bank Credit (ANBC) to priority sectors.<br>2. Agriculture, Micro, Small and Medium Enterprises (MSME), and Export Credit are categories under PSL.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 only",
+        "2 only",
+        "Both 1 and 2",
+        "Neither 1 nor 2"
+    ],
+    answer: 2,
+    explanation: "RBI mandates that domestic scheduled commercial banks direct 40% of their Adjusted Net Bank Credit towards priority sectors, which include Agriculture, MSME, Export Credit, Education, Housing, and other weaker sections, aimed at ensuring credit flow to critical sectors of the economy."
+}
+];
+// ────────────────────────────────────────────────────────────────── Render quiz ────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const quiz = document.getElementById("quiz");
+
+questions.forEach((q, index) => {
+  let html = `<div class="question">
+    <p><b>Q${index + 1}.</b> ${q.question}</p>`;
+
+  q.options.forEach((opt, i) => {
+    html += `<label class="option">
+      <input type="radio" name="q${index}" value="${i}">
+      ${String.fromCharCode(65 + i)}. ${opt}
+    </label>`;
+  });
+
+  html += `<div class="explanation" id="exp${index}"></div></div>`;
+  quiz.innerHTML += html;
+});
+
+// ── Submit ─────────────────────────────────────────────────────────────────────
+let submitted = false;
+
+function submitQuiz() {
+  if (submitted) return;
+  submitted = true;
+  clearInterval(countdown);
+
+  const correctMarks = 2;
+  const negativeMarks = 2 / 3;
+  let score = 0;
+
+  questions.forEach((q, index) => {
+    const radios = document.getElementsByName("q" + index);
+    let selected = -1;
+    radios.forEach(r => { if (r.checked) selected = parseInt(r.value); r.disabled = true; });
+
+    radios.forEach(r => {
+      const label = r.parentElement;
+      const value = parseInt(r.value);
+      if (value === q.answer) label.classList.add("correct");
+      if (value === selected && value !== q.answer) label.classList.add("wrong");
+      if (value === selected) label.classList.add("user-selected");
+    });
+
+    if (selected === q.answer) score += correctMarks;
+    else if (selected !== -1) score -= negativeMarks;
+
+    const exp = document.getElementById("exp" + index);
+    exp.style.display = "block";
+    exp.innerHTML = "<b>Correct Answer:</b> " + String.fromCharCode(65 + q.answer) +
+      "<br><br><b>Explanation:</b> " + q.explanation;
+  });
+
+  const maxScore = questions.length * correctMarks;
+  const percentage = (score / maxScore) * 100;
+
+  document.getElementById("score").innerHTML =
+    "Score: <b>" + score.toFixed(2) + " / " + maxScore.toFixed(2) + "</b>" +
+    "&nbsp;&nbsp;|&nbsp;&nbsp;Percentage: <b>" + percentage.toFixed(2) + "%</b>";
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// ── Timer ──────────────────────────────────────────────────────────────────────
+let totalSeconds = 1800;
+
+function updateTimers(text, urgent) {
+  ["timerDesktop", "timerMobile"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.textContent = text;
+      el.style.background = urgent ? "#c62828" : "var(--timer-bg)";
+    }
+  });
+}
+
+const countdown = setInterval(() => {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  const text = String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+
+  updateTimers(text, totalSeconds <= 60);
+
+  if (totalSeconds === 0) {
+    updateTimers("Time Up!", true);
+    submitQuiz();
+  }
+  totalSeconds--;
+}, 1000);
+
+</script>
+</body>
+</html>
