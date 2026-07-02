@@ -301,7 +301,13 @@ button.submit-btn:active { transform: scale(0.98); }
 </div>
 
 <div class="container">
-  <h1>UPSC LoG — Prelims Booster 2027</h1>
+  <h1>
+    <a href="https://upsclog.github.io/upsclog/" target="_blank" style="color: black; background-color: #C4A484; border-radius: 8px; padding: 4px 12px; text-decoration: none; display: inline-block;">
+      <img src="../logo.png" alt="." style="height: 1.5em; vertical-align: middle; margin-right: 8px;">
+      UPSC LoG
+    </a>
+    — Prelims Booster 2027
+  </h1>
   <h2>Polity Test CODE-2027-11</h2>
   <p>
     <b>Instructions</b>
@@ -671,7 +677,7 @@ const quiz = document.getElementById("quiz");
 
 questions.forEach((q, index) => {
   let html = `<div class="question">
-    <p><b>Q${index + 1}.</b> ${q.question}</p>`;
+  <p><b>Q${index + 1}.</b> ${q.question}</p>`;
 
   q.options.forEach((opt, i) => {
     html += `<label class="option">
