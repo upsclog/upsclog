@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC LoG MAINS PYQ SERIES</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;1,9..144,450&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0E1B2E;
+    --navy-deep:#081120;
+    --ivory:#F6F1E4;
+    --paper:#FBF8F1;
+    --gold:#C6A15B;
+    --gold-bright:#E7C482;
+    --maroon:#7B2D2D;
+    --sage:#5F7A5C;
+    --text-light:#ECE5D4;
+    --text-dim:#9FA9BC;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--navy);
+    color:var(--text-light);
+    font-family:'Inter',sans-serif;
+    font-weight:400;
+    overflow-x:hidden;
+  }
+  h1,h2,h3{font-family:'Fraunces',serif;font-weight:450;}
+  a{text-decoration:none;color:inherit;}
+
+  /* ---------- Backdrop texture (matches homepage hero) ---------- */
+  .page-bg{
+    position:relative;
+    background:
+      radial-gradient(circle at 82% 8%, rgba(198,161,91,0.14), transparent 45%),
+      radial-gradient(circle at 10% 95%, rgba(123,45,45,0.16), transparent 40%),
+      linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    min-height:100vh;
+  }
+  .page-bg::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:
+      repeating-radial-gradient(circle at 50% 50%, transparent 0, transparent 118px, rgba(198,161,91,0.05) 119px, transparent 120px);
+    background-size:340px 340px;
+    background-position:center -40px;
+    opacity:0.5;
+    pointer-events:none;
+  }
+
+  /* ---------- Top bar / Back button ---------- */
+  .topbar{
+    position:relative;
+    z-index:5;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:32px 6vw 0 6vw;
+  }
+  .back-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 18px;
+    border:1px solid rgba(198,161,91,0.35);
+    border-radius:999px;
+    font-size:12.5px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    color:var(--gold-bright);
+    background:linear-gradient(180deg, rgba(246,241,228,0.05), rgba(246,241,228,0.015));
+    transition:transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+  }
+  .back-btn:hover{
+    transform:translateX(-3px);
+    border-color:var(--gold-bright);
+    background:linear-gradient(180deg, rgba(198,161,91,0.12), rgba(198,161,91,0.02));
+  }
+  .back-btn svg{width:14px;height:14px;stroke:var(--gold-bright);fill:none;stroke-width:2;}
+
+  .brand-mini{
+    font-family:'Fraunces',serif;
+    font-size:14px;
+    letter-spacing:0.5px;
+    color:var(--text-dim);
+  }
+
+  /* ---------- Page header ---------- */
+  .page-head{
+    position:relative;
+    z-index:3;
+    text-align:center;
+    max-width:680px;
+    margin:64px auto 10px auto;
+    padding:0 6vw;
+  }
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:20px;
+  }
+  .eyebrow::before, .eyebrow::after{
+    content:"—";
+    color:var(--maroon);
+    margin:0 12px;
+  }
+  h1.title{
+    font-size:clamp(1.9rem, 4.2vw, 3rem);
+    line-height:1.15;
+    color:var(--paper);
+  }
+  h1.title em{font-style:italic;color:var(--gold-bright);}
+  .lede{
+    max-width:58ch;
+    margin:22px auto 0 auto;
+    color:var(--text-dim);
+    font-size:1rem;
+    line-height:1.75;
+    font-weight:300;
+  }
+
+  /* ---------- PYQ Grid ---------- */
+  .pyq-section{
+    position:relative;
+    z-index:3;
+    padding:70px 2.5vw 110px 2.5vw;
+  }
+  .pyq-grid{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:22px;
+    max-width:1500px;
+    margin:0 auto;
+  }
+  .pyq-card{
+    background:linear-gradient(180deg, rgba(246,241,228,0.05), rgba(246,241,228,0.015));
+    border:1px solid rgba(198,161,91,0.22);
+    border-top:2px solid var(--gold);
+    border-radius:4px;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    opacity:0;
+    transform:translateY(20px);
+    transition:opacity 0.7s ease, transform 0.7s ease, border-color 0.3s ease;
+  }
+  .pyq-card.in-view{opacity:1;transform:translateY(0);}
+  .pyq-card:hover{border-color:var(--gold-bright);}
+
+  .pyq-thumb{
+    position:relative;
+    width:100%;
+    aspect-ratio:16/9;
+    background:#000;
+    overflow:hidden;
+  }
+  .pyq-thumb img{
+    width:100%;height:100%;
+    object-fit:cover;
+    display:block;
+    filter:saturate(0.92) contrast(1.02);
+    transition:transform 0.6s cubic-bezier(.2,.7,.2,1), filter 0.3s ease;
+  }
+  .pyq-card:hover .pyq-thumb img{
+    transform:scale(1.06);
+    filter:saturate(1) contrast(1.05) brightness(0.85);
+  }
+  .pyq-play{
+    position:absolute;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    width:42px;height:42px;
+    border-radius:50%;
+    background:rgba(8,17,32,0.6);
+    border:1.5px solid rgba(246,241,228,0.85);
+    display:flex;align-items:center;justify-content:center;
+    pointer-events:none;
+    transition:background 0.25s ease, transform 0.25s ease;
+  }
+  .pyq-card:hover .pyq-play{
+    background:var(--maroon);
+    transform:translate(-50%,-50%) scale(1.08);
+  }
+  .pyq-play svg{width:15px;height:15px;fill:var(--ivory);margin-left:2px;}
+
+  .pyq-body{
+    padding:16px 16px 18px 16px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    flex:1;
+  }
+  .pyq-eyebrow{
+    font-size:9.5px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color:var(--gold);
+  }
+  .pyq-title{
+    font-family:'Fraunces',serif;
+    font-size:0.98rem;
+    line-height:1.35;
+    color:var(--text-light);
+    flex:1;
+  }
+  .pdf-btn{
+    margin-top:auto;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    padding:9px 14px;
+    border:1px solid rgba(198,161,91,0.4);
+    border-radius:3px;
+    font-size:11px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    color:var(--gold-bright);
+    transition:background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  }
+  .pdf-btn:hover{
+    background:var(--gold);
+    color:var(--navy-deep);
+    border-color:var(--gold);
+  }
+  .pdf-btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;}
+
+  /* ---------- Footer ---------- */
+  footer{
+    position:relative;
+    z-index:3;
+    background:var(--navy-deep);
+    padding:26px 6vw;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:10px;
+    border-top:1px solid rgba(198,161,91,0.15);
+  }
+  .made-with{
+    font-size:12.5px;
+    color:var(--text-dim);
+    letter-spacing:0.4px;
+  }
+  .made-with span.heart{color:var(--maroon);}
+  footer .fine-print{
+    font-size:11px;
+    color:#5C6376;
+    letter-spacing:1px;
+    text-transform:uppercase;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:1180px){
+    .pyq-grid{grid-template-columns:repeat(4, 1fr);}
+  }
+  @media (max-width:900px){
+    .pyq-grid{grid-template-columns:repeat(3, 1fr);}
+  }
+  @media (max-width:640px){
+    .pyq-grid{grid-template-columns:repeat(2, 1fr);gap:14px;}
+    .topbar{padding:24px 5vw 0 5vw;}
+    .brand-mini{display:none;}
+  }
+  @media (max-width:420px){
+    .pyq-grid{grid-template-columns:1fr;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="page-bg">
+
+  <div class="topbar">
+    <a class="back-btn" href="../index.html">
+      <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+      Back to Home
+    </a>
+    <div class="brand-mini">UPSC LoG</div>
+  </div>
+
+  <div class="page-head">
+    <div class="eyebrow">Mains Previous Year Papers</div>
+    <h1 class="title">UPSC LoG <em>MAINS PYQ</em> SERIES</h1>
+    <p class="lede">A year-by-year walkthrough of Mains questions — how each one was actually framed, what it was really testing, and how a well-structured answer takes shape. Watch the breakdown, then pull up the original paper alongside it.</p>
+  </div>
+
+  <section class="pyq-section">
+    <div class="pyq-grid" id="pyqGrid"></div>
+  </section>
+
+  <footer>
+    <div class="made-with">Made with <span class="heart">♥</span> by the UPSC LoG Team</div>
+    <div class="fine-print">&copy; 2027 UPSC LoG. All Rights Reserved.</div>
+  </footer>
+
+</div>
+
+<script>
+  /* ======================================================================
+     EDIT THIS LIST — one entry per video/PDF card.
+     videoId  : the YouTube video ID (the part after v= or after youtu.be/)
+     title    : text shown under the thumbnail
+     pdfUrl   : link to the question paper / notes PDF (or "#" as placeholder)
+     ======================================================================= */
+  const pyqItems = [
+    { videoId: "MbsZnrwnI1c", title: "GS Paper III — PYQ LoG", pdfUrl: "https://drive.google.com/file/d/1e2an4jiPKN-Eqj78nmV5cWbwoCE-v0lh/view?usp=drive_link" },
+  ];
+
+  const grid = document.getElementById('pyqGrid');
+
+  pyqItems.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.className = 'pyq-card';
+    card.innerHTML = `
+      <a class="pyq-thumb" href="https://www.youtube.com/watch?v=${item.videoId}" target="_blank" rel="noopener">
+        <img src="https://img.youtube.com/vi/${item.videoId}/hqdefault.jpg" alt="${item.title} thumbnail">
+        <div class="pyq-play">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+      </a>
+      <div class="pyq-body">
+        <div class="pyq-eyebrow">Mains PYQ</div>
+        <div class="pyq-title">${item.title}</div>
+        <a class="pdf-btn" href="${item.pdfUrl}" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+          View PDF
+        </a>
+      </div>`;
+    grid.appendChild(card);
+  });
+
+  // Fade cards in as they scroll into view
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.pyq-card').forEach(card => observer.observe(card));
+</script>
+
+</body>
+</html>
