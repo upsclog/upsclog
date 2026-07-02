@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC LoG - Prelims Booster</title>
+<style>
+
+:root {
+  --bg: #f5f5f5;
+  --surface: #ffffff;
+  --text: #1a1a1a;
+  --text-secondary: #555;
+  --border: #ddd;
+  --option-hover: #f0f0f0;
+  --correct: #b7f7b7;
+  --correct-text: #145214;
+  --wrong: #ffb6b6;
+  --wrong-text: #6b0000;
+  --exp-bg: #eef;
+  --exp-text: #1a1a2e;
+  --timer-bg: #222;
+  --timer-text: #fff;
+  --btn-bg: #1a1a2e;
+  --btn-text: #fff;
+  --btn-hover: #2e2e50;
+  --shadow: rgba(0,0,0,0.1);
+  --track: #ccc;
+  --thumb: #1a1a2e;
+  --toggle-bg: #ccc;
+  --toggle-knob: #fff;
+  --toggle-active: #4a6fa5;
+}
+
+[data-theme="dark"] {
+  --bg: #12121e;
+  --surface: #1e1e30;
+  --text: #e8e8f0;
+  --text-secondary: #aaa;
+  --border: #333;
+  --option-hover: #2a2a40;
+  --correct: #1a4d1a;
+  --correct-text: #7ef07e;
+  --wrong: #4d1a1a;
+  --wrong-text: #f07e7e;
+  --exp-bg: #1a1a35;
+  --exp-text: #c8c8e8;
+  --timer-bg: #0d0d1a;
+  --timer-text: #e8e8f0;
+  --btn-bg: #4a6fa5;
+  --btn-hover: #5a80b8;
+  --btn-text: #fff;
+  --shadow: rgba(0,0,0,0.4);
+  --track: #444;
+  --thumb: #4a6fa5;
+  --toggle-bg: #444;
+  --toggle-knob: #fff;
+  --toggle-active: #4a6fa5;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 30px;
+  transition: background 0.25s, color 0.25s;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  background: var(--surface);
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px var(--shadow);
+  transition: background 0.25s, box-shadow 0.25s;
+}
+
+h1 { text-align: center; color: var(--text); }
+h2 { text-align: center; color: var(--text); }
+
+ul { color: var(--text-secondary); }
+ul a { color: #4a6fa5; }
+
+.question {
+  border: 1px solid var(--border);
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  transition: border-color 0.25s;
+}
+
+.question h3 {
+  margin-top: 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.option {
+  display: block;
+  margin: 8px 0;
+  padding: 10px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+  color: var(--text);
+}
+
+.option:hover {
+  background: var(--option-hover);
+  border-color: var(--border);
+}
+
+.correct {
+  background: var(--correct) !important;
+  color: var(--correct-text) !important;
+  border-color: transparent !important;
+}
+
+.wrong {
+  background: var(--wrong) !important;
+  color: var(--wrong-text) !important;
+  border-color: transparent !important;
+}
+
+/* orange outline = what the user actually selected */
+.user-selected {
+  outline: 3px solid #f97316 !important;
+  outline-offset: -2px;
+  border-radius: 6px;
+}
+
+.explanation {
+  display: none;
+  margin-top: 15px;
+  background: var(--exp-bg);
+  color: var(--exp-text);
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.6;
+  border-left: 3px solid #4a6fa5;
+}
+
+button.submit-btn {
+  display: block;
+  padding: 12px 32px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 24px;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border: none;
+  border-radius: 8px;
+  transition: background 0.2s, transform 0.1s;
+}
+
+button.submit-btn:hover { background: var(--btn-hover); }
+button.submit-btn:active { transform: scale(0.98); }
+
+#score {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 20px 0;
+  padding: 16px;
+  border-radius: 8px;
+  background: var(--exp-bg);
+  color: var(--exp-text);
+}
+
+/* ── Timer ── */
+#timer {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--timer-bg);
+  color: var(--timer-text);
+  padding: 12px 20px;
+  font-size: 22px;
+  border-radius: 8px;
+  font-weight: bold;
+  box-shadow: 0 2px 10px var(--shadow);
+  transition: background 0.25s, color 0.25s;
+  z-index: 100;
+}
+
+/* ── Dark mode toggle ── */
+.theme-toggle {
+  position: fixed;
+  top: 74px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  padding: 6px 12px;
+  box-shadow: 0 2px 8px var(--shadow);
+  z-index: 100;
+  cursor: pointer;
+  transition: background 0.25s, border-color 0.25s;
+  user-select: none;
+}
+
+.theme-toggle .icon {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.toggle-track {
+  width: 36px;
+  height: 20px;
+  background: var(--toggle-bg);
+  border-radius: 999px;
+  position: relative;
+  transition: background 0.25s;
+  flex-shrink: 0;
+}
+
+[data-theme="dark"] .toggle-track {
+  background: var(--toggle-active);
+}
+
+.toggle-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+  background: var(--toggle-knob);
+  border-radius: 50%;
+  transition: transform 0.25s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+[data-theme="dark"] .toggle-knob {
+  transform: translateX(16px);
+}
+
+/* ── Mobile ── */
+@media (max-width: 700px) {
+  body { margin: 10px; }
+
+  #timer {
+    position: static;
+    width: fit-content;
+    margin: 0 auto 12px;
+    display: block;
+    text-align: center;
+  }
+
+  .theme-toggle {
+    position: static;
+    width: fit-content;
+    margin: 0 auto 16px;
+  }
+
+  .mobile-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .mobile-bar #timer,
+  .mobile-bar .theme-toggle {
+    position: static;
+    margin: 0;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<!-- Mobile: group timer + toggle -->
+<div class="mobile-bar" id="mobileBar" style="display:none;">
+  <div id="timerMobile" style="background:var(--timer-bg);color:var(--timer-text);padding:10px 18px;font-size:20px;border-radius:8px;font-weight:bold;box-shadow:0 2px 10px var(--shadow);">30:00</div>
+  <div class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode" role="button">
+    <span class="icon" id="iconM">☀️</span>
+    <div class="toggle-track"><div class="toggle-knob"></div></div>
+    <span class="icon" id="iconM2">🌙</span>
+  </div>
+</div>
+
+<!-- Desktop: fixed position -->
+<div id="timerDesktop" class="timer-desktop" style="position:fixed;top:20px;right:20px;background:var(--timer-bg);color:var(--timer-text);padding:12px 20px;font-size:22px;border-radius:8px;font-weight:bold;box-shadow:0 2px 10px var(--shadow);z-index:100;transition:background 0.25s,color 0.25s;">30:00</div>
+
+<div class="theme-toggle" id="toggleDesktop" onclick="toggleTheme()" aria-label="Toggle dark mode" role="button" style="position:fixed;top:74px;right:20px;">
+  <span class="icon">☀️</span>
+  <div class="toggle-track"><div class="toggle-knob"></div></div>
+  <span class="icon">🌙</span>
+</div>
+
+<div class="container">
+  <h1>UPSC LoG — Prelims Booster 2027</h1>
+  <h2>Polity Test CODE-2027-11</h2>
+  <p>
+    <b>Instructions</b>
+    <ul>
+      <li>25 UPSC CSE Thematic Test Series (with explanations)</li>
+      <li><b>Correct = 2.0 &nbsp;|&nbsp; Incorrect = −0.67</b></li>
+      <li><b><i>30-minute timer</i></b></li>
+      <li>Join <a href="https://t.me/upsclog" target="_blank">UPSC LoG Telegram ↗</a></li>
+    </ul>
+  </p>
+
+  <div id="score"></div>
+  <div id="quiz"></div>
+  <button class="submit-btn" onclick="submitQuiz()">Submit</button>
+</div>
+
+<script>
+
+// ── Theme ──────────────────────────────────────────────────────────────────────
+function toggleTheme() {
+  const html = document.documentElement;
+  const next = html.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  html.setAttribute("data-theme", next);
+  localStorage.setItem("upsc-theme", next);
+}
+
+(function () {
+  const saved = localStorage.getItem("upsc-theme");
+  if (saved) document.documentElement.setAttribute("data-theme", saved);
+})();
+
+// ── Responsive bar ─────────────────────────────────────────────────────────────
+function applyLayout() {
+  const mobile = window.innerWidth <= 700;
+  document.getElementById("mobileBar").style.display = mobile ? "flex" : "none";
+  document.getElementById("timerDesktop").style.display = mobile ? "none" : "block";
+  document.getElementById("toggleDesktop").style.display = mobile ? "none" : "flex";
+}
+applyLayout();
+window.addEventListener("resize", applyLayout);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ───────────────────────────────────────────────────────────────── Questions ──────────────────────────────────────────────────────────────────
+const questions = [
+  {
+    question: "Consider the following statements regarding the Council of Ministers and the Cabinet in India:<br>1. Every member of the Cabinet is a member of the Council of Ministers, but not every member of the Council of Ministers is a member of the Cabinet.<br>2. The Cabinet is mentioned in the original Constitution of India, while the Council of Ministers was inserted later by amendment.<br>3. The size of the Council of Ministers is constitutionally capped, whereas no such cap exists for the Cabinet.<br>Which of the statements given above is/are correct?",
+    options: [
+      "1 only",
+      "1 and 3 only",
+      "2 and 3 only",
+      "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "The Cabinet is a smaller body within the larger Council of Ministers comprising only Cabinet-rank ministers, so statement 1 is correct. Article 352 mentions 'Cabinet', not the reverse of statement 2; both terms existed from the original Constitution's provisions on ministerial council (Article 74/75). The 91st Amendment (2003) capped the total size of the Council of Ministers (including the Cabinet) at 15% of the strength of the Lok Sabha, so there is no separate cap for the Cabinet alone, making statement 3 incorrect."
+  },
+  {
+    question: "With reference to the National Human Rights Commission (NHRC) of India, consider the following statements:<br>1. It was established under the Protection of Human Rights Act, 1993.<br>2. Its recommendations are binding on the Central and State Governments.<br>3. The Chairperson of the NHRC must be a former Chief Justice of India or a Judge of the Supreme Court.<br>Which of the statements given above is/are correct?",
+    options: [
+      "1 and 3 only",
+      "1 only",
+      "2 and 3 only",
+      "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "The NHRC is a statutory body created under the Protection of Human Rights Act, 1993, making statement 1 correct. Its recommendations are only advisory/persuasive and not binding on the government, so statement 2 is incorrect. As per the amended Act (2019), the Chairperson can be a former Chief Justice of India or a Judge of the Supreme Court, confirming statement 3."
+  },
+  {
+    question: "Consider the following statements regarding the writ jurisdiction of High Courts in India:<br>1. The power of High Courts to issue writs under Article 226 is wider than the power of the Supreme Court under Article 32.<br>2. High Courts can issue writs only for the enforcement of Fundamental Rights.<br>3. High Courts exercise superintendence over all courts and tribunals within their territorial jurisdiction under Article 227.<br>Which of the statements given above is/are correct?",
+    options: [
+      "1 and 3 only",
+      "2 and 3 only",
+      "1 only",
+      "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "Under Article 226, High Courts can issue writs not only for the enforcement of Fundamental Rights but also for 'any other purpose', making their writ jurisdiction wider than the Supreme Court's under Article 32, so statement 1 is correct and statement 2 is incorrect. Article 227 gives High Courts the power of superintendence over all courts and tribunals within their respective territorial jurisdictions, confirming statement 3."
+  },
+  {
+    question: "With reference to the Emergency provisions of the Indian Constitution, consider the following statements:<br>1. A Proclamation of National Emergency under Article 352 can be issued on the grounds of war, external aggression, or armed rebellion.<br>2. A Proclamation of President's Rule under Article 356 must be approved by Parliament within two months.<br>3. A Financial Emergency under Article 360 has been invoked more than once since independence.<br>Which of the statements given above is/are correct?",
+    options: [
+      "1 and 2 only",
+      "1 only",
+      "2 and 3 only",
+      "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "Article 352 allows National Emergency on grounds of war, external aggression, or armed rebellion (the term 'internal disturbance' was replaced by 'armed rebellion' via the 44th Amendment), making statement 1 correct. A Proclamation under Article 356 must be approved by both Houses of Parliament within two months, confirming statement 2. Article 360 (Financial Emergency) has never been invoked in India till date, making statement 3 incorrect."
+  },
+  {
+    question: "Consider the following statements regarding the Comptroller and Auditor General (CAG) of India:<br>1. The CAG audits the accounts of both the Union and the State Governments.<br>2. The CAG submits its reports directly to the Parliament.<br>3. The CAG holds office during the pleasure of the President.<br>Which of the statements given above is/are correct?",
+    options: [
+      "1 only",
+      "1 and 2 only",
+      "2 and 3 only",
+      "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "Under Article 149, the CAG audits the accounts of both the Union and the States, making statement 1 correct. However, the CAG's reports relating to the accounts of the Union are submitted to the President (who lays them before Parliament), and those relating to States are submitted to the Governor, not directly to Parliament, making statement 2 incorrect. The CAG does not hold office during the pleasure of the President; he can be removed only through a process similar to that of a Supreme Court judge (Article 148), ensuring statement 3 is incorrect."
+  },
+  {
+    question: "With reference to the Fundamental Duties enshrined in the Indian Constitution, consider the following statements:<br>1. They were incorporated into the Constitution on the recommendation of the Swaran Singh Committee.<br>2. Fundamental Duties are enforceable in a court of law like Fundamental Rights.<br>3. The 86th Constitutional Amendment Act added a new duty relating to providing opportunities for education.<br>Which of the statements given above is/are correct?",
+    options: [
+      "1 and 3 only",
+      "2 and 3 only",
+      "1 only",
+      "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "Fundamental Duties were added by the 42nd Amendment Act (1976) on the recommendation of the Swaran Singh Committee, confirming statement 1. Unlike Fundamental Rights, Fundamental Duties are non-justiciable and cannot be directly enforced in a court of law, making statement 2 incorrect. The 86th Amendment Act (2002) added Article 51A(k), making it a duty of parents/guardians to provide educational opportunities to their children aged 6-14, confirming statement 3."
+  },
+  {
+    question: "Which one of the following statements best distinguishes 'Prorogation' from 'Dissolution' of a House of Parliament?",
+    options: [
+      "Prorogation terminates only a session of the House, while dissolution ends the life of the House itself",
+      "Prorogation ends the life of the House, while dissolution merely terminates a session",
+      "Prorogation applies only to the Rajya Sabha, while dissolution applies only to the Lok Sabha",
+      "Prorogation is announced by the Speaker, while dissolution is announced by the President"
+    ],
+    answer: 0,
+    explanation: "Prorogation is the termination of a session of a House by the President, after which pending notices lapse but pending bills do not lapse; dissolution, applicable only to the Lok Sabha, ends the very life of that House, after which all pending bills and notices lapse (with some exceptions). Both prorogation and dissolution are done by the President, not the Speaker, and dissolution applies only to the Lok Sabha since the Rajya Sabha is a permanent body."
+  },
+  {
+    question: "With reference to the Finance Commission of India, consider the following statements:<br>1. It is constituted by the President under Article 280 of the Constitution.<br>2. It is a permanent constitutional body that continues to function without a fixed term.<br>3. Its recommendations are advisory in nature and not binding on the Government.<br>Which of the statements given above is/are correct?",
+    options: [
+      "1 and 3 only",
+      "1 and 2 only",
+      "2 only",
+      "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "The Finance Commission is constituted by the President under Article 280, confirming statement 1. However, it is not a permanent body in continuous existence; it is constituted afresh every five years or earlier, making statement 2 incorrect. Its recommendations, dealing mainly with distribution of tax proceeds between Centre and States, are advisory and not binding on the Government, confirming statement 3."
+  },
+  {
+    question: "Consider the following statements regarding the Delimitation Commission of India:<br>1. It is appointed by the President of India and works in collaboration with the Election Commission of India.<br>2. Its orders are enforced without any changes and cannot be challenged in any court of law.<br>3. The last delimitation exercise was based on the 2011 Census figures for redrawing constituency boundaries across all states.<br>Which of the statements given above is/are correct?",
+    options: [
+      "1 and 2 only",
+      "1 and 3 only",
+      "2 and 3 only",
+      "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "The Delimitation Commission is appointed by the President and works in collaboration with the Election Commission, confirming statement 1. Its orders have the force of law and cannot be challenged in any court, confirming statement 2. The most recent delimitation of constituencies (2002-08) was based on the 2001 Census, not the 2011 Census, since the 84th Amendment froze delimitation based on population until after the first census after 2026, making statement 3 incorrect."
+  },
+  {
+    question: "With reference to Constitutional Amendments under Article 368, consider the following statements:<br>1. Some provisions can be amended by a simple majority of Parliament, similar to ordinary legislation.<br>2. Amendments affecting the federal structure require ratification by at least half of the State Legislatures.<br>3. A Constitutional Amendment Bill can be introduced in either House of Parliament, but not as a Money Bill.<br>Which of the statements given above is/are correct?",
+    options: [
+      "1, 2 and 3",
+      "1 and 2 only",
+      "2 and 3 only",
+      "1 and 3 only"
+    ],
+    answer: 0,
+    explanation: "Certain provisions (like creation of new states, citizenship) can be amended by a simple majority outside Article 368's special procedure, confirming statement 1. Amendments affecting federal provisions require ratification by at least one-half of the State Legislatures in addition to special majority in Parliament, confirming statement 2. A Constitutional Amendment Bill can be introduced in either House and is never treated as a Money Bill, confirming statement 3."
+  },
+  {
+    question: "Consider the following statements on the collective responsibility of the Council of Ministers in India:<br>1. It is explicitly mentioned in Article 75 of the Constitution.<br>2. All ministers are bound by cabinet decisions even if they personally disagreed with them during deliberation.<br>3. If the Lok Sabha passes a no-confidence motion against the Council of Ministers, only the Prime Minister is required to resign.<br>Which of the statements given above is/are correct?",
+    options: [
+      "1 and 2 only",
+      "1 and 3 only",
+      "2 and 3 only",
+      "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "Article 75(3) explicitly states that the Council of Ministers shall be collectively responsible to the Lok Sabha, confirming statement 1. Due to collective responsibility, all ministers, regardless of individual disagreement, must publicly support cabinet decisions or resign, confirming statement 2. A successful no-confidence motion leads to the resignation of the entire Council of Ministers, not just the Prime Minister, making statement 3 incorrect."
+  },
+  {
+    question: "With reference to Tribunals in India, consider the following statements:<br>1. The Central Administrative Tribunal (CAT) was established under Article 323A of the Constitution.<br>2. The National Green Tribunal (NGT) is a constitutional body established directly by a constitutional amendment.<br>3. The NGT has original jurisdiction over civil cases involving substantial questions relating to environment.<br>Which of the statements given above is/are correct?",
+    options: [
+      "1 and 3 only",
+      "1 and 2 only",
+      "2 only",
+      "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "CAT was established in 1985 under the Administrative Tribunals Act, pursuant to Article 323A inserted by the 42nd Amendment, confirming statement 1. The NGT was established under the National Green Tribunal Act, 2010, an ordinary statute, not through a constitutional amendment, making it a statutory rather than constitutional body, so statement 2 is incorrect. The NGT has original jurisdiction over substantial environmental questions, confirming statement 3."
+  },
+  {
+    question: "Consider the following statements regarding the Lok Sabha and the Rajya Sabha:<br>1. The Rajya Sabha is a permanent body and is not subject to dissolution.<br>2. A Money Bill can be introduced in either House of Parliament.<br>3. One-third of the members of the Rajya Sabha retire after every two years.<br>Which of the statements given above is/are correct?",
+    options: [
+      "1 and 3 only",
+      "1 and 2 only",
+      "2 and 3 only",
+      "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "The Rajya Sabha, being a continuing chamber, is never dissolved, confirming statement 1. A Money Bill can be introduced only in the Lok Sabha, not in the Rajya Sabha, making statement 2 incorrect. As per Article 83, one-third of the Rajya Sabha's members retire every second year, confirming statement 3."
+  },
+  {
+    question: "With reference to the Anti-Defection Law in India, consider the following statements:<br>1. It was introduced through the 52nd Constitutional Amendment Act, 1985.<br>2. The decision of the Presiding Officer under the Tenth Schedule is final and not subject to judicial review.<br>3. A member is disqualified if they voluntarily give up membership of their political party.<br>Which of the statements given above is/are correct?",
+    options: [
+      "1 and 3 only",
+      "1 and 2 only",
+      "2 and 3 only",
+      "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "The Anti-Defection Law was added as the Tenth Schedule through the 52nd Amendment Act, 1985, confirming statement 1. In the Kihoto Hollohan case (1992), the Supreme Court held that the Presiding Officer's decision is subject to judicial review, making statement 2 incorrect. Voluntarily giving up party membership is one of the grounds for disqualification under the Tenth Schedule, confirming statement 3."
+  },
+  {
+    question: "Consider the following statements regarding the 73rd Constitutional Amendment Act, 1992:<br>1. It added Part IX to the Constitution dealing with Panchayats.<br>2. It made the constitution of a Gram Sabha mandatory in every village.<br>3. It provided for reservation of seats for Scheduled Castes, Scheduled Tribes, and women in Panchayats.<br>Which of the statements given above is/are correct?",
+    options: [
+      "1, 2 and 3",
+      "1 and 2 only",
+      "2 and 3 only",
+      "1 and 3 only"
+    ],
+    answer: 0,
+    explanation: "The 73rd Amendment Act added Part IX (Articles 243 to 243-O) dealing with Panchayats, confirming statement 1. It mandated the establishment of a Gram Sabha at the village level, confirming statement 2. It also provided for mandatory reservation of seats for SCs, STs, and women (not less than one-third) in Panchayats, confirming statement 3."
+  },
+  {
+    question: "Which of the following best describes the nature of Centre-State relations under the Indian Constitution?",
+    options: [
+      "They are classified into legislative, administrative, and financial relations",
+      "They are classified only into legislative and financial relations",
+      "They are governed solely by conventions with no constitutional basis",
+      "They apply uniformly to all states with no special provisions for any state"
+    ],
+    answer: 0,
+    explanation: "The Indian Constitution deals with Centre-State relations under three broad categories: legislative relations (Articles 245-255), administrative relations (Articles 256-263), and financial relations (Articles 268-293). These relations have a clear constitutional basis, and special provisions exist for certain states (e.g., Articles 371 series), making the other options incorrect."
+  },
+  {
+    question: "With reference to Fundamental Rights in India, consider the following statements:<br>1. The Right to Property was originally a Fundamental Right but was later made a legal right through the 44th Amendment Act.<br>2. Fundamental Rights can be suspended during a National Emergency, except those under Articles 20 and 21.<br>3. Fundamental Rights are available only to citizens of India and not to foreigners.<br>Which of the statements given above is/are correct?",
+    options: [
+      "1 and 2 only",
+      "1 and 3 only",
+      "2 and 3 only",
+      "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "The Right to Property, originally under Article 19(1)(f) and Article 31, was removed from Part III by the 44th Amendment Act (1978) and made a legal right under Article 300A, confirming statement 1. During a National Emergency, Fundamental Rights (except those under Articles 20 and 21) can be suspended, confirming statement 2. Some Fundamental Rights (like Articles 14, 20, 21) are available to all persons including foreigners, not just citizens, making statement 3 incorrect."
+  },
+  {
+    question: "Consider the following statements regarding Judicial Review in India:<br>1. The power of Judicial Review is explicitly and exclusively derived from a single article of the Constitution.<br>2. The 'Basic Structure' doctrine, which limits Parliament's amending power, was propounded in the Kesavananda Bharati case (1973).<br>3. Judicial Review enables courts to examine the constitutionality of both legislative enactments and executive orders.<br>Which of the statements given above is/are correct?",
+    options: [
+      "2 and 3 only",
+      "1 and 2 only",
+      "1 and 3 only",
+      "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "The power of Judicial Review is not confined to one article; it flows from multiple provisions including Articles 13, 32, 226, 227, and 245, so statement 1 is incorrect. The Basic Structure doctrine was indeed propounded in Kesavananda Bharati v. State of Kerala (1973), confirming statement 2. Judicial Review empowers courts to examine the constitutional validity of both laws and executive actions, confirming statement 3."
+  },
+  {
+    question: "With reference to the Directive Principles of State Policy (DPSP), consider the following statements:<br>1. They are contained in Part IV of the Constitution and are non-justiciable.<br>2. The concept of DPSPs was borrowed from the Constitution of Ireland.<br>3. In case of conflict, Fundamental Rights always prevail over DPSPs, without exception.<br>Which of the statements given above is/are correct?",
+    options: [
+      "1 and 2 only",
+      "1 and 3 only",
+      "2 and 3 only",
+      "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "DPSPs are contained in Part IV (Articles 36-51) and are non-justiciable, meaning they cannot be enforced by courts, confirming statement 1. The concept was borrowed from the Irish Constitution, confirming statement 2. However, following the 25th and 42nd Amendments and judicial interpretation (e.g., Minerva Mills case), certain DPSPs under Article 39(b) and (c) have been given precedence over some Fundamental Rights under Articles 14 and 19, so statement 3 is incorrect."
+  },
+  {
+    question: "Consider the following statements regarding Question Hour and Zero Hour in the Indian Parliament:<br>1. Question Hour is mentioned in the Rules of Procedure of Parliament, whereas Zero Hour is not.<br>2. Zero Hour precedes Question Hour in the daily schedule of Parliament.<br>3. Zero Hour is an Indian parliamentary innovation and has no fixed duration prescribed by rules.<br>Which of the statements given above is/are correct?",
+    options: [
+      "1 and 3 only",
+      "1 and 2 only",
+      "2 and 3 only",
+      "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "Question Hour is formally mentioned and defined in the Rules of Procedure, while Zero Hour is not mentioned in the Rules and is an informal device, confirming statement 1. Zero Hour actually follows Question Hour, starting around 12 noon, making statement 2 incorrect. Zero Hour is indeed an Indian innovation with no fixed duration prescribed by rules, confirming statement 3."
+  },
+  {
+    question: "With reference to NITI Aayog and the erstwhile Planning Commission, consider the following statements:<br>1. Both NITI Aayog and the Planning Commission were established through resolutions of the Union Cabinet, not by an Act of Parliament.<br>2. Unlike the Planning Commission, NITI Aayog does not have the power to allocate funds to ministries or states.<br>3. NITI Aayog functions purely as an advisory think tank, while the Planning Commission had powers to impose five-year plans on states.<br>Which of the statements given above is/are correct?",
+    options: [
+      "1 and 2 only",
+      "1 and 3 only",
+      "2 and 3 only",
+      "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "Both bodies were created through Cabinet resolutions and are extra-constitutional, non-statutory bodies, confirming statement 1. NITI Aayog is an advisory body and does not have the power to allocate funds (this function shifted largely to the Finance Commission and Ministry of Finance), unlike the Planning Commission which allocated plan funds, confirming statement 2. However, the Planning Commission could not legally impose five-year plans on states since planning was largely persuasive, making statement 3 an overstatement and incorrect."
+  },
+  {
+    question: "Consider the following statements regarding a Joint Sitting of the two Houses of Parliament:<br>1. It is provided for under Article 108 of the Constitution.<br>2. It can be summoned by the President to resolve a deadlock over an ordinary bill or a financial bill.<br>3. A Joint Sitting is presided over by the Speaker of the Lok Sabha.<br>Which of the statements given above is/are correct?",
+    options: [
+      "1, 2 and 3",
+      "1 and 2 only",
+      "1 and 3 only",
+      "2 and 3 only"
+    ],
+    answer: 0,
+    explanation: "A Joint Sitting is provided under Article 108 to resolve a deadlock between the two Houses over an ordinary bill or certain financial bills (but not Money Bills or Constitutional Amendment Bills), confirming statements 1 and 2. It is presided over by the Speaker of the Lok Sabha, confirming statement 3. All three statements are therefore correct."
+  },
+  {
+    question: "With reference to the Right to Information (RTI) Act, 2005, consider the following statements:<br>1. It was preceded by Right to Information legislation enacted at the state level, such as in Tamil Nadu and Rajasthan.<br>2. Section 8 of the Act provides exemptions from disclosure of certain categories of information.<br>3. The Act applies to Non-Governmental Organisations that are substantially financed by the government.<br>Which of the statements given above is/are correct?",
+    options: [
+      "1, 2 and 3",
+      "1 and 2 only",
+      "2 and 3 only",
+      "1 and 3 only"
+    ],
+    answer: 0,
+    explanation: "Several states, including Tamil Nadu, Goa, and Rajasthan, enacted RTI laws before the central Act of 2005, confirming statement 1. Section 8 of the RTI Act lists categories of information exempted from disclosure, such as those affecting national security, confirming statement 2. The Act applies to NGOs substantially financed, directly or indirectly, by government funds, confirming statement 3."
+  },
+  {
+    question: "The Right to Information Act, 2005 in India is considered to derive its philosophical basis primarily from which Fundamental Right?",
+    options: [
+      "Right to Freedom of Speech and Expression under Article 19(1)(a)",
+      "Right to Equality under Article 14",
+      "Right to Constitutional Remedies under Article 32",
+      "Right against Exploitation under Article 23"
+    ],
+    answer: 0,
+    explanation: "The Supreme Court has held in several judgments that the right to information is implicit in the Right to Freedom of Speech and Expression under Article 19(1)(a), since an informed citizenry is essential for meaningful expression and democratic participation. Articles 14, 32, and 23 deal with equality, constitutional remedies, and exploitation respectively, and are not the primary basis of the RTI Act."
+  },
+  {
+    question: "Which one of the following is NOT a characteristic feature that distinguishes India's Parliamentary system of government from a Presidential system?",
+    options: [
+      "Fixed tenure of the Head of Government irrespective of legislative support",
+      "Fusion of legislative and executive powers",
+      "Collective responsibility of the executive to the legislature",
+      "Presence of both a nominal and a real executive"
+    ],
+    answer: 0,
+    explanation: "A fixed tenure of the Head of Government irrespective of legislative confidence is a feature of the Presidential system (as in the USA), not the Parliamentary system, where the government can fall on losing majority support, making this the correct answer as the feature NOT associated with India's system. India's Parliamentary system, borrowed from Britain, is characterized by fusion of powers, collective responsibility, and a dual executive (nominal head - President, real executive - Council of Ministers)."
+  }
+];
+// ────────────────────────────────────────────────────────────────── Render quiz ────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const quiz = document.getElementById("quiz");
+
+questions.forEach((q, index) => {
+  let html = `<div class="question">
+    <p><b>Q${index + 1}.</b> ${q.question}</p>`;
+
+  q.options.forEach((opt, i) => {
+    html += `<label class="option">
+      <input type="radio" name="q${index}" value="${i}">
+      ${String.fromCharCode(65 + i)}. ${opt}
+    </label>`;
+  });
+
+  html += `<div class="explanation" id="exp${index}"></div></div>`;
+  quiz.innerHTML += html;
+});
+
+// ── Submit ─────────────────────────────────────────────────────────────────────
+let submitted = false;
+
+function submitQuiz() {
+  if (submitted) return;
+  submitted = true;
+  clearInterval(countdown);
+
+  const correctMarks = 2;
+  const negativeMarks = 2 / 3;
+  let score = 0;
+
+  questions.forEach((q, index) => {
+    const radios = document.getElementsByName("q" + index);
+    let selected = -1;
+    radios.forEach(r => { if (r.checked) selected = parseInt(r.value); r.disabled = true; });
+
+    radios.forEach(r => {
+      const label = r.parentElement;
+      const value = parseInt(r.value);
+      if (value === q.answer) label.classList.add("correct");
+      if (value === selected && value !== q.answer) label.classList.add("wrong");
+      if (value === selected) label.classList.add("user-selected");
+    });
+
+    if (selected === q.answer) score += correctMarks;
+    else if (selected !== -1) score -= negativeMarks;
+
+    const exp = document.getElementById("exp" + index);
+    exp.style.display = "block";
+    exp.innerHTML = "<b>Correct Answer:</b> " + String.fromCharCode(65 + q.answer) +
+      "<br><br><b>Explanation:</b> " + q.explanation;
+  });
+
+  const maxScore = questions.length * correctMarks;
+  const percentage = (score / maxScore) * 100;
+
+  document.getElementById("score").innerHTML =
+    "Score: <b>" + score.toFixed(2) + " / " + maxScore.toFixed(2) + "</b>" +
+    "&nbsp;&nbsp;|&nbsp;&nbsp;Percentage: <b>" + percentage.toFixed(2) + "%</b>";
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// ── Timer ──────────────────────────────────────────────────────────────────────
+let totalSeconds = 1800;
+
+function updateTimers(text, urgent) {
+  ["timerDesktop", "timerMobile"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.textContent = text;
+      el.style.background = urgent ? "#c62828" : "var(--timer-bg)";
+    }
+  });
+}
+
+const countdown = setInterval(() => {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  const text = String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+
+  updateTimers(text, totalSeconds <= 60);
+
+  if (totalSeconds === 0) {
+    updateTimers("Time Up!", true);
+    submitQuiz();
+  }
+  totalSeconds--;
+}, 1000);
+
+</script>
+</body>
+</html>
