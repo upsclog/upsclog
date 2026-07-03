@@ -271,7 +271,8 @@
     .brand-mini{display:none;}
   }
   @media (max-width:420px){
-    .pyq-grid{grid-template-columns:1fr;}
+    .pyq-grid{grid-template-columns:repeat(2, 1fr);}
+    .eyebrow{font-size: 10px;}
   }
   @media (prefers-reduced-motion: reduce){
     *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
@@ -315,7 +316,8 @@
      pdfUrl   : link to the question paper / notes PDF (or "#" as placeholder)
      ======================================================================= */
   const pyqItems = [
-    { videoId: "MbsZnrwnI1c", title: "GS Paper III — PYQ LoG", pdfUrl: "https://drive.google.com/file/d/15GAwf2Tmt1xJ1loJiD0qm1nVxDmMJ1LK/view?usp=sharing" },
+    { videoId: "MbsZnrwnI1c", title: "GS III — LoG_S01P01", pdfUrl: "https://drive.google.com/file/d/15GAwf2Tmt1xJ1loJiD0qm1nVxDmMJ1LK/view?usp=sharing" },
+    { videoId: "AkzdwzyOHQE", title: "COMMING SOON", pdfUrl: "https://drive.google.com/file/d/10aG2HBXxvM81HcyoMRUt8eyQplpYrxHD/view?usp=sharing" },
   ];
 
   const grid = document.getElementById('pyqGrid');
@@ -335,7 +337,7 @@
         <div class="pyq-title">${item.title}</div>
         <a class="pdf-btn" href="${item.pdfUrl}" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
-          View PDF
+          View PDF [Google Drive]
         </a>
       </div>`;
     grid.appendChild(card);
