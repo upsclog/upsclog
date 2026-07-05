@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC LoG - Prelims Booster</title>
+<style>
+
+:root {
+  --bg: #f5f5f5;
+  --surface: #ffffff;
+  --text: #1a1a1a;
+  --text-secondary: #555;
+  --border: #ddd;
+  --option-hover: #f0f0f0;
+  --correct: #b7f7b7;
+  --correct-text: #145214;
+  --wrong: #ffb6b6;
+  --wrong-text: #6b0000;
+  --exp-bg: #eef;
+  --exp-text: #1a1a2e;
+  --timer-bg: #222;
+  --timer-text: #fff;
+  --btn-bg: #1a1a2e;
+  --btn-text: #fff;
+  --btn-hover: #2e2e50;
+  --shadow: rgba(0,0,0,0.1);
+  --track: #ccc;
+  --thumb: #1a1a2e;
+  --toggle-bg: #ccc;
+  --toggle-knob: #fff;
+  --toggle-active: #4a6fa5;
+}
+
+[data-theme="dark"] {
+  --bg: #12121e;
+  --surface: #1e1e30;
+  --text: #e8e8f0;
+  --text-secondary: #aaa;
+  --border: #333;
+  --option-hover: #2a2a40;
+  --correct: #1a4d1a;
+  --correct-text: #7ef07e;
+  --wrong: #4d1a1a;
+  --wrong-text: #f07e7e;
+  --exp-bg: #1a1a35;
+  --exp-text: #c8c8e8;
+  --timer-bg: #0d0d1a;
+  --timer-text: #e8e8f0;
+  --btn-bg: #4a6fa5;
+  --btn-hover: #5a80b8;
+  --btn-text: #fff;
+  --shadow: rgba(0,0,0,0.4);
+  --track: #444;
+  --thumb: #4a6fa5;
+  --toggle-bg: #444;
+  --toggle-knob: #fff;
+  --toggle-active: #4a6fa5;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 30px;
+  transition: background 0.25s, color 0.25s;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  background: var(--surface);
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px var(--shadow);
+  transition: background 0.25s, box-shadow 0.25s;
+}
+
+h1 { text-align: center; color: var(--text); }
+h2 { text-align: center; color: var(--text); }
+
+ul { color: var(--text-secondary); }
+ul a { color: #4a6fa5; }
+
+.question {
+  border: 1px solid var(--border);
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  transition: border-color 0.25s;
+}
+
+.question h3 {
+  margin-top: 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.option {
+  display: block;
+  margin: 8px 0;
+  padding: 10px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+  color: var(--text);
+}
+
+.option:hover {
+  background: var(--option-hover);
+  border-color: var(--border);
+}
+
+.correct {
+  background: var(--correct) !important;
+  color: var(--correct-text) !important;
+  border-color: transparent !important;
+}
+
+.wrong {
+  background: var(--wrong) !important;
+  color: var(--wrong-text) !important;
+  border-color: transparent !important;
+}
+
+/* orange outline = what the user actually selected */
+.user-selected {
+  outline: 3px solid #f97316 !important;
+  outline-offset: -2px;
+  border-radius: 6px;
+}
+
+.explanation {
+  display: none;
+  margin-top: 15px;
+  background: var(--exp-bg);
+  color: var(--exp-text);
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.6;
+  border-left: 3px solid #4a6fa5;
+}
+
+button.submit-btn {
+  display: block;
+  padding: 12px 32px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 24px;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border: none;
+  border-radius: 8px;
+  transition: background 0.2s, transform 0.1s;
+}
+
+button.submit-btn:hover { background: var(--btn-hover); }
+button.submit-btn:active { transform: scale(0.98); }
+
+#score {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 20px 0;
+  padding: 16px;
+  border-radius: 8px;
+  background: var(--exp-bg);
+  color: var(--exp-text);
+}
+
+/* ── Timer ── */
+#timer {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--timer-bg);
+  color: var(--timer-text);
+  padding: 12px 20px;
+  font-size: 22px;
+  border-radius: 8px;
+  font-weight: bold;
+  box-shadow: 0 2px 10px var(--shadow);
+  transition: background 0.25s, color 0.25s;
+  z-index: 100;
+}
+
+/* ── Dark mode toggle ── */
+.theme-toggle {
+  position: fixed;
+  top: 74px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  padding: 6px 12px;
+  box-shadow: 0 2px 8px var(--shadow);
+  z-index: 100;
+  cursor: pointer;
+  transition: background 0.25s, border-color 0.25s;
+  user-select: none;
+}
+
+.theme-toggle .icon {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.toggle-track {
+  width: 36px;
+  height: 20px;
+  background: var(--toggle-bg);
+  border-radius: 999px;
+  position: relative;
+  transition: background 0.25s;
+  flex-shrink: 0;
+}
+
+[data-theme="dark"] .toggle-track {
+  background: var(--toggle-active);
+}
+
+.toggle-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+  background: var(--toggle-knob);
+  border-radius: 50%;
+  transition: transform 0.25s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+[data-theme="dark"] .toggle-knob {
+  transform: translateX(16px);
+}
+
+/* ── Mobile ── */
+@media (max-width: 700px) {
+  body { margin: 10px; }
+
+  #timer {
+    position: static;
+    width: fit-content;
+    margin: 0 auto 12px;
+    display: block;
+    text-align: center;
+  }
+
+  .theme-toggle {
+    position: static;
+    width: fit-content;
+    margin: 0 auto 16px;
+  }
+
+  .mobile-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .mobile-bar #timer,
+  .mobile-bar .theme-toggle {
+    position: static;
+    margin: 0;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<!-- Mobile: group timer + toggle -->
+<div class="mobile-bar" id="mobileBar" style="display:none;">
+  <div id="timerMobile" style="background:var(--timer-bg);color:var(--timer-text);padding:10px 18px;font-size:20px;border-radius:8px;font-weight:bold;box-shadow:0 2px 10px var(--shadow);">30:00</div>
+  <div class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode" role="button">
+    <span class="icon" id="iconM">☀️</span>
+    <div class="toggle-track"><div class="toggle-knob"></div></div>
+    <span class="icon" id="iconM2">🌙</span>
+  </div>
+</div>
+
+<!-- Desktop: fixed position -->
+<div id="timerDesktop" class="timer-desktop" style="position:fixed;top:20px;right:20px;background:var(--timer-bg);color:var(--timer-text);padding:12px 20px;font-size:22px;border-radius:8px;font-weight:bold;box-shadow:0 2px 10px var(--shadow);z-index:100;transition:background 0.25s,color 0.25s;">30:00</div>
+
+<div class="theme-toggle" id="toggleDesktop" onclick="toggleTheme()" aria-label="Toggle dark mode" role="button" style="position:fixed;top:74px;right:20px;">
+  <span class="icon">☀️</span>
+  <div class="toggle-track"><div class="toggle-knob"></div></div>
+  <span class="icon">🌙</span>
+</div>
+
+<div class="container">
+  <h1>
+    <a href="https://upsclog.github.io/upsclog/" target="_blank" style="color: black; background-color: #C4A484; border-radius: 8px; padding: 4px 12px; text-decoration: none; display: inline-block;">
+      <img src="../logo.png" alt="." style="height: 1.5em; vertical-align: middle; margin-right: 8px;">
+      UPSC LoG
+    </a>
+    — Prelims Booster 2027
+  </h1>
+  <h2>History Test CODE-2027-14</h2>
+  <p>
+    <b>Instructions</b>
+    <ul>
+      <li>25 UPSC CSE Thematic Test Series (with explanations)</li>
+      <li><b>Correct = 2.0 &nbsp;|&nbsp; Incorrect = −0.67</b></li>
+      <li><b><i>30-minute timer</i></b></li>
+      <li>Join <a href="https://t.me/upsclog" target="_blank">UPSC LoG Telegram ↗</a></li>
+    </ul>
+  </p>
+
+  <div id="score"></div>
+  <div id="quiz"></div>
+  <button class="submit-btn" onclick="submitQuiz()">Submit</button>
+</div>
+
+<script>
+
+// ── Theme ──────────────────────────────────────────────────────────────────────
+function toggleTheme() {
+  const html = document.documentElement;
+  const next = html.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  html.setAttribute("data-theme", next);
+  localStorage.setItem("upsc-theme", next);
+}
+
+(function () {
+  const saved = localStorage.getItem("upsc-theme");
+  if (saved) document.documentElement.setAttribute("data-theme", saved);
+})();
+
+// ── Responsive bar ─────────────────────────────────────────────────────────────
+function applyLayout() {
+  const mobile = window.innerWidth <= 700;
+  document.getElementById("mobileBar").style.display = mobile ? "flex" : "none";
+  document.getElementById("timerDesktop").style.display = mobile ? "none" : "block";
+  document.getElementById("toggleDesktop").style.display = mobile ? "none" : "flex";
+}
+applyLayout();
+window.addEventListener("resize", applyLayout);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ───────────────────────────────────────────────────────────────── Questions ──────────────────────────────────────────────────────────────────
+const questions = [
+{
+    question: "With reference to the background of the Jallianwala Bagh massacre (1919), consider the following statements:<br>1. It occurred in the aftermath of protests against the Rowlatt Act.<br>2. The firing took place on the occasion of Baisakhi.<br>3. Martial law had already been declared in Amritsar before the incident.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "The massacre occurred on 13 April 1919 during Baisakhi celebrations, amid unrest following the repressive Rowlatt Act. Martial law was actually imposed in Amritsar only after the massacre, not before it, making statement 3 incorrect."
+},
+{
+    question: "Which of the following was/were a feature of the Mountbatten Plan (3 June Plan), 1947?<br>1. Partition of India into India and Pakistan.<br>2. Bengal and Punjab legislative assemblies to decide on partition through voting.<br>3. Princely states given the right to remain independent of both dominions.<br>Select the correct answer using the code below:",
+    options: [
+        "1 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 1,
+    explanation: "The Mountbatten Plan provided for the partition of India and allowed the legislative assemblies of Bengal and Punjab to vote on partition. Princely states were given the choice to accede to either India or Pakistan, but were not granted the option of remaining fully independent."
+},
+{
+    question: "Which one of the following best explains the primary point of difference between the Moderates and the Extremists in the Indian National Congress?",
+    options: [
+        "Moderates believed in constitutional methods of prayer and petition, while Extremists advocated self-reliance and passive resistance",
+        "Moderates wanted complete independence, while Extremists were satisfied with dominion status",
+        "Moderates opposed British rule violently, while Extremists sought cooperation with the British",
+        "Moderates were led by Tilak, while Extremists were led by Gokhale"
+    ],
+    answer: 0,
+    explanation: "The Moderates relied on constitutional agitation, petitions, and dialogue with the British government, whereas the Extremists, led by leaders like Tilak, Lal, and Pal, advocated swadeshi, boycott, and passive resistance. The split culminated in the Surat Split of 1907."
+},
+{
+    question: "Which of the following factors contributed to the Partition of India in 1947?<br>1. The failure of the Cabinet Mission Plan of 1946.<br>2. The Direct Action Day called by the Muslim League.<br>3. The demand for a separate Muslim state based on the Two-Nation Theory.<br>Select the correct answer using the code below:",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 3,
+    explanation: "The failure of the Cabinet Mission Plan to secure consensus, the communal violence unleashed by the Direct Action Day (August 1946), and the Muslim League's persistent demand for Pakistan based on the Two-Nation Theory all contributed significantly to the eventual partition of India."
+},
+{
+    question: "The Swadeshi Movement of 1905 developed primarily as a reaction to which of the following?",
+    options: [
+        "The partition of Bengal by Lord Curzon",
+        "The passage of the Rowlatt Act",
+        "The failure of the Simon Commission",
+        "The Jallianwala Bagh massacre"
+    ],
+    answer: 0,
+    explanation: "The Swadeshi Movement emerged in 1905 as a direct response to Lord Curzon's partition of Bengal, which was seen as a deliberate attempt to divide Hindus and Muslims. It involved boycott of British goods and promotion of indigenous industries."
+},
+{
+    question: "With reference to the Anglo-Mysore Wars, consider the following statements:<br>1. The Treaty of Mangalore was signed after the Second Anglo-Mysore War.<br>2. Tipu Sultan died defending Seringapatam during the Fourth Anglo-Mysore War.<br>3. Haidar Ali was killed in battle during the Third Anglo-Mysore War.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "The Treaty of Mangalore (1784) ended the Second Anglo-Mysore War, and Tipu Sultan died fighting at Seringapatam in the Fourth Anglo-Mysore War (1799). Haidar Ali actually died of natural causes (cancer) in 1782 during the Second Anglo-Mysore War, not the Third."
+},
+{
+    question: "The significance of the Mauryan Empire in Indian history lies in which of the following?<br>1. It was the first empire to bring almost the entire Indian subcontinent under one political authority.<br>2. It developed an elaborate and centralized administrative system as described in the Arthashastra.<br>3. It introduced the practice of issuing land grants to Brahmanas as the primary mode of administration.<br>Select the correct answer using the code below:",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "The Mauryan Empire under Chandragupta Maurya and Ashoka unified most of the subcontinent and had a highly centralized bureaucratic administration detailed in Kautilya's Arthashastra. The practice of land grants to Brahmanas became prominent later, during the Gupta period, not as a Mauryan administrative feature."
+},
+{
+    question: "Which of the following statements correctly distinguishes the Mauryan administrative system from that of the Gupta Empire?",
+    options: [
+        "The Mauryan administration was highly centralized, whereas the Gupta administration was more decentralized with greater reliance on local and feudatory powers",
+        "The Mauryan Empire had no standing army, whereas the Guptas maintained a large professional army",
+        "The Mauryas did not issue coins, whereas the Guptas were the first to issue gold coins in India",
+        "The Mauryan Empire was based on a democratic system, whereas the Guptas followed strict hereditary monarchy"
+    ],
+    answer: 0,
+    explanation: "The Mauryan state was known for its highly centralized bureaucracy with close supervision from the capital, while the Gupta administration allowed greater autonomy to provincial and local authorities, including feudatories. The Mauryas did maintain a large army, and Indo-Greek and other rulers had issued gold coins before the Guptas."
+},
+{
+    question: "With reference to the aftermath of the Jallianwala Bagh massacre, consider the following statements:<br>1. Rabindranath Tagore renounced his knighthood in protest.<br>2. The Hunter Committee was constituted by the British government to investigate the incident.<br>3. General Dyer was court-martialled and imprisoned by the British government for his actions.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "Tagore renounced his knighthood in protest, and the British government set up the Hunter Committee to inquire into the incident. However, General Dyer was never court-martialled or imprisoned; he was merely censured and relieved of command, and some sections in Britain even celebrated him as a hero."
+},
+{
+    question: "The Gupta Age is often described as the 'Golden Age' of ancient India because of its notable achievements in which of the following fields?<br>1. Literature, with the works of Kalidasa.<br>2. Mathematics and astronomy, with contributions of Aryabhata.<br>3. Introduction of the decimal system and the concept of zero.<br>Select the correct answer using the code below:",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 3,
+    explanation: "The Gupta period witnessed remarkable achievements in literature (Kalidasa's works), science and mathematics (Aryabhata's contributions to astronomy), and the development of the decimal system with the concept of zero, collectively justifying the term 'Golden Age'."
+},
+{
+    question: "With reference to the Home Rule League movement, consider the following statements:<br>1. Two separate Home Rule Leagues were formed, one led by Bal Gangadhar Tilak and the other by Annie Besant.<br>2. Tilak's League operated mainly in Maharashtra, Karnataka, Central Provinces, and Berar.<br>3. The movement demanded complete independence (Purna Swaraj) as its immediate goal.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "Tilak and Annie Besant led two separate Home Rule Leagues in 1916, with Tilak's operating in Maharashtra, Karnataka, Central Provinces, and Berar, while Besant's covered the rest of India. The movement demanded self-government (Home Rule) within the British Empire, not complete independence, which came later with the Purna Swaraj resolution of 1929."
+},
+{
+    question: "The Kalinga War is considered a significant event in the history of the Mauryan Empire primarily because it:",
+    options: [
+        "Led Ashoka to embrace Buddhism and adopt the policy of Dhamma",
+        "Marked the beginning of Mauryan expansion into South India",
+        "Resulted in the loss of Magadha's control over the Gangetic plains",
+        "Led to the immediate disintegration of the Mauryan Empire"
+    ],
+    answer: 0,
+    explanation: "The Kalinga War (261 BCE), fought by Ashoka, resulted in massive bloodshed that profoundly affected him, leading him to embrace Buddhism and adopt the policy of Dhamma emphasizing non-violence and welfare, as recorded in his Rock Edict XIII."
+},
+{
+    question: "With reference to the founding of the Indian National Congress in 1885, consider the following statements:<br>1. It was founded by Allan Octavian Hume, a retired British civil servant.<br>2. Its first session was held in Bombay under the presidency of W.C. Bonnerjee.<br>3. The 'safety valve' theory suggests that the Congress was formed to provide Indians a peaceful outlet for political discontent.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 3,
+    explanation: "A.O. Hume, a retired civil servant, played a key role in founding the INC in 1885, whose first session was held in Bombay with W.C. Bonnerjee as president. The 'safety valve' theory holds that the British supported its formation to allow a controlled outlet for growing political discontent among educated Indians."
+},
+{
+    question: "Which of the following is/are valid criticism(s) of the Quit India Movement (1942)?<br>1. It lacked a well-defined and centralized leadership due to the immediate arrest of top Congress leaders.<br>2. The Communist Party of India did not support the movement.<br>3. The Muslim League actively supported the movement to strengthen Hindu-Muslim unity.<br>Select the correct answer using the code below:",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "With senior Congress leaders arrested immediately after the movement's launch, it became largely leaderless and spontaneous. The Communist Party of India did not support it, following the 'People's War' line, while the Muslim League also opposed it, seeing it as an obstacle to its demand for Pakistan."
+},
+{
+    question: "With reference to the background of the Bhakti movement in India, consider the following statements:<br>1. It originated in South India with the Alvar and Nayanar saints.<br>2. It emphasized personal devotion to a single deity as the path to salvation.<br>3. It fully rejected the caste system and was uniformly opposed by all bhakti saints across regions.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "The Bhakti movement originated in South India through the devotional poetry of Alvar (Vaishnavite) and Nayanar (Shaivite) saints, and it emphasized intense personal devotion (bhakti) to God as the means of salvation. However, attitudes toward caste varied considerably among bhakti saints, so it was not uniformly rejected by all of them."
+},
+{
+    question: "The Cripps Mission of 1942 was significant because it:",
+    options: [
+        "Offered dominion status to India after the war, with the right of provinces to opt out of the proposed union",
+        "Granted immediate and complete independence to India",
+        "Led directly to the formation of an interim government at the centre",
+        "Resulted in the acceptance of the Muslim League's demand for a separate Pakistan"
+    ],
+    answer: 0,
+    explanation: "The Cripps Mission proposed dominion status for India after the war, along with a provision allowing provinces to opt out of the Indian union. It was rejected by the Congress, with Gandhi famously calling it a 'post-dated cheque', and also failed to satisfy the Muslim League."
+},
+{
+    question: "With reference to the Sangam period, consider the following statements:<br>1. It refers to a period of assemblies of Tamil poets held under royal patronage.<br>2. The three major ruling dynasties of this period were the Cheras, Cholas, and Pandyas.<br>3. Sangam literature is primarily written in Sanskrit.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "The Sangam period is associated with assemblies (sangams) of Tamil poets and scholars, primarily at Madurai, patronized by the Pandya rulers, alongside the Cheras and Cholas. Sangam literature was composed in Tamil, not Sanskrit."
+},
+{
+    question: "With reference to the background of the Maratha Empire, consider the following statements:<br>1. Shivaji was crowned as an independent sovereign in 1674.<br>2. He established an administrative council known as the Ashtapradhan.<br>3. Shivaji's military strategy relied primarily on large-scale conventional warfare rather than guerrilla tactics.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "Shivaji was crowned Chhatrapati in 1674 and set up the Ashtapradhan, a council of eight ministers, for administration. He is well known for employing guerrilla warfare tactics (ganimi kava) against larger and better-equipped forces, not conventional large-scale warfare."
+},
+{
+    question: "Which of the following was a direct consequence of the Mountbatten Plan of 1947?",
+    options: [
+        "The enactment of the Indian Independence Act, 1947, by the British Parliament",
+        "The immediate merger of all princely states into the Indian Union without any options",
+        "The establishment of a single unified dominion comprising India and Pakistan",
+        "The abolition of the post of Governor-General in both India and Pakistan"
+    ],
+    answer: 0,
+    explanation: "The Mountbatten Plan led directly to the passage of the Indian Independence Act, 1947, by the British Parliament, which provided for the creation of two separate dominions of India and Pakistan. Princely states were given a choice of accession, not forced merger, and the post of Governor-General was retained in both dominions initially."
+},
+{
+    question: "With reference to the aftermath of the Khilafat Movement, consider the following statements:<br>1. The movement was withdrawn after the Chauri Chaura incident along with the Non-Cooperation Movement.<br>2. The Moplah Rebellion in Malabar occurred in the context of the Khilafat agitation.<br>3. The withdrawal of the movement led to improved Hindu-Muslim unity in subsequent years.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "The Khilafat Movement was withdrawn along with the Non-Cooperation Movement after the Chauri Chaura incident in 1922, and the Moplah Rebellion of 1921 in Malabar occurred amid Khilafat-related agitation. Contrary to expectations, the collapse of the movement was followed by a deterioration in Hindu-Muslim relations, not improved unity."
+},
+{
+    question: "The Maratha Empire had which of the following impacts on Indian history?<br>1. It checked the expansion of Mughal authority in the Deccan.<br>2. It evolved into a confederacy under the leadership of the Peshwas.<br>3. It successfully established uncontested paramountcy over the whole of India before the arrival of the British.<br>Select the correct answer using the code below:",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 0,
+    explanation: "The Marathas effectively challenged and checked Mughal expansion in the Deccan and later evolved into a confederacy of chiefs (Scindia, Holkar, Gaekwad, Bhonsle) under the nominal leadership of the Peshwa. However, they never established uncontested paramountcy over all of India, facing significant setbacks such as the Third Battle of Panipat (1761)."
+},
+{
+    question: "With reference to the decline of the Simon Commission's credibility in India, consider the following statements:<br>1. It was opposed mainly because it did not include any Indian member.<br>2. Its boycott was met with the slogan 'Simon go back'.<br>3. Its rejection directly led to the formulation of the Nehru Report.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 3,
+    explanation: "The Simon Commission (1927) was boycotted because it had no Indian members, with protesters raising the slogan 'Simon go back'. Its rejection prompted Indian political parties to draft their own constitutional blueprint, resulting in the Nehru Report of 1928."
+},
+{
+    question: "With reference to the background of the Anglo-Maratha Wars, consider the following statements:<br>1. The Treaty of Bassein (1802) was signed between the British and Peshwa Baji Rao II.<br>2. There were three Anglo-Maratha Wars fought between the British and the Marathas.<br>3. The Third Anglo-Maratha War resulted in the complete end of Maratha power and the Peshwaship.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 3,
+    explanation: "The Treaty of Bassein (1802) was signed by Peshwa Baji Rao II, accepting British subsidiary alliance, and there were three Anglo-Maratha Wars fought over roughly six decades. The Third Anglo-Maratha War (1817-1818) led to the final defeat of the Marathas and the abolition of the Peshwaship."
+},
+{
+    question: "The Fourth Anglo-Mysore War (1799) is significant in Indian history primarily because it:",
+    options: [
+        "Resulted in the death of Tipu Sultan and the establishment of firm British supremacy in South India",
+        "Led to the signing of the Treaty of Seringapatam, ending Mysore's independent existence peacefully",
+        "Marked the first military engagement between the British and Haidar Ali",
+        "Resulted in Mysore being annexed directly under the Doctrine of Lapse"
+    ],
+    answer: 0,
+    explanation: "The Fourth Anglo-Mysore War ended with Tipu Sultan's death defending Seringapatam in 1799, firmly establishing British dominance in South India. The Treaty of Seringapatam actually followed the Third Anglo-Mysore War (1792), and the Doctrine of Lapse was a much later policy unrelated to Mysore's annexation."
+},
+{
+    question: "Which of the following best describes the relationship between the Cripps Mission and the Quit India Movement?",
+    options: [
+        "The failure of the Cripps Mission to satisfy Indian political demands contributed to the launch of the Quit India Movement",
+        "The Quit India Movement was launched before the Cripps Mission arrived in India",
+        "The Cripps Mission was a direct outcome of the Quit India Movement",
+        "The Quit India Movement led the British to send the Cripps Mission to India"
+    ],
+    answer: 0,
+    explanation: "The Cripps Mission (March-April 1942) failed to satisfy Congress's demand for genuine self-government, deepening Indian frustration with British intentions during the war. This failure was a major factor leading the Congress to launch the Quit India Movement in August 1942."
+}
+];
+// ────────────────────────────────────────────────────────────────── Render quiz ────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const quiz = document.getElementById("quiz");
+
+questions.forEach((q, index) => {
+  let html = `<div class="question">
+  <p><b>Q${index + 1}.</b> ${q.question}</p>`;
+
+  q.options.forEach((opt, i) => {
+    html += `<label class="option">
+      <input type="radio" name="q${index}" value="${i}">
+      ${String.fromCharCode(65 + i)}. ${opt}
+    </label>`;
+  });
+
+  html += `<div class="explanation" id="exp${index}"></div></div>`;
+  quiz.innerHTML += html;
+});
+
+// ── Submit ─────────────────────────────────────────────────────────────────────
+let submitted = false;
+
+function submitQuiz() {
+  if (submitted) return;
+  submitted = true;
+  clearInterval(countdown);
+
+  const correctMarks = 2;
+  const negativeMarks = 2 / 3;
+  let score = 0;
+
+  questions.forEach((q, index) => {
+    const radios = document.getElementsByName("q" + index);
+    let selected = -1;
+    radios.forEach(r => { if (r.checked) selected = parseInt(r.value); r.disabled = true; });
+
+    radios.forEach(r => {
+      const label = r.parentElement;
+      const value = parseInt(r.value);
+      if (value === q.answer) label.classList.add("correct");
+      if (value === selected && value !== q.answer) label.classList.add("wrong");
+      if (value === selected) label.classList.add("user-selected");
+    });
+
+    if (selected === q.answer) score += correctMarks;
+    else if (selected !== -1) score -= negativeMarks;
+
+    const exp = document.getElementById("exp" + index);
+    exp.style.display = "block";
+    exp.innerHTML = "<b>Correct Answer:</b> " + String.fromCharCode(65 + q.answer) +
+      "<br><br><b>Explanation:</b> " + q.explanation;
+  });
+
+  const maxScore = questions.length * correctMarks;
+  const percentage = (score / maxScore) * 100;
+
+  document.getElementById("score").innerHTML =
+    "Score: <b>" + score.toFixed(2) + " / " + maxScore.toFixed(2) + "</b>" +
+    "&nbsp;&nbsp;|&nbsp;&nbsp;Percentage: <b>" + percentage.toFixed(2) + "%</b>";
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// ── Timer ──────────────────────────────────────────────────────────────────────
+let totalSeconds = 1800;
+
+function updateTimers(text, urgent) {
+  ["timerDesktop", "timerMobile"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.textContent = text;
+      el.style.background = urgent ? "#c62828" : "var(--timer-bg)";
+    }
+  });
+}
+
+const countdown = setInterval(() => {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  const text = String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+
+  updateTimers(text, totalSeconds <= 60);
+
+  if (totalSeconds === 0) {
+    updateTimers("Time Up!", true);
+    submitQuiz();
+  }
+  totalSeconds--;
+}, 1000);
+
+</script>
+</body>
+</html>
