@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC LoG - Prelims Booster</title>
+<style>
+
+:root {
+  --bg: #f5f5f5;
+  --surface: #ffffff;
+  --text: #1a1a1a;
+  --text-secondary: #555;
+  --border: #ddd;
+  --option-hover: #f0f0f0;
+  --correct: #b7f7b7;
+  --correct-text: #145214;
+  --wrong: #ffb6b6;
+  --wrong-text: #6b0000;
+  --exp-bg: #eef;
+  --exp-text: #1a1a2e;
+  --timer-bg: #222;
+  --timer-text: #fff;
+  --btn-bg: #1a1a2e;
+  --btn-text: #fff;
+  --btn-hover: #2e2e50;
+  --shadow: rgba(0,0,0,0.1);
+  --track: #ccc;
+  --thumb: #1a1a2e;
+  --toggle-bg: #ccc;
+  --toggle-knob: #fff;
+  --toggle-active: #4a6fa5;
+}
+
+[data-theme="dark"] {
+  --bg: #12121e;
+  --surface: #1e1e30;
+  --text: #e8e8f0;
+  --text-secondary: #aaa;
+  --border: #333;
+  --option-hover: #2a2a40;
+  --correct: #1a4d1a;
+  --correct-text: #7ef07e;
+  --wrong: #4d1a1a;
+  --wrong-text: #f07e7e;
+  --exp-bg: #1a1a35;
+  --exp-text: #c8c8e8;
+  --timer-bg: #0d0d1a;
+  --timer-text: #e8e8f0;
+  --btn-bg: #4a6fa5;
+  --btn-hover: #5a80b8;
+  --btn-text: #fff;
+  --shadow: rgba(0,0,0,0.4);
+  --track: #444;
+  --thumb: #4a6fa5;
+  --toggle-bg: #444;
+  --toggle-knob: #fff;
+  --toggle-active: #4a6fa5;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 30px;
+  transition: background 0.25s, color 0.25s;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  background: var(--surface);
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px var(--shadow);
+  transition: background 0.25s, box-shadow 0.25s;
+}
+
+h1 { text-align: center; color: var(--text); }
+h2 { text-align: center; color: var(--text); }
+
+ul { color: var(--text-secondary); }
+ul a { color: #4a6fa5; }
+
+.question {
+  border: 1px solid var(--border);
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  transition: border-color 0.25s;
+}
+
+.question h3 {
+  margin-top: 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.option {
+  display: block;
+  margin: 8px 0;
+  padding: 10px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+  color: var(--text);
+}
+
+.option:hover {
+  background: var(--option-hover);
+  border-color: var(--border);
+}
+
+.correct {
+  background: var(--correct) !important;
+  color: var(--correct-text) !important;
+  border-color: transparent !important;
+}
+
+.wrong {
+  background: var(--wrong) !important;
+  color: var(--wrong-text) !important;
+  border-color: transparent !important;
+}
+
+/* orange outline = what the user actually selected */
+.user-selected {
+  outline: 3px solid #f97316 !important;
+  outline-offset: -2px;
+  border-radius: 6px;
+}
+
+.explanation {
+  display: none;
+  margin-top: 15px;
+  background: var(--exp-bg);
+  color: var(--exp-text);
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.6;
+  border-left: 3px solid #4a6fa5;
+}
+
+button.submit-btn {
+  display: block;
+  padding: 12px 32px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 24px;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border: none;
+  border-radius: 8px;
+  transition: background 0.2s, transform 0.1s;
+}
+
+button.submit-btn:hover { background: var(--btn-hover); }
+button.submit-btn:active { transform: scale(0.98); }
+
+#score {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 20px 0;
+  padding: 16px;
+  border-radius: 8px;
+  background: var(--exp-bg);
+  color: var(--exp-text);
+}
+
+/* ── Timer ── */
+#timer {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--timer-bg);
+  color: var(--timer-text);
+  padding: 12px 20px;
+  font-size: 22px;
+  border-radius: 8px;
+  font-weight: bold;
+  box-shadow: 0 2px 10px var(--shadow);
+  transition: background 0.25s, color 0.25s;
+  z-index: 100;
+}
+
+/* ── Dark mode toggle ── */
+.theme-toggle {
+  position: fixed;
+  top: 74px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  padding: 6px 12px;
+  box-shadow: 0 2px 8px var(--shadow);
+  z-index: 100;
+  cursor: pointer;
+  transition: background 0.25s, border-color 0.25s;
+  user-select: none;
+}
+
+.theme-toggle .icon {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.toggle-track {
+  width: 36px;
+  height: 20px;
+  background: var(--toggle-bg);
+  border-radius: 999px;
+  position: relative;
+  transition: background 0.25s;
+  flex-shrink: 0;
+}
+
+[data-theme="dark"] .toggle-track {
+  background: var(--toggle-active);
+}
+
+.toggle-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+  background: var(--toggle-knob);
+  border-radius: 50%;
+  transition: transform 0.25s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+[data-theme="dark"] .toggle-knob {
+  transform: translateX(16px);
+}
+
+/* ── Mobile ── */
+@media (max-width: 700px) {
+  body { margin: 10px; }
+
+  #timer {
+    position: static;
+    width: fit-content;
+    margin: 0 auto 12px;
+    display: block;
+    text-align: center;
+  }
+
+  .theme-toggle {
+    position: static;
+    width: fit-content;
+    margin: 0 auto 16px;
+  }
+
+  .mobile-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .mobile-bar #timer,
+  .mobile-bar .theme-toggle {
+    position: static;
+    margin: 0;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<!-- Mobile: group timer + toggle -->
+<div class="mobile-bar" id="mobileBar" style="display:none;">
+  <div id="timerMobile" style="background:var(--timer-bg);color:var(--timer-text);padding:10px 18px;font-size:20px;border-radius:8px;font-weight:bold;box-shadow:0 2px 10px var(--shadow);">30:00</div>
+  <div class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode" role="button">
+    <span class="icon" id="iconM">☀️</span>
+    <div class="toggle-track"><div class="toggle-knob"></div></div>
+    <span class="icon" id="iconM2">🌙</span>
+  </div>
+</div>
+
+<!-- Desktop: fixed position -->
+<div id="timerDesktop" class="timer-desktop" style="position:fixed;top:20px;right:20px;background:var(--timer-bg);color:var(--timer-text);padding:12px 20px;font-size:22px;border-radius:8px;font-weight:bold;box-shadow:0 2px 10px var(--shadow);z-index:100;transition:background 0.25s,color 0.25s;">30:00</div>
+
+<div class="theme-toggle" id="toggleDesktop" onclick="toggleTheme()" aria-label="Toggle dark mode" role="button" style="position:fixed;top:74px;right:20px;">
+  <span class="icon">☀️</span>
+  <div class="toggle-track"><div class="toggle-knob"></div></div>
+  <span class="icon">🌙</span>
+</div>
+
+<div class="container">
+  <h1>
+    <a href="https://upsclog.github.io/upsclog/" target="_blank" style="color: black; background-color: #C4A484; border-radius: 8px; padding: 4px 12px; text-decoration: none; display: inline-block;">
+      <img src="../logo.png" alt="." style="height: 1.5em; vertical-align: middle; margin-right: 8px;">
+      UPSC LoG
+    </a>
+    — Prelims Booster 2027
+  </h1>
+  <h2>Miscellaneous Test CODE-2027-13</h2>
+  <p>
+    <b>Instructions</b>
+    <ul>
+      <li>25 UPSC CSE Thematic Test Series (with explanations)</li>
+      <li><b>Correct = 2.0 &nbsp;|&nbsp; Incorrect = −0.67</b></li>
+      <li><b><i>30-minute timer</i></b></li>
+      <li>Join <a href="https://t.me/upsclog" target="_blank">UPSC LoG Telegram ↗</a></li>
+    </ul>
+  </p>
+
+  <div id="score"></div>
+  <div id="quiz"></div>
+  <button class="submit-btn" onclick="submitQuiz()">Submit</button>
+</div>
+
+<script>
+
+// ── Theme ──────────────────────────────────────────────────────────────────────
+function toggleTheme() {
+  const html = document.documentElement;
+  const next = html.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  html.setAttribute("data-theme", next);
+  localStorage.setItem("upsc-theme", next);
+}
+
+(function () {
+  const saved = localStorage.getItem("upsc-theme");
+  if (saved) document.documentElement.setAttribute("data-theme", saved);
+})();
+
+// ── Responsive bar ─────────────────────────────────────────────────────────────
+function applyLayout() {
+  const mobile = window.innerWidth <= 700;
+  document.getElementById("mobileBar").style.display = mobile ? "flex" : "none";
+  document.getElementById("timerDesktop").style.display = mobile ? "none" : "block";
+  document.getElementById("toggleDesktop").style.display = mobile ? "none" : "flex";
+}
+applyLayout();
+window.addEventListener("resize", applyLayout);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ───────────────────────────────────────────────────────────────── Questions ──────────────────────────────────────────────────────────────────
+const questions = [
+{
+    topic: "Introduction to Rajya Sabha",
+    question: "With reference to the Rajya Sabha, consider the following statements: <br>1. The Rajya Sabha cannot be dissolved and is a permanent House of the Parliament.<br>2. Members of the Rajya Sabha are elected directly by the people through universal adult suffrage.<br>3. The Vice President of India is the ex-officio Chairman of the Rajya Sabha.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 2,
+    explanation: "The Rajya Sabha is a permanent body not subject to dissolution, and the Vice President serves as its ex-officio Chairman under Article 64. However, its members are not directly elected by the people; they are elected indirectly by the elected members of State Legislative Assemblies through the system of proportional representation by means of a single transferable vote."
+},
+{
+    topic: "Definition of Budget in Parliament",
+    question: "With reference to the Budget in the Indian Parliament, consider the following statements: <br>1. The term 'Budget' has not been used in the Constitution of India; it is officially referred to as the 'Annual Financial Statement' under Article 112.<br>2. The Budget must distinguish expenditure on revenue account from other expenditure.<br>3. The Railway Budget continues to be presented separately from the Union Budget every year.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1, 2 and 3",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 only"
+    ],
+    answer: 1,
+    explanation: "Article 112 requires the Annual Financial Statement to distinguish revenue expenditure from other expenditure, and the word 'Budget' does not appear in the Constitution. However, the separate Railway Budget was merged with the Union Budget starting 2017-18, so statement 3 is incorrect."
+},
+{
+    topic: "Policies of Iron and Steel Industry",
+    question: "With reference to India's iron and steel industry, consider the following statements: <br>1. India is currently the world's largest producer of crude steel.<br>2. The National Steel Policy, 2017 envisages raising per capita steel consumption to about 160 kg by 2030-31.<br>3. The Industrial Policy Resolution of 1956 placed the iron and steel industry in the category reserved predominantly for the public sector.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "1, 2 and 3",
+        "2 and 3 only",
+        "1 and 3 only"
+    ],
+    answer: 2,
+    explanation: "The National Steel Policy 2017 targets raising per capita consumption to 160 kg, and the IPR 1956 placed iron and steel under Schedule A, reserved mainly for the public sector. India is the world's second-largest crude steel producer, behind China, not the largest."
+},
+{
+    topic: "Development of Commercial Banks",
+    question: "With reference to the development of commercial banking in India, consider the following statements: <br>1. Commercial banks were nationalized in two phases, in 1969 and 1980.<br>2. The Imperial Bank of India was converted into the State Bank of India in 1955.<br>3. The Narasimham Committee (1991) recommended further nationalization of private banks to boost financial inclusion.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1, 2 and 3",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1 and 3 only"
+    ],
+    answer: 2,
+    explanation: "Fourteen banks were nationalized in 1969 and six more in 1980, and the Imperial Bank of India became the State Bank of India under the SBI Act, 1955. The Narasimham Committee actually recommended reducing government control, allowing entry of new private banks, and greater banking autonomy, not further nationalization."
+},
+{
+    topic: "Introduction to Lord Wellesley",
+    question: "With reference to Lord Wellesley and the Subsidiary Alliance System, consider the following statements: <br>1. Lord Wellesley introduced the Subsidiary Alliance System in India.<br>2. Under this system, the allied Indian ruler had to maintain a British armed contingent within his territory and bear its cost.<br>3. The first Indian state to accept the Subsidiary Alliance was Awadh (Oudh).<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 3 only",
+        "1, 2 and 3",
+        "1 and 2 only",
+        "2 and 3 only"
+    ],
+    answer: 2,
+    explanation: "Lord Wellesley devised the Subsidiary Alliance under which allied rulers hosted and paid for British troops, effectively surrendering control over defence and foreign policy. The first state to accept this system was the Nizam of Hyderabad in 1798, not Awadh, which acceded only in 1801."
+},
+{
+    topic: "Structure of Wetlands, Mangroves, & Coral Reefs",
+    question: "With reference to coastal ecosystems, consider the following statements: <br>1. Mangroves thrive in saline, intertidal zones of tropical and subtropical coastlines.<br>2. Coral reefs are formed from calcium carbonate secreted by coral polyps and thrive best in warm, clear, shallow waters.<br>3. The Ramsar Convention is an international treaty specifically meant for the conservation of coral reefs.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1, 2 and 3",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1 and 3 only"
+    ],
+    answer: 2,
+    explanation: "Mangroves are salt-tolerant plants of intertidal zones, and coral reefs are built by calcium carbonate skeletons of polyps in warm shallow seas. The Ramsar Convention is an intergovernmental treaty for the conservation of wetlands generally, not specifically coral reefs."
+},
+{
+    topic: "Expansion of East Flowing Rivers",
+    question: "With reference to the east-flowing rivers of Peninsular India, consider the following statements: <br>1. The Mahanadi, Godavari, Krishna, and Kaveri drain into the Bay of Bengal.<br>2. These rivers form estuaries at their mouths due to a funnel-shaped structure created by tidal action.<br>3. The Narmada and Tapi are exceptions among Peninsular rivers as they flow through rift valleys into the Arabian Sea.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3",
+        "1 and 3 only"
+    ],
+    answer: 3,
+    explanation: "The Mahanadi, Godavari, Krishna, and Kaveri drain eastward into the Bay of Bengal, forming deltas due to heavy silt deposition, while the Narmada and Tapi flow westward through rift valleys into the Arabian Sea, forming estuaries. It is the west-flowing rivers, not the east-flowing ones, that form estuaries."
+},
+{
+    topic: "Types of Ryotwari System",
+    question: "With reference to the Ryotwari System of land revenue introduced by the British, consider the following statements: <br>1. It was mainly introduced in the Bombay and Madras Presidencies.<br>2. The land revenue settlement was made directly between the government and the individual cultivator.<br>3. It recognized the zamindar as the owner of land, who collected revenue from the peasants.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 3 only",
+        "1, 2 and 3",
+        "2 and 3 only",
+        "1 and 2 only"
+    ],
+    answer: 3,
+    explanation: "The Ryotwari System, introduced by Thomas Munro and Alexander Read mainly in the Madras and Bombay Presidencies, involved a direct settlement between the state and the individual cultivator (ryot). Recognizing the zamindar as landowner was a feature of the Permanent (Zamindari) Settlement, not the Ryotwari System."
+},
+{
+    topic: "Composition of Structure of Atmosphere",
+    question: "With reference to the composition and structure of the atmosphere, consider the following statements: <br>1. Nitrogen and oxygen together constitute about 99% of the total volume of dry air.<br>2. The ozone layer, which absorbs ultraviolet radiation, is located in the stratosphere.<br>3. The troposphere is characterized by an increase in temperature with increasing altitude.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1, 2 and 3",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1 and 3 only"
+    ],
+    answer: 2,
+    explanation: "Nitrogen (~78%) and oxygen (~21%) together make up about 99% of dry air, and the ozone layer lies within the stratosphere. However, temperature decreases with altitude in the troposphere due to the normal lapse rate, rather than increasing."
+},
+{
+    topic: "Institutions related to Rock Cycle",
+    question: "With reference to the rock cycle, consider the following statements: <br>1. Igneous rocks are formed directly from the cooling and solidification of magma or lava.<br>2. Sedimentary rocks can be transformed into metamorphic rocks through heat and pressure without undergoing melting.<br>3. Igneous rocks cannot undergo weathering and erosion to form sedimentary rocks.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 3 only",
+        "1, 2 and 3",
+        "2 and 3 only",
+        "1 and 2 only"
+    ],
+    answer: 3,
+    explanation: "Igneous rocks form from solidifying magma or lava, and metamorphism converts existing rocks under heat and pressure without melting them. However, igneous rocks, like other rocks, are indeed subject to weathering and erosion, which produces sediments that later form sedimentary rocks, making the third statement incorrect."
+},
+{
+    topic: "Parts of Continental Drift Theory",
+    question: "With reference to Alfred Wegener's Continental Drift Theory, consider the following statements: <br>1. Wegener proposed that all continents were once joined in a single landmass called Pangaea.<br>2. According to Wegener, Pangaea broke into Laurasia in the north and Gondwanaland in the south.<br>3. Wegener's theory was based on the concept of seafloor spreading driven by mantle convection currents.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1, 2 and 3",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only"
+    ],
+    answer: 3,
+    explanation: "Wegener proposed that the supercontinent Pangaea split into Laurasia and Gondwanaland, which then drifted apart to form the present continents. The concept of seafloor spreading was developed later by Harry Hess in the 1960s and was not part of Wegener's original theory, which lacked a convincing mechanism for drift."
+},
+{
+    topic: "Components of Regional Trade Agreements",
+    question: "With reference to Regional Trade Agreements, consider the following statements: <br>1. In a Free Trade Agreement, member countries eliminate tariffs among themselves but retain independent external tariffs against non-members.<br>2. In a Customs Union, member countries adopt a common external tariff against non-members in addition to free trade among themselves.<br>3. India is a member of the European Union's Customs Union.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1, 2 and 3",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1 and 3 only"
+    ],
+    answer: 2,
+    explanation: "A Free Trade Agreement removes internal tariffs while allowing independent external tariffs, whereas a Customs Union adds a common external tariff on top of internal free trade. India is not a member of the European Union or its Customs Union."
+},
+{
+    topic: "Elements of Payment Banks",
+    question: "With reference to Payments Banks in India, consider the following statements: <br>1. They are permitted to accept demand deposits but cannot issue loans or credit cards.<br>2. They can issue ATM/debit cards but not credit cards.<br>3. They are required to invest a minimum of 75% of their demand deposit balances in Statutory Liquidity Ratio eligible government securities/treasury bills.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 3,
+    explanation: "Payments Banks can accept deposits and issue debit cards but are barred from lending or issuing credit cards, and RBI mandates that at least 75% of their demand deposits be held in SLR-eligible government securities or treasury bills, with the remainder held as deposits with other scheduled commercial banks. All three statements accurately describe their regulatory framework."
+},
+{
+    topic: "Elements of British East India Company",
+    question: "With reference to the British East India Company, consider the following statements: <br>1. It was established under a Royal Charter granted by Queen Elizabeth I in 1600.<br>2. The Regulating Act of 1773 was the first attempt by the British Parliament to regulate the Company's affairs in India.<br>3. The Company's trade monopoly with India was completely abolished by the Charter Act of 1813.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1, 2 and 3",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1 and 3 only"
+    ],
+    answer: 2,
+    explanation: "The Company was chartered in 1600, and the Regulating Act of 1773 marked Parliament's first attempt to regulate its affairs. However, the Charter Act of 1813 ended the Company's monopoly over trade with India while it retained its monopoly over trade in tea and with China, which was ended only by the Charter Act of 1833."
+},
+{
+    topic: "History of PM-KISAN Scheme",
+    question: "With reference to the PM-KISAN scheme, consider the following statements: <br>1. It provides income support of ₹6,000 per year to landholding farmer families, payable in three equal installments.<br>2. It is implemented as a Centrally Sponsored Scheme with the cost shared between the Centre and the States.<br>3. The entire financial liability under the scheme is borne by the Central Government.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "1, 2 and 3",
+        "2 and 3 only",
+        "1 and 3 only"
+    ],
+    answer: 3,
+    explanation: "PM-KISAN provides ₹6,000 per year in three equal installments to eligible farmer families, and it is a Central Sector Scheme fully funded by the Union Government, not a Centrally Sponsored Scheme requiring state contribution."
+},
+{
+    topic: "Categories of Commercial Banks",
+    question: "With reference to commercial banks in India, consider the following statements: <br>1. Commercial banks are broadly categorized into Public Sector Banks, Private Sector Banks, Foreign Banks, and Regional Rural Banks.<br>2. Regional Rural Banks were established under the RRB Act of 1976 to provide credit to the rural and agricultural sectors.<br>3. The concept of Small Finance Banks was first recommended by the Narasimham Committee.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1, 2 and 3",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1 and 3 only"
+    ],
+    answer: 2,
+    explanation: "Commercial banks in India are classified into public sector, private sector, foreign banks, and RRBs, and RRBs were set up under the RRB Act, 1976 to extend rural credit. Small Finance Banks were recommended by the Nachiket Mor Committee (2014), not the Narasimham Committee."
+},
+{
+    topic: "Origin of Financial Emergency",
+    question: "With reference to Financial Emergency under the Indian Constitution, consider the following statements: <br>1. Article 360 deals with the proclamation of Financial Emergency.<br>2. It can be proclaimed if the President is satisfied that the financial stability or credit of India or any part of its territory is threatened.<br>3. Once approved by Parliament, a Proclamation of Financial Emergency continues indefinitely until revoked, without requiring periodic parliamentary re-approval.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 3,
+    explanation: "Article 360 empowers the President to declare a Financial Emergency when the financial stability or credit of India is threatened. Unlike a National Emergency under Article 352, which needs parliamentary approval every six months, a Financial Emergency, once approved, continues indefinitely until revoked, and this provision has never actually been invoked in India."
+},
+{
+    topic: "Highlights of Reservation in India",
+    question: "With reference to reservation policy in India, consider the following statements: <br>1. The 103rd Constitutional Amendment Act, 2019 provides for 10% reservation for Economically Weaker Sections in education and public employment.<br>2. The Indra Sawhney judgment (1992) upheld a 50% ceiling on total reservations.<br>3. Reservation of seats for Scheduled Castes and Scheduled Tribes is provided under Articles 330 and 332 for the Lok Sabha and State Legislative Assemblies respectively.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 3,
+    explanation: "The 103rd Amendment introduced EWS reservation via Articles 15(6) and 16(6), the Indra Sawhney case capped total reservations at 50% (with exceptions in extraordinary circumstances), and Articles 330 and 332 reserve seats for SCs/STs in the Lok Sabha and State Assemblies respectively. All three statements are factually accurate."
+},
+{
+    topic: "Nature of Regulating Act 1773",
+    question: "With reference to the Regulating Act of 1773, consider the following statements: <br>1. It created the post of Governor-General of Bengal, assisted by a Council of four members.<br>2. It provided for the establishment of a Supreme Court at Calcutta comprising a Chief Justice and three other judges.<br>3. It ended the dual system of government in Bengal that had existed since the grant of Diwani rights.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1, 2 and 3",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only"
+    ],
+    answer: 3,
+    explanation: "The Regulating Act of 1773 created the office of Governor-General with a four-member council and provided for a Supreme Court at Calcutta with a Chief Justice and three puisne judges. The dual system of government had already been abolished by Warren Hastings in 1772, a year before the Act was passed, so it cannot be credited to the Act."
+},
+{
+    topic: "Characteristics of Jahangir",
+    question: "With reference to the Mughal Emperor Jahangir, consider the following statements: <br>1. He installed a golden 'Chain of Justice' (Zanjir-i-Adl) to allow subjects to appeal directly to him for justice.<br>2. His autobiography is known as the 'Tuzuk-i-Jahangiri'.<br>3. He was responsible for the execution of the fifth Sikh Guru, Guru Arjan Dev.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 3,
+    explanation: "Jahangir is credited with the symbolic 'Chain of Justice', authored his memoirs titled 'Tuzuk-i-Jahangiri', and ordered the execution of Guru Arjan Dev in 1606. All three statements are historically accurate."
+},
+{
+    topic: "Key features of Lakes in India",
+    question: "With reference to major lakes of India, consider the following statements: <br>1. Wular Lake, the largest freshwater lake in India, is located in Jammu and Kashmir and is believed to be of tectonic origin.<br>2. Chilika Lake in Odisha is the largest brackish water lagoon in India.<br>3. Sambhar Lake in Rajasthan is a freshwater lake known for supporting rice cultivation.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1, 2 and 3",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only"
+    ],
+    answer: 3,
+    explanation: "Wular Lake is India's largest freshwater lake and believed to have a tectonic origin, while Chilika Lake is the largest brackish water lagoon in the country. Sambhar Lake, however, is a saline lake, the largest inland salt lake in India, historically used for salt production rather than rice cultivation."
+},
+{
+    topic: "Nature of Official Language",
+    question: "With reference to the official language of the Union, consider the following statements: <br>1. Article 343 of the Constitution declares Hindi in Devanagari script as the official language of the Union.<br>2. English was to continue as an associate official language for 15 years from the commencement of the Constitution, i.e., until 1965.<br>3. The Official Languages Act, 1963 provided for the continued use of English along with Hindi even after 1965.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 3,
+    explanation: "Article 343 designates Hindi in Devanagari script as the official language, with English permitted for 15 years until 1965 under the transitional provisions. The Official Languages Act, 1963 (later amended in 1967) ensured English continued alongside Hindi for official purposes beyond 1965, satisfying demands from non-Hindi-speaking states."
+},
+{
+    topic: "Schemes related to Budget in India",
+    question: "With reference to budgetary processes and reforms in India, consider the following statements: <br>1. The Fiscal Responsibility and Budget Management (FRBM) Act was enacted in 2003 to ensure fiscal discipline.<br>2. The Union Budget is presented in Parliament as the 'Annual Financial Statement' under Article 112 of the Constitution.<br>3. Gender Budgeting was first introduced in the Union Budget of 2001-02.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1, 2 and 3",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1 and 3 only"
+    ],
+    answer: 2,
+    explanation: "The FRBM Act, 2003 was enacted to promote fiscal discipline, and Article 112 mandates the presentation of the Annual Financial Statement in Parliament. However, Gender Budgeting was formally introduced in India through a separate Gender Budgeting Statement in the Union Budget of 2005-06, not 2001-02."
+},
+{
+    topic: "Highlights of Sikh Gurus",
+    question: "With reference to the Sikh Gurus, consider the following statements: <br>1. Guru Nanak Dev, the founder of Sikhism, was born in 1469 at Talwandi (now Nankana Sahib, Pakistan).<br>2. Guru Arjan Dev compiled the Adi Granth and installed it at the Harmandir Sahib (Golden Temple) in Amritsar.<br>3. Guru Gobind Singh, the tenth Guru, founded the Khalsa Panth in 1699 and later declared the Guru Granth Sahib as the eternal Guru of the Sikhs.<br>Which of the statements given above is/are correct?",
+    options: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    answer: 3,
+    explanation: "Guru Nanak was born in 1469 at Talwandi, Guru Arjan Dev compiled the Adi Granth and installed it at the Harmandir Sahib, and Guru Gobind Singh founded the Khalsa Panth in 1699 and declared the Guru Granth Sahib the eternal Guru shortly before his death in 1708. All three statements are historically accurate."
+}
+];
+// ────────────────────────────────────────────────────────────────── Render quiz ────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const quiz = document.getElementById("quiz");
+
+questions.forEach((q, index) => {
+  let html = `<div class="question">
+  <p><b>Q${index + 1}.</b> ${q.question}</p>`;
+
+  q.options.forEach((opt, i) => {
+    html += `<label class="option">
+      <input type="radio" name="q${index}" value="${i}">
+      ${String.fromCharCode(65 + i)}. ${opt}
+    </label>`;
+  });
+
+  html += `<div class="explanation" id="exp${index}"></div></div>`;
+  quiz.innerHTML += html;
+});
+
+// ── Submit ─────────────────────────────────────────────────────────────────────
+let submitted = false;
+
+function submitQuiz() {
+  if (submitted) return;
+  submitted = true;
+  clearInterval(countdown);
+
+  const correctMarks = 2;
+  const negativeMarks = 2 / 3;
+  let score = 0;
+
+  questions.forEach((q, index) => {
+    const radios = document.getElementsByName("q" + index);
+    let selected = -1;
+    radios.forEach(r => { if (r.checked) selected = parseInt(r.value); r.disabled = true; });
+
+    radios.forEach(r => {
+      const label = r.parentElement;
+      const value = parseInt(r.value);
+      if (value === q.answer) label.classList.add("correct");
+      if (value === selected && value !== q.answer) label.classList.add("wrong");
+      if (value === selected) label.classList.add("user-selected");
+    });
+
+    if (selected === q.answer) score += correctMarks;
+    else if (selected !== -1) score -= negativeMarks;
+
+    const exp = document.getElementById("exp" + index);
+    exp.style.display = "block";
+    exp.innerHTML = "<b>Correct Answer:</b> " + String.fromCharCode(65 + q.answer) +
+      "<br><br><b>Explanation:</b> " + q.explanation;
+  });
+
+  const maxScore = questions.length * correctMarks;
+  const percentage = (score / maxScore) * 100;
+
+  document.getElementById("score").innerHTML =
+    "Score: <b>" + score.toFixed(2) + " / " + maxScore.toFixed(2) + "</b>" +
+    "&nbsp;&nbsp;|&nbsp;&nbsp;Percentage: <b>" + percentage.toFixed(2) + "%</b>";
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// ── Timer ──────────────────────────────────────────────────────────────────────
+let totalSeconds = 1800;
+
+function updateTimers(text, urgent) {
+  ["timerDesktop", "timerMobile"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.textContent = text;
+      el.style.background = urgent ? "#c62828" : "var(--timer-bg)";
+    }
+  });
+}
+
+const countdown = setInterval(() => {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  const text = String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+
+  updateTimers(text, totalSeconds <= 60);
+
+  if (totalSeconds === 0) {
+    updateTimers("Time Up!", true);
+    submitQuiz();
+  }
+  totalSeconds--;
+}, 1000);
+
+</script>
+</body>
+</html>
