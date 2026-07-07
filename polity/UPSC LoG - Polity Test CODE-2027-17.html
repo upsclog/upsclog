@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC LoG — Prelims Booster</title>
+<style>
+  :root{
+    --bg: #F3F4F1;
+    --paper: #FFFFFF;
+    --ink: #1D2A35;
+    --ink-soft: #5B6873;
+    --rule: #D8DCD6;
+    --navy: #1B3A5C;
+    --navy-deep: #12283F;
+    --gold: #B8862E;
+    --gold-soft: #EFDFB8;
+    --answered: #2F7D5A;
+    --answered-bg: #E4F3EC;
+    --skipped: #B8862E;
+    --skipped-bg: #FBF1DE;
+    --current-ring: #1B3A5C;
+    --wrong: #B23A2E;
+    --wrong-bg: #FBEAE7;
+    --shadow: 0 1px 2px rgba(20,30,40,0.06), 0 6px 20px rgba(20,30,40,0.05);
+    --serif: Georgia, 'Times New Roman', 'Iowan Old Style', serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --mono: 'Courier New', ui-monospace, monospace;
+  }
+  [data-theme="dark"]{
+    --bg: #0F1A24;
+    --paper: #17232E;
+    --ink: #E7ECEF;
+    --ink-soft: #97A5AF;
+    --rule: #2A3846;
+    --navy: #3E6E9E;
+    --navy-deep: #2A4E70;
+    --gold: #D9A441;
+    --gold-soft: #3A3220;
+    --answered: #4CAF7D;
+    --answered-bg: #163227;
+    --skipped: #D9A441;
+    --skipped-bg: #332A16;
+    --current-ring: #D9A441;
+    --wrong: #E07A6C;
+    --wrong-bg: #3A1E1A;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    min-height:100vh;
+    transition:background .3s ease, color .3s ease;
+  }
+
+  /* ---------- Header ---------- */
+  header.topbar{
+    background:linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color:#F4F1EA;
+    padding:0;
+    box-shadow:var(--shadow);
+    position:sticky; top:0; z-index:50;
+  }
+  .topbar-inner{
+    max-width:1280px; margin:0 auto;
+    display:flex; align-items:center; gap:20px;
+    padding:14px 28px;
+  }
+  .logo-slot{
+    width:52px; height:52px;
+    border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    overflow:hidden;
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .logo-slot img{
+    width:100%; height:100%;
+    object-fit:contain;
+  }
+  .logo-slot:hover{border-color:rgba(244,241,234,0.75); color:#F4F1EA;}
+  .title-block{flex:1; min-width:0;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gold-soft, #D9A441);
+    opacity:0.85;
+  }
+  .title-block h1{
+    font-family:var(--serif);
+    font-size:22px;
+    font-weight:400;
+    margin:2px 0 0 0;
+    letter-spacing:0.01em;
+  }
+  .subnote{
+    font-family:var(--mono);
+    font-size:11px;
+    color:rgba(244,241,234,0.65);
+    margin-top:6px;
+    letter-spacing:0.02em;
+  }
+  .subnote a{color:var(--gold-soft); text-decoration:none;}
+  .subnote a:hover{text-decoration:underline;}
+  .topbar-right{
+    display:flex; align-items:center; gap:18px; flex-shrink:0;
+  }
+  .timer{
+    font-family:var(--mono);
+    font-size:13px;
+    color:#F4F1EA;
+    border:1px solid rgba(244,241,234,0.3);
+    padding:6px 12px;
+    border-radius:6px;
+    background:rgba(0,0,0,0.12);
+    transition:background .2s ease;
+  }
+  .timer.urgent{background:var(--wrong); border-color:var(--wrong);}
+
+  /* dark mode switch */
+  .mode-switch{
+    display:flex; align-items:center; gap:8px;
+    font-size:12px; color:rgba(244,241,234,0.85);
+  }
+  .switch{
+    position:relative; width:44px; height:24px;
+    background:rgba(244,241,234,0.2);
+    border-radius:20px; cursor:pointer;
+    border:1px solid rgba(244,241,234,0.35);
+    flex-shrink:0;
+  }
+  .switch .knob{
+    position:absolute; top:2px; left:2px;
+    width:18px; height:18px; border-radius:50%;
+    background:#F4F1EA;
+    transition:transform .25s ease;
+    box-shadow:0 1px 3px rgba(0,0,0,0.3);
+  }
+  [data-theme="dark"] .switch .knob{
+    transform:translateX(20px);
+    background:var(--gold);
+  }
+
+  /* ---------- Layout ---------- */
+  .layout{
+    max-width:1280px; margin:0 auto;
+    display:grid;
+    grid-template-columns:1fr 320px;
+    gap:23px;
+    padding:32px 28px 60px;
+    align-items:start;
+  }
+
+  /* ---------- Question paper ---------- */
+  .paper{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:36px 44px 32px;
+    min-height:520px;
+    display:flex;
+    flex-direction:column;
+  }
+  .paper-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    border-bottom:1px solid var(--rule);
+    padding-bottom:14px; margin-bottom:28px;
+  }
+  .q-index{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--ink-soft);
+    letter-spacing:0.04em;
+  }
+  .q-index b{color:var(--navy); font-size:15px;}
+  [data-theme="dark"] .q-index b{color:var(--gold);}
+  .q-status-tag{
+    font-family:var(--mono);
+    font-size:13.5px;
+    font-weight:800;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    padding:7px 16px;
+    border-radius:20px;
+    border:2px solid transparent;
+  }
+  .q-status-tag.answered{background:var(--answered-bg); color:var(--answered); border-color:var(--answered);}
+  .q-status-tag.unanswered{background:var(--skipped-bg); color:var(--skipped); border-color:var(--skipped);}
+
+  .q-text{
+    font-family:var(--serif);
+    font-size:19px;
+    line-height:1.5;
+    color:var(--ink);
+    margin:0 0 32px 0;
+  }
+
+  .options{
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .option{
+    display:flex; align-items:flex-start; gap:14px;
+    padding:18px 18px;
+    border:1px solid var(--rule);
+    border-radius:8px;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+    background:transparent;
+  }
+  .option:hover{border-color:var(--navy); background:rgba(27,58,92,0.04);}
+  [data-theme="dark"] .option:hover{background:rgba(217,164,65,0.06); border-color:var(--gold);}
+  .option.selected{
+    border-color:var(--navy);
+    background:rgba(27,58,92,0.07);
+  }
+  [data-theme="dark"] .option.selected{
+    border-color:var(--gold);
+    background:rgba(217,164,65,0.1);
+  }
+  .option .tag{
+    font-family:var(--mono);
+    font-size:13px;
+    font-weight:bold;
+    width:24px; height:24px;
+    border-radius:50%;
+    border:1.5px solid var(--rule);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    color:var(--ink-soft);
+  }
+  .option.selected .tag{
+    border-color:var(--navy);
+    background:var(--navy);
+    color:#fff;
+  }
+  [data-theme="dark"] .option.selected .tag{
+    border-color:var(--gold);
+    background:var(--gold);
+    color:#17232E;
+  }
+  .option .opt-text{
+    font-size:15.5px; line-height:1.5; padding-top:1px;
+  }
+  .option.locked{cursor:default;}
+  .option.correct{
+    border-color:var(--answered);
+    background:var(--answered-bg);
+  }
+  .option.correct .tag{
+    border-color:var(--answered);
+    background:var(--answered);
+    color:#fff;
+  }
+  .option.incorrect{
+    border-color:var(--wrong);
+    background:var(--wrong-bg);
+  }
+  .option.incorrect .tag{
+    border-color:var(--wrong);
+    background:var(--wrong);
+    color:#fff;
+  }
+  .option.locked:hover{background:inherit; border-color:inherit;}
+  .q-status-tag.correct{background:var(--answered-bg); color:var(--answered); border-color:var(--answered); box-shadow:0 0 0 1px var(--answered) inset;}
+  .q-status-tag.incorrect{background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong); box-shadow:0 0 0 1px var(--wrong) inset;}
+  .q-status-tag.review-unanswered{
+    background:var(--wrong-bg);
+    color:var(--wrong);
+    border-color:var(--wrong);
+    box-shadow:0 0 0 1px var(--wrong) inset;
+  }
+
+  /* ---------- Explanation (review mode) ---------- */
+  .explain-box{
+    margin-top:26px;
+    background:var(--gold-soft);
+    border:1px solid var(--gold);
+    border-radius:8px;
+    padding:16px 20px;
+    font-size:14px;
+    line-height:1.65;
+    color:var(--ink);
+  }
+  [data-theme="dark"] .explain-box{background:rgba(217,164,65,0.08);}
+  .explain-box b{color:var(--navy);}
+  [data-theme="dark"] .explain-box b{color:var(--gold);}
+  .explain-box .exp-label{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-bottom:8px;
+  }
+
+  .paper-foot{
+    display:flex; justify-content:space-between;
+    margin-top:32px; padding-top:20px;
+    border-top:1px solid var(--rule);
+  }
+  button{
+    font-family:var(--sans);
+    font-size:14px;
+    font-weight:600;
+    padding:11px 22px;
+    border-radius:7px;
+    border:1px solid var(--rule);
+    background:var(--paper);
+    color:var(--ink);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  button:hover:not(:disabled){border-color:var(--navy); color:var(--navy);}
+  [data-theme="dark"] button:hover:not(:disabled){border-color:var(--gold); color:var(--gold);}
+  button:disabled{opacity:0.35; cursor:not-allowed;}
+  button.primary{
+    background:var(--navy); color:#F4F1EA; border-color:var(--navy);
+  }
+  button.primary:hover{filter:brightness(1.1); color:#F4F1EA;}
+  button.clear{background:transparent; border-color:transparent; color:var(--ink-soft); font-weight:500;}
+  .nav-group{display:flex; gap:10px;}
+
+  /* ---------- Sidebar palette ---------- */
+  .sidebar{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:24px;
+    position:sticky;
+    top:96px;
+  }
+  .sidebar h2{
+    font-family:var(--serif);
+    font-size:16px;
+    font-weight:400;
+    margin:0 0 4px 0;
+    color:var(--ink);
+  }
+  .sidebar .sub{
+    font-size:12px; color:var(--ink-soft); margin-bottom:18px;
+  }
+  .legend{
+    display:flex; flex-direction:column; gap:8px;
+    margin-bottom:20px;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  .legend span{display:flex; align-items:center; gap:8px;}
+  .dot{width:10px; height:10px; border-radius:3px; flex-shrink:0;}
+  .dot.answered{background:var(--answered);}
+  .dot.unanswered{background:var(--rule); border:1px solid var(--ink-soft);}
+  .dot.current{background:transparent; border:2px solid var(--current-ring);}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:8px;
+    margin-bottom:22px;
+  }
+  .cell{
+    aspect-ratio:1;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono);
+    font-size:13px;
+    border-radius:6px;
+    border:1px solid var(--rule);
+    background:transparent;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .cell:hover{border-color:var(--navy);}
+  [data-theme="dark"] .cell:hover{border-color:var(--gold);}
+  .cell.answered{
+    background:var(--answered-bg); color:var(--answered); border-color:var(--answered);
+    font-weight:bold;
+  }
+  .cell.incorrect{
+    background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong);
+    font-weight:bold;
+  }
+  .cell.current{
+    outline:2px solid var(--current-ring); outline-offset:2px;
+  }
+
+  .tally{
+    padding-top:16px; border-top:1px solid var(--rule);
+    color:var(--ink-soft);
+  }
+  .tally-plain{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-plain > div{flex:1; text-align:left;}
+  .tally b{color:var(--ink); font-size:16px; display:block; font-family:var(--sans);}
+  .tally b.stat-correct{color:var(--answered);}
+  .tally b.stat-incorrect{color:var(--wrong);}
+  .tally b.stat-unattempted{color:var(--skipped);}
+
+  .marks-line{
+    text-align:center;
+    background:var(--gold-soft);
+    border:1.5px solid var(--gold);
+    border-radius:8px;
+    padding:12px 10px;
+    margin-bottom:14px;
+  }
+  [data-theme="dark"] .marks-line{background:rgba(217,164,65,0.12);}
+  .marks-line b{
+    font-size:26px; color:var(--navy); font-family:var(--serif); font-weight:700;
+  }
+  [data-theme="dark"] .marks-line b{color:var(--gold);}
+  .marks-line span{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-top:2px;
+  }
+  .tally-grid{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-grid > div{flex:1; text-align:left;}
+
+  .score-breakdown{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+    max-width:420px;
+    margin:24px auto 0;
+  }
+  .score-breakdown .stat{
+    border:1.5px solid var(--rule);
+    border-radius:10px;
+    padding:14px 10px;
+  }
+  .score-breakdown .stat b{
+    display:block; font-size:24px; font-family:var(--sans); margin-bottom:4px;
+  }
+  .score-breakdown .stat span{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft);
+  }
+  .score-breakdown .stat.correct{border-color:var(--answered); background:var(--answered-bg);}
+  .score-breakdown .stat.correct b{color:var(--answered);}
+  .score-breakdown .stat.incorrect{border-color:var(--wrong); background:var(--wrong-bg);}
+  .score-breakdown .stat.incorrect b{color:var(--wrong);}
+  .score-breakdown .stat.unattempted{border-color:var(--skipped); background:var(--skipped-bg);}
+  .score-breakdown .stat.unattempted b{color:var(--skipped);}
+
+  #submitBtn{width:100%; margin-top:20px;}
+
+  /* ---------- Result overlay ---------- */
+  .result-card{
+    background:var(--paper); border:1px solid var(--rule); border-radius:10px;
+    box-shadow:var(--shadow); padding:44px; text-align:center;
+  }
+  .result-card .score{
+    font-family:var(--serif); font-size:52px; color:var(--navy); margin:8px 0;
+  }
+  [data-theme="dark"] .result-card .score{color:var(--gold);}
+  .result-card .percent{
+    font-family:var(--mono); font-size:13px; color:var(--ink-soft);
+    letter-spacing:0.04em; margin-top:-4px;
+  }
+  .hidden{display:none !important;}
+  :root{
+    --desktop-width: 1440;
+}
+
+@media (max-width: 1439px){
+
+    body{
+        width: calc(var(--desktop-width) * 1px);
+
+        transform-origin: top left;
+
+        transform: scale(
+            calc(100vw / (var(--desktop-width) * 1px))
+        );
+
+        overflow-x: hidden;
+
+        min-height: calc(
+            100vh / (100vw / (var(--desktop-width) * 1px))
+        );
+    }
+
+}
+</style>
+</head>
+<body data-theme="light">
+
+<header class="topbar">
+  <div class="topbar-inner">
+
+    <!-- <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">UPSC<br>LOGO</a> -->
+    <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">
+  <img src="../logo.png" alt="UPSC LoG" style="width:100%; height:100%; object-fit:contain; border-radius:6px;">
+</a>
+    <div class="title-block">
+      <div class="eyebrow">UPSC LoG · Prelims Booster 2027</div>
+      <h1>Polity Test CODE-2027-17</h1>
+      <div class="subnote" style="font-size: 12px;">
+        <span id="qTotalNote">7</span> Questions · +2 Correct / −0.67 Incorrect ·
+        <a href="https://t.me/upsclog" target="_blank" rel="noopener"> Join UPSC-LoG Telegram ↗</a>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="timer" id="timer">30:00</div>
+      <div class="mode-switch">
+        <span>Light</span>
+        <div class="switch" id="themeSwitch" role="button" aria-label="Toggle dark mode">
+          <div class="knob"></div>
+        </div>
+        <span>Dark</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <div class="paper" id="paperView">
+    <div class="paper-head">
+      <div class="q-index">Question <b id="qNum">1</b> of <span id="qTotal">7</span></div>
+      <div class="q-status-tag unanswered" id="qStatusTag">Not Answered</div>
+    </div>
+
+    <p class="q-text" id="qText">Loading question…</p>
+
+    <div class="options" id="optionsList"></div>
+
+    <div class="explain-box hidden" id="explainBox">
+      <span class="exp-label">Explanation</span>
+      <div id="explainText"></div>
+    </div>
+
+    <div class="paper-foot">
+      <div class="nav-group">
+        <button id="prevBtn">← Previous</button>
+        <button class="clear" id="clearBtn">Clear response</button>
+      </div>
+      <button id="nextBtn" class="primary">Next →</button>
+    </div>
+  </div>
+
+  <div class="result-card hidden" id="resultView">
+    <div class="eyebrow" style="color:var(--ink-soft); letter-spacing:0.14em; font-family:var(--mono); font-size:11px; text-transform:uppercase;">Test Complete</div>
+    <div class="score" id="scoreText">0.00 / 14.00</div>
+    <div class="percent" id="scorePercent">0.00%</div>
+    <div class="score-breakdown" id="scoreBreakdown"></div>
+    <p style="color:var(--ink-soft); font-size:14px; margin:20px 0 24px;">You can review your answers and explanations using the palette on the right.</p>
+    <button class="primary" id="reviewBtn">Review Answers</button>
+  </div>
+
+  <aside class="sidebar">
+    <h2>* Explanations attached for each question after you submit the test<br><br></h2>
+    <h2>* Auto-Submission in 30 minutes</h2>
+    <h2>* Dark <-> Bright modes for ease</h2>
+    <div class="sub"></div>
+
+    <div class="legend">
+      <span><span class="dot answered"></span> Answered / Correct</span>
+      <span><span class="dot" style="background:var(--wrong);"></span> Incorrect</span>
+      <span><span class="dot unanswered"></span> Not answered</span>
+      <span><span class="dot current"></span> Currently viewing</span>
+    </div>
+
+    <div class="grid" id="paletteGrid"></div>
+
+    <div class="tally" id="tallyRow">
+      <div class="tally-plain">
+        <div><b id="answeredCount">0</b>Answered</div>
+        <div><b id="skippedCount">7</b>Remaining</div>
+      </div>
+    </div>
+
+    <button class="primary" id="submitBtn">Submit Test</button>
+  </aside>
+
+</div>
+
+<script>
+const QUESTIONS = [
+{
+    q: "With reference to the Lokpal Act, 2013, consider the following statements:<br>1. The Act provides for a Lokpal at the Centre and Lokayukta in the States.<br>2. The Chairperson of the Lokpal must necessarily be a former Chief Justice of India.<br>3. The Lokpal has jurisdiction over the Prime Minister, subject to certain safeguards.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The Lokpal Act, 2013 provides for a Lokpal at the Union level and Lokayuktas in the states, and gives Lokpal jurisdiction over the PM with safeguards regarding international relations, security, public order, atomic energy and space. The Chairperson need not necessarily be a former CJI; it can also be a former Supreme Court judge or an eminent person, making statement 2 incorrect."
+},
+{
+    q: "Consider the following statements regarding the discretionary powers of the Governor of a State:<br>1. Article 163 provides that the Governor shall act on the aid and advice of the Council of Ministers except in matters where the Constitution requires discretion.<br>2. Reserving a Bill for the consideration of the President under Article 200 is an example of the Governor's discretionary power.<br>3. The same person cannot be appointed Governor of two states simultaneously.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "Article 163 allows the Governor discretionary powers in specific constitutional matters, and reserving a bill under Article 200 is a recognised discretionary function. However, the same person can indeed be appointed as Governor of two or more states simultaneously, so statement 3 is incorrect."
+},
+{
+    q: "With reference to the Official Language provisions of the Indian Constitution, consider the following statements:<br>1. Hindi in Devanagari script is the official language of the Union.<br>2. The Constitution originally provided for the use of English for official purposes indefinitely.<br>3. Article 351 places a duty on the Union to promote the spread of Hindi.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "Article 343 declares Hindi in Devanagari script as the official language of the Union, and Article 351 directs the Union to promote the spread of Hindi. The Constitution originally allowed English for official purposes only for 15 years, not indefinitely; its continuation beyond that was enabled by the Official Languages Act, 1963, making statement 2 incorrect."
+},
+{
+    q: "With reference to the Supreme Court of India, consider the following statements:<br>1. The Supreme Court consists of the Chief Justice and such other judges as Parliament may by law prescribe.<br>2. The original jurisdiction of the Supreme Court extends to disputes between the Centre and the States.<br>3. The Supreme Court has no advisory jurisdiction under the Constitution.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "Article 124 allows Parliament to determine the number of judges, and Article 131 gives the Supreme Court original jurisdiction over Centre-State and inter-State disputes. Statement 3 is incorrect because Article 143 confers advisory jurisdiction on the Supreme Court, allowing the President to seek its opinion on questions of law or fact."
+},
+{
+    q: "With reference to Money Bills in the Indian Parliament, consider the following statements:<br>1. A Money Bill can be introduced only in the Lok Sabha.<br>2. The Rajya Sabha has the power to amend a Money Bill.<br>3. The decision of the Speaker of the Lok Sabha on whether a Bill is a Money Bill is final.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "As per Article 109, a Money Bill can be introduced only in the Lok Sabha, and the Speaker's certification of a Bill as a Money Bill is final and cannot be questioned in any court. The Rajya Sabha cannot amend a Money Bill; it can only recommend changes, which the Lok Sabha may accept or reject, making statement 2 incorrect."
+},
+{
+    q: "With reference to NITI Aayog and the erstwhile Planning Commission, consider the following statements:<br>1. Unlike the Planning Commission, NITI Aayog has no power to allocate funds to ministries or states.<br>2. The Governing Council of NITI Aayog includes all the Chief Ministers of States and Union Territories with legislatures.<br>3. Both NITI Aayog and the Planning Commission were constitutional bodies.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "NITI Aayog, unlike the Planning Commission, does not have the power of fund allocation and instead acts as a policy think tank, and its Governing Council includes all Chief Ministers. Neither body is a constitutional body; both were established through executive resolutions of the Union Cabinet, making statement 3 incorrect."
+},
+{
+    q: "With reference to the Fundamental Duties enshrined in the Indian Constitution, consider the following statements:<br>1. Fundamental Duties were added by the 42nd Constitutional Amendment Act, 1976.<br>2. Fundamental Duties are directly enforceable by courts of law.<br>3. Protecting and improving the natural environment is one of the Fundamental Duties.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 2 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The 42nd Amendment Act, 1976 added Part IV-A containing Fundamental Duties, one of which requires citizens to protect and improve the natural environment. Fundamental Duties are not directly enforceable through courts, unlike Fundamental Rights, making statement 2 incorrect."
+},
+{
+    q: "With reference to the Council of Ministers and the Cabinet in India, consider the following statements:<br>1. The Cabinet is a smaller body within the larger Council of Ministers, comprising top-ranking ministers.<br>2. The Council of Ministers is collectively responsible to the Rajya Sabha.<br>3. As per the 91st Constitutional Amendment Act, 2003, the total number of ministers, including the Prime Minister, cannot exceed 15% of the total strength of the Lok Sabha.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The Cabinet is indeed a smaller, more powerful body within the Council of Ministers, and the 91st Amendment Act, 2003 capped the size of ministries at 15% of Lok Sabha strength. Under Article 75(3), the Council of Ministers is collectively responsible to the Lok Sabha, not the Rajya Sabha, making statement 2 incorrect."
+},
+{
+    q: "Which one of the following is a constitutional body, unlike the others which are statutory bodies?",
+    opts: [
+        "National Human Rights Commission",
+        "Central Vigilance Commission",
+        "Finance Commission",
+        "Central Information Commission"
+    ],
+    ans: 2,
+    exp: "The Finance Commission is a constitutional body established under Article 280 of the Constitution. The National Human Rights Commission, Central Vigilance Commission, and Central Information Commission are all statutory bodies created through Acts of Parliament, not through direct constitutional provisions."
+},
+{
+    q: "With reference to Constitutional and Statutory bodies in India, consider the following statements:<br>1. A constitutional body derives its powers and existence directly from provisions of the Constitution.<br>2. A statutory body can be abolished or modified by a simple Act of Parliament, without a constitutional amendment.<br>3. The Election Commission of India is a statutory body created under Article 324.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "Constitutional bodies derive authority directly from the Constitution and require a constitutional amendment to alter, whereas statutory bodies, created by ordinary legislation, can be modified through a simple Act of Parliament. The Election Commission of India is itself a constitutional body established under Article 324, not a statutory one, making statement 3 incorrect."
+},
+{
+    q: "With reference to Tribunals in India, consider the following statements:<br>1. The Central Administrative Tribunal (CAT) was established under Article 323A of the Constitution.<br>2. The National Green Tribunal (NGT) was established directly under Article 323B of the Constitution.<br>3. The National Green Tribunal is a statutory body established under the National Green Tribunal Act, 2010.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "CAT was established under Article 323A, which specifically empowers Parliament to set up administrative tribunals, and NGT is a statutory body created through the National Green Tribunal Act, 2010, exercising special jurisdiction in environmental matters. Statement 2 is incorrect since the NGT was not established directly under Article 323B, which deals with tribunals for other specified matters like taxation and land reforms."
+},
+{
+    q: "With reference to the National Human Rights Commission (NHRC), consider the following statements:<br>1. It was established under the Protection of Human Rights Act, 1993.<br>2. Its Chairperson must necessarily be a retired Chief Justice of India.<br>3. It has, while inquiring into complaints, all the powers of a civil court trying a suit.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 2 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The NHRC was established under the Protection of Human Rights Act, 1993, and enjoys civil court-like powers such as summoning witnesses and examining evidence while inquiring into complaints. After the 2019 amendment, the Chairperson can be a retired Chief Justice of India or a retired Supreme Court judge, making statement 2 incorrect."
+},
+{
+    q: "With reference to the Union Legislature in India, consider the following statements:<br>1. The Rajya Sabha is a permanent body and is not subject to dissolution.<br>2. One-third of the members of the Rajya Sabha retire after every two years.<br>3. The normal term of the Lok Sabha is six years, unless dissolved earlier.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The Rajya Sabha is a permanent House not subject to dissolution, with one-third of its members retiring every two years as per a rotational system. The normal term of the Lok Sabha is five years, not six, unless dissolved earlier, making statement 3 incorrect."
+},
+{
+    q: "With reference to the Emergency provisions in the Indian Constitution, consider the following statements:<br>1. A National Emergency under Article 352 has been proclaimed three times so far.<br>2. Article 356 empowers the President to assume to himself the functions of the State Government.<br>3. A Financial Emergency under Article 360 has been imposed twice in India till date.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "National Emergency under Article 352 has been proclaimed three times (1962, 1971, and 1975), and Article 356 (President's Rule) allows the President to assume the functions of a state government upon failure of constitutional machinery. A Financial Emergency under Article 360 has never been imposed in India till date, making statement 3 incorrect."
+},
+{
+    q: "With reference to Money Bills and Financial Bills in India, consider the following statements:<br>1. A Money Bill deals exclusively with matters specified in Article 110 of the Constitution.<br>2. A Financial Bill may contain other provisions in addition to matters mentioned in Article 110.<br>3. Every Money Bill is a Financial Bill, but every Financial Bill need not be a Money Bill.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "A Money Bill deals exclusively with matters under Article 110, while a Financial Bill may include these matters along with other legislative provisions. Consequently, every Money Bill qualifies as a Financial Bill, but not every Financial Bill qualifies as a Money Bill, making all three statements correct."
+},
+{
+    q: "With reference to Lokpal and Lokayukta, consider the following statements:<br>1. Lokpal has jurisdiction over Union Ministers and Members of Parliament, subject to certain conditions.<br>2. Lokayuktas across states function under a single uniform Central law with identical powers everywhere.<br>3. The Lokpal Act, 2013 requires public servants to declare their assets and liabilities.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The Lokpal has jurisdiction over Union Ministers and MPs subject to specific safeguards, and the Lokpal Act, 2013 mandates asset and liability declarations by public servants. Lokayuktas are established through separate state legislations rather than a single uniform Central law, and their powers and structures vary across states, making statement 2 incorrect."
+},
+{
+    q: "With reference to Urban Local Bodies under the 74th Constitutional Amendment Act, 1992, consider the following statements:<br>1. The Amendment added Part IXA to the Constitution.<br>2. It provides for three types of municipalities: Nagar Panchayat, Municipal Council, and Municipal Corporation.<br>3. It made the constitution of District Planning Committees mandatory only for Municipal Corporations.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The 74th Amendment added Part IXA (Municipalities) to the Constitution and provided for three categories of municipalities based on the urban area's population and characteristics. District Planning Committees are meant to consolidate plans of both Panchayats and Municipalities in a district, not just Municipal Corporations, making statement 3 incorrect."
+},
+{
+    q: "With reference to the composition of the Supreme Court of India, consider the following statements:<br>1. A person must have been a judge of a High Court for at least five years to be eligible for appointment as a Supreme Court judge.<br>2. Alternatively, a person must have been an advocate of a High Court for at least ten years to be eligible.<br>3. The Constitution does not prescribe any age of retirement for Supreme Court judges.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "Article 124(3) prescribes that a person must have been a High Court judge for five years or a High Court advocate for ten years (or a distinguished jurist) to be eligible for appointment as a Supreme Court judge. Statement 3 is incorrect because the Constitution fixes the retirement age of Supreme Court judges at 65 years."
+},
+{
+    q: "With reference to the office of the Governor of a State, consider the following statements:<br>1. The Governor is appointed by the President and holds office during the pleasure of the President.<br>2. The Constitution does not prescribe a fixed tenure for the Governor.<br>3. A Governor can be removed only through an impeachment process conducted by the State Legislature.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The Governor is appointed by the President and serves at the President's pleasure, with the Constitution not specifying a fixed term (normal tenure is five years, but can end earlier). There is no impeachment process for the Governor by the State Legislature; the President alone can remove the Governor, making statement 3 incorrect."
+},
+{
+    q: "With reference to Question Hour and Zero Hour in the Indian Parliament, consider the following statements:<br>1. Question Hour is governed by the Rules of Procedure of the House and finds no mention in the Constitution.<br>2. Zero Hour is an Indian parliamentary innovation and is not mentioned in the Rules of Procedure.<br>3. During Question Hour, starred questions requiring an oral answer with supplementary questions are taken up.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "Question Hour is governed by the Rules of Procedure rather than the Constitution, and starred questions requiring oral answers with follow-up supplementaries are taken up during this time. Zero Hour, an entirely Indian innovation that begins immediately after Question Hour, similarly has no mention in the Rules of Procedure, making all three statements correct."
+},
+{
+    q: "With reference to the Preamble of the Indian Constitution, consider the following statements:<br>1. The Preamble has been amended only once, by the 42nd Constitutional Amendment Act, 1976.<br>2. The Preamble is not enforceable in a court of law.<br>3. The Supreme Court held in the Kesavananda Bharati case that the Preamble is a part of the Constitution.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "The Preamble was amended only once, through the 42nd Amendment Act, 1976, which inserted the words 'socialist', 'secular', and 'integrity'. It is not enforceable in courts, and the Kesavananda Bharati judgment (1973) confirmed that the Preamble is indeed part of the Constitution, making all three statements correct."
+},
+{
+    q: "With reference to State Legislatures in India, consider the following statements:<br>1. A State can have a Legislative Council only if the Legislative Assembly of that State passes a resolution by a special majority.<br>2. Members of the Legislative Council are directly elected by the people of the State.<br>3. Currently, only a few States in India have a Legislative Council.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 2 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "As per Article 169, a Legislative Council can be created or abolished if the Legislative Assembly passes a resolution by a special majority, and currently only a handful of states (such as Uttar Pradesh, Bihar, Maharashtra, Karnataka, Andhra Pradesh, and Telangana) have Legislative Councils. Members are not directly elected but chosen through indirect election and nomination, making statement 2 incorrect."
+},
+{
+    q: "With reference to the National Human Rights Commission (NHRC), consider the following statements:<br>1. The recommendations made by the NHRC are binding on the concerned government or authority.<br>2. NHRC generally cannot inquire into a matter after one year of the alleged violation.<br>3. NHRC submits its annual report to the Central Government, which lays it before Parliament along with an action taken memorandum.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "The Protection of Human Rights Act, 1993 generally bars the NHRC from inquiring into complaints made more than a year after the incident, and its annual report is submitted to the Central Government, which places it before Parliament. NHRC recommendations are only advisory in nature and are not binding on the government, making statement 1 incorrect."
+},
+{
+    q: "With reference to the Official Language provisions of the Constitution, consider the following statements:<br>1. The Official Languages Act, 1963 was enacted to allow the continued use of English for official purposes alongside Hindi.<br>2. A Union Minister is constitutionally prohibited from replying to a question in the Rajya Sabha in Hindi.<br>3. The Eighth Schedule of the Constitution originally contained 22 languages.<br>Which of the statements given above is correct?",
+    opts: [
+        "1 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The Official Languages Act, 1963 was enacted to permit continued use of English for official purposes beyond the original 15-year constitutional limit. There is no such prohibition on Ministers replying in Hindi, and the Eighth Schedule originally contained only 14 languages, with the number increasing to 22 through subsequent amendments, making statements 2 and 3 incorrect."
+},
+{
+    q: "With reference to the Council of Ministers in India, consider the following statements:<br>1. Article 74 provides for a Council of Ministers headed by the Prime Minister to aid and advise the President.<br>2. The advice tendered by the Council of Ministers to the President is justiciable and can be inquired into by courts.<br>3. Article 78 lays down duties of the Prime Minister regarding furnishing information to the President.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 2 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "Article 74 establishes the Council of Ministers headed by the Prime Minister to aid and advise the President, and Article 78 obliges the Prime Minister to communicate decisions of the Council of Ministers and furnish information as the President may call for. As per the 44th Amendment Act, the advice given by ministers to the President cannot be inquired into by any court, making statement 2 incorrect."
+}
+];
+
+const CORRECT_MARKS = 2;
+const NEGATIVE_MARKS = 2 / 3;
+
+let current = 0;
+const responses = new Array(QUESTIONS.length).fill(null);
+let submitted = false;
+
+const qNumEl = document.getElementById('qNum');
+const qTotalEl = document.getElementById('qTotal');
+const qTotalNoteEl = document.getElementById('qTotalNote');
+const qTextEl = document.getElementById('qText');
+const optionsListEl = document.getElementById('optionsList');
+const qStatusTag = document.getElementById('qStatusTag');
+const explainBox = document.getElementById('explainBox');
+const explainText = document.getElementById('explainText');
+const paletteGrid = document.getElementById('paletteGrid');
+const answeredCountEl = document.getElementById('answeredCount');
+const skippedCountEl = document.getElementById('skippedCount');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const clearBtn = document.getElementById('clearBtn');
+const submitBtn = document.getElementById('submitBtn');
+const paperView = document.getElementById('paperView');
+const resultView = document.getElementById('resultView');
+const reviewBtn = document.getElementById('reviewBtn');
+const scoreText = document.getElementById('scoreText');
+const scorePercent = document.getElementById('scorePercent');
+
+qTotalEl.textContent = QUESTIONS.length;
+qTotalNoteEl.textContent = QUESTIONS.length;
+skippedCountEl.textContent = QUESTIONS.length;
+
+function buildPalette(){
+  paletteGrid.innerHTML = '';
+  QUESTIONS.forEach((_, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.textContent = i + 1;
+    cell.addEventListener('click', () => { current = i; render(); });
+    paletteGrid.appendChild(cell);
+  });
+}
+
+function render(){
+  const item = QUESTIONS[current];
+  qNumEl.textContent = current + 1;
+  qTextEl.innerHTML = item.q;
+
+  optionsListEl.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  const userChoice = responses[current];
+  item.opts.forEach((opt, idx) => {
+    const div = document.createElement('div');
+    let cls = 'option';
+    if (submitted){
+      cls += ' locked';
+      if (idx === item.ans) cls += ' correct';
+      else if (idx === userChoice) cls += ' incorrect';
+    } else if (userChoice === idx){
+      cls += ' selected';
+    }
+    div.className = cls;
+    div.innerHTML = `<span class="tag">${letters[idx]}</span><span class="opt-text"></span>`;
+    div.querySelector('.opt-text').textContent = opt;
+    div.addEventListener('click', () => {
+      if (submitted) return;
+      responses[current] = idx;
+      render();
+    });
+    optionsListEl.appendChild(div);
+  });
+
+  if (submitted){
+    if (userChoice === null){
+      qStatusTag.textContent = '⚠ Not Answered · Correct answer shown';
+      qStatusTag.className = 'q-status-tag review-unanswered';
+    } else if (userChoice === item.ans){
+      qStatusTag.textContent = '✓ Correct';
+      qStatusTag.className = 'q-status-tag correct';
+    } else {
+      qStatusTag.textContent = '✗ Incorrect';
+      qStatusTag.className = 'q-status-tag incorrect';
+    }
+    explainBox.classList.remove('hidden');
+    explainText.innerHTML = '<b>Correct Answer:</b> ' + letters[item.ans] + '. ' + item.opts[item.ans] + '<br><br>' + item.exp;
+  } else {
+    const answered = userChoice !== null;
+    qStatusTag.textContent = answered ? 'Answered' : 'Not Answered';
+    qStatusTag.className = 'q-status-tag ' + (answered ? 'answered' : 'unanswered');
+    explainBox.classList.add('hidden');
+  }
+
+  prevBtn.disabled = current === 0;
+  if (submitted){
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Back to Result' : 'Next →';
+    clearBtn.style.visibility = 'hidden';
+  } else {
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Finish' : 'Next →';
+    clearBtn.style.visibility = 'visible';
+  }
+
+  // palette
+  const cells = paletteGrid.children;
+  for (let i = 0; i < cells.length; i++){
+    cells[i].classList.toggle('current', i === current);
+    if (submitted){
+      const isIncorrect = responses[i] !== null && responses[i] !== QUESTIONS[i].ans;
+      const isCorrect = responses[i] === QUESTIONS[i].ans;
+      cells[i].classList.toggle('incorrect', isIncorrect);
+      cells[i].classList.toggle('answered', isCorrect);
+    } else {
+      cells[i].classList.toggle('answered', responses[i] !== null);
+      cells[i].classList.remove('incorrect');
+    }
+  }
+
+  const answeredTotal = responses.filter(r => r !== null).length;
+  if (submitted){
+    let correct = 0, incorrect = 0;
+    QUESTIONS.forEach((q, i) => {
+      if (responses[i] === null) return;
+      if (responses[i] === q.ans) correct++; else incorrect++;
+    });
+    const unattempted = QUESTIONS.length - answeredTotal;
+    const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+    document.getElementById('tallyRow').innerHTML = `
+      <div class="marks-line"><b>${marks.toFixed(2)}</b><span>Marks Scored</span></div>
+      <div class="tally-grid">
+        <div><b class="stat-correct">${correct}</b>Correct</div>
+        <div><b class="stat-incorrect">${incorrect}</b>Incorrect</div>
+        <div><b class="stat-unattempted">${unattempted}</b>Unattempted</div>
+      </div>
+    `;
+  } else {
+    answeredCountEl.textContent = answeredTotal;
+    skippedCountEl.textContent = QUESTIONS.length - answeredTotal;
+  }
+}
+
+prevBtn.addEventListener('click', () => { if (current > 0){ current--; render(); }});
+nextBtn.addEventListener('click', () => {
+  if (current < QUESTIONS.length - 1){ current++; render(); }
+  else if (submitted){
+    paperView.classList.add('hidden');
+    resultView.classList.remove('hidden');
+  } else {
+    doSubmit();
+  }
+});
+clearBtn.addEventListener('click', () => { responses[current] = null; render(); });
+
+submitBtn.addEventListener('click', doSubmit);
+
+function doSubmit(){
+  submitted = true;
+  clearInterval(countdown);
+  let correct = 0, incorrect = 0;
+  QUESTIONS.forEach((q, i) => {
+    if (responses[i] === null) return;
+    if (responses[i] === q.ans) correct++; else incorrect++;
+  });
+  const unattempted = QUESTIONS.length - (correct + incorrect);
+  const maxMarks = QUESTIONS.length * CORRECT_MARKS;
+  const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+  const percentage = (marks / maxMarks) * 100;
+
+  scoreText.textContent = marks.toFixed(2) + ' / ' + maxMarks.toFixed(2);
+  scorePercent.textContent = percentage.toFixed(2) + '%';
+  document.getElementById('scoreBreakdown').innerHTML = `
+    <div class="stat correct"><b>${correct}</b><span>Correct</span></div>
+    <div class="stat incorrect"><b>${incorrect}</b><span>Incorrect</span></div>
+    <div class="stat unattempted"><b>${unattempted}</b><span>Unattempted</span></div>
+  `;
+  submitBtn.style.display = 'none';
+  paperView.classList.add('hidden');
+  resultView.classList.remove('hidden');
+  render();
+}
+
+reviewBtn.addEventListener('click', () => {
+  resultView.classList.add('hidden');
+  paperView.classList.remove('hidden');
+  current = 0;
+  render();
+});
+
+// theme toggle
+const themeSwitch = document.getElementById('themeSwitch');
+themeSwitch.addEventListener('click', () => {
+  const body = document.body;
+  const isDark = body.getAttribute('data-theme') === 'dark';
+  body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+});
+
+// countdown timer
+let seconds = 30 * 60;
+const timerEl = document.getElementById('timer');
+const countdown = setInterval(() => {
+  if (seconds <= 0 || submitted) return;
+  seconds--;
+  const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+  const s = String(seconds % 60).padStart(2, '0');
+  timerEl.textContent = `${m}:${s}`;
+  timerEl.classList.toggle('urgent', seconds <= 60);
+  if (seconds === 0){
+    timerEl.textContent = 'Time Up!';
+    doSubmit();
+  }
+}, 1000);
+
+buildPalette();
+render();
+
+window.addEventListener('beforeunload', function(e){
+  const hasProgress = !submitted && responses.some(r => r !== null);
+  if (hasProgress){
+    e.preventDefault();
+    e.returnValue = 'Your answers have not been submitted. If you leave or refresh this page, all marked answers will be lost.';
+    return e.returnValue;
+  }
+});
+
+</script>
+
+</body>
+</html>
