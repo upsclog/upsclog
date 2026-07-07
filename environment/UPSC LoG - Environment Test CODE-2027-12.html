@@ -1,766 +1,1092 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UPSC LoG - Prelims Booster</title>
+<title>UPSC LoG — Prelims Booster</title>
 <style>
-
-:root {
-  --bg: #f5f5f5;
-  --surface: #ffffff;
-  --text: #1a1a1a;
-  --text-secondary: #555;
-  --border: #ddd;
-  --option-hover: #f0f0f0;
-  --correct: #b7f7b7;
-  --correct-text: #145214;
-  --wrong: #ffb6b6;
-  --wrong-text: #6b0000;
-  --exp-bg: #eef;
-  --exp-text: #1a1a2e;
-  --timer-bg: #222;
-  --timer-text: #fff;
-  --btn-bg: #1a1a2e;
-  --btn-text: #fff;
-  --btn-hover: #2e2e50;
-  --shadow: rgba(0,0,0,0.1);
-  --track: #ccc;
-  --thumb: #1a1a2e;
-  --toggle-bg: #ccc;
-  --toggle-knob: #fff;
-  --toggle-active: #4a6fa5;
-}
-
-[data-theme="dark"] {
-  --bg: #12121e;
-  --surface: #1e1e30;
-  --text: #e8e8f0;
-  --text-secondary: #aaa;
-  --border: #333;
-  --option-hover: #2a2a40;
-  --correct: #1a4d1a;
-  --correct-text: #7ef07e;
-  --wrong: #4d1a1a;
-  --wrong-text: #f07e7e;
-  --exp-bg: #1a1a35;
-  --exp-text: #c8c8e8;
-  --timer-bg: #0d0d1a;
-  --timer-text: #e8e8f0;
-  --btn-bg: #4a6fa5;
-  --btn-hover: #5a80b8;
-  --btn-text: #fff;
-  --shadow: rgba(0,0,0,0.4);
-  --track: #444;
-  --thumb: #4a6fa5;
-  --toggle-bg: #444;
-  --toggle-knob: #fff;
-  --toggle-active: #4a6fa5;
-}
-
-*, *::before, *::after { box-sizing: border-box; }
-
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  margin: 30px;
-  transition: background 0.25s, color 0.25s;
-}
-
-.container {
-  max-width: 900px;
-  margin: auto;
-  background: var(--surface);
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 0 15px var(--shadow);
-  transition: background 0.25s, box-shadow 0.25s;
-}
-
-h1 { text-align: center; color: var(--text); }
-h2 { text-align: center; color: var(--text); }
-
-ul { color: var(--text-secondary); }
-ul a { color: #4a6fa5; }
-
-.question {
-  border: 1px solid var(--border);
-  padding: 20px;
-  margin-top: 20px;
-  border-radius: 8px;
-  transition: border-color 0.25s;
-}
-
-.question h3 {
-  margin-top: 0;
-  color: var(--text-secondary);
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.option {
-  display: block;
-  margin: 8px 0;
-  padding: 10px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: background 0.15s, border-color 0.15s;
-  color: var(--text);
-}
-
-.option:hover {
-  background: var(--option-hover);
-  border-color: var(--border);
-}
-
-.correct {
-  background: var(--correct) !important;
-  color: var(--correct-text) !important;
-  border-color: transparent !important;
-}
-
-.wrong {
-  background: var(--wrong) !important;
-  color: var(--wrong-text) !important;
-  border-color: transparent !important;
-}
-
-/* orange outline = what the user actually selected */
-.user-selected {
-  outline: 3px solid #f97316 !important;
-  outline-offset: -2px;
-  border-radius: 6px;
-}
-
-.explanation {
-  display: none;
-  margin-top: 15px;
-  background: var(--exp-bg);
-  color: var(--exp-text);
-  padding: 12px 16px;
-  border-radius: 6px;
-  font-size: 14px;
-  line-height: 1.6;
-  border-left: 3px solid #4a6fa5;
-}
-
-button.submit-btn {
-  display: block;
-  padding: 12px 32px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 24px;
-  background: var(--btn-bg);
-  color: var(--btn-text);
-  border: none;
-  border-radius: 8px;
-  transition: background 0.2s, transform 0.1s;
-}
-
-button.submit-btn:hover { background: var(--btn-hover); }
-button.submit-btn:active { transform: scale(0.98); }
-
-#score {
-  font-size: 20px;
-  font-weight: bold;
-  margin: 20px 0;
-  padding: 16px;
-  border-radius: 8px;
-  background: var(--exp-bg);
-  color: var(--exp-text);
-}
-
-/* ── Timer ── */
-#timer {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: var(--timer-bg);
-  color: var(--timer-text);
-  padding: 12px 20px;
-  font-size: 22px;
-  border-radius: 8px;
-  font-weight: bold;
-  box-shadow: 0 2px 10px var(--shadow);
-  transition: background 0.25s, color 0.25s;
-  z-index: 100;
-}
-
-/* ── Dark mode toggle ── */
-.theme-toggle {
-  position: fixed;
-  top: 74px;
-  right: 20px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 30px;
-  padding: 6px 12px;
-  box-shadow: 0 2px 8px var(--shadow);
-  z-index: 100;
-  cursor: pointer;
-  transition: background 0.25s, border-color 0.25s;
-  user-select: none;
-}
-
-.theme-toggle .icon {
-  font-size: 15px;
-  line-height: 1;
-}
-
-.toggle-track {
-  width: 36px;
-  height: 20px;
-  background: var(--toggle-bg);
-  border-radius: 999px;
-  position: relative;
-  transition: background 0.25s;
-  flex-shrink: 0;
-}
-
-[data-theme="dark"] .toggle-track {
-  background: var(--toggle-active);
-}
-
-.toggle-knob {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 14px;
-  height: 14px;
-  background: var(--toggle-knob);
-  border-radius: 50%;
-  transition: transform 0.25s;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-}
-
-[data-theme="dark"] .toggle-knob {
-  transform: translateX(16px);
-}
-
-/* ── Mobile ── */
-@media (max-width: 700px) {
-  body { margin: 10px; }
-
-  #timer {
-    position: static;
-    width: fit-content;
-    margin: 0 auto 12px;
-    display: block;
-    text-align: center;
+  :root{
+    --bg: #F3F4F1;
+    --paper: #FFFFFF;
+    --ink: #1D2A35;
+    --ink-soft: #5B6873;
+    --rule: #D8DCD6;
+    --navy: #1B3A5C;
+    --navy-deep: #12283F;
+    --gold: #B8862E;
+    --gold-soft: #EFDFB8;
+    --answered: #2F7D5A;
+    --answered-bg: #E4F3EC;
+    --skipped: #B8862E;
+    --skipped-bg: #FBF1DE;
+    --current-ring: #1B3A5C;
+    --wrong: #B23A2E;
+    --wrong-bg: #FBEAE7;
+    --shadow: 0 1px 2px rgba(20,30,40,0.06), 0 6px 20px rgba(20,30,40,0.05);
+    --serif: Georgia, 'Times New Roman', 'Iowan Old Style', serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --mono: 'Courier New', ui-monospace, monospace;
+  }
+  [data-theme="dark"]{
+    --bg: #0F1A24;
+    --paper: #17232E;
+    --ink: #E7ECEF;
+    --ink-soft: #97A5AF;
+    --rule: #2A3846;
+    --navy: #3E6E9E;
+    --navy-deep: #2A4E70;
+    --gold: #D9A441;
+    --gold-soft: #3A3220;
+    --answered: #4CAF7D;
+    --answered-bg: #163227;
+    --skipped: #D9A441;
+    --skipped-bg: #332A16;
+    --current-ring: #D9A441;
+    --wrong: #E07A6C;
+    --wrong-bg: #3A1E1A;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    min-height:100vh;
+    transition:background .3s ease, color .3s ease;
   }
 
-  .theme-toggle {
-    position: static;
-    width: fit-content;
-    margin: 0 auto 16px;
+  /* ---------- Header ---------- */
+  header.topbar{
+    background:linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color:#F4F1EA;
+    padding:0;
+    box-shadow:var(--shadow);
+    position:sticky; top:0; z-index:50;
+  }
+  .topbar-inner{
+    max-width:1280px; margin:0 auto;
+    display:flex; align-items:center; gap:20px;
+    padding:14px 28px;
+  }
+  .logo-slot{
+    width:52px; height:52px;
+    border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    overflow:hidden;
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .logo-slot img{
+    width:100%; height:100%;
+    object-fit:contain;
+  }
+  .logo-slot:hover{border-color:rgba(244,241,234,0.75); color:#F4F1EA;}
+  .title-block{flex:1; min-width:0;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gold-soft, #D9A441);
+    opacity:0.85;
+  }
+  .title-block h1{
+    font-family:var(--serif);
+    font-size:22px;
+    font-weight:400;
+    margin:2px 0 0 0;
+    letter-spacing:0.01em;
+  }
+  .subnote{
+    font-family:var(--mono);
+    font-size:11px;
+    color:rgba(244,241,234,0.65);
+    margin-top:6px;
+    letter-spacing:0.02em;
+  }
+  .subnote a{color:var(--gold-soft); text-decoration:none;}
+  .subnote a:hover{text-decoration:underline;}
+  .topbar-right{
+    display:flex; align-items:center; gap:18px; flex-shrink:0;
+  }
+  .timer{
+    font-family:var(--mono);
+    font-size:13px;
+    color:#F4F1EA;
+    border:1px solid rgba(244,241,234,0.3);
+    padding:6px 12px;
+    border-radius:6px;
+    background:rgba(0,0,0,0.12);
+    transition:background .2s ease;
+  }
+  .timer.urgent{background:var(--wrong); border-color:var(--wrong);}
+
+  /* dark mode switch */
+  .mode-switch{
+    display:flex; align-items:center; gap:8px;
+    font-size:12px; color:rgba(244,241,234,0.85);
+  }
+  .switch{
+    position:relative; width:44px; height:24px;
+    background:rgba(244,241,234,0.2);
+    border-radius:20px; cursor:pointer;
+    border:1px solid rgba(244,241,234,0.35);
+    flex-shrink:0;
+  }
+  .switch .knob{
+    position:absolute; top:2px; left:2px;
+    width:18px; height:18px; border-radius:50%;
+    background:#F4F1EA;
+    transition:transform .25s ease;
+    box-shadow:0 1px 3px rgba(0,0,0,0.3);
+  }
+  [data-theme="dark"] .switch .knob{
+    transform:translateX(20px);
+    background:var(--gold);
   }
 
-  .mobile-bar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-bottom: 16px;
+  /* ---------- Layout ---------- */
+  .layout{
+    max-width:1280px; margin:0 auto;
+    display:grid;
+    grid-template-columns:1fr 320px;
+    gap:23px;
+    padding:32px 28px 60px;
+    align-items:start;
   }
 
-  .mobile-bar #timer,
-  .mobile-bar .theme-toggle {
-    position: static;
-    margin: 0;
+  /* ---------- Question paper ---------- */
+  .paper{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:36px 44px 32px;
+    min-height:520px;
+    display:flex;
+    flex-direction:column;
   }
+  .paper-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    border-bottom:1px solid var(--rule);
+    padding-bottom:14px; margin-bottom:28px;
+  }
+  .q-index{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--ink-soft);
+    letter-spacing:0.04em;
+  }
+  .q-index b{color:var(--navy); font-size:15px;}
+  [data-theme="dark"] .q-index b{color:var(--gold);}
+  .q-status-tag{
+    font-family:var(--mono);
+    font-size:13.5px;
+    font-weight:800;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    padding:7px 16px;
+    border-radius:20px;
+    border:2px solid transparent;
+  }
+  .q-status-tag.answered{background:var(--answered-bg); color:var(--answered); border-color:var(--answered);}
+  .q-status-tag.unanswered{background:var(--skipped-bg); color:var(--skipped); border-color:var(--skipped);}
+
+  .q-text{
+    font-family:var(--serif);
+    font-size:19px;
+    line-height:1.5;
+    color:var(--ink);
+    margin:0 0 32px 0;
+  }
+
+  .options{
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .option{
+    display:flex; align-items:flex-start; gap:14px;
+    padding:18px 18px;
+    border:1px solid var(--rule);
+    border-radius:8px;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+    background:transparent;
+  }
+  .option:hover{border-color:var(--navy); background:rgba(27,58,92,0.04);}
+  [data-theme="dark"] .option:hover{background:rgba(217,164,65,0.06); border-color:var(--gold);}
+  .option.selected{
+    border-color:var(--navy);
+    background:rgba(27,58,92,0.07);
+  }
+  [data-theme="dark"] .option.selected{
+    border-color:var(--gold);
+    background:rgba(217,164,65,0.1);
+  }
+  .option .tag{
+    font-family:var(--mono);
+    font-size:13px;
+    font-weight:bold;
+    width:24px; height:24px;
+    border-radius:50%;
+    border:1.5px solid var(--rule);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    color:var(--ink-soft);
+  }
+  .option.selected .tag{
+    border-color:var(--navy);
+    background:var(--navy);
+    color:#fff;
+  }
+  [data-theme="dark"] .option.selected .tag{
+    border-color:var(--gold);
+    background:var(--gold);
+    color:#17232E;
+  }
+  .option .opt-text{
+    font-size:15.5px; line-height:1.5; padding-top:1px;
+  }
+  .option.locked{cursor:default;}
+  .option.correct{
+    border-color:var(--answered);
+    background:var(--answered-bg);
+  }
+  .option.correct .tag{
+    border-color:var(--answered);
+    background:var(--answered);
+    color:#fff;
+  }
+  .option.incorrect{
+    border-color:var(--wrong);
+    background:var(--wrong-bg);
+  }
+  .option.incorrect .tag{
+    border-color:var(--wrong);
+    background:var(--wrong);
+    color:#fff;
+  }
+  .option.locked:hover{background:inherit; border-color:inherit;}
+  .q-status-tag.correct{background:var(--answered-bg); color:var(--answered); border-color:var(--answered); box-shadow:0 0 0 1px var(--answered) inset;}
+  .q-status-tag.incorrect{background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong); box-shadow:0 0 0 1px var(--wrong) inset;}
+  .q-status-tag.review-unanswered{
+    background:var(--wrong-bg);
+    color:var(--wrong);
+    border-color:var(--wrong);
+    box-shadow:0 0 0 1px var(--wrong) inset;
+  }
+
+  /* ---------- Explanation (review mode) ---------- */
+  .explain-box{
+    margin-top:26px;
+    background:var(--gold-soft);
+    border:1px solid var(--gold);
+    border-radius:8px;
+    padding:16px 20px;
+    font-size:14px;
+    line-height:1.65;
+    color:var(--ink);
+  }
+  [data-theme="dark"] .explain-box{background:rgba(217,164,65,0.08);}
+  .explain-box b{color:var(--navy);}
+  [data-theme="dark"] .explain-box b{color:var(--gold);}
+  .explain-box .exp-label{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-bottom:8px;
+  }
+
+  .paper-foot{
+    display:flex; justify-content:space-between;
+    margin-top:32px; padding-top:20px;
+    border-top:1px solid var(--rule);
+  }
+  button{
+    font-family:var(--sans);
+    font-size:14px;
+    font-weight:600;
+    padding:11px 22px;
+    border-radius:7px;
+    border:1px solid var(--rule);
+    background:var(--paper);
+    color:var(--ink);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  button:hover:not(:disabled){border-color:var(--navy); color:var(--navy);}
+  [data-theme="dark"] button:hover:not(:disabled){border-color:var(--gold); color:var(--gold);}
+  button:disabled{opacity:0.35; cursor:not-allowed;}
+  button.primary{
+    background:var(--navy); color:#F4F1EA; border-color:var(--navy);
+  }
+  button.primary:hover{filter:brightness(1.1); color:#F4F1EA;}
+  button.clear{background:transparent; border-color:transparent; color:var(--ink-soft); font-weight:500;}
+  .nav-group{display:flex; gap:10px;}
+
+  /* ---------- Sidebar palette ---------- */
+  .sidebar{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:24px;
+    position:sticky;
+    top:96px;
+  }
+  .sidebar h2{
+    font-family:var(--serif);
+    font-size:16px;
+    font-weight:400;
+    margin:0 0 4px 0;
+    color:var(--ink);
+  }
+  .sidebar .sub{
+    font-size:12px; color:var(--ink-soft); margin-bottom:18px;
+  }
+  .legend{
+    display:flex; flex-direction:column; gap:8px;
+    margin-bottom:20px;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  .legend span{display:flex; align-items:center; gap:8px;}
+  .dot{width:10px; height:10px; border-radius:3px; flex-shrink:0;}
+  .dot.answered{background:var(--answered);}
+  .dot.unanswered{background:var(--rule); border:1px solid var(--ink-soft);}
+  .dot.current{background:transparent; border:2px solid var(--current-ring);}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:8px;
+    margin-bottom:22px;
+  }
+  .cell{
+    aspect-ratio:1;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono);
+    font-size:13px;
+    border-radius:6px;
+    border:1px solid var(--rule);
+    background:transparent;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .cell:hover{border-color:var(--navy);}
+  [data-theme="dark"] .cell:hover{border-color:var(--gold);}
+  .cell.answered{
+    background:var(--answered-bg); color:var(--answered); border-color:var(--answered);
+    font-weight:bold;
+  }
+  .cell.incorrect{
+    background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong);
+    font-weight:bold;
+  }
+  .cell.current{
+    outline:2px solid var(--current-ring); outline-offset:2px;
+  }
+
+  .tally{
+    padding-top:16px; border-top:1px solid var(--rule);
+    color:var(--ink-soft);
+  }
+  .tally-plain{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-plain > div{flex:1; text-align:left;}
+  .tally b{color:var(--ink); font-size:16px; display:block; font-family:var(--sans);}
+  .tally b.stat-correct{color:var(--answered);}
+  .tally b.stat-incorrect{color:var(--wrong);}
+  .tally b.stat-unattempted{color:var(--skipped);}
+
+  .marks-line{
+    text-align:center;
+    background:var(--gold-soft);
+    border:1.5px solid var(--gold);
+    border-radius:8px;
+    padding:12px 10px;
+    margin-bottom:14px;
+  }
+  [data-theme="dark"] .marks-line{background:rgba(217,164,65,0.12);}
+  .marks-line b{
+    font-size:26px; color:var(--navy); font-family:var(--serif); font-weight:700;
+  }
+  [data-theme="dark"] .marks-line b{color:var(--gold);}
+  .marks-line span{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-top:2px;
+  }
+  .tally-grid{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-grid > div{flex:1; text-align:left;}
+
+  .score-breakdown{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+    max-width:420px;
+    margin:24px auto 0;
+  }
+  .score-breakdown .stat{
+    border:1.5px solid var(--rule);
+    border-radius:10px;
+    padding:14px 10px;
+  }
+  .score-breakdown .stat b{
+    display:block; font-size:24px; font-family:var(--sans); margin-bottom:4px;
+  }
+  .score-breakdown .stat span{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft);
+  }
+  .score-breakdown .stat.correct{border-color:var(--answered); background:var(--answered-bg);}
+  .score-breakdown .stat.correct b{color:var(--answered);}
+  .score-breakdown .stat.incorrect{border-color:var(--wrong); background:var(--wrong-bg);}
+  .score-breakdown .stat.incorrect b{color:var(--wrong);}
+  .score-breakdown .stat.unattempted{border-color:var(--skipped); background:var(--skipped-bg);}
+  .score-breakdown .stat.unattempted b{color:var(--skipped);}
+
+  #submitBtn{width:100%; margin-top:20px;}
+
+  /* ---------- Result overlay ---------- */
+  .result-card{
+    background:var(--paper); border:1px solid var(--rule); border-radius:10px;
+    box-shadow:var(--shadow); padding:44px; text-align:center;
+  }
+  .result-card .score{
+    font-family:var(--serif); font-size:52px; color:var(--navy); margin:8px 0;
+  }
+  [data-theme="dark"] .result-card .score{color:var(--gold);}
+  .result-card .percent{
+    font-family:var(--mono); font-size:13px; color:var(--ink-soft);
+    letter-spacing:0.04em; margin-top:-4px;
+  }
+  .hidden{display:none !important;}
+  :root{
+    --desktop-width: 1440;
 }
 
+@media (max-width: 1439px){
+
+    body{
+        width: calc(var(--desktop-width) * 1px);
+
+        transform-origin: top left;
+
+        transform: scale(
+            calc(100vw / (var(--desktop-width) * 1px))
+        );
+
+        overflow-x: hidden;
+
+        min-height: calc(
+            100vh / (100vw / (var(--desktop-width) * 1px))
+        );
+    }
+
+}
 </style>
 </head>
-<body>
+<body data-theme="light">
 
-<!-- Mobile: group timer + toggle -->
-<div class="mobile-bar" id="mobileBar" style="display:none;">
-  <div id="timerMobile" style="background:var(--timer-bg);color:var(--timer-text);padding:10px 18px;font-size:20px;border-radius:8px;font-weight:bold;box-shadow:0 2px 10px var(--shadow);">30:00</div>
-  <div class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode" role="button">
-    <span class="icon" id="iconM">☀️</span>
-    <div class="toggle-track"><div class="toggle-knob"></div></div>
-    <span class="icon" id="iconM2">🌙</span>
+<header class="topbar">
+  <div class="topbar-inner">
+
+    <!-- <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">UPSC<br>LOGO</a> -->
+    <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">
+  <img src="../logo.png" alt="UPSC LoG" style="width:100%; height:100%; object-fit:contain; border-radius:6px;">
+</a>
+    <div class="title-block">
+      <div class="eyebrow">UPSC LoG · Prelims Booster 2027</div>
+      <h1>Environment Test CODE-2027-12</h1>
+      <div class="subnote" style="font-size: 12px;">
+        <span id="qTotalNote">7</span> Questions · +2 Correct / −0.67 Incorrect ·
+        <a href="https://t.me/upsclog" target="_blank" rel="noopener"> Join UPSC-LoG Telegram ↗</a>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="timer" id="timer">30:00</div>
+      <div class="mode-switch">
+        <span>Light</span>
+        <div class="switch" id="themeSwitch" role="button" aria-label="Toggle dark mode">
+          <div class="knob"></div>
+        </div>
+        <span>Dark</span>
+      </div>
+    </div>
   </div>
-</div>
+</header>
 
-<!-- Desktop: fixed position -->
-<div id="timerDesktop" class="timer-desktop" style="position:fixed;top:20px;right:20px;background:var(--timer-bg);color:var(--timer-text);padding:12px 20px;font-size:22px;border-radius:8px;font-weight:bold;box-shadow:0 2px 10px var(--shadow);z-index:100;transition:background 0.25s,color 0.25s;">30:00</div>
+<div class="layout">
 
-<div class="theme-toggle" id="toggleDesktop" onclick="toggleTheme()" aria-label="Toggle dark mode" role="button" style="position:fixed;top:74px;right:20px;">
-  <span class="icon">☀️</span>
-  <div class="toggle-track"><div class="toggle-knob"></div></div>
-  <span class="icon">🌙</span>
-</div>
+  <div class="paper" id="paperView">
+    <div class="paper-head">
+      <div class="q-index">Question <b id="qNum">1</b> of <span id="qTotal">7</span></div>
+      <div class="q-status-tag unanswered" id="qStatusTag">Not Answered</div>
+    </div>
 
-<div class="container">
-  <h1>
-    <a href="https://upsclog.github.io/upsclog/" target="_blank" style="color: black; background-color: #C4A484; border-radius: 8px; padding: 4px 12px; text-decoration: none; display: inline-block;">
-      <img src="../logo.png" alt="." style="height: 1.5em; vertical-align: middle; margin-right: 8px;">
-      UPSC LoG
-    </a>
-    — Prelims Booster 2027
-  </h1>
-  <h2>Environment Test CODE-2027-12</h2>
-  <p>
-    <b>Instructions</b>
-    <ul>
-      <li>25 UPSC CSE Thematic Test Series (with explanations)</li>
-      <li><b>Correct = 2.0 &nbsp;|&nbsp; Incorrect = −0.67</b></li>
-      <li><b><i>30-minute timer</i></b></li>
-      <li>Join <a href="https://t.me/upsclog" target="_blank">UPSC LoG Telegram ↗</a></li>
-    </ul>
-  </p>
+    <p class="q-text" id="qText">Loading question…</p>
 
-  <div id="score"></div>
-  <div id="quiz"></div>
-  <button class="submit-btn" onclick="submitQuiz()">Submit</button>
+    <div class="options" id="optionsList"></div>
+
+    <div class="explain-box hidden" id="explainBox">
+      <span class="exp-label">Explanation</span>
+      <div id="explainText"></div>
+    </div>
+
+    <div class="paper-foot">
+      <div class="nav-group">
+        <button id="prevBtn">← Previous</button>
+        <button class="clear" id="clearBtn">Clear response</button>
+      </div>
+      <button id="nextBtn" class="primary">Next →</button>
+    </div>
+  </div>
+
+  <div class="result-card hidden" id="resultView">
+    <div class="eyebrow" style="color:var(--ink-soft); letter-spacing:0.14em; font-family:var(--mono); font-size:11px; text-transform:uppercase;">Test Complete</div>
+    <div class="score" id="scoreText">0.00 / 14.00</div>
+    <div class="percent" id="scorePercent">0.00%</div>
+    <div class="score-breakdown" id="scoreBreakdown"></div>
+    <p style="color:var(--ink-soft); font-size:14px; margin:20px 0 24px;">You can review your answers and explanations using the palette on the right.</p>
+    <button class="primary" id="reviewBtn">Review Answers</button>
+  </div>
+
+  <aside class="sidebar">
+    <h2>* Explanations attached for each question after you submit the test<br><br></h2>
+    <h2>* Auto-Submission in 30 minutes</h2>
+    <h2>* Dark <-> Bright modes for ease</h2>
+    <div class="sub"></div>
+
+    <div class="legend">
+      <span><span class="dot answered"></span> Answered / Correct</span>
+      <span><span class="dot" style="background:var(--wrong);"></span> Incorrect</span>
+      <span><span class="dot unanswered"></span> Not answered</span>
+      <span><span class="dot current"></span> Currently viewing</span>
+    </div>
+
+    <div class="grid" id="paletteGrid"></div>
+
+    <div class="tally" id="tallyRow">
+      <div class="tally-plain">
+        <div><b id="answeredCount">0</b>Answered</div>
+        <div><b id="skippedCount">7</b>Remaining</div>
+      </div>
+    </div>
+
+    <button class="primary" id="submitBtn">Submit Test</button>
+  </aside>
+
 </div>
 
 <script>
-
-// ── Theme ──────────────────────────────────────────────────────────────────────
-function toggleTheme() {
-  const html = document.documentElement;
-  const next = html.getAttribute("data-theme") === "dark" ? "light" : "dark";
-  html.setAttribute("data-theme", next);
-  localStorage.setItem("upsc-theme", next);
-}
-
-(function () {
-  const saved = localStorage.getItem("upsc-theme");
-  if (saved) document.documentElement.setAttribute("data-theme", saved);
-})();
-
-// ── Responsive bar ─────────────────────────────────────────────────────────────
-function applyLayout() {
-  const mobile = window.innerWidth <= 700;
-  document.getElementById("mobileBar").style.display = mobile ? "flex" : "none";
-  document.getElementById("timerDesktop").style.display = mobile ? "none" : "block";
-  document.getElementById("toggleDesktop").style.display = mobile ? "none" : "flex";
-}
-applyLayout();
-window.addEventListener("resize", applyLayout);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ───────────────────────────────────────────────────────────────── Questions ──────────────────────────────────────────────────────────────────
-const questions = [
+const QUESTIONS = [
 {
-    question: "With reference to the effects of ozone layer depletion, consider the following statements: <br>1. Increased UV-B radiation reaching the earth's surface raises the risk of skin cancer and cataracts in humans.<br>2. The ozone hole was first observed over the Arctic region in the 1970s.<br>3. Excess UV-B radiation adversely affects phytoplankton, disrupting the aquatic food chain.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to the effects of ozone layer depletion, consider the following statements: <br>1. Increased UV-B radiation reaching the earth's surface raises the risk of skin cancer and cataracts in humans.<br>2. The ozone hole was first observed over the Arctic region in the 1970s.<br>3. Excess UV-B radiation adversely affects phytoplankton, disrupting the aquatic food chain.<br>Which of the statements given above is/are correct?",
+    opts: [
         "1 and 2 only",
         "1 and 3 only",
         "2 and 3 only",
         "1, 2 and 3"
     ],
-    answer: 1,
-    explanation: "Increased UV-B radiation harms human health and phytoplankton, disrupting aquatic food chains. However, the ozone hole was first observed over the Antarctic region (not Arctic) in the 1980s, making statement 2 incorrect."
+    ans: 1,
+    exp: "Increased UV-B radiation harms human health and phytoplankton, disrupting aquatic food chains. However, the ozone hole was first observed over the Antarctic region (not Arctic) in the 1980s, making statement 2 incorrect."
 },
 {
-    question: "With reference to the Paris Agreement, consider the following statements: <br>1. It was adopted at the 21st Conference of Parties (COP21) held in 2015.<br>2. It legally binds all signatory countries to achieve specific greenhouse gas emission reduction targets.<br>3. It aims to keep the global temperature rise this century well below 2°C above pre-industrial levels.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to the Paris Agreement, consider the following statements: <br>1. It was adopted at the 21st Conference of Parties (COP21) held in 2015.<br>2. It legally binds all signatory countries to achieve specific greenhouse gas emission reduction targets.<br>3. It aims to keep the global temperature rise this century well below 2°C above pre-industrial levels.<br>Which of the statements given above is/are correct?",
+    opts: [
         "1 and 2 only",
         "2 and 3 only",
         "1 and 3 only",
         "1, 2 and 3"
     ],
-    answer: 2,
-    explanation: "The Paris Agreement was adopted at COP21 in 2015 and aims to limit temperature rise well below 2°C. However, the Nationally Determined Contributions (NDCs) under the agreement are not legally binding emission targets, making statement 2 incorrect."
+    ans: 2,
+    exp: "The Paris Agreement was adopted at COP21 in 2015 and aims to limit temperature rise well below 2°C. However, the Nationally Determined Contributions (NDCs) under the agreement are not legally binding emission targets, making statement 2 incorrect."
 },
 {
-    question: "With reference to the causes of ozone layer depletion, consider the following statements: <br>1. Chlorofluorocarbons (CFCs) release chlorine atoms upon UV exposure in the stratosphere, which catalytically destroy ozone molecules.<br>2. Volcanic eruptions are the primary anthropogenic cause of stratospheric ozone depletion.<br>3. Halons, used in fire extinguishers, contain bromine which is also ozone-depleting.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to the causes of ozone layer depletion, consider the following statements: <br>1. Chlorofluorocarbons (CFCs) release chlorine atoms upon UV exposure in the stratosphere, which catalytically destroy ozone molecules.<br>2. Volcanic eruptions are the primary anthropogenic cause of stratospheric ozone depletion.<br>3. Halons, used in fire extinguishers, contain bromine which is also ozone-depleting.<br>Which of the statements given above is/are correct?",
+    opts: [
         "1 and 2 only",
         "1 and 3 only",
         "2 and 3 only",
         "1, 2 and 3"
     ],
-    answer: 1,
-    explanation: "CFCs and halons both release halogen atoms (chlorine and bromine respectively) that catalytically destroy ozone. Volcanic eruptions are a natural, not anthropogenic, phenomenon and are not the primary cause of ozone depletion."
+    ans: 1,
+    exp: "CFCs and halons both release halogen atoms (chlorine and bromine respectively) that catalytically destroy ozone. Volcanic eruptions are a natural, not anthropogenic, phenomenon and are not the primary cause of ozone depletion."
 },
 {
-    question: "With reference to ocean acidification, consider the following statements: <br>1. It is caused by the absorption of atmospheric carbon dioxide by seawater, forming carbonic acid.<br>2. It increases the availability of carbonate ions, making it easier for marine organisms to build calcium carbonate shells.<br>3. Coral reefs and shellfish are particularly vulnerable to the effects of ocean acidification.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to ocean acidification, consider the following statements: <br>1. It is caused by the absorption of atmospheric carbon dioxide by seawater, forming carbonic acid.<br>2. It increases the availability of carbonate ions, making it easier for marine organisms to build calcium carbonate shells.<br>3. Coral reefs and shellfish are particularly vulnerable to the effects of ocean acidification.<br>Which of the statements given above is/are correct?",
+    opts: [
         "1 and 2 only",
         "2 and 3 only",
         "1 and 3 only",
         "1, 2 and 3"
     ],
-    answer: 2,
-    explanation: "Ocean acidification results from CO2 absorption forming carbonic acid, harming corals and shellfish. However, it actually decreases the availability of carbonate ions, making shell and skeleton formation harder, not easier, for marine calcifiers."
+    ans: 2,
+    exp: "Ocean acidification results from CO2 absorption forming carbonic acid, harming corals and shellfish. However, it actually decreases the availability of carbonate ions, making shell and skeleton formation harder, not easier, for marine calcifiers."
 },
 {
-    question: "With reference to the United Nations Convention to Combat Desertification (UNCCD), consider the following statements: <br>1. It was adopted in 1994 and entered into force in 1996.<br>2. It is one of the three Rio Conventions, all of which were adopted at the 1992 Rio Earth Summit itself.<br>3. India is a signatory to the UNCCD and has committed to achieving land degradation neutrality.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to the United Nations Convention to Combat Desertification (UNCCD), consider the following statements: <br>1. It was adopted in 1994 and entered into force in 1996.<br>2. It is one of the three Rio Conventions, all of which were adopted at the 1992 Rio Earth Summit itself.<br>3. India is a signatory to the UNCCD and has committed to achieving land degradation neutrality.<br>Which of the statements given above is/are correct?",
+    opts: [
         "1 and 2 only",
         "2 and 3 only",
         "1 and 3 only",
         "1, 2 and 3"
     ],
-    answer: 2,
-    explanation: "The UNCCD, though conceived at the 1992 Rio Summit, was actually adopted only in 1994 and entered into force in 1996, unlike the UNFCCC and CBD which were both adopted in 1992 itself. India is a party to it and has committed to land degradation neutrality targets."
+    ans: 2,
+    exp: "The UNCCD, though conceived at the 1992 Rio Summit, was actually adopted only in 1994 and entered into force in 1996, unlike the UNFCCC and CBD which were both adopted in 1992 itself. India is a party to it and has committed to land degradation neutrality targets."
 },
 {
-    question: "With reference to the decline of pollinators, consider the following statements: <br>1. Neonicotinoid pesticides have been identified as a significant contributing factor to the decline of bee populations.<br>2. Habitat fragmentation and loss of flowering plants reduce food availability for pollinators.<br>3. A majority of the world's flowering plant species depend, at least partly, on animal pollinators for reproduction.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to the decline of pollinators, consider the following statements: <br>1. Neonicotinoid pesticides have been identified as a significant contributing factor to the decline of bee populations.<br>2. Habitat fragmentation and loss of flowering plants reduce food availability for pollinators.<br>3. A majority of the world's flowering plant species depend, at least partly, on animal pollinators for reproduction.<br>Which of the statements given above is/are correct?",
+    opts: [
         "1 and 2 only",
         "2 and 3 only",
         "1 and 3 only",
         "1, 2 and 3"
     ],
-    answer: 3,
-    explanation: "Neonicotinoid pesticides and habitat fragmentation are well-documented causes of pollinator decline. A large majority of flowering plant species rely on animal pollinators such as bees, butterflies, and birds for reproduction, making all three statements correct."
+    ans: 3,
+    exp: "Neonicotinoid pesticides and habitat fragmentation are well-documented causes of pollinator decline. A large majority of flowering plant species rely on animal pollinators such as bees, butterflies, and birds for reproduction, making all three statements correct."
 },
 {
-    question: "With reference to biomagnification and bioaccumulation, consider the following statements: <br>1. Bioaccumulation refers to the buildup of a substance within an individual organism over its lifetime.<br>2. Biomagnification refers to the increasing concentration of a substance at successive trophic levels in a food chain.<br>3. DDT is a classic example of a chemical that undergoes biomagnification in food chains.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to biomagnification and bioaccumulation, consider the following statements: <br>1. Bioaccumulation refers to the buildup of a substance within an individual organism over its lifetime.<br>2. Biomagnification refers to the increasing concentration of a substance at successive trophic levels in a food chain.<br>3. DDT is a classic example of a chemical that undergoes biomagnification in food chains.<br>Which of the statements given above is/are correct?",
+    opts: [
         "1 and 2 only",
         "2 and 3 only",
         "1 and 3 only",
         "1, 2 and 3"
     ],
-    answer: 3,
-    explanation: "Bioaccumulation is the buildup within a single organism, while biomagnification is the increase in concentration across trophic levels. DDT is the textbook example of a persistent, fat-soluble pesticide that biomagnifies, famously affecting birds of prey like the peregrine falcon."
+    ans: 3,
+    exp: "Bioaccumulation is the buildup within a single organism, while biomagnification is the increase in concentration across trophic levels. DDT is the textbook example of a persistent, fat-soluble pesticide that biomagnifies, famously affecting birds of prey like the peregrine falcon."
 },
 {
-    question: "With reference to the historical background of concerns over biomagnification and bioaccumulation, consider the following statements: <br>1. Rachel Carson's book 'Silent Spring' (1962) highlighted the harmful ecological effects of pesticides like DDT.<br>2. The Stockholm Convention on Persistent Organic Pollutants was adopted in 2001 to restrict chemicals prone to bioaccumulation.<br>3. DDT was banned worldwide under the Stockholm Convention with no exceptions permitted.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to the historical background of concerns over biomagnification and bioaccumulation, consider the following statements: <br>1. Rachel Carson's book 'Silent Spring' (1962) highlighted the harmful ecological effects of pesticides like DDT.<br>2. The Stockholm Convention on Persistent Organic Pollutants was adopted in 2001 to restrict chemicals prone to bioaccumulation.<br>3. DDT was banned worldwide under the Stockholm Convention with no exceptions permitted.<br>Which of the statements given above is/are correct?",
+    opts: [
         "1 and 2 only",
         "2 and 3 only",
         "1 and 3 only",
         "1, 2 and 3"
     ],
-    answer: 0,
-    explanation: "'Silent Spring' (1962) was pivotal in raising awareness about pesticide bioaccumulation, and the Stockholm Convention (2001) targets persistent organic pollutants. However, DDT is not banned outright; it is restricted with an exemption for disease-vector (malaria) control in some countries, making statement 3 incorrect."
+    ans: 0,
+    exp: "'Silent Spring' (1962) was pivotal in raising awareness about pesticide bioaccumulation, and the Stockholm Convention (2001) targets persistent organic pollutants. However, DDT is not banned outright; it is restricted with an exemption for disease-vector (malaria) control in some countries, making statement 3 incorrect."
 },
 {
-    question: "With reference to the Wildlife Protection Act, 1972, consider the following statements: <br>1. It provides for the creation of Schedules that accord varying degrees of protection to different species.<br>2. The National Board for Wildlife was constituted under this Act.<br>3. The 2006 amendment to the Act led to the creation of the National Tiger Conservation Authority.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to the Wildlife Protection Act, 1972, consider the following statements: <br>1. It provides for the creation of Schedules that accord varying degrees of protection to different species.<br>2. The National Board for Wildlife was constituted under this Act.<br>3. The 2006 amendment to the Act led to the creation of the National Tiger Conservation Authority.<br>Which of the statements given above is/are correct?",
+    opts: [
         "1 and 2 only",
         "2 and 3 only",
         "1 and 3 only",
         "1, 2 and 3"
     ],
-    answer: 3,
-    explanation: "The Wildlife Protection Act, 1972 established Schedules I-VI for graded protection, created the National Board for Wildlife, and its 2006 amendment established the National Tiger Conservation Authority (NTCA) to strengthen tiger conservation."
+    ans: 3,
+    exp: "The Wildlife Protection Act, 1972 established Schedules I-VI for graded protection, created the National Board for Wildlife, and its 2006 amendment established the National Tiger Conservation Authority (NTCA) to strengthen tiger conservation."
 },
 {
-    question: "With reference to the Biological Diversity Act, 2002, consider the following statements: <br>1. It establishes a three-tier structure comprising the National Biodiversity Authority, State Biodiversity Boards, and Biodiversity Management Committees.<br>2. The National Biodiversity Authority is headquartered in New Delhi.<br>3. The Act provides a framework for access and benefit sharing arising from the use of biological resources and associated traditional knowledge.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to the Biological Diversity Act, 2002, consider the following statements: <br>1. It establishes a three-tier structure comprising the National Biodiversity Authority, State Biodiversity Boards, and Biodiversity Management Committees.<br>2. The National Biodiversity Authority is headquartered in New Delhi.<br>3. The Act provides a framework for access and benefit sharing arising from the use of biological resources and associated traditional knowledge.<br>Which of the statements given above is/are correct?",
+    opts: [
         "1 and 2 only",
         "1 and 3 only",
         "2 and 3 only",
         "1, 2 and 3"
     ],
-    answer: 1,
-    explanation: "The Act creates a three-tier structure and provides for access and benefit sharing. However, the National Biodiversity Authority is headquartered in Chennai, not New Delhi, making statement 2 incorrect."
+    ans: 1,
+    exp: "The Act creates a three-tier structure and provides for access and benefit sharing. However, the National Biodiversity Authority is headquartered in Chennai, not New Delhi, making statement 2 incorrect."
 },
 {
-    question: "With reference to challenges facing green bonds and carbon markets, consider the following statements: <br>1. The absence of a universally accepted standard for classifying a bond as 'green' raises concerns of greenwashing.<br>2. Voluntary carbon markets allow entities to trade carbon credits without a mandatory regulatory cap on emissions.<br>3. India's carbon market operates entirely independent of any government regulatory framework.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to challenges facing green bonds and carbon markets, consider the following statements: <br>1. The absence of a universally accepted standard for classifying a bond as 'green' raises concerns of greenwashing.<br>2. Voluntary carbon markets allow entities to trade carbon credits without a mandatory regulatory cap on emissions.<br>3. India's carbon market operates entirely independent of any government regulatory framework.<br>Which of the statements given above is/are correct?",
+    opts: [
         "1 and 2 only",
         "2 and 3 only",
         "1 and 3 only",
         "1, 2 and 3"
     ],
-    answer: 0,
-    explanation: "Lack of standardized green taxonomy raises greenwashing concerns, and voluntary carbon markets operate without a mandatory emissions cap, unlike compliance markets. However, India's carbon market functions under the Carbon Credit Trading Scheme regulated by the Bureau of Energy Efficiency, so statement 3 is incorrect."
+    ans: 0,
+    exp: "Lack of standardized green taxonomy raises greenwashing concerns, and voluntary carbon markets operate without a mandatory emissions cap, unlike compliance markets. However, India's carbon market functions under the Carbon Credit Trading Scheme regulated by the Bureau of Energy Efficiency, so statement 3 is incorrect."
 },
 {
-    question: "With reference to biodiversity hotspots, consider the following statements: <br>1. A region qualifies as a global biodiversity hotspot if it has at least 1,500 endemic vascular plant species and has lost 70% or more of its original habitat.<br>2. The Western Ghats-Sri Lanka region is recognised as a global biodiversity hotspot.<br>3. India has parts of four global biodiversity hotspots within its territory.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to biodiversity hotspots, consider the following statements: <br>1. A region qualifies as a global biodiversity hotspot if it has at least 1,500 endemic vascular plant species and has lost 70% or more of its original habitat.<br>2. The Western Ghats-Sri Lanka region is recognised as a global biodiversity hotspot.<br>3. India has parts of four global biodiversity hotspots within its territory.<br>Which of the statements given above is/are correct?",
+    opts: [
         "1 and 2 only",
         "2 and 3 only",
         "1 and 3 only",
         "1, 2 and 3"
     ],
-    answer: 3,
-    explanation: "As per the Myers criteria, a biodiversity hotspot must have at least 1,500 endemic vascular plant species and have lost 70% or more of its original habitat. Western Ghats-Sri Lanka is one such hotspot, and India has parts of four hotspots: Himalaya, Indo-Burma, Western Ghats-Sri Lanka, and Sundaland, making all three statements correct."
+    ans: 3,
+    exp: "As per the Myers criteria, a biodiversity hotspot must have at least 1,500 endemic vascular plant species and have lost 70% or more of its original habitat. Western Ghats-Sri Lanka is one such hotspot, and India has parts of four hotspots: Himalaya, Indo-Burma, Western Ghats-Sri Lanka, and Sundaland, making all three statements correct."
 },
 {
-    question: "With reference to Biosphere Reserves in India, consider the following statements: <br>1. The concept of Biosphere Reserves originated under UNESCO's Man and Biosphere Programme launched in 1971.<br>2. Nilgiri was the first Biosphere Reserve to be designated in India in 1986.<br>3. Every Biosphere Reserve in India is also internationally recognised under UNESCO's World Network of Biosphere Reserves.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to Biosphere Reserves in India, consider the following statements: <br>1. The concept of Biosphere Reserves originated under UNESCO's Man and Biosphere Programme launched in 1971.<br>2. Nilgiri was the first Biosphere Reserve to be designated in India in 1986.<br>3. Every Biosphere Reserve in India is also internationally recognised under UNESCO's World Network of Biosphere Reserves.<br>Which of the statements given above is/are correct?",
+    opts: [
         "1 and 2 only",
         "2 and 3 only",
         "1 and 3 only",
         "1, 2 and 3"
     ],
-    answer: 0,
-    explanation: "The Man and Biosphere Programme began in 1971, and Nilgiri (1986) was India's first Biosphere Reserve. However, not all of India's Biosphere Reserves have received UNESCO international recognition; several remain only nationally designated, making statement 3 incorrect."
+    ans: 0,
+    exp: "The Man and Biosphere Programme began in 1971, and Nilgiri (1986) was India's first Biosphere Reserve. However, not all of India's Biosphere Reserves have received UNESCO international recognition; several remain only nationally designated, making statement 3 incorrect."
 },
 {
-    question: "With reference to the zonation and functioning of Biosphere Reserves, consider the following statements: <br>1. The core zone is a strictly protected area where human activity is generally prohibited.<br>2. The buffer zone surrounds the core zone and permits limited human activities such as research and education.<br>3. The transition (manipulation) zone allows for greater human activity, including settlements and agriculture, in a sustainable manner.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to the zonation and functioning of Biosphere Reserves, consider the following statements: <br>1. The core zone is a strictly protected area where human activity is generally prohibited.<br>2. The buffer zone surrounds the core zone and permits limited human activities such as research and education.<br>3. The transition (manipulation) zone allows for greater human activity, including settlements and agriculture, in a sustainable manner.<br>Which of the statements given above is/are correct?",
+    opts: [
         "1 and 2 only",
         "2 and 3 only",
         "1 and 3 only",
         "1, 2 and 3"
     ],
-    answer: 3,
-    explanation: "Biosphere Reserves function through a zonation system: the core zone is strictly protected, the buffer zone allows limited controlled activities like research, and the transition zone permits human settlements and sustainable resource use, making all three statements correct."
+    ans: 3,
+    exp: "Biosphere Reserves function through a zonation system: the core zone is strictly protected, the buffer zone allows limited controlled activities like research, and the transition zone permits human settlements and sustainable resource use, making all three statements correct."
 },
 {
-    question: "With reference to the significance of Biosphere Reserves, consider the following statements: <br>1. They aim to conserve genetic diversity of species within representative ecosystems.<br>2. They serve as sites for long-term ecological research and environmental monitoring.<br>3. They are declared exclusively for the conservation of a single endangered species.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to the significance of Biosphere Reserves, consider the following statements: <br>1. They aim to conserve genetic diversity of species within representative ecosystems.<br>2. They serve as sites for long-term ecological research and environmental monitoring.<br>3. They are declared exclusively for the conservation of a single endangered species.<br>Which of the statements given above is/are correct?",
+    opts: [
         "1 and 2 only",
         "2 and 3 only",
         "1 and 3 only",
         "1, 2 and 3"
     ],
-    answer: 0,
-    explanation: "Biosphere Reserves conserve genetic and ecosystem diversity and serve as sites for ecological research and monitoring. They are not declared for a single species but for entire representative ecosystems, encompassing multiple species and human-nature interactions, making statement 3 incorrect."
+    ans: 0,
+    exp: "Biosphere Reserves conserve genetic and ecosystem diversity and serve as sites for ecological research and monitoring. They are not declared for a single species but for entire representative ecosystems, encompassing multiple species and human-nature interactions, making statement 3 incorrect."
 },
 {
-    question: "With reference to the Plastic Waste Management Rules, consider the following statements: <br>1. The Plastic Waste Management Rules, 2016 replaced the earlier Plastic Waste (Management and Handling) Rules, 2011.<br>2. The rules introduced the concept of Extended Producer Responsibility (EPR) for plastic waste management.<br>3. Amendments to the rules have provided for a phased ban on identified single-use plastic items.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to the Plastic Waste Management Rules, consider the following statements: <br>1. The Plastic Waste Management Rules, 2016 replaced the earlier Plastic Waste (Management and Handling) Rules, 2011.<br>2. The rules introduced the concept of Extended Producer Responsibility (EPR) for plastic waste management.<br>3. Amendments to the rules have provided for a phased ban on identified single-use plastic items.<br>Which of the statements given above is/are correct?",
+    opts: [
         "1 and 2 only",
         "2 and 3 only",
         "1 and 3 only",
         "1, 2 and 3"
     ],
-    answer: 3,
-    explanation: "The 2016 Rules replaced the 2011 Rules, introduced Extended Producer Responsibility, and subsequent amendments (2021, 2022) enforced a phased ban on identified single-use plastic items, making all three statements correct."
+    ans: 3,
+    exp: "The 2016 Rules replaced the 2011 Rules, introduced Extended Producer Responsibility, and subsequent amendments (2021, 2022) enforced a phased ban on identified single-use plastic items, making all three statements correct."
 },
 {
-    question: "With reference to the ecological effects of biomagnification, consider the following statements: <br>1. Organisms at higher trophic levels, such as apex predators, tend to accumulate the highest concentrations of persistent toxic substances.<br>2. Biomagnification occurs only with substances that are readily biodegradable and water-soluble.<br>3. Thinning of eggshells in birds of prey has been linked to biomagnification of certain pesticides.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to the ecological effects of biomagnification, consider the following statements: <br>1. Organisms at higher trophic levels, such as apex predators, tend to accumulate the highest concentrations of persistent toxic substances.<br>2. Biomagnification occurs only with substances that are readily biodegradable and water-soluble.<br>3. Thinning of eggshells in birds of prey has been linked to biomagnification of certain pesticides.<br>Which of the statements given above is/are correct?",
+    opts: [
         "1 and 2 only",
         "2 and 3 only",
         "1 and 3 only",
         "1, 2 and 3"
     ],
-    answer: 2,
-    explanation: "Apex predators accumulate the highest toxin concentrations, and DDT-related eggshell thinning in birds of prey is a well-documented case. Biomagnification actually occurs with persistent, fat-soluble substances that resist biodegradation, not readily biodegradable ones, making statement 2 incorrect."
+    ans: 2,
+    exp: "Apex predators accumulate the highest toxin concentrations, and DDT-related eggshell thinning in birds of prey is a well-documented case. Biomagnification actually occurs with persistent, fat-soluble substances that resist biodegradation, not readily biodegradable ones, making statement 2 incorrect."
 },
 {
-    question: "With reference to Project Elephant, consider the following statements: <br>1. It was launched in 1992 by the Government of India as a centrally sponsored scheme.<br>2. It aims to protect elephants, their habitats, and corridors, and to address human-elephant conflict.<br>3. It is administered by the Ministry of Environment, Forest and Climate Change.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to Project Elephant, consider the following statements: <br>1. It was launched in 1992 by the Government of India as a centrally sponsored scheme.<br>2. It aims to protect elephants, their habitats, and corridors, and to address human-elephant conflict.<br>3. It is administered by the Ministry of Environment, Forest and Climate Change.<br>Which of the statements given above is/are correct?",
+    opts: [
         "1 and 2 only",
         "2 and 3 only",
         "1 and 3 only",
         "1, 2 and 3"
     ],
-    answer: 3,
-    explanation: "Project Elephant was launched in 1992 as a centrally sponsored scheme under the Ministry of Environment, Forest and Climate Change, focusing on habitat protection, elephant corridors, and mitigating human-elephant conflict, making all three statements correct."
+    ans: 3,
+    exp: "Project Elephant was launched in 1992 as a centrally sponsored scheme under the Ministry of Environment, Forest and Climate Change, focusing on habitat protection, elephant corridors, and mitigating human-elephant conflict, making all three statements correct."
 },
 {
-    question: "With reference to the features of Project Elephant, consider the following statements: <br>1. It supports the Monitoring of Illegal Killing of Elephants (MIKE) programme in India.<br>2. It provides financial and technical support to states having free-ranging elephant populations.<br>3. It is exclusively focused on captive elephants and does not address wild elephant populations.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to the features of Project Elephant, consider the following statements: <br>1. It supports the Monitoring of Illegal Killing of Elephants (MIKE) programme in India.<br>2. It provides financial and technical support to states having free-ranging elephant populations.<br>3. It is exclusively focused on captive elephants and does not address wild elephant populations.<br>Which of the statements given above is/are correct?",
+    opts: [
         "1 and 2 only",
         "2 and 3 only",
         "1 and 3 only",
         "1, 2 and 3"
     ],
-    answer: 0,
-    explanation: "Project Elephant supports the MIKE programme and provides assistance to states with wild elephant populations. It primarily addresses wild, free-ranging elephants and their habitats, not exclusively captive elephants, making statement 3 incorrect."
+    ans: 0,
+    exp: "Project Elephant supports the MIKE programme and provides assistance to states with wild elephant populations. It primarily addresses wild, free-ranging elephants and their habitats, not exclusively captive elephants, making statement 3 incorrect."
 },
 {
-    question: "With reference to implementation challenges of the Biological Diversity Act, 2002, consider the following statements: <br>1. Many Biodiversity Management Committees at the local level remain non-functional or lack adequate resources.<br>2. Access and benefit-sharing provisions have faced delays and disputes in practical implementation.<br>3. The Act has been criticised for being completely silent on the documentation of traditional knowledge.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to implementation challenges of the Biological Diversity Act, 2002, consider the following statements: <br>1. Many Biodiversity Management Committees at the local level remain non-functional or lack adequate resources.<br>2. Access and benefit-sharing provisions have faced delays and disputes in practical implementation.<br>3. The Act has been criticised for being completely silent on the documentation of traditional knowledge.<br>Which of the statements given above is/are correct?",
+    opts: [
         "1 and 2 only",
         "2 and 3 only",
         "1 and 3 only",
         "1, 2 and 3"
     ],
-    answer: 0,
-    explanation: "Weak functioning of Biodiversity Management Committees and disputes over access and benefit-sharing are recognised implementation challenges. However, the Act does provide for documentation of traditional knowledge through People's Biodiversity Registers, making statement 3 incorrect."
+    ans: 0,
+    exp: "Weak functioning of Biodiversity Management Committees and disputes over access and benefit-sharing are recognised implementation challenges. However, the Act does provide for documentation of traditional knowledge through People's Biodiversity Registers, making statement 3 incorrect."
 },
 {
-    question: "With reference to the Solid Waste Management Rules, 2016, consider the following statements: <br>1. These rules replaced the Municipal Solid Wastes (Management and Handling) Rules, 2000.<br>2. The rules mandate segregation of waste at source into biodegradable, non-biodegradable, and domestic hazardous waste.<br>3. The applicability of these rules is restricted only to statutory towns and does not extend to other areas.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to the Solid Waste Management Rules, 2016, consider the following statements: <br>1. These rules replaced the Municipal Solid Wastes (Management and Handling) Rules, 2000.<br>2. The rules mandate segregation of waste at source into biodegradable, non-biodegradable, and domestic hazardous waste.<br>3. The applicability of these rules is restricted only to statutory towns and does not extend to other areas.<br>Which of the statements given above is/are correct?",
+    opts: [
         "1 and 2 only",
         "2 and 3 only",
         "1 and 3 only",
         "1, 2 and 3"
     ],
-    answer: 0,
-    explanation: "The 2016 Rules replaced the 2000 Rules and mandated source segregation of waste. However, their applicability was expanded beyond statutory towns to urban agglomerations, census towns, notified industrial townships, airports, and railway premises, making statement 3 incorrect."
+    ans: 0,
+    exp: "The 2016 Rules replaced the 2000 Rules and mandated source segregation of waste. However, their applicability was expanded beyond statutory towns to urban agglomerations, census towns, notified industrial townships, airports, and railway premises, making statement 3 incorrect."
 },
 {
-    question: "With reference to the Montreal Protocol, consider the following statements: <br>1. It was adopted in 1987 to phase out the production and consumption of ozone-depleting substances.<br>2. It operates under the principle of 'common but differentiated responsibilities' for developed and developing countries.<br>3. The Kigali Amendment to the Protocol added hydrofluorocarbons (HFCs) for phase-down despite them not being ozone-depleting substances.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to the Montreal Protocol, consider the following statements: <br>1. It was adopted in 1987 to phase out the production and consumption of ozone-depleting substances.<br>2. It operates under the principle of 'common but differentiated responsibilities' for developed and developing countries.<br>3. The Kigali Amendment to the Protocol added hydrofluorocarbons (HFCs) for phase-down despite them not being ozone-depleting substances.<br>Which of the statements given above is/are correct?",
+    opts: [
         "1 and 2 only",
         "2 and 3 only",
         "1 and 3 only",
         "1, 2 and 3"
     ],
-    answer: 3,
-    explanation: "The Montreal Protocol (1987) phases out ozone-depleting substances with differentiated timelines for developed and developing nations, and the 2016 Kigali Amendment added HFCs, which are potent greenhouse gases though not ozone-depleting, making all three statements correct."
+    ans: 3,
+    exp: "The Montreal Protocol (1987) phases out ozone-depleting substances with differentiated timelines for developed and developing nations, and the 2016 Kigali Amendment added HFCs, which are potent greenhouse gases though not ozone-depleting, making all three statements correct."
 },
 {
-    question: "With reference to coral bleaching, consider the following statements: <br>1. Coral bleaching occurs when corals expel the symbiotic algae (zooxanthellae) living in their tissues, usually due to thermal stress.<br>2. Prolonged bleaching events can lead to coral mortality if favourable conditions do not return in time.<br>3. Recurrent El Nino events have been associated with mass coral bleaching episodes globally.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to coral bleaching, consider the following statements: <br>1. Coral bleaching occurs when corals expel the symbiotic algae (zooxanthellae) living in their tissues, usually due to thermal stress.<br>2. Prolonged bleaching events can lead to coral mortality if favourable conditions do not return in time.<br>3. Recurrent El Nino events have been associated with mass coral bleaching episodes globally.<br>Which of the statements given above is/are correct?",
+    opts: [
         "1 and 2 only",
         "2 and 3 only",
         "1 and 3 only",
         "1, 2 and 3"
     ],
-    answer: 3,
-    explanation: "Coral bleaching results from the expulsion of zooxanthellae under thermal stress, can cause coral death if conditions don't recover, and El Nino events have triggered major mass bleaching events such as those in 1998, 2010, and 2016, making all three statements correct."
+    ans: 3,
+    exp: "Coral bleaching results from the expulsion of zooxanthellae under thermal stress, can cause coral death if conditions don't recover, and El Nino events have triggered major mass bleaching events such as those in 1998, 2010, and 2016, making all three statements correct."
 },
 {
-    question: "With reference to the carbon cycle, consider the following statements: <br>1. Deforestation reduces the capacity of terrestrial ecosystems to act as carbon sinks.<br>2. The combustion of fossil fuels releases carbon that had been sequestered over geological timescales.<br>3. Oceans act only as a source of atmospheric carbon dioxide and never as a sink.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to the carbon cycle, consider the following statements: <br>1. Deforestation reduces the capacity of terrestrial ecosystems to act as carbon sinks.<br>2. The combustion of fossil fuels releases carbon that had been sequestered over geological timescales.<br>3. Oceans act only as a source of atmospheric carbon dioxide and never as a sink.<br>Which of the statements given above is/are correct?",
+    opts: [
         "1 and 2 only",
         "2 and 3 only",
         "1 and 3 only",
         "1, 2 and 3"
     ],
-    answer: 0,
-    explanation: "Deforestation reduces carbon sequestration capacity, and fossil fuel combustion releases long-sequestered carbon into the atmosphere. However, oceans act as a major carbon sink, absorbing a significant portion of anthropogenic CO2 emissions, making statement 3 incorrect."
+    ans: 0,
+    exp: "Deforestation reduces carbon sequestration capacity, and fossil fuel combustion releases long-sequestered carbon into the atmosphere. However, oceans act as a major carbon sink, absorbing a significant portion of anthropogenic CO2 emissions, making statement 3 incorrect."
 },
 {
-    question: "With reference to the role of mangrove conservation, consider the following statements: <br>1. Mangroves act as a natural buffer, reducing the impact of storm surges and coastal erosion.<br>2. Mangrove ecosystems serve as breeding and nursery grounds for various marine species.<br>3. Mangroves are recognised as significant 'blue carbon' ecosystems due to their high carbon sequestration capacity.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to the role of mangrove conservation, consider the following statements: <br>1. Mangroves act as a natural buffer, reducing the impact of storm surges and coastal erosion.<br>2. Mangrove ecosystems serve as breeding and nursery grounds for various marine species.<br>3. Mangroves are recognised as significant 'blue carbon' ecosystems due to their high carbon sequestration capacity.<br>Which of the statements given above is/are correct?",
+    opts: [
         "1 and 2 only",
         "2 and 3 only",
         "1 and 3 only",
         "1, 2 and 3"
     ],
-    answer: 3,
-    explanation: "Mangroves buffer coasts from storms and erosion, provide breeding grounds for marine species, and are recognised as highly efficient blue carbon ecosystems, sequestering carbon at rates higher than many terrestrial forests, making all three statements correct."
+    ans: 3,
+    exp: "Mangroves buffer coasts from storms and erosion, provide breeding grounds for marine species, and are recognised as highly efficient blue carbon ecosystems, sequestering carbon at rates higher than many terrestrial forests, making all three statements correct."
 }
 ];
-// ────────────────────────────────────────────────────────────────── Render quiz ────────────────────────────────────────────────────────────────
 
+const CORRECT_MARKS = 2;
+const NEGATIVE_MARKS = 2 / 3;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const quiz = document.getElementById("quiz");
-
-questions.forEach((q, index) => {
-  let html = `<div class="question">
-  <p><b>Q${index + 1}.</b> ${q.question}</p>`;
-
-  q.options.forEach((opt, i) => {
-    html += `<label class="option">
-      <input type="radio" name="q${index}" value="${i}">
-      ${String.fromCharCode(65 + i)}. ${opt}
-    </label>`;
-  });
-
-  html += `<div class="explanation" id="exp${index}"></div></div>`;
-  quiz.innerHTML += html;
-});
-
-// ── Submit ─────────────────────────────────────────────────────────────────────
+let current = 0;
+const responses = new Array(QUESTIONS.length).fill(null);
 let submitted = false;
 
-function submitQuiz() {
-  if (submitted) return;
+const qNumEl = document.getElementById('qNum');
+const qTotalEl = document.getElementById('qTotal');
+const qTotalNoteEl = document.getElementById('qTotalNote');
+const qTextEl = document.getElementById('qText');
+const optionsListEl = document.getElementById('optionsList');
+const qStatusTag = document.getElementById('qStatusTag');
+const explainBox = document.getElementById('explainBox');
+const explainText = document.getElementById('explainText');
+const paletteGrid = document.getElementById('paletteGrid');
+const answeredCountEl = document.getElementById('answeredCount');
+const skippedCountEl = document.getElementById('skippedCount');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const clearBtn = document.getElementById('clearBtn');
+const submitBtn = document.getElementById('submitBtn');
+const paperView = document.getElementById('paperView');
+const resultView = document.getElementById('resultView');
+const reviewBtn = document.getElementById('reviewBtn');
+const scoreText = document.getElementById('scoreText');
+const scorePercent = document.getElementById('scorePercent');
+
+qTotalEl.textContent = QUESTIONS.length;
+qTotalNoteEl.textContent = QUESTIONS.length;
+skippedCountEl.textContent = QUESTIONS.length;
+
+function buildPalette(){
+  paletteGrid.innerHTML = '';
+  QUESTIONS.forEach((_, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.textContent = i + 1;
+    cell.addEventListener('click', () => { current = i; render(); });
+    paletteGrid.appendChild(cell);
+  });
+}
+
+function render(){
+  const item = QUESTIONS[current];
+  qNumEl.textContent = current + 1;
+  qTextEl.innerHTML = item.q;
+
+  optionsListEl.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  const userChoice = responses[current];
+  item.opts.forEach((opt, idx) => {
+    const div = document.createElement('div');
+    let cls = 'option';
+    if (submitted){
+      cls += ' locked';
+      if (idx === item.ans) cls += ' correct';
+      else if (idx === userChoice) cls += ' incorrect';
+    } else if (userChoice === idx){
+      cls += ' selected';
+    }
+    div.className = cls;
+    div.innerHTML = `<span class="tag">${letters[idx]}</span><span class="opt-text"></span>`;
+    div.querySelector('.opt-text').textContent = opt;
+    div.addEventListener('click', () => {
+      if (submitted) return;
+      responses[current] = idx;
+      render();
+    });
+    optionsListEl.appendChild(div);
+  });
+
+  if (submitted){
+    if (userChoice === null){
+      qStatusTag.textContent = '⚠ Not Answered · Correct answer shown';
+      qStatusTag.className = 'q-status-tag review-unanswered';
+    } else if (userChoice === item.ans){
+      qStatusTag.textContent = '✓ Correct';
+      qStatusTag.className = 'q-status-tag correct';
+    } else {
+      qStatusTag.textContent = '✗ Incorrect';
+      qStatusTag.className = 'q-status-tag incorrect';
+    }
+    explainBox.classList.remove('hidden');
+    explainText.innerHTML = '<b>Correct Answer:</b> ' + letters[item.ans] + '. ' + item.opts[item.ans] + '<br><br>' + item.exp;
+  } else {
+    const answered = userChoice !== null;
+    qStatusTag.textContent = answered ? 'Answered' : 'Not Answered';
+    qStatusTag.className = 'q-status-tag ' + (answered ? 'answered' : 'unanswered');
+    explainBox.classList.add('hidden');
+  }
+
+  prevBtn.disabled = current === 0;
+  if (submitted){
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Back to Result' : 'Next →';
+    clearBtn.style.visibility = 'hidden';
+  } else {
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Finish' : 'Next →';
+    clearBtn.style.visibility = 'visible';
+  }
+
+  // palette
+  const cells = paletteGrid.children;
+  for (let i = 0; i < cells.length; i++){
+    cells[i].classList.toggle('current', i === current);
+    if (submitted){
+      const isIncorrect = responses[i] !== null && responses[i] !== QUESTIONS[i].ans;
+      const isCorrect = responses[i] === QUESTIONS[i].ans;
+      cells[i].classList.toggle('incorrect', isIncorrect);
+      cells[i].classList.toggle('answered', isCorrect);
+    } else {
+      cells[i].classList.toggle('answered', responses[i] !== null);
+      cells[i].classList.remove('incorrect');
+    }
+  }
+
+  const answeredTotal = responses.filter(r => r !== null).length;
+  if (submitted){
+    let correct = 0, incorrect = 0;
+    QUESTIONS.forEach((q, i) => {
+      if (responses[i] === null) return;
+      if (responses[i] === q.ans) correct++; else incorrect++;
+    });
+    const unattempted = QUESTIONS.length - answeredTotal;
+    const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+    document.getElementById('tallyRow').innerHTML = `
+      <div class="marks-line"><b>${marks.toFixed(2)}</b><span>Marks Scored</span></div>
+      <div class="tally-grid">
+        <div><b class="stat-correct">${correct}</b>Correct</div>
+        <div><b class="stat-incorrect">${incorrect}</b>Incorrect</div>
+        <div><b class="stat-unattempted">${unattempted}</b>Unattempted</div>
+      </div>
+    `;
+  } else {
+    answeredCountEl.textContent = answeredTotal;
+    skippedCountEl.textContent = QUESTIONS.length - answeredTotal;
+  }
+}
+
+prevBtn.addEventListener('click', () => { if (current > 0){ current--; render(); }});
+nextBtn.addEventListener('click', () => {
+  if (current < QUESTIONS.length - 1){ current++; render(); }
+  else if (submitted){
+    paperView.classList.add('hidden');
+    resultView.classList.remove('hidden');
+  } else {
+    doSubmit();
+  }
+});
+clearBtn.addEventListener('click', () => { responses[current] = null; render(); });
+
+submitBtn.addEventListener('click', doSubmit);
+
+function doSubmit(){
   submitted = true;
   clearInterval(countdown);
-
-  const correctMarks = 2;
-  const negativeMarks = 2 / 3;
-  let score = 0;
-
-  questions.forEach((q, index) => {
-    const radios = document.getElementsByName("q" + index);
-    let selected = -1;
-    radios.forEach(r => { if (r.checked) selected = parseInt(r.value); r.disabled = true; });
-
-    radios.forEach(r => {
-      const label = r.parentElement;
-      const value = parseInt(r.value);
-      if (value === q.answer) label.classList.add("correct");
-      if (value === selected && value !== q.answer) label.classList.add("wrong");
-      if (value === selected) label.classList.add("user-selected");
-    });
-
-    if (selected === q.answer) score += correctMarks;
-    else if (selected !== -1) score -= negativeMarks;
-
-    const exp = document.getElementById("exp" + index);
-    exp.style.display = "block";
-    exp.innerHTML = "<b>Correct Answer:</b> " + String.fromCharCode(65 + q.answer) +
-      "<br><br><b>Explanation:</b> " + q.explanation;
+  let correct = 0, incorrect = 0;
+  QUESTIONS.forEach((q, i) => {
+    if (responses[i] === null) return;
+    if (responses[i] === q.ans) correct++; else incorrect++;
   });
+  const unattempted = QUESTIONS.length - (correct + incorrect);
+  const maxMarks = QUESTIONS.length * CORRECT_MARKS;
+  const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+  const percentage = (marks / maxMarks) * 100;
 
-  const maxScore = questions.length * correctMarks;
-  const percentage = (score / maxScore) * 100;
-
-  document.getElementById("score").innerHTML =
-    "Score: <b>" + score.toFixed(2) + " / " + maxScore.toFixed(2) + "</b>" +
-    "&nbsp;&nbsp;|&nbsp;&nbsp;Percentage: <b>" + percentage.toFixed(2) + "%</b>";
-
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  scoreText.textContent = marks.toFixed(2) + ' / ' + maxMarks.toFixed(2);
+  scorePercent.textContent = percentage.toFixed(2) + '%';
+  document.getElementById('scoreBreakdown').innerHTML = `
+    <div class="stat correct"><b>${correct}</b><span>Correct</span></div>
+    <div class="stat incorrect"><b>${incorrect}</b><span>Incorrect</span></div>
+    <div class="stat unattempted"><b>${unattempted}</b><span>Unattempted</span></div>
+  `;
+  submitBtn.style.display = 'none';
+  paperView.classList.add('hidden');
+  resultView.classList.remove('hidden');
+  render();
 }
 
-// ── Timer ──────────────────────────────────────────────────────────────────────
-let totalSeconds = 1800;
+reviewBtn.addEventListener('click', () => {
+  resultView.classList.add('hidden');
+  paperView.classList.remove('hidden');
+  current = 0;
+  render();
+});
 
-function updateTimers(text, urgent) {
-  ["timerDesktop", "timerMobile"].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.textContent = text;
-      el.style.background = urgent ? "#c62828" : "var(--timer-bg)";
-    }
-  });
-}
+// theme toggle
+const themeSwitch = document.getElementById('themeSwitch');
+themeSwitch.addEventListener('click', () => {
+  const body = document.body;
+  const isDark = body.getAttribute('data-theme') === 'dark';
+  body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+});
 
+// countdown timer
+let seconds = 30 * 60;
+const timerEl = document.getElementById('timer');
 const countdown = setInterval(() => {
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-  const text = String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
-
-  updateTimers(text, totalSeconds <= 60);
-
-  if (totalSeconds === 0) {
-    updateTimers("Time Up!", true);
-    submitQuiz();
+  if (seconds <= 0 || submitted) return;
+  seconds--;
+  const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+  const s = String(seconds % 60).padStart(2, '0');
+  timerEl.textContent = `${m}:${s}`;
+  timerEl.classList.toggle('urgent', seconds <= 60);
+  if (seconds === 0){
+    timerEl.textContent = 'Time Up!';
+    doSubmit();
   }
-  totalSeconds--;
 }, 1000);
 
+buildPalette();
+render();
+
+window.addEventListener('beforeunload', function(e){
+  const hasProgress = !submitted && responses.some(r => r !== null);
+  if (hasProgress){
+    e.preventDefault();
+    e.returnValue = 'Your answers have not been submitted. If you leave or refresh this page, all marked answers will be lost.';
+    return e.returnValue;
+  }
+});
+
 </script>
+
 </body>
 </html>

@@ -1,767 +1,1092 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UPSC LoG - Prelims Booster</title>
+<title>UPSC LoG — Prelims Booster</title>
 <style>
-
-:root {
-  --bg: #f5f5f5;
-  --surface: #ffffff;
-  --text: #1a1a1a;
-  --text-secondary: #555;
-  --border: #ddd;
-  --option-hover: #f0f0f0;
-  --correct: #b7f7b7;
-  --correct-text: #145214;
-  --wrong: #ffb6b6;
-  --wrong-text: #6b0000;
-  --exp-bg: #eef;
-  --exp-text: #1a1a2e;
-  --timer-bg: #222;
-  --timer-text: #fff;
-  --btn-bg: #1a1a2e;
-  --btn-text: #fff;
-  --btn-hover: #2e2e50;
-  --shadow: rgba(0,0,0,0.1);
-  --track: #ccc;
-  --thumb: #1a1a2e;
-  --toggle-bg: #ccc;
-  --toggle-knob: #fff;
-  --toggle-active: #4a6fa5;
-}
-
-[data-theme="dark"] {
-  --bg: #12121e;
-  --surface: #1e1e30;
-  --text: #e8e8f0;
-  --text-secondary: #aaa;
-  --border: #333;
-  --option-hover: #2a2a40;
-  --correct: #1a4d1a;
-  --correct-text: #7ef07e;
-  --wrong: #4d1a1a;
-  --wrong-text: #f07e7e;
-  --exp-bg: #1a1a35;
-  --exp-text: #c8c8e8;
-  --timer-bg: #0d0d1a;
-  --timer-text: #e8e8f0;
-  --btn-bg: #4a6fa5;
-  --btn-hover: #5a80b8;
-  --btn-text: #fff;
-  --shadow: rgba(0,0,0,0.4);
-  --track: #444;
-  --thumb: #4a6fa5;
-  --toggle-bg: #444;
-  --toggle-knob: #fff;
-  --toggle-active: #4a6fa5;
-}
-
-*, *::before, *::after { box-sizing: border-box; }
-
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  margin: 30px;
-  transition: background 0.25s, color 0.25s;
-}
-
-.container {
-  max-width: 900px;
-  margin: auto;
-  background: var(--surface);
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 0 15px var(--shadow);
-  transition: background 0.25s, box-shadow 0.25s;
-}
-
-h1 { text-align: center; color: var(--text); }
-h2 { text-align: center; color: var(--text); }
-
-ul { color: var(--text-secondary); }
-ul a { color: #4a6fa5; }
-
-.question {
-  border: 1px solid var(--border);
-  padding: 20px;
-  margin-top: 20px;
-  border-radius: 8px;
-  transition: border-color 0.25s;
-}
-
-.question h3 {
-  margin-top: 0;
-  color: var(--text-secondary);
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.option {
-  display: block;
-  margin: 8px 0;
-  padding: 10px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: background 0.15s, border-color 0.15s;
-  color: var(--text);
-}
-
-.option:hover {
-  background: var(--option-hover);
-  border-color: var(--border);
-}
-
-.correct {
-  background: var(--correct) !important;
-  color: var(--correct-text) !important;
-  border-color: transparent !important;
-}
-
-.wrong {
-  background: var(--wrong) !important;
-  color: var(--wrong-text) !important;
-  border-color: transparent !important;
-}
-
-/* orange outline = what the user actually selected */
-.user-selected {
-  outline: 3px solid #f97316 !important;
-  outline-offset: -2px;
-  border-radius: 6px;
-}
-
-.explanation {
-  display: none;
-  margin-top: 15px;
-  background: var(--exp-bg);
-  color: var(--exp-text);
-  padding: 12px 16px;
-  border-radius: 6px;
-  font-size: 14px;
-  line-height: 1.6;
-  border-left: 3px solid #4a6fa5;
-}
-
-button.submit-btn {
-  display: block;
-  padding: 12px 32px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 24px;
-  background: var(--btn-bg);
-  color: var(--btn-text);
-  border: none;
-  border-radius: 8px;
-  transition: background 0.2s, transform 0.1s;
-}
-
-button.submit-btn:hover { background: var(--btn-hover); }
-button.submit-btn:active { transform: scale(0.98); }
-
-#score {
-  font-size: 20px;
-  font-weight: bold;
-  margin: 20px 0;
-  padding: 16px;
-  border-radius: 8px;
-  background: var(--exp-bg);
-  color: var(--exp-text);
-}
-
-/* ── Timer ── */
-#timer {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: var(--timer-bg);
-  color: var(--timer-text);
-  padding: 12px 20px;
-  font-size: 22px;
-  border-radius: 8px;
-  font-weight: bold;
-  box-shadow: 0 2px 10px var(--shadow);
-  transition: background 0.25s, color 0.25s;
-  z-index: 100;
-}
-
-/* ── Dark mode toggle ── */
-.theme-toggle {
-  position: fixed;
-  top: 74px;
-  right: 20px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 30px;
-  padding: 6px 12px;
-  box-shadow: 0 2px 8px var(--shadow);
-  z-index: 100;
-  cursor: pointer;
-  transition: background 0.25s, border-color 0.25s;
-  user-select: none;
-}
-
-.theme-toggle .icon {
-  font-size: 15px;
-  line-height: 1;
-}
-
-.toggle-track {
-  width: 36px;
-  height: 20px;
-  background: var(--toggle-bg);
-  border-radius: 999px;
-  position: relative;
-  transition: background 0.25s;
-  flex-shrink: 0;
-}
-
-[data-theme="dark"] .toggle-track {
-  background: var(--toggle-active);
-}
-
-.toggle-knob {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 14px;
-  height: 14px;
-  background: var(--toggle-knob);
-  border-radius: 50%;
-  transition: transform 0.25s;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-}
-
-[data-theme="dark"] .toggle-knob {
-  transform: translateX(16px);
-}
-
-/* ── Mobile ── */
-@media (max-width: 700px) {
-  body { margin: 10px; }
-
-  #timer {
-    position: static;
-    width: fit-content;
-    margin: 0 auto 12px;
-    display: block;
-    text-align: center;
+  :root{
+    --bg: #F3F4F1;
+    --paper: #FFFFFF;
+    --ink: #1D2A35;
+    --ink-soft: #5B6873;
+    --rule: #D8DCD6;
+    --navy: #1B3A5C;
+    --navy-deep: #12283F;
+    --gold: #B8862E;
+    --gold-soft: #EFDFB8;
+    --answered: #2F7D5A;
+    --answered-bg: #E4F3EC;
+    --skipped: #B8862E;
+    --skipped-bg: #FBF1DE;
+    --current-ring: #1B3A5C;
+    --wrong: #B23A2E;
+    --wrong-bg: #FBEAE7;
+    --shadow: 0 1px 2px rgba(20,30,40,0.06), 0 6px 20px rgba(20,30,40,0.05);
+    --serif: Georgia, 'Times New Roman', 'Iowan Old Style', serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --mono: 'Courier New', ui-monospace, monospace;
+  }
+  [data-theme="dark"]{
+    --bg: #0F1A24;
+    --paper: #17232E;
+    --ink: #E7ECEF;
+    --ink-soft: #97A5AF;
+    --rule: #2A3846;
+    --navy: #3E6E9E;
+    --navy-deep: #2A4E70;
+    --gold: #D9A441;
+    --gold-soft: #3A3220;
+    --answered: #4CAF7D;
+    --answered-bg: #163227;
+    --skipped: #D9A441;
+    --skipped-bg: #332A16;
+    --current-ring: #D9A441;
+    --wrong: #E07A6C;
+    --wrong-bg: #3A1E1A;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    min-height:100vh;
+    transition:background .3s ease, color .3s ease;
   }
 
-  .theme-toggle {
-    position: static;
-    width: fit-content;
-    margin: 0 auto 16px;
+  /* ---------- Header ---------- */
+  header.topbar{
+    background:linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color:#F4F1EA;
+    padding:0;
+    box-shadow:var(--shadow);
+    position:sticky; top:0; z-index:50;
+  }
+  .topbar-inner{
+    max-width:1280px; margin:0 auto;
+    display:flex; align-items:center; gap:20px;
+    padding:14px 28px;
+  }
+  .logo-slot{
+    width:52px; height:52px;
+    border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    overflow:hidden;
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .logo-slot img{
+    width:100%; height:100%;
+    object-fit:contain;
+  }
+  .logo-slot:hover{border-color:rgba(244,241,234,0.75); color:#F4F1EA;}
+  .title-block{flex:1; min-width:0;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gold-soft, #D9A441);
+    opacity:0.85;
+  }
+  .title-block h1{
+    font-family:var(--serif);
+    font-size:22px;
+    font-weight:400;
+    margin:2px 0 0 0;
+    letter-spacing:0.01em;
+  }
+  .subnote{
+    font-family:var(--mono);
+    font-size:11px;
+    color:rgba(244,241,234,0.65);
+    margin-top:6px;
+    letter-spacing:0.02em;
+  }
+  .subnote a{color:var(--gold-soft); text-decoration:none;}
+  .subnote a:hover{text-decoration:underline;}
+  .topbar-right{
+    display:flex; align-items:center; gap:18px; flex-shrink:0;
+  }
+  .timer{
+    font-family:var(--mono);
+    font-size:13px;
+    color:#F4F1EA;
+    border:1px solid rgba(244,241,234,0.3);
+    padding:6px 12px;
+    border-radius:6px;
+    background:rgba(0,0,0,0.12);
+    transition:background .2s ease;
+  }
+  .timer.urgent{background:var(--wrong); border-color:var(--wrong);}
+
+  /* dark mode switch */
+  .mode-switch{
+    display:flex; align-items:center; gap:8px;
+    font-size:12px; color:rgba(244,241,234,0.85);
+  }
+  .switch{
+    position:relative; width:44px; height:24px;
+    background:rgba(244,241,234,0.2);
+    border-radius:20px; cursor:pointer;
+    border:1px solid rgba(244,241,234,0.35);
+    flex-shrink:0;
+  }
+  .switch .knob{
+    position:absolute; top:2px; left:2px;
+    width:18px; height:18px; border-radius:50%;
+    background:#F4F1EA;
+    transition:transform .25s ease;
+    box-shadow:0 1px 3px rgba(0,0,0,0.3);
+  }
+  [data-theme="dark"] .switch .knob{
+    transform:translateX(20px);
+    background:var(--gold);
   }
 
-  .mobile-bar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-bottom: 16px;
+  /* ---------- Layout ---------- */
+  .layout{
+    max-width:1280px; margin:0 auto;
+    display:grid;
+    grid-template-columns:1fr 320px;
+    gap:23px;
+    padding:32px 28px 60px;
+    align-items:start;
   }
 
-  .mobile-bar #timer,
-  .mobile-bar .theme-toggle {
-    position: static;
-    margin: 0;
+  /* ---------- Question paper ---------- */
+  .paper{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:36px 44px 32px;
+    min-height:520px;
+    display:flex;
+    flex-direction:column;
   }
+  .paper-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    border-bottom:1px solid var(--rule);
+    padding-bottom:14px; margin-bottom:28px;
+  }
+  .q-index{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--ink-soft);
+    letter-spacing:0.04em;
+  }
+  .q-index b{color:var(--navy); font-size:15px;}
+  [data-theme="dark"] .q-index b{color:var(--gold);}
+  .q-status-tag{
+    font-family:var(--mono);
+    font-size:13.5px;
+    font-weight:800;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    padding:7px 16px;
+    border-radius:20px;
+    border:2px solid transparent;
+  }
+  .q-status-tag.answered{background:var(--answered-bg); color:var(--answered); border-color:var(--answered);}
+  .q-status-tag.unanswered{background:var(--skipped-bg); color:var(--skipped); border-color:var(--skipped);}
+
+  .q-text{
+    font-family:var(--serif);
+    font-size:19px;
+    line-height:1.5;
+    color:var(--ink);
+    margin:0 0 32px 0;
+  }
+
+  .options{
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .option{
+    display:flex; align-items:flex-start; gap:14px;
+    padding:18px 18px;
+    border:1px solid var(--rule);
+    border-radius:8px;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+    background:transparent;
+  }
+  .option:hover{border-color:var(--navy); background:rgba(27,58,92,0.04);}
+  [data-theme="dark"] .option:hover{background:rgba(217,164,65,0.06); border-color:var(--gold);}
+  .option.selected{
+    border-color:var(--navy);
+    background:rgba(27,58,92,0.07);
+  }
+  [data-theme="dark"] .option.selected{
+    border-color:var(--gold);
+    background:rgba(217,164,65,0.1);
+  }
+  .option .tag{
+    font-family:var(--mono);
+    font-size:13px;
+    font-weight:bold;
+    width:24px; height:24px;
+    border-radius:50%;
+    border:1.5px solid var(--rule);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    color:var(--ink-soft);
+  }
+  .option.selected .tag{
+    border-color:var(--navy);
+    background:var(--navy);
+    color:#fff;
+  }
+  [data-theme="dark"] .option.selected .tag{
+    border-color:var(--gold);
+    background:var(--gold);
+    color:#17232E;
+  }
+  .option .opt-text{
+    font-size:15.5px; line-height:1.5; padding-top:1px;
+  }
+  .option.locked{cursor:default;}
+  .option.correct{
+    border-color:var(--answered);
+    background:var(--answered-bg);
+  }
+  .option.correct .tag{
+    border-color:var(--answered);
+    background:var(--answered);
+    color:#fff;
+  }
+  .option.incorrect{
+    border-color:var(--wrong);
+    background:var(--wrong-bg);
+  }
+  .option.incorrect .tag{
+    border-color:var(--wrong);
+    background:var(--wrong);
+    color:#fff;
+  }
+  .option.locked:hover{background:inherit; border-color:inherit;}
+  .q-status-tag.correct{background:var(--answered-bg); color:var(--answered); border-color:var(--answered); box-shadow:0 0 0 1px var(--answered) inset;}
+  .q-status-tag.incorrect{background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong); box-shadow:0 0 0 1px var(--wrong) inset;}
+  .q-status-tag.review-unanswered{
+    background:var(--wrong-bg);
+    color:var(--wrong);
+    border-color:var(--wrong);
+    box-shadow:0 0 0 1px var(--wrong) inset;
+  }
+
+  /* ---------- Explanation (review mode) ---------- */
+  .explain-box{
+    margin-top:26px;
+    background:var(--gold-soft);
+    border:1px solid var(--gold);
+    border-radius:8px;
+    padding:16px 20px;
+    font-size:14px;
+    line-height:1.65;
+    color:var(--ink);
+  }
+  [data-theme="dark"] .explain-box{background:rgba(217,164,65,0.08);}
+  .explain-box b{color:var(--navy);}
+  [data-theme="dark"] .explain-box b{color:var(--gold);}
+  .explain-box .exp-label{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-bottom:8px;
+  }
+
+  .paper-foot{
+    display:flex; justify-content:space-between;
+    margin-top:32px; padding-top:20px;
+    border-top:1px solid var(--rule);
+  }
+  button{
+    font-family:var(--sans);
+    font-size:14px;
+    font-weight:600;
+    padding:11px 22px;
+    border-radius:7px;
+    border:1px solid var(--rule);
+    background:var(--paper);
+    color:var(--ink);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  button:hover:not(:disabled){border-color:var(--navy); color:var(--navy);}
+  [data-theme="dark"] button:hover:not(:disabled){border-color:var(--gold); color:var(--gold);}
+  button:disabled{opacity:0.35; cursor:not-allowed;}
+  button.primary{
+    background:var(--navy); color:#F4F1EA; border-color:var(--navy);
+  }
+  button.primary:hover{filter:brightness(1.1); color:#F4F1EA;}
+  button.clear{background:transparent; border-color:transparent; color:var(--ink-soft); font-weight:500;}
+  .nav-group{display:flex; gap:10px;}
+
+  /* ---------- Sidebar palette ---------- */
+  .sidebar{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:24px;
+    position:sticky;
+    top:96px;
+  }
+  .sidebar h2{
+    font-family:var(--serif);
+    font-size:16px;
+    font-weight:400;
+    margin:0 0 4px 0;
+    color:var(--ink);
+  }
+  .sidebar .sub{
+    font-size:12px; color:var(--ink-soft); margin-bottom:18px;
+  }
+  .legend{
+    display:flex; flex-direction:column; gap:8px;
+    margin-bottom:20px;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  .legend span{display:flex; align-items:center; gap:8px;}
+  .dot{width:10px; height:10px; border-radius:3px; flex-shrink:0;}
+  .dot.answered{background:var(--answered);}
+  .dot.unanswered{background:var(--rule); border:1px solid var(--ink-soft);}
+  .dot.current{background:transparent; border:2px solid var(--current-ring);}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:8px;
+    margin-bottom:22px;
+  }
+  .cell{
+    aspect-ratio:1;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono);
+    font-size:13px;
+    border-radius:6px;
+    border:1px solid var(--rule);
+    background:transparent;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .cell:hover{border-color:var(--navy);}
+  [data-theme="dark"] .cell:hover{border-color:var(--gold);}
+  .cell.answered{
+    background:var(--answered-bg); color:var(--answered); border-color:var(--answered);
+    font-weight:bold;
+  }
+  .cell.incorrect{
+    background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong);
+    font-weight:bold;
+  }
+  .cell.current{
+    outline:2px solid var(--current-ring); outline-offset:2px;
+  }
+
+  .tally{
+    padding-top:16px; border-top:1px solid var(--rule);
+    color:var(--ink-soft);
+  }
+  .tally-plain{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-plain > div{flex:1; text-align:left;}
+  .tally b{color:var(--ink); font-size:16px; display:block; font-family:var(--sans);}
+  .tally b.stat-correct{color:var(--answered);}
+  .tally b.stat-incorrect{color:var(--wrong);}
+  .tally b.stat-unattempted{color:var(--skipped);}
+
+  .marks-line{
+    text-align:center;
+    background:var(--gold-soft);
+    border:1.5px solid var(--gold);
+    border-radius:8px;
+    padding:12px 10px;
+    margin-bottom:14px;
+  }
+  [data-theme="dark"] .marks-line{background:rgba(217,164,65,0.12);}
+  .marks-line b{
+    font-size:26px; color:var(--navy); font-family:var(--serif); font-weight:700;
+  }
+  [data-theme="dark"] .marks-line b{color:var(--gold);}
+  .marks-line span{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-top:2px;
+  }
+  .tally-grid{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-grid > div{flex:1; text-align:left;}
+
+  .score-breakdown{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+    max-width:420px;
+    margin:24px auto 0;
+  }
+  .score-breakdown .stat{
+    border:1.5px solid var(--rule);
+    border-radius:10px;
+    padding:14px 10px;
+  }
+  .score-breakdown .stat b{
+    display:block; font-size:24px; font-family:var(--sans); margin-bottom:4px;
+  }
+  .score-breakdown .stat span{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft);
+  }
+  .score-breakdown .stat.correct{border-color:var(--answered); background:var(--answered-bg);}
+  .score-breakdown .stat.correct b{color:var(--answered);}
+  .score-breakdown .stat.incorrect{border-color:var(--wrong); background:var(--wrong-bg);}
+  .score-breakdown .stat.incorrect b{color:var(--wrong);}
+  .score-breakdown .stat.unattempted{border-color:var(--skipped); background:var(--skipped-bg);}
+  .score-breakdown .stat.unattempted b{color:var(--skipped);}
+
+  #submitBtn{width:100%; margin-top:20px;}
+
+  /* ---------- Result overlay ---------- */
+  .result-card{
+    background:var(--paper); border:1px solid var(--rule); border-radius:10px;
+    box-shadow:var(--shadow); padding:44px; text-align:center;
+  }
+  .result-card .score{
+    font-family:var(--serif); font-size:52px; color:var(--navy); margin:8px 0;
+  }
+  [data-theme="dark"] .result-card .score{color:var(--gold);}
+  .result-card .percent{
+    font-family:var(--mono); font-size:13px; color:var(--ink-soft);
+    letter-spacing:0.04em; margin-top:-4px;
+  }
+  .hidden{display:none !important;}
+  :root{
+    --desktop-width: 1440;
 }
 
+@media (max-width: 1439px){
+
+    body{
+        width: calc(var(--desktop-width) * 1px);
+
+        transform-origin: top left;
+
+        transform: scale(
+            calc(100vw / (var(--desktop-width) * 1px))
+        );
+
+        overflow-x: hidden;
+
+        min-height: calc(
+            100vh / (100vw / (var(--desktop-width) * 1px))
+        );
+    }
+
+}
 </style>
 </head>
-<body>
+<body data-theme="light">
 
-<!-- Mobile: group timer + toggle -->
-<div class="mobile-bar" id="mobileBar" style="display:none;">
-  <div id="timerMobile" style="background:var(--timer-bg);color:var(--timer-text);padding:10px 18px;font-size:20px;border-radius:8px;font-weight:bold;box-shadow:0 2px 10px var(--shadow);">30:00</div>
-  <div class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode" role="button">
-    <span class="icon" id="iconM">☀️</span>
-    <div class="toggle-track"><div class="toggle-knob"></div></div>
-    <span class="icon" id="iconM2">🌙</span>
+<header class="topbar">
+  <div class="topbar-inner">
+
+    <!-- <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">UPSC<br>LOGO</a> -->
+    <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">
+  <img src="../logo.png" alt="UPSC LoG" style="width:100%; height:100%; object-fit:contain; border-radius:6px;">
+</a>
+    <div class="title-block">
+      <div class="eyebrow">UPSC LoG · Prelims Booster 2027</div>
+      <h1>Polity Test CODE-2027-4</h1>
+      <div class="subnote" style="font-size: 12px;">
+        <span id="qTotalNote">7</span> Questions · +2 Correct / −0.67 Incorrect ·
+        <a href="https://t.me/upsclog" target="_blank" rel="noopener"> Join UPSC-LoG Telegram ↗</a>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="timer" id="timer">30:00</div>
+      <div class="mode-switch">
+        <span>Light</span>
+        <div class="switch" id="themeSwitch" role="button" aria-label="Toggle dark mode">
+          <div class="knob"></div>
+        </div>
+        <span>Dark</span>
+      </div>
+    </div>
   </div>
-</div>
+</header>
 
-<!-- Desktop: fixed position -->
-<div id="timerDesktop" class="timer-desktop" style="position:fixed;top:20px;right:20px;background:var(--timer-bg);color:var(--timer-text);padding:12px 20px;font-size:22px;border-radius:8px;font-weight:bold;box-shadow:0 2px 10px var(--shadow);z-index:100;transition:background 0.25s,color 0.25s;">30:00</div>
+<div class="layout">
 
-<div class="theme-toggle" id="toggleDesktop" onclick="toggleTheme()" aria-label="Toggle dark mode" role="button" style="position:fixed;top:74px;right:20px;">
-  <span class="icon">☀️</span>
-  <div class="toggle-track"><div class="toggle-knob"></div></div>
-  <span class="icon">🌙</span>
-</div>
+  <div class="paper" id="paperView">
+    <div class="paper-head">
+      <div class="q-index">Question <b id="qNum">1</b> of <span id="qTotal">7</span></div>
+      <div class="q-status-tag unanswered" id="qStatusTag">Not Answered</div>
+    </div>
 
-<div class="container">
-  <h1>
-    <a href="https://upsclog.github.io/upsclog/" target="_blank" style="color: black; background-color: #C4A484; border-radius: 8px; padding: 4px 12px; text-decoration: none; display: inline-block;">
-      <img src="../logo.png" alt="." style="height: 1.5em; vertical-align: middle; margin-right: 8px;">
-      UPSC LoG
-    </a>
-    — Prelims Booster 2027
-  </h1>
-  <h2>Polity Test CODE-2027-4</h2>
-  <p>
-    <b>Instructions</b>
-    <ul>
-      <li>25 UPSC CSE Thematic Test Series (with explanations)</li>
-      <li><b>Correct = 2.0 &nbsp;|&nbsp; Incorrect = −0.67</b></li>
-      <li><b><i>30-minute timer</i></b></li>
-      <li>Join <a href="https://t.me/upsclog" target="_blank">UPSC LoG Telegram ↗</a></li>
-    </ul>
-  </p>
+    <p class="q-text" id="qText">Loading question…</p>
 
-  <div id="score"></div>
-  <div id="quiz"></div>
-  <button class="submit-btn" onclick="submitQuiz()">Submit</button>
+    <div class="options" id="optionsList"></div>
+
+    <div class="explain-box hidden" id="explainBox">
+      <span class="exp-label">Explanation</span>
+      <div id="explainText"></div>
+    </div>
+
+    <div class="paper-foot">
+      <div class="nav-group">
+        <button id="prevBtn">← Previous</button>
+        <button class="clear" id="clearBtn">Clear response</button>
+      </div>
+      <button id="nextBtn" class="primary">Next →</button>
+    </div>
+  </div>
+
+  <div class="result-card hidden" id="resultView">
+    <div class="eyebrow" style="color:var(--ink-soft); letter-spacing:0.14em; font-family:var(--mono); font-size:11px; text-transform:uppercase;">Test Complete</div>
+    <div class="score" id="scoreText">0.00 / 14.00</div>
+    <div class="percent" id="scorePercent">0.00%</div>
+    <div class="score-breakdown" id="scoreBreakdown"></div>
+    <p style="color:var(--ink-soft); font-size:14px; margin:20px 0 24px;">You can review your answers and explanations using the palette on the right.</p>
+    <button class="primary" id="reviewBtn">Review Answers</button>
+  </div>
+
+  <aside class="sidebar">
+    <h2>* Explanations attached for each question after you submit the test<br><br></h2>
+    <h2>* Auto-Submission in 30 minutes</h2>
+    <h2>* Dark <-> Bright modes for ease</h2>
+    <div class="sub"></div>
+
+    <div class="legend">
+      <span><span class="dot answered"></span> Answered / Correct</span>
+      <span><span class="dot" style="background:var(--wrong);"></span> Incorrect</span>
+      <span><span class="dot unanswered"></span> Not answered</span>
+      <span><span class="dot current"></span> Currently viewing</span>
+    </div>
+
+    <div class="grid" id="paletteGrid"></div>
+
+    <div class="tally" id="tallyRow">
+      <div class="tally-plain">
+        <div><b id="answeredCount">0</b>Answered</div>
+        <div><b id="skippedCount">7</b>Remaining</div>
+      </div>
+    </div>
+
+    <button class="primary" id="submitBtn">Submit Test</button>
+  </aside>
+
 </div>
 
 <script>
-
-// ── Theme ──────────────────────────────────────────────────────────────────────
-function toggleTheme() {
-  const html = document.documentElement;
-  const next = html.getAttribute("data-theme") === "dark" ? "light" : "dark";
-  html.setAttribute("data-theme", next);
-  localStorage.setItem("upsc-theme", next);
-}
-
-(function () {
-  const saved = localStorage.getItem("upsc-theme");
-  if (saved) document.documentElement.setAttribute("data-theme", saved);
-})();
-
-// ── Responsive bar ─────────────────────────────────────────────────────────────
-function applyLayout() {
-  const mobile = window.innerWidth <= 700;
-  document.getElementById("mobileBar").style.display = mobile ? "flex" : "none";
-  document.getElementById("timerDesktop").style.display = mobile ? "none" : "block";
-  document.getElementById("toggleDesktop").style.display = mobile ? "none" : "flex";
-}
-applyLayout();
-window.addEventListener("resize", applyLayout);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ───────────────────────────────────────────────────────────────── Questions ──────────────────────────────────────────────────────────────────
-const questions = [
+const QUESTIONS = [
     {
-        question: "With reference to the Union Public Service Commission (UPSC), consider the following statements:<br>1. The UPSC submits an annual report on its work to the President, who causes it to be laid before each House of Parliament.<br>2. The UPSC can be consulted by two or more states on matters related to joint recruitment for any service requiring special qualifications.<br>3. The President can refer any matter to the UPSC for its opinion, and the UPSC is bound to tender its advice in all such cases.<br>Which of the statements given above is/are correct?",
-        options: [
+        q: "With reference to the Union Public Service Commission (UPSC), consider the following statements:<br>1. The UPSC submits an annual report on its work to the President, who causes it to be laid before each House of Parliament.<br>2. The UPSC can be consulted by two or more states on matters related to joint recruitment for any service requiring special qualifications.<br>3. The President can refer any matter to the UPSC for its opinion, and the UPSC is bound to tender its advice in all such cases.<br>Which of the statements given above is/are correct?",
+        opts: [
             "1 and 2 only",
             "2 and 3 only",
             "1 and 3 only",
             "1, 2 and 3"
         ],
-        answer: 0,
-        explanation: "Statements 1 and 2 are correct. The UPSC submits its annual report to the President who lays it before Parliament, and it can be consulted by states for joint recruitment. Statement 3 is incorrect because while the President may consult the UPSC, the UPSC is not bound to tender advice in all matters referred to it; additionally, the government is not bound to accept the UPSC's recommendations."
+        ans: 0,
+        exp: "Statements 1 and 2 are correct. The UPSC submits its annual report to the President who lays it before Parliament, and it can be consulted by states for joint recruitment. Statement 3 is incorrect because while the President may consult the UPSC, the UPSC is not bound to tender advice in all matters referred to it; additionally, the government is not bound to accept the UPSC's recommendations."
     },
     {
-        question: "With reference to the Inter-State Council, which of the following statements is/are correct?<br>1. The Inter-State Council is a constitutional body established under Article 263 of the Constitution.<br>2. The Sarkaria Commission recommended the establishment of the Inter-State Council, which was set up in 1990.<br>3. The Prime Minister is the Chairman of the Inter-State Council.<br>Select the correct answer using the code given below:",
-        options: [
+        q: "With reference to the Inter-State Council, which of the following statements is/are correct?<br>1. The Inter-State Council is a constitutional body established under Article 263 of the Constitution.<br>2. The Sarkaria Commission recommended the establishment of the Inter-State Council, which was set up in 1990.<br>3. The Prime Minister is the Chairman of the Inter-State Council.<br>Select the correct answer using the code given below:",
+        opts: [
             "1 only",
             "1 and 3 only",
             "2 and 3 only",
             "1, 2 and 3"
         ],
-        answer: 3,
-        explanation: "All three statements are correct. The Inter-State Council is a constitutional body under Article 263, established by a Presidential Order in 1990 following the Sarkaria Commission's recommendation. The Prime Minister chairs the council, with Chief Ministers of all states and Union Territories with legislatures as members."
+        ans: 3,
+        exp: "All three statements are correct. The Inter-State Council is a constitutional body under Article 263, established by a Presidential Order in 1990 following the Sarkaria Commission's recommendation. The Prime Minister chairs the council, with Chief Ministers of all states and Union Territories with legislatures as members."
     },
     {
-        question: "Consider the following statements about the Preamble to the Indian Constitution:<br>1. The Supreme Court in the Kesavananda Bharati case (1973) held that the Preamble is a part of the Constitution and can be amended under Article 368.<br>2. The words 'Socialist', 'Secular', and 'Integrity' were added to the Preamble by the 44th Constitutional Amendment Act.<br>3. The Preamble declares India to be a Sovereign, Socialist, Secular, Democratic Republic.<br>Which of the statements given above is/are correct?",
-        options: [
+        q: "Consider the following statements about the Preamble to the Indian Constitution:<br>1. The Supreme Court in the Kesavananda Bharati case (1973) held that the Preamble is a part of the Constitution and can be amended under Article 368.<br>2. The words 'Socialist', 'Secular', and 'Integrity' were added to the Preamble by the 44th Constitutional Amendment Act.<br>3. The Preamble declares India to be a Sovereign, Socialist, Secular, Democratic Republic.<br>Which of the statements given above is/are correct?",
+        opts: [
             "1 and 3 only",
             "2 and 3 only",
             "1 and 2 only",
             "1, 2 and 3"
         ],
-        answer: 0,
-        explanation: "Statements 1 and 3 are correct. In Kesavananda Bharati (1973), the Supreme Court ruled that the Preamble is part of the Constitution and is amendable. Statement 2 is incorrect — the words 'Socialist', 'Secular', and 'Integrity' were added by the 42nd Constitutional Amendment Act, 1976, not the 44th."
+        ans: 0,
+        exp: "Statements 1 and 3 are correct. In Kesavananda Bharati (1973), the Supreme Court ruled that the Preamble is part of the Constitution and is amendable. Statement 2 is incorrect — the words 'Socialist', 'Secular', and 'Integrity' were added by the 42nd Constitutional Amendment Act, 1976, not the 44th."
     },
     {
-        question: "Which of the following best describes a key distinction between the Right to Information (RTI) Act, 2005 and the Official Secrets Act, 1923?",
-        options: [
+        q: "Which of the following best describes a key distinction between the Right to Information (RTI) Act, 2005 and the Official Secrets Act, 1923?",
+        opts: [
             "The RTI Act applies only to central government bodies, while the Official Secrets Act applies to both central and state bodies.",
             "The RTI Act creates a presumption in favour of disclosure, while the Official Secrets Act presumes secrecy as the default for government information.",
             "The Official Secrets Act was repealed upon enactment of the RTI Act, 2005.",
             "The RTI Act grants absolute right to information with no exemptions for national security matters."
         ],
-        answer: 1,
-        explanation: "The RTI Act, 2005 shifts the paradigm by creating a presumption in favour of transparency and disclosure, placing the burden on the authority to justify withholding information. The Official Secrets Act, 1923, by contrast, treats government information as secret by default. The Official Secrets Act has not been repealed, and the RTI Act contains specific exemptions under Section 8, including for national security."
+        ans: 1,
+        exp: "The RTI Act, 2005 shifts the paradigm by creating a presumption in favour of transparency and disclosure, placing the burden on the authority to justify withholding information. The Official Secrets Act, 1923, by contrast, treats government information as secret by default. The Official Secrets Act has not been repealed, and the RTI Act contains specific exemptions under Section 8, including for national security."
     },
     {
-        question: "Consider the following statements regarding the powers of the President of India:<br>1. The President can return a non-money bill passed by Parliament for reconsideration only once.<br>2. The President's pardoning power under Article 72 extends to sentences awarded by court-martial.<br>3. The President is bound by the advice of the Council of Ministers in the exercise of all his powers.<br>Which of the statements given above is/are correct?",
-        options: [
+        q: "Consider the following statements regarding the powers of the President of India:<br>1. The President can return a non-money bill passed by Parliament for reconsideration only once.<br>2. The President's pardoning power under Article 72 extends to sentences awarded by court-martial.<br>3. The President is bound by the advice of the Council of Ministers in the exercise of all his powers.<br>Which of the statements given above is/are correct?",
+        opts: [
             "1 and 2 only",
             "2 and 3 only",
             "1 and 3 only",
             "1, 2 and 3"
         ],
-        answer: 0,
-        explanation: "Statements 1 and 2 are correct. The President can return a non-money bill for reconsideration only once; if Parliament passes it again, the President must give assent. Article 72 explicitly includes pardoning power for court-martial sentences, unlike the Governor's power under Article 161. Statement 3 is incorrect because certain discretionary powers (e.g., appointing PM when no clear majority, dissolving Lok Sabha in certain situations) allow the President some independence."
+        ans: 0,
+        exp: "Statements 1 and 2 are correct. The President can return a non-money bill for reconsideration only once; if Parliament passes it again, the President must give assent. Article 72 explicitly includes pardoning power for court-martial sentences, unlike the Governor's power under Article 161. Statement 3 is incorrect because certain discretionary powers (e.g., appointing PM when no clear majority, dissolving Lok Sabha in certain situations) allow the President some independence."
     },
     {
-        question: "With reference to the constitutional position and background of the President of India, which of the following is correct?",
-        options: [
+        q: "With reference to the constitutional position and background of the President of India, which of the following is correct?",
+        opts: [
             "The President of India is directly elected by the people of India through universal adult franchise.",
             "The framers of the Constitution modelled the office of the President primarily on the American presidential system.",
             "The President of India is elected by an electoral college consisting of elected members of both Houses of Parliament and elected members of the Legislative Assemblies of states and Union Territories with legislatures.",
             "The President's term of office is four years and he/she is eligible for re-election only once."
         ],
-        answer: 2,
-        explanation: "The President is elected by an electoral college comprising elected members of both Houses of Parliament and elected members of the Legislative Assemblies of states and Union Territories with legislatures (as per the 70th Amendment). The President is not directly elected, the model is not the American system but rather a nominal executive on British lines, and the term is five years with no bar on re-election."
+        ans: 2,
+        exp: "The President is elected by an electoral college comprising elected members of both Houses of Parliament and elected members of the Legislative Assemblies of states and Union Territories with legislatures (as per the 70th Amendment). The President is not directly elected, the model is not the American system but rather a nominal executive on British lines, and the term is five years with no bar on re-election."
     },
     {
-        question: "Which of the following criticisms is most often raised against the veto powers of the President of India?",
-        options: [
+        q: "Which of the following criticisms is most often raised against the veto powers of the President of India?",
+        opts: [
             "The President exercises an absolute veto over all legislation, which undermines parliamentary democracy.",
             "The 'pocket veto', where the President neither signs nor returns a bill, has no explicit time limit in the Constitution, creating constitutional ambiguity.",
             "The President's power to withhold assent applies equally to Money Bills and ordinary Bills.",
             "The Supreme Court has consistently ruled that presidential veto is unconstitutional."
         ],
-        answer: 1,
-        explanation: "A significant criticism of the President's veto is the 'pocket veto' — the Constitution prescribes no time limit within which the President must act on a bill (unlike the US where it is 10 days). This was demonstrated in 1986 when President Zail Singh sat on the Indian Post Office (Amendment) Bill for an extended period. Money Bills cannot be withheld by the President under normal circumstances, and the Supreme Court has not declared presidential veto unconstitutional."
+        ans: 1,
+        exp: "A significant criticism of the President's veto is the 'pocket veto' — the Constitution prescribes no time limit within which the President must act on a bill (unlike the US where it is 10 days). This was demonstrated in 1986 when President Zail Singh sat on the Indian Post Office (Amendment) Bill for an extended period. Money Bills cannot be withheld by the President under normal circumstances, and the Supreme Court has not declared presidential veto unconstitutional."
     },
     {
-        question: "Consider the following statements about the 73rd Constitutional Amendment Act, 1992 related to Panchayati Raj:<br>1. It added the Eleventh Schedule to the Constitution, listing 29 subjects that may be devolved to Panchayats.<br>2. It made the reservation of seats for Scheduled Castes, Scheduled Tribes, and women in Panchayats mandatory and uniform across all states.<br>3. It provided for a State Finance Commission to review the financial position of Panchayats every five years.<br>Which of the statements given above is/are correct?",
-        options: [
+        q: "Consider the following statements about the 73rd Constitutional Amendment Act, 1992 related to Panchayati Raj:<br>1. It added the Eleventh Schedule to the Constitution, listing 29 subjects that may be devolved to Panchayats.<br>2. It made the reservation of seats for Scheduled Castes, Scheduled Tribes, and women in Panchayats mandatory and uniform across all states.<br>3. It provided for a State Finance Commission to review the financial position of Panchayats every five years.<br>Which of the statements given above is/are correct?",
+        opts: [
             "1 and 3 only",
             "2 and 3 only",
             "1 and 2 only",
             "1, 2 and 3"
         ],
-        answer: 3,
-        explanation: "All three statements are correct. The 73rd Amendment added the Eleventh Schedule (29 subjects), made SC/ST/women reservations mandatory (with women getting not less than one-third seats), and mandated a State Finance Commission every five years to review Panchayat finances. These provisions are part of Part IX of the Constitution inserted by this amendment."
+        ans: 3,
+        exp: "All three statements are correct. The 73rd Amendment added the Eleventh Schedule (29 subjects), made SC/ST/women reservations mandatory (with women getting not less than one-third seats), and mandated a State Finance Commission every five years to review Panchayat finances. These provisions are part of Part IX of the Constitution inserted by this amendment."
     },
     {
-        question: "Which of the following is a valid criticism levelled against the implementation of the 74th Constitutional Amendment Act relating to Urban Local Bodies (ULBs)?",
-        options: [
+        q: "Which of the following is a valid criticism levelled against the implementation of the 74th Constitutional Amendment Act relating to Urban Local Bodies (ULBs)?",
+        opts: [
             "The 74th Amendment does not provide for reservation of seats for women in ULBs.",
             "States have been reluctant to transfer subjects listed in the Twelfth Schedule to ULBs, undermining genuine decentralisation.",
             "The 74th Amendment abolished the District Planning Committees and replaced them with State Planning Boards.",
             "The amendment makes it mandatory for states to constitute Metropolitan Planning Committees only in cities with a population exceeding 50 lakh."
         ],
-        answer: 1,
-        explanation: "The most substantive criticism of the 74th Amendment's implementation is that states have not genuinely devolved powers, functions, and finances to ULBs despite the Twelfth Schedule listing 18 subjects. The 74th Amendment does mandate reservation for women (not less than one-third). District Planning Committees were retained, and the threshold for Metropolitan Planning Committees is 10 lakh, not 50 lakh."
+        ans: 1,
+        exp: "The most substantive criticism of the 74th Amendment's implementation is that states have not genuinely devolved powers, functions, and finances to ULBs despite the Twelfth Schedule listing 18 subjects. The 74th Amendment does mandate reservation for women (not less than one-third). District Planning Committees were retained, and the threshold for Metropolitan Planning Committees is 10 lakh, not 50 lakh."
     },
     {
-        question: "Consider the following statements regarding Official Language provisions under the Indian Constitution:<br>1. Article 343 declares Hindi in Devanagari script as the official language of the Union.<br>2. The Constitution originally provided for a review of the official language question after 15 years, but Parliament has been empowered to provide for continued use of English thereafter.<br>3. The Eighth Schedule of the Constitution currently recognises 22 languages as scheduled languages.<br>Which of the statements given above is/are correct?",
-        options: [
+        q: "Consider the following statements regarding Official Language provisions under the Indian Constitution:<br>1. Article 343 declares Hindi in Devanagari script as the official language of the Union.<br>2. The Constitution originally provided for a review of the official language question after 15 years, but Parliament has been empowered to provide for continued use of English thereafter.<br>3. The Eighth Schedule of the Constitution currently recognises 22 languages as scheduled languages.<br>Which of the statements given above is/are correct?",
+        opts: [
             "1 and 2 only",
             "2 and 3 only",
             "1 and 3 only",
             "1, 2 and 3"
         ],
-        answer: 3,
-        explanation: "All three statements are correct. Article 343 designates Hindi in Devanagari script as the Union's official language. Article 343(2) provided for use of English for 15 years from commencement, and Article 343(3) empowers Parliament to provide for its continued use — which was done through the Official Languages Act, 1963. The Eighth Schedule currently recognises 22 languages, with Bodo, Dogri, Maithili, and Santhali added by the 92nd Amendment, 2003."
+        ans: 3,
+        exp: "All three statements are correct. Article 343 designates Hindi in Devanagari script as the Union's official language. Article 343(2) provided for use of English for 15 years from commencement, and Article 343(3) empowers Parliament to provide for its continued use — which was done through the Official Languages Act, 1963. The Eighth Schedule currently recognises 22 languages, with Bodo, Dogri, Maithili, and Santhali added by the 92nd Amendment, 2003."
     },
     {
-        question: "Which of the following best explains why the Directive Principles of State Policy (DPSP) were included in the Indian Constitution despite being non-justiciable?",
-        options: [
+        q: "Which of the following best explains why the Directive Principles of State Policy (DPSP) were included in the Indian Constitution despite being non-justiciable?",
+        opts: [
             "The Constituent Assembly intended DPSPs to serve as enforceable fundamental rights to be activated only upon attaining economic development.",
             "The framers recognised India's economic constraints at independence and sought to lay down socio-economic goals that the state should strive towards, drawing inspiration from the Irish Constitution's directive principles.",
             "DPSPs were included solely as a symbolic gesture to appease socialist political groups without any legislative intent.",
             "DPSPs were meant to serve as instructions to courts on interpreting fundamental rights, making them indirectly enforceable through judicial review."
         ],
-        answer: 1,
-        explanation: "The DPSPs were incorporated primarily because the framers, aware of India's poverty and developmental challenges, wanted to set out socio-economic and political goals for the state to achieve progressively — inspired by the Irish Constitution of 1937. Dr. B.R. Ambedkar described them as the 'novel feature' of the Constitution. They are non-justiciable but fundamental to governance, not merely symbolic or intended as interpretive tools for courts alone."
+        ans: 1,
+        exp: "The DPSPs were incorporated primarily because the framers, aware of India's poverty and developmental challenges, wanted to set out socio-economic and political goals for the state to achieve progressively — inspired by the Irish Constitution of 1937. Dr. B.R. Ambedkar described them as the 'novel feature' of the Constitution. They are non-justiciable but fundamental to governance, not merely symbolic or intended as interpretive tools for courts alone."
     },
     {
-        question: "With reference to the relationship between the Inter-State Council and other bodies for Centre-State coordination, which of the following is correct?",
-        options: [
+        q: "With reference to the relationship between the Inter-State Council and other bodies for Centre-State coordination, which of the following is correct?",
+        opts: [
             "The National Development Council (NDC) and the Inter-State Council have identical compositions and functions.",
             "Unlike the Zonal Councils which are statutory bodies, the Inter-State Council is a constitutional body, giving it precedence in resolving inter-state disputes.",
             "The Inter-State Council is chaired by the Home Minister, while the Zonal Councils are chaired by the Prime Minister.",
             "The Zonal Councils were established under an Act of Parliament, while the Inter-State Council was established by a Presidential Order under Article 263."
         ],
-        answer: 3,
-        explanation: "The Zonal Councils are statutory bodies created under the States Reorganisation Act, 1956, while the Inter-State Council is a constitutional body established by a Presidential Order in 1990 under Article 263. The Inter-State Council is chaired by the Prime Minister, not the Home Minister (though the Home Minister chairs Zonal Councils). The NDC and Inter-State Council have different compositions and mandates."
+        ans: 3,
+        exp: "The Zonal Councils are statutory bodies created under the States Reorganisation Act, 1956, while the Inter-State Council is a constitutional body established by a Presidential Order in 1990 under Article 263. The Inter-State Council is chaired by the Prime Minister, not the Home Minister (though the Home Minister chairs Zonal Councils). The NDC and Inter-State Council have different compositions and mandates."
     },
     {
-        question: "Consider the following statements about the Lok Sabha and Rajya Sabha:<br>1. A member of the Rajya Sabha can introduce a Constitutional Amendment Bill.<br>2. The Rajya Sabha cannot be dissolved, but one-third of its members retire every two years.<br>3. The Speaker of the Lok Sabha is elected by all members of Parliament from both Houses.<br>Which of the statements given above is/are correct?",
-        options: [
+        q: "Consider the following statements about the Lok Sabha and Rajya Sabha:<br>1. A member of the Rajya Sabha can introduce a Constitutional Amendment Bill.<br>2. The Rajya Sabha cannot be dissolved, but one-third of its members retire every two years.<br>3. The Speaker of the Lok Sabha is elected by all members of Parliament from both Houses.<br>Which of the statements given above is/are correct?",
+        opts: [
             "1 and 2 only",
             "2 and 3 only",
             "1 and 3 only",
             "1, 2 and 3"
         ],
-        answer: 0,
-        explanation: "Statements 1 and 2 are correct. A Constitutional Amendment Bill under Article 368 can be introduced in either House, including the Rajya Sabha. The Rajya Sabha is a permanent House — it is not subject to dissolution, and one-third of its members retire every two years. Statement 3 is incorrect: the Speaker of the Lok Sabha is elected only by the members of the Lok Sabha, not by all members of Parliament."
+        ans: 0,
+        exp: "Statements 1 and 2 are correct. A Constitutional Amendment Bill under Article 368 can be introduced in either House, including the Rajya Sabha. The Rajya Sabha is a permanent House — it is not subject to dissolution, and one-third of its members retire every two years. Statement 3 is incorrect: the Speaker of the Lok Sabha is elected only by the members of the Lok Sabha, not by all members of Parliament."
     },
     {
-        question: "Which of the following statements correctly distinguishes a Money Bill from a Financial Bill in the Indian Parliament?",
-        options: [
+        q: "Which of the following statements correctly distinguishes a Money Bill from a Financial Bill in the Indian Parliament?",
+        opts: [
             "A Financial Bill can be introduced in either House of Parliament, whereas a Money Bill can only be introduced in the Rajya Sabha.",
             "A Money Bill contains only matters specified in Article 110, while a Financial Bill (Category I) contains matters of Article 110 along with other matters and must be introduced in the Lok Sabha.",
             "The President's prior recommendation is required for a Financial Bill but not for a Money Bill.",
             "The Rajya Sabha has equal powers over both Money Bills and Financial Bills."
         ],
-        answer: 1,
-        explanation: "A Money Bill, as defined under Article 110, deals exclusively with matters listed therein (taxation, government borrowing, Consolidated Fund, etc.). A Financial Bill (Category I) under Article 117(1) contains provisions of Article 110 along with other matters and must be introduced only in the Lok Sabha with the President's prior recommendation. Money Bills must also be introduced in the Lok Sabha; the Rajya Sabha has no amendment powers over Money Bills, only recommendatory powers."
+        ans: 1,
+        exp: "A Money Bill, as defined under Article 110, deals exclusively with matters listed therein (taxation, government borrowing, Consolidated Fund, etc.). A Financial Bill (Category I) under Article 117(1) contains provisions of Article 110 along with other matters and must be introduced only in the Lok Sabha with the President's prior recommendation. Money Bills must also be introduced in the Lok Sabha; the Rajya Sabha has no amendment powers over Money Bills, only recommendatory powers."
     },
     {
-        question: "With reference to the joint sitting of both Houses of Parliament, consider the following statements:<br>1. A joint sitting can be convened to resolve a deadlock over a Money Bill between the two Houses.<br>2. The joint sitting is presided over by the Speaker of the Lok Sabha.<br>3. The Constitution has so far provided for only three joint sittings, and all three have taken place.<br>Which of the statements given above is/are correct?",
-        options: [
+        q: "With reference to the joint sitting of both Houses of Parliament, consider the following statements:<br>1. A joint sitting can be convened to resolve a deadlock over a Money Bill between the two Houses.<br>2. The joint sitting is presided over by the Speaker of the Lok Sabha.<br>3. The Constitution has so far provided for only three joint sittings, and all three have taken place.<br>Which of the statements given above is/are correct?",
+        opts: [
             "1 and 2 only",
             "2 and 3 only",
             "2 only",
             "1, 2 and 3"
         ],
-        answer: 1,
-        explanation: "Statement 1 is incorrect — a joint sitting under Article 108 cannot be convened for Money Bills (or Constitution Amendment Bills); it applies only to ordinary bills. Statement 2 is correct; the Speaker of Lok Sabha presides. Statement 3 is correct — India has had three joint sittings: Dowry Prohibition Bill (1961), Banking Service Commission (Repeal) Bill (1978), and Prevention of Terrorism Act (POTA) Bill (2002)."
+        ans: 1,
+        exp: "Statement 1 is incorrect — a joint sitting under Article 108 cannot be convened for Money Bills (or Constitution Amendment Bills); it applies only to ordinary bills. Statement 2 is correct; the Speaker of Lok Sabha presides. Statement 3 is correct — India has had three joint sittings: Dowry Prohibition Bill (1961), Banking Service Commission (Repeal) Bill (1978), and Prevention of Terrorism Act (POTA) Bill (2002)."
     },
     {
-        question: "Consider the following statements regarding Centre-State relations in India:<br>1. Under Article 356, the President's Rule can be imposed in a state on the ground of failure of constitutional machinery, but it must be approved by both Houses of Parliament within two months.<br>2. The Supreme Court in S.R. Bommai v. Union of India (1994) held that the dissolution of a state legislature before parliamentary approval of President's Rule is unconstitutional.<br>3. The Governor of a state is appointed by the President and holds office during the pleasure of the President.<br>Which of the statements given above is/are correct?",
-        options: [
+        q: "Consider the following statements regarding Centre-State relations in India:<br>1. Under Article 356, the President's Rule can be imposed in a state on the ground of failure of constitutional machinery, but it must be approved by both Houses of Parliament within two months.<br>2. The Supreme Court in S.R. Bommai v. Union of India (1994) held that the dissolution of a state legislature before parliamentary approval of President's Rule is unconstitutional.<br>3. The Governor of a state is appointed by the President and holds office during the pleasure of the President.<br>Which of the statements given above is/are correct?",
+        opts: [
             "1 and 2 only",
             "2 and 3 only",
             "1 and 3 only",
             "1, 2 and 3"
         ],
-        answer: 1,
-        explanation: "Statement 1 is incorrect — the President's Proclamation must be approved by Parliament within two months, but the Lok Sabha can be in recess, making the effective window longer; more critically, the approval period is two months, not 'within two months' from imposition in all circumstances. Statements 2 and 3 are correct. The S.R. Bommai ruling held that state legislature dissolution before parliamentary approval is unconstitutional, and the Governor holds office at the pleasure of the President under Article 156."
+        ans: 1,
+        exp: "Statement 1 is incorrect — the President's Proclamation must be approved by Parliament within two months, but the Lok Sabha can be in recess, making the effective window longer; more critically, the approval period is two months, not 'within two months' from imposition in all circumstances. Statements 2 and 3 are correct. The S.R. Bommai ruling held that state legislature dissolution before parliamentary approval is unconstitutional, and the Governor holds office at the pleasure of the President under Article 156."
     },
     {
-        question: "With reference to Tribunals in India, consider the following statements:<br>1. The Central Administrative Tribunal (CAT) was established under Article 323-A of the Constitution by the Administrative Tribunals Act, 1985.<br>2. The National Green Tribunal (NGT) was established under the NGT Act, 2010 and derives its power to award compensation from the principle of 'Polluter Pays'.<br>3. Both CAT and NGT follow the Code of Civil Procedure, 1908 in their proceedings.<br>Which of the statements given above is/are correct?",
-        options: [
+        q: "With reference to Tribunals in India, consider the following statements:<br>1. The Central Administrative Tribunal (CAT) was established under Article 323-A of the Constitution by the Administrative Tribunals Act, 1985.<br>2. The National Green Tribunal (NGT) was established under the NGT Act, 2010 and derives its power to award compensation from the principle of 'Polluter Pays'.<br>3. Both CAT and NGT follow the Code of Civil Procedure, 1908 in their proceedings.<br>Which of the statements given above is/are correct?",
+        opts: [
             "1 and 2 only",
             "2 and 3 only",
             "1 and 3 only",
             "1, 2 and 3"
         ],
-        answer: 0,
-        explanation: "Statements 1 and 2 are correct. CAT was established under Article 323-A through the Administrative Tribunals Act, 1985, and NGT applies the 'Polluter Pays' and 'Precautionary Principle' in granting relief. Statement 3 is incorrect — both CAT and NGT are not bound by the Code of Civil Procedure; they follow principles of natural justice and their own procedural rules, which is a defining advantage of tribunals over regular courts."
+        ans: 0,
+        exp: "Statements 1 and 2 are correct. CAT was established under Article 323-A through the Administrative Tribunals Act, 1985, and NGT applies the 'Polluter Pays' and 'Precautionary Principle' in granting relief. Statement 3 is incorrect — both CAT and NGT are not bound by the Code of Civil Procedure; they follow principles of natural justice and their own procedural rules, which is a defining advantage of tribunals over regular courts."
     },
     {
-        question: "Consider the following statements about the Delimitation Commission of India:<br>1. The Delimitation Commission is a permanent statutory body established under the Delimitation Act.<br>2. The orders of the Delimitation Commission cannot be questioned in any court of law.<br>3. The last delimitation exercise that affected Lok Sabha constituencies was conducted by the Delimitation Commission of 2002, and its orders came into effect from 2008.<br>Which of the statements given above is/are correct?",
-        options: [
+        q: "Consider the following statements about the Delimitation Commission of India:<br>1. The Delimitation Commission is a permanent statutory body established under the Delimitation Act.<br>2. The orders of the Delimitation Commission cannot be questioned in any court of law.<br>3. The last delimitation exercise that affected Lok Sabha constituencies was conducted by the Delimitation Commission of 2002, and its orders came into effect from 2008.<br>Which of the statements given above is/are correct?",
+        opts: [
             "1 and 3 only",
             "2 and 3 only",
             "1 and 2 only",
             "1, 2 and 3"
         ],
-        answer: 1,
-        explanation: "Statement 1 is incorrect — the Delimitation Commission is not a permanent body; it is set up by the President under the Delimitation Act as and when required after each census. Statements 2 and 3 are correct. Article 329 bars courts from questioning delimitation orders. The Delimitation Commission set up in 2002 concluded its work, and the new delimitation orders came into effect for the 2008 assembly elections and 2009 general elections."
+        ans: 1,
+        exp: "Statement 1 is incorrect — the Delimitation Commission is not a permanent body; it is set up by the President under the Delimitation Act as and when required after each census. Statements 2 and 3 are correct. Article 329 bars courts from questioning delimitation orders. The Delimitation Commission set up in 2002 concluded its work, and the new delimitation orders came into effect for the 2008 assembly elections and 2009 general elections."
     },
     {
-        question: "With reference to the sources of the Indian Constitution, which of the following pairs is correctly matched?",
-        options: [
+        q: "With reference to the sources of the Indian Constitution, which of the following pairs is correctly matched?",
+        opts: [
             "Emergency provisions — Canadian Constitution",
             "Directive Principles of State Policy — Australian Constitution",
             "Fundamental Rights — United Kingdom Constitution",
             "Concurrent List — Australian Constitution"
         ],
-        answer: 3,
-        explanation: "The Concurrent List in the Indian Constitution is borrowed from the Australian Constitution. Emergency provisions are drawn primarily from the German (Weimar) Constitution and the Government of India Act, 1935. Directive Principles are borrowed from the Irish Constitution (not Australian). Fundamental Rights are inspired by the US Constitution, not the UK Constitution (which has an unwritten constitution with parliamentary sovereignty)."
+        ans: 3,
+        exp: "The Concurrent List in the Indian Constitution is borrowed from the Australian Constitution. Emergency provisions are drawn primarily from the German (Weimar) Constitution and the Government of India Act, 1935. Directive Principles are borrowed from the Irish Constitution (not Australian). Fundamental Rights are inspired by the US Constitution, not the UK Constitution (which has an unwritten constitution with parliamentary sovereignty)."
     },
     {
-        question: "Consider the following statements about Fundamental Duties under Article 51-A of the Indian Constitution:<br>1. Fundamental Duties were incorporated into the Constitution by the 42nd Amendment Act, 1976 on the recommendation of the Swaran Singh Committee.<br>2. There are currently 11 Fundamental Duties in the Constitution, the 11th being added by the 86th Amendment Act, 2002.<br>3. Fundamental Duties are enforceable in a court of law if Parliament enacts a law making their violation punishable.<br>Which of the statements given above is/are correct?",
-        options: [
+        q: "Consider the following statements about Fundamental Duties under Article 51-A of the Indian Constitution:<br>1. Fundamental Duties were incorporated into the Constitution by the 42nd Amendment Act, 1976 on the recommendation of the Swaran Singh Committee.<br>2. There are currently 11 Fundamental Duties in the Constitution, the 11th being added by the 86th Amendment Act, 2002.<br>3. Fundamental Duties are enforceable in a court of law if Parliament enacts a law making their violation punishable.<br>Which of the statements given above is/are correct?",
+        opts: [
             "1 and 2 only",
             "2 and 3 only",
             "1 and 3 only",
             "1, 2 and 3"
         ],
-        answer: 3,
-        explanation: "All three statements are correct. The 42nd Amendment (1976) added 10 Fundamental Duties based on the Swaran Singh Committee report. The 86th Amendment (2002) added the 11th duty — for parents/guardians to provide opportunities for education to children aged 6-14. Fundamental Duties, while not justiciable per se, can be made legally enforceable if Parliament legislates to that effect, as observed in Ranganath Misra Commission findings."
+        ans: 3,
+        exp: "All three statements are correct. The 42nd Amendment (1976) added 10 Fundamental Duties based on the Swaran Singh Committee report. The 86th Amendment (2002) added the 11th duty — for parents/guardians to provide opportunities for education to children aged 6-14. Fundamental Duties, while not justiciable per se, can be made legally enforceable if Parliament legislates to that effect, as observed in Ranganath Misra Commission findings."
     },
     {
-        question: "Which of the following statements best captures the constitutional and practical significance of the Cabinet in India's parliamentary system?",
-        options: [
+        q: "Which of the following statements best captures the constitutional and practical significance of the Cabinet in India's parliamentary system?",
+        opts: [
             "The Cabinet is a constitutional body whose composition and functions are elaborately defined under Articles 74 and 75.",
             "The Cabinet is the supreme decision-making body of the executive, and while mentioned in Article 352, its detailed structure is largely governed by convention rather than explicit constitutional provisions.",
             "The Council of Ministers and the Cabinet are interchangeable terms under the Indian Constitution, representing the same body with identical membership.",
             "The Prime Minister has no constitutional power to request the resignation of a Cabinet Minister; removal can only be effected through a vote of Parliament."
         ],
-        answer: 1,
-        explanation: "The Cabinet is mentioned by name only in Article 352 (Emergency proclamation). Articles 74 and 75 deal with the Council of Ministers broadly. The Cabinet, as the inner ring of the Council of Ministers comprising senior ministers, is governed largely by convention and political practice. The Council of Ministers and the Cabinet are not the same — the Cabinet is a smaller, more powerful subset. The PM can advise the President to dismiss a minister."
+        ans: 1,
+        exp: "The Cabinet is mentioned by name only in Article 352 (Emergency proclamation). Articles 74 and 75 deal with the Council of Ministers broadly. The Cabinet, as the inner ring of the Council of Ministers comprising senior ministers, is governed largely by convention and political practice. The Council of Ministers and the Cabinet are not the same — the Cabinet is a smaller, more powerful subset. The PM can advise the President to dismiss a minister."
     },
     {
-        question: "Consider the following features of the Directive Principles of State Policy (DPSPs) and identify the incorrectly matched pair:<br>Article — Provision",
-        options: [
+        q: "Consider the following features of the Directive Principles of State Policy (DPSPs) and identify the incorrectly matched pair:<br>Article — Provision",
+        opts: [
             "Article 39A — Equal justice and free legal aid",
             "Article 44 — Uniform Civil Code for citizens",
             "Article 48 — Organisation of agriculture and animal husbandry on modern and scientific lines",
             "Article 40 — Organisation of Panchayats and village councils"
         ],
-        answer: 2,
-        explanation: "Article 48 relates to 'Organisation of agriculture and animal husbandry' but on modern and scientific lines — this is partially correct in description but the key content is about prohibition of cow slaughter and improving breeds of animals. Article 48A (added by 42nd Amendment) is about protection of environment. The description in option C conflates Article 48 with broader agrarian modernisation. Article 39A, 44, and 40 are correctly described in the other options, making option C the mismatched one."
+        ans: 2,
+        exp: "Article 48 relates to 'Organisation of agriculture and animal husbandry' but on modern and scientific lines — this is partially correct in description but the key content is about prohibition of cow slaughter and improving breeds of animals. Article 48A (added by 42nd Amendment) is about protection of environment. The description in option C conflates Article 48 with broader agrarian modernisation. Article 39A, 44, and 40 are correctly described in the other options, making option C the mismatched one."
     },
     {
-        question: "With reference to the High Courts of India, which of the following statements is correct?",
-        options: [
+        q: "With reference to the High Courts of India, which of the following statements is correct?",
+        opts: [
             "High Courts exercise original jurisdiction in all civil and criminal matters within their territorial limits.",
             "A High Court can issue writs not only for the enforcement of Fundamental Rights but also for any other purpose, making its writ jurisdiction wider than that of the Supreme Court.",
             "The Chief Justice of a High Court is appointed by the Governor of the state in consultation with the Chief Justice of India.",
             "High Courts were established by the Indian Constitution in 1950 and did not exist in any form prior to that."
         ],
-        answer: 1,
-        explanation: "Article 226 empowers High Courts to issue writs 'for any other purpose,' meaning their writ jurisdiction is wider than that of the Supreme Court, which under Article 32 can issue writs only for enforcement of Fundamental Rights. High Courts do not exercise original jurisdiction in all civil/criminal matters — original jurisdiction is limited to certain matters. The Chief Justice of a High Court is appointed by the President (not Governor), and High Courts existed since 1862 under British India."
+        ans: 1,
+        exp: "Article 226 empowers High Courts to issue writs 'for any other purpose,' meaning their writ jurisdiction is wider than that of the Supreme Court, which under Article 32 can issue writs only for enforcement of Fundamental Rights. High Courts do not exercise original jurisdiction in all civil/criminal matters — original jurisdiction is limited to certain matters. The Chief Justice of a High Court is appointed by the President (not Governor), and High Courts existed since 1862 under British India."
     },
     {
-        question: "With reference to Question Hour and Zero Hour in the Indian Parliament, consider the following statements:<br>1. Question Hour is specifically provided for in the Rules of Procedure of both Houses of Parliament, while Zero Hour has no mention in the rules or the Constitution.<br>2. Starred questions require oral answers from ministers, while Unstarred questions require written answers.<br>3. The Speaker or Chairman can disallow a question on grounds that it is not in the interest of the security of the State.<br>Which of the statements given above is/are correct?",
-        options: [
+        q: "With reference to Question Hour and Zero Hour in the Indian Parliament, consider the following statements:<br>1. Question Hour is specifically provided for in the Rules of Procedure of both Houses of Parliament, while Zero Hour has no mention in the rules or the Constitution.<br>2. Starred questions require oral answers from ministers, while Unstarred questions require written answers.<br>3. The Speaker or Chairman can disallow a question on grounds that it is not in the interest of the security of the State.<br>Which of the statements given above is/are correct?",
+        opts: [
             "1 and 2 only",
             "2 and 3 only",
             "1 and 3 only",
             "1, 2 and 3"
         ],
-        answer: 3,
-        explanation: "All three statements are correct. Question Hour is governed by the Rules of Procedure of both Houses, while Zero Hour — the period immediately after Question Hour — is an informal innovation without any constitutional or rule basis. Starred questions require oral answers and allow supplementary questions; Unstarred questions require only written answers. The presiding officers can reject questions on multiple grounds, including national security, under the Rules of Procedure."
+        ans: 3,
+        exp: "All three statements are correct. Question Hour is governed by the Rules of Procedure of both Houses, while Zero Hour — the period immediately after Question Hour — is an informal innovation without any constitutional or rule basis. Starred questions require oral answers and allow supplementary questions; Unstarred questions require only written answers. The presiding officers can reject questions on multiple grounds, including national security, under the Rules of Procedure."
     },
     {
-        question: "Consider the following statements regarding the Official Language provisions and their impact on Indian administration:<br>1. The Official Languages Act, 1963 made it mandatory for the Union to use Hindi as the sole language of official communication with all states by 1965.<br>2. States whose mother tongue is not Hindi are permitted to correspond with the Union in their own official language, with an English translation accompanying such communication.<br>3. The Rajbhasha Vibhag under the Ministry of Home Affairs is the nodal department for implementing Hindi as the official language of the Union.<br>Which of the statements given above is/are correct?",
-        options: [
+        q: "Consider the following statements regarding the Official Language provisions and their impact on Indian administration:<br>1. The Official Languages Act, 1963 made it mandatory for the Union to use Hindi as the sole language of official communication with all states by 1965.<br>2. States whose mother tongue is not Hindi are permitted to correspond with the Union in their own official language, with an English translation accompanying such communication.<br>3. The Rajbhasha Vibhag under the Ministry of Home Affairs is the nodal department for implementing Hindi as the official language of the Union.<br>Which of the statements given above is/are correct?",
+        opts: [
             "2 and 3 only",
             "1 and 3 only",
             "1 and 2 only",
             "1, 2 and 3"
         ],
-        answer: 0,
-        explanation: "Statement 1 is incorrect — the Official Languages Act, 1963, far from making Hindi mandatory, actually continued English as an associate official language even after 1965, following widespread protests in southern states (especially Tamil Nadu). Statements 2 and 3 are correct. Non-Hindi states can communicate with the Union in their own language with an English translation, and the Rajbhasha Vibhag under the Ministry of Home Affairs is the nodal department for Official Language implementation."
+        ans: 0,
+        exp: "Statement 1 is incorrect — the Official Languages Act, 1963, far from making Hindi mandatory, actually continued English as an associate official language even after 1965, following widespread protests in southern states (especially Tamil Nadu). Statements 2 and 3 are correct. Non-Hindi states can communicate with the Union in their own language with an English translation, and the Rajbhasha Vibhag under the Ministry of Home Affairs is the nodal department for Official Language implementation."
     }
 ];
-// ────────────────────────────────────────────────────────────────── Render quiz ────────────────────────────────────────────────────────────────
 
+const CORRECT_MARKS = 2;
+const NEGATIVE_MARKS = 2 / 3;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const quiz = document.getElementById("quiz");
-
-questions.forEach((q, index) => {
-  let html = `<div class="question">
-    <h3>${q.topic}</h3>
-    <p><b>Q${index + 1}.</b> ${q.question}</p>`;
-
-  q.options.forEach((opt, i) => {
-    html += `<label class="option">
-      <input type="radio" name="q${index}" value="${i}">
-      ${String.fromCharCode(65 + i)}. ${opt}
-    </label>`;
-  });
-
-  html += `<div class="explanation" id="exp${index}"></div></div>`;
-  quiz.innerHTML += html;
-});
-
-// ── Submit ─────────────────────────────────────────────────────────────────────
+let current = 0;
+const responses = new Array(QUESTIONS.length).fill(null);
 let submitted = false;
 
-function submitQuiz() {
-  if (submitted) return;
+const qNumEl = document.getElementById('qNum');
+const qTotalEl = document.getElementById('qTotal');
+const qTotalNoteEl = document.getElementById('qTotalNote');
+const qTextEl = document.getElementById('qText');
+const optionsListEl = document.getElementById('optionsList');
+const qStatusTag = document.getElementById('qStatusTag');
+const explainBox = document.getElementById('explainBox');
+const explainText = document.getElementById('explainText');
+const paletteGrid = document.getElementById('paletteGrid');
+const answeredCountEl = document.getElementById('answeredCount');
+const skippedCountEl = document.getElementById('skippedCount');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const clearBtn = document.getElementById('clearBtn');
+const submitBtn = document.getElementById('submitBtn');
+const paperView = document.getElementById('paperView');
+const resultView = document.getElementById('resultView');
+const reviewBtn = document.getElementById('reviewBtn');
+const scoreText = document.getElementById('scoreText');
+const scorePercent = document.getElementById('scorePercent');
+
+qTotalEl.textContent = QUESTIONS.length;
+qTotalNoteEl.textContent = QUESTIONS.length;
+skippedCountEl.textContent = QUESTIONS.length;
+
+function buildPalette(){
+  paletteGrid.innerHTML = '';
+  QUESTIONS.forEach((_, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.textContent = i + 1;
+    cell.addEventListener('click', () => { current = i; render(); });
+    paletteGrid.appendChild(cell);
+  });
+}
+
+function render(){
+  const item = QUESTIONS[current];
+  qNumEl.textContent = current + 1;
+  qTextEl.innerHTML = item.q;
+
+  optionsListEl.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  const userChoice = responses[current];
+  item.opts.forEach((opt, idx) => {
+    const div = document.createElement('div');
+    let cls = 'option';
+    if (submitted){
+      cls += ' locked';
+      if (idx === item.ans) cls += ' correct';
+      else if (idx === userChoice) cls += ' incorrect';
+    } else if (userChoice === idx){
+      cls += ' selected';
+    }
+    div.className = cls;
+    div.innerHTML = `<span class="tag">${letters[idx]}</span><span class="opt-text"></span>`;
+    div.querySelector('.opt-text').textContent = opt;
+    div.addEventListener('click', () => {
+      if (submitted) return;
+      responses[current] = idx;
+      render();
+    });
+    optionsListEl.appendChild(div);
+  });
+
+  if (submitted){
+    if (userChoice === null){
+      qStatusTag.textContent = '⚠ Not Answered · Correct answer shown';
+      qStatusTag.className = 'q-status-tag review-unanswered';
+    } else if (userChoice === item.ans){
+      qStatusTag.textContent = '✓ Correct';
+      qStatusTag.className = 'q-status-tag correct';
+    } else {
+      qStatusTag.textContent = '✗ Incorrect';
+      qStatusTag.className = 'q-status-tag incorrect';
+    }
+    explainBox.classList.remove('hidden');
+    explainText.innerHTML = '<b>Correct Answer:</b> ' + letters[item.ans] + '. ' + item.opts[item.ans] + '<br><br>' + item.exp;
+  } else {
+    const answered = userChoice !== null;
+    qStatusTag.textContent = answered ? 'Answered' : 'Not Answered';
+    qStatusTag.className = 'q-status-tag ' + (answered ? 'answered' : 'unanswered');
+    explainBox.classList.add('hidden');
+  }
+
+  prevBtn.disabled = current === 0;
+  if (submitted){
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Back to Result' : 'Next →';
+    clearBtn.style.visibility = 'hidden';
+  } else {
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Finish' : 'Next →';
+    clearBtn.style.visibility = 'visible';
+  }
+
+  // palette
+  const cells = paletteGrid.children;
+  for (let i = 0; i < cells.length; i++){
+    cells[i].classList.toggle('current', i === current);
+    if (submitted){
+      const isIncorrect = responses[i] !== null && responses[i] !== QUESTIONS[i].ans;
+      const isCorrect = responses[i] === QUESTIONS[i].ans;
+      cells[i].classList.toggle('incorrect', isIncorrect);
+      cells[i].classList.toggle('answered', isCorrect);
+    } else {
+      cells[i].classList.toggle('answered', responses[i] !== null);
+      cells[i].classList.remove('incorrect');
+    }
+  }
+
+  const answeredTotal = responses.filter(r => r !== null).length;
+  if (submitted){
+    let correct = 0, incorrect = 0;
+    QUESTIONS.forEach((q, i) => {
+      if (responses[i] === null) return;
+      if (responses[i] === q.ans) correct++; else incorrect++;
+    });
+    const unattempted = QUESTIONS.length - answeredTotal;
+    const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+    document.getElementById('tallyRow').innerHTML = `
+      <div class="marks-line"><b>${marks.toFixed(2)}</b><span>Marks Scored</span></div>
+      <div class="tally-grid">
+        <div><b class="stat-correct">${correct}</b>Correct</div>
+        <div><b class="stat-incorrect">${incorrect}</b>Incorrect</div>
+        <div><b class="stat-unattempted">${unattempted}</b>Unattempted</div>
+      </div>
+    `;
+  } else {
+    answeredCountEl.textContent = answeredTotal;
+    skippedCountEl.textContent = QUESTIONS.length - answeredTotal;
+  }
+}
+
+prevBtn.addEventListener('click', () => { if (current > 0){ current--; render(); }});
+nextBtn.addEventListener('click', () => {
+  if (current < QUESTIONS.length - 1){ current++; render(); }
+  else if (submitted){
+    paperView.classList.add('hidden');
+    resultView.classList.remove('hidden');
+  } else {
+    doSubmit();
+  }
+});
+clearBtn.addEventListener('click', () => { responses[current] = null; render(); });
+
+submitBtn.addEventListener('click', doSubmit);
+
+function doSubmit(){
   submitted = true;
   clearInterval(countdown);
-
-  const correctMarks = 2;
-  const negativeMarks = 2 / 3;
-  let score = 0;
-
-  questions.forEach((q, index) => {
-    const radios = document.getElementsByName("q" + index);
-    let selected = -1;
-    radios.forEach(r => { if (r.checked) selected = parseInt(r.value); r.disabled = true; });
-
-    radios.forEach(r => {
-      const label = r.parentElement;
-      const value = parseInt(r.value);
-      if (value === q.answer) label.classList.add("correct");
-      if (value === selected && value !== q.answer) label.classList.add("wrong");
-      if (value === selected) label.classList.add("user-selected");
-    });
-
-    if (selected === q.answer) score += correctMarks;
-    else if (selected !== -1) score -= negativeMarks;
-
-    const exp = document.getElementById("exp" + index);
-    exp.style.display = "block";
-    exp.innerHTML = "<b>Correct Answer:</b> " + String.fromCharCode(65 + q.answer) +
-      "<br><br><b>Explanation:</b> " + q.explanation;
+  let correct = 0, incorrect = 0;
+  QUESTIONS.forEach((q, i) => {
+    if (responses[i] === null) return;
+    if (responses[i] === q.ans) correct++; else incorrect++;
   });
+  const unattempted = QUESTIONS.length - (correct + incorrect);
+  const maxMarks = QUESTIONS.length * CORRECT_MARKS;
+  const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+  const percentage = (marks / maxMarks) * 100;
 
-  const maxScore = questions.length * correctMarks;
-  const percentage = (score / maxScore) * 100;
-
-  document.getElementById("score").innerHTML =
-    "Score: <b>" + score.toFixed(2) + " / " + maxScore.toFixed(2) + "</b>" +
-    "&nbsp;&nbsp;|&nbsp;&nbsp;Percentage: <b>" + percentage.toFixed(2) + "%</b>";
-
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  scoreText.textContent = marks.toFixed(2) + ' / ' + maxMarks.toFixed(2);
+  scorePercent.textContent = percentage.toFixed(2) + '%';
+  document.getElementById('scoreBreakdown').innerHTML = `
+    <div class="stat correct"><b>${correct}</b><span>Correct</span></div>
+    <div class="stat incorrect"><b>${incorrect}</b><span>Incorrect</span></div>
+    <div class="stat unattempted"><b>${unattempted}</b><span>Unattempted</span></div>
+  `;
+  submitBtn.style.display = 'none';
+  paperView.classList.add('hidden');
+  resultView.classList.remove('hidden');
+  render();
 }
 
-// ── Timer ──────────────────────────────────────────────────────────────────────
-let totalSeconds = 1800;
+reviewBtn.addEventListener('click', () => {
+  resultView.classList.add('hidden');
+  paperView.classList.remove('hidden');
+  current = 0;
+  render();
+});
 
-function updateTimers(text, urgent) {
-  ["timerDesktop", "timerMobile"].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.textContent = text;
-      el.style.background = urgent ? "#c62828" : "var(--timer-bg)";
-    }
-  });
-}
+// theme toggle
+const themeSwitch = document.getElementById('themeSwitch');
+themeSwitch.addEventListener('click', () => {
+  const body = document.body;
+  const isDark = body.getAttribute('data-theme') === 'dark';
+  body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+});
 
+// countdown timer
+let seconds = 30 * 60;
+const timerEl = document.getElementById('timer');
 const countdown = setInterval(() => {
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-  const text = String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
-
-  updateTimers(text, totalSeconds <= 60);
-
-  if (totalSeconds === 0) {
-    updateTimers("Time Up!", true);
-    submitQuiz();
+  if (seconds <= 0 || submitted) return;
+  seconds--;
+  const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+  const s = String(seconds % 60).padStart(2, '0');
+  timerEl.textContent = `${m}:${s}`;
+  timerEl.classList.toggle('urgent', seconds <= 60);
+  if (seconds === 0){
+    timerEl.textContent = 'Time Up!';
+    doSubmit();
   }
-  totalSeconds--;
 }, 1000);
 
+buildPalette();
+render();
+
+window.addEventListener('beforeunload', function(e){
+  const hasProgress = !submitted && responses.some(r => r !== null);
+  if (hasProgress){
+    e.preventDefault();
+    e.returnValue = 'Your answers have not been submitted. If you leave or refresh this page, all marked answers will be lost.';
+    return e.returnValue;
+  }
+});
+
 </script>
+
 </body>
 </html>

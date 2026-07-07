@@ -1,792 +1,1117 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UPSC LoG - Prelims Booster</title>
+<title>UPSC LoG — Prelims Booster</title>
 <style>
-
-:root {
-  --bg: #f5f5f5;
-  --surface: #ffffff;
-  --text: #1a1a1a;
-  --text-secondary: #555;
-  --border: #ddd;
-  --option-hover: #f0f0f0;
-  --correct: #b7f7b7;
-  --correct-text: #145214;
-  --wrong: #ffb6b6;
-  --wrong-text: #6b0000;
-  --exp-bg: #eef;
-  --exp-text: #1a1a2e;
-  --timer-bg: #222;
-  --timer-text: #fff;
-  --btn-bg: #1a1a2e;
-  --btn-text: #fff;
-  --btn-hover: #2e2e50;
-  --shadow: rgba(0,0,0,0.1);
-  --track: #ccc;
-  --thumb: #1a1a2e;
-  --toggle-bg: #ccc;
-  --toggle-knob: #fff;
-  --toggle-active: #4a6fa5;
-}
-
-[data-theme="dark"] {
-  --bg: #12121e;
-  --surface: #1e1e30;
-  --text: #e8e8f0;
-  --text-secondary: #aaa;
-  --border: #333;
-  --option-hover: #2a2a40;
-  --correct: #1a4d1a;
-  --correct-text: #7ef07e;
-  --wrong: #4d1a1a;
-  --wrong-text: #f07e7e;
-  --exp-bg: #1a1a35;
-  --exp-text: #c8c8e8;
-  --timer-bg: #0d0d1a;
-  --timer-text: #e8e8f0;
-  --btn-bg: #4a6fa5;
-  --btn-hover: #5a80b8;
-  --btn-text: #fff;
-  --shadow: rgba(0,0,0,0.4);
-  --track: #444;
-  --thumb: #4a6fa5;
-  --toggle-bg: #444;
-  --toggle-knob: #fff;
-  --toggle-active: #4a6fa5;
-}
-
-*, *::before, *::after { box-sizing: border-box; }
-
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  margin: 30px;
-  transition: background 0.25s, color 0.25s;
-}
-
-.container {
-  max-width: 900px;
-  margin: auto;
-  background: var(--surface);
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 0 15px var(--shadow);
-  transition: background 0.25s, box-shadow 0.25s;
-}
-
-h1 { text-align: center; color: var(--text); }
-h2 { text-align: center; color: var(--text); }
-
-ul { color: var(--text-secondary); }
-ul a { color: #4a6fa5; }
-
-.question {
-  border: 1px solid var(--border);
-  padding: 20px;
-  margin-top: 20px;
-  border-radius: 8px;
-  transition: border-color 0.25s;
-}
-
-.question h3 {
-  margin-top: 0;
-  color: var(--text-secondary);
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.option {
-  display: block;
-  margin: 8px 0;
-  padding: 10px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: background 0.15s, border-color 0.15s;
-  color: var(--text);
-}
-
-.option:hover {
-  background: var(--option-hover);
-  border-color: var(--border);
-}
-
-.correct {
-  background: var(--correct) !important;
-  color: var(--correct-text) !important;
-  border-color: transparent !important;
-}
-
-.wrong {
-  background: var(--wrong) !important;
-  color: var(--wrong-text) !important;
-  border-color: transparent !important;
-}
-
-/* orange outline = what the user actually selected */
-.user-selected {
-  outline: 3px solid #f97316 !important;
-  outline-offset: -2px;
-  border-radius: 6px;
-}
-
-.explanation {
-  display: none;
-  margin-top: 15px;
-  background: var(--exp-bg);
-  color: var(--exp-text);
-  padding: 12px 16px;
-  border-radius: 6px;
-  font-size: 14px;
-  line-height: 1.6;
-  border-left: 3px solid #4a6fa5;
-}
-
-button.submit-btn {
-  display: block;
-  padding: 12px 32px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 24px;
-  background: var(--btn-bg);
-  color: var(--btn-text);
-  border: none;
-  border-radius: 8px;
-  transition: background 0.2s, transform 0.1s;
-}
-
-button.submit-btn:hover { background: var(--btn-hover); }
-button.submit-btn:active { transform: scale(0.98); }
-
-#score {
-  font-size: 20px;
-  font-weight: bold;
-  margin: 20px 0;
-  padding: 16px;
-  border-radius: 8px;
-  background: var(--exp-bg);
-  color: var(--exp-text);
-}
-
-/* ── Timer ── */
-#timer {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: var(--timer-bg);
-  color: var(--timer-text);
-  padding: 12px 20px;
-  font-size: 22px;
-  border-radius: 8px;
-  font-weight: bold;
-  box-shadow: 0 2px 10px var(--shadow);
-  transition: background 0.25s, color 0.25s;
-  z-index: 100;
-}
-
-/* ── Dark mode toggle ── */
-.theme-toggle {
-  position: fixed;
-  top: 74px;
-  right: 20px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 30px;
-  padding: 6px 12px;
-  box-shadow: 0 2px 8px var(--shadow);
-  z-index: 100;
-  cursor: pointer;
-  transition: background 0.25s, border-color 0.25s;
-  user-select: none;
-}
-
-.theme-toggle .icon {
-  font-size: 15px;
-  line-height: 1;
-}
-
-.toggle-track {
-  width: 36px;
-  height: 20px;
-  background: var(--toggle-bg);
-  border-radius: 999px;
-  position: relative;
-  transition: background 0.25s;
-  flex-shrink: 0;
-}
-
-[data-theme="dark"] .toggle-track {
-  background: var(--toggle-active);
-}
-
-.toggle-knob {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 14px;
-  height: 14px;
-  background: var(--toggle-knob);
-  border-radius: 50%;
-  transition: transform 0.25s;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-}
-
-[data-theme="dark"] .toggle-knob {
-  transform: translateX(16px);
-}
-
-/* ── Mobile ── */
-@media (max-width: 700px) {
-  body { margin: 10px; }
-
-  #timer {
-    position: static;
-    width: fit-content;
-    margin: 0 auto 12px;
-    display: block;
-    text-align: center;
+  :root{
+    --bg: #F3F4F1;
+    --paper: #FFFFFF;
+    --ink: #1D2A35;
+    --ink-soft: #5B6873;
+    --rule: #D8DCD6;
+    --navy: #1B3A5C;
+    --navy-deep: #12283F;
+    --gold: #B8862E;
+    --gold-soft: #EFDFB8;
+    --answered: #2F7D5A;
+    --answered-bg: #E4F3EC;
+    --skipped: #B8862E;
+    --skipped-bg: #FBF1DE;
+    --current-ring: #1B3A5C;
+    --wrong: #B23A2E;
+    --wrong-bg: #FBEAE7;
+    --shadow: 0 1px 2px rgba(20,30,40,0.06), 0 6px 20px rgba(20,30,40,0.05);
+    --serif: Georgia, 'Times New Roman', 'Iowan Old Style', serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --mono: 'Courier New', ui-monospace, monospace;
+  }
+  [data-theme="dark"]{
+    --bg: #0F1A24;
+    --paper: #17232E;
+    --ink: #E7ECEF;
+    --ink-soft: #97A5AF;
+    --rule: #2A3846;
+    --navy: #3E6E9E;
+    --navy-deep: #2A4E70;
+    --gold: #D9A441;
+    --gold-soft: #3A3220;
+    --answered: #4CAF7D;
+    --answered-bg: #163227;
+    --skipped: #D9A441;
+    --skipped-bg: #332A16;
+    --current-ring: #D9A441;
+    --wrong: #E07A6C;
+    --wrong-bg: #3A1E1A;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    min-height:100vh;
+    transition:background .3s ease, color .3s ease;
   }
 
-  .theme-toggle {
-    position: static;
-    width: fit-content;
-    margin: 0 auto 16px;
+  /* ---------- Header ---------- */
+  header.topbar{
+    background:linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color:#F4F1EA;
+    padding:0;
+    box-shadow:var(--shadow);
+    position:sticky; top:0; z-index:50;
+  }
+  .topbar-inner{
+    max-width:1280px; margin:0 auto;
+    display:flex; align-items:center; gap:20px;
+    padding:14px 28px;
+  }
+  .logo-slot{
+    width:52px; height:52px;
+    border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    overflow:hidden;
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .logo-slot img{
+    width:100%; height:100%;
+    object-fit:contain;
+  }
+  .logo-slot:hover{border-color:rgba(244,241,234,0.75); color:#F4F1EA;}
+  .title-block{flex:1; min-width:0;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gold-soft, #D9A441);
+    opacity:0.85;
+  }
+  .title-block h1{
+    font-family:var(--serif);
+    font-size:22px;
+    font-weight:400;
+    margin:2px 0 0 0;
+    letter-spacing:0.01em;
+  }
+  .subnote{
+    font-family:var(--mono);
+    font-size:11px;
+    color:rgba(244,241,234,0.65);
+    margin-top:6px;
+    letter-spacing:0.02em;
+  }
+  .subnote a{color:var(--gold-soft); text-decoration:none;}
+  .subnote a:hover{text-decoration:underline;}
+  .topbar-right{
+    display:flex; align-items:center; gap:18px; flex-shrink:0;
+  }
+  .timer{
+    font-family:var(--mono);
+    font-size:13px;
+    color:#F4F1EA;
+    border:1px solid rgba(244,241,234,0.3);
+    padding:6px 12px;
+    border-radius:6px;
+    background:rgba(0,0,0,0.12);
+    transition:background .2s ease;
+  }
+  .timer.urgent{background:var(--wrong); border-color:var(--wrong);}
+
+  /* dark mode switch */
+  .mode-switch{
+    display:flex; align-items:center; gap:8px;
+    font-size:12px; color:rgba(244,241,234,0.85);
+  }
+  .switch{
+    position:relative; width:44px; height:24px;
+    background:rgba(244,241,234,0.2);
+    border-radius:20px; cursor:pointer;
+    border:1px solid rgba(244,241,234,0.35);
+    flex-shrink:0;
+  }
+  .switch .knob{
+    position:absolute; top:2px; left:2px;
+    width:18px; height:18px; border-radius:50%;
+    background:#F4F1EA;
+    transition:transform .25s ease;
+    box-shadow:0 1px 3px rgba(0,0,0,0.3);
+  }
+  [data-theme="dark"] .switch .knob{
+    transform:translateX(20px);
+    background:var(--gold);
   }
 
-  .mobile-bar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-bottom: 16px;
+  /* ---------- Layout ---------- */
+  .layout{
+    max-width:1280px; margin:0 auto;
+    display:grid;
+    grid-template-columns:1fr 320px;
+    gap:23px;
+    padding:32px 28px 60px;
+    align-items:start;
   }
 
-  .mobile-bar #timer,
-  .mobile-bar .theme-toggle {
-    position: static;
-    margin: 0;
+  /* ---------- Question paper ---------- */
+  .paper{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:36px 44px 32px;
+    min-height:520px;
+    display:flex;
+    flex-direction:column;
   }
+  .paper-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    border-bottom:1px solid var(--rule);
+    padding-bottom:14px; margin-bottom:28px;
+  }
+  .q-index{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--ink-soft);
+    letter-spacing:0.04em;
+  }
+  .q-index b{color:var(--navy); font-size:15px;}
+  [data-theme="dark"] .q-index b{color:var(--gold);}
+  .q-status-tag{
+    font-family:var(--mono);
+    font-size:13.5px;
+    font-weight:800;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    padding:7px 16px;
+    border-radius:20px;
+    border:2px solid transparent;
+  }
+  .q-status-tag.answered{background:var(--answered-bg); color:var(--answered); border-color:var(--answered);}
+  .q-status-tag.unanswered{background:var(--skipped-bg); color:var(--skipped); border-color:var(--skipped);}
+
+  .q-text{
+    font-family:var(--serif);
+    font-size:19px;
+    line-height:1.5;
+    color:var(--ink);
+    margin:0 0 32px 0;
+  }
+
+  .options{
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .option{
+    display:flex; align-items:flex-start; gap:14px;
+    padding:18px 18px;
+    border:1px solid var(--rule);
+    border-radius:8px;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+    background:transparent;
+  }
+  .option:hover{border-color:var(--navy); background:rgba(27,58,92,0.04);}
+  [data-theme="dark"] .option:hover{background:rgba(217,164,65,0.06); border-color:var(--gold);}
+  .option.selected{
+    border-color:var(--navy);
+    background:rgba(27,58,92,0.07);
+  }
+  [data-theme="dark"] .option.selected{
+    border-color:var(--gold);
+    background:rgba(217,164,65,0.1);
+  }
+  .option .tag{
+    font-family:var(--mono);
+    font-size:13px;
+    font-weight:bold;
+    width:24px; height:24px;
+    border-radius:50%;
+    border:1.5px solid var(--rule);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    color:var(--ink-soft);
+  }
+  .option.selected .tag{
+    border-color:var(--navy);
+    background:var(--navy);
+    color:#fff;
+  }
+  [data-theme="dark"] .option.selected .tag{
+    border-color:var(--gold);
+    background:var(--gold);
+    color:#17232E;
+  }
+  .option .opt-text{
+    font-size:15.5px; line-height:1.5; padding-top:1px;
+  }
+  .option.locked{cursor:default;}
+  .option.correct{
+    border-color:var(--answered);
+    background:var(--answered-bg);
+  }
+  .option.correct .tag{
+    border-color:var(--answered);
+    background:var(--answered);
+    color:#fff;
+  }
+  .option.incorrect{
+    border-color:var(--wrong);
+    background:var(--wrong-bg);
+  }
+  .option.incorrect .tag{
+    border-color:var(--wrong);
+    background:var(--wrong);
+    color:#fff;
+  }
+  .option.locked:hover{background:inherit; border-color:inherit;}
+  .q-status-tag.correct{background:var(--answered-bg); color:var(--answered); border-color:var(--answered); box-shadow:0 0 0 1px var(--answered) inset;}
+  .q-status-tag.incorrect{background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong); box-shadow:0 0 0 1px var(--wrong) inset;}
+  .q-status-tag.review-unanswered{
+    background:var(--wrong-bg);
+    color:var(--wrong);
+    border-color:var(--wrong);
+    box-shadow:0 0 0 1px var(--wrong) inset;
+  }
+
+  /* ---------- Explanation (review mode) ---------- */
+  .explain-box{
+    margin-top:26px;
+    background:var(--gold-soft);
+    border:1px solid var(--gold);
+    border-radius:8px;
+    padding:16px 20px;
+    font-size:14px;
+    line-height:1.65;
+    color:var(--ink);
+  }
+  [data-theme="dark"] .explain-box{background:rgba(217,164,65,0.08);}
+  .explain-box b{color:var(--navy);}
+  [data-theme="dark"] .explain-box b{color:var(--gold);}
+  .explain-box .exp-label{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-bottom:8px;
+  }
+
+  .paper-foot{
+    display:flex; justify-content:space-between;
+    margin-top:32px; padding-top:20px;
+    border-top:1px solid var(--rule);
+  }
+  button{
+    font-family:var(--sans);
+    font-size:14px;
+    font-weight:600;
+    padding:11px 22px;
+    border-radius:7px;
+    border:1px solid var(--rule);
+    background:var(--paper);
+    color:var(--ink);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  button:hover:not(:disabled){border-color:var(--navy); color:var(--navy);}
+  [data-theme="dark"] button:hover:not(:disabled){border-color:var(--gold); color:var(--gold);}
+  button:disabled{opacity:0.35; cursor:not-allowed;}
+  button.primary{
+    background:var(--navy); color:#F4F1EA; border-color:var(--navy);
+  }
+  button.primary:hover{filter:brightness(1.1); color:#F4F1EA;}
+  button.clear{background:transparent; border-color:transparent; color:var(--ink-soft); font-weight:500;}
+  .nav-group{display:flex; gap:10px;}
+
+  /* ---------- Sidebar palette ---------- */
+  .sidebar{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:24px;
+    position:sticky;
+    top:96px;
+  }
+  .sidebar h2{
+    font-family:var(--serif);
+    font-size:16px;
+    font-weight:400;
+    margin:0 0 4px 0;
+    color:var(--ink);
+  }
+  .sidebar .sub{
+    font-size:12px; color:var(--ink-soft); margin-bottom:18px;
+  }
+  .legend{
+    display:flex; flex-direction:column; gap:8px;
+    margin-bottom:20px;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  .legend span{display:flex; align-items:center; gap:8px;}
+  .dot{width:10px; height:10px; border-radius:3px; flex-shrink:0;}
+  .dot.answered{background:var(--answered);}
+  .dot.unanswered{background:var(--rule); border:1px solid var(--ink-soft);}
+  .dot.current{background:transparent; border:2px solid var(--current-ring);}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:8px;
+    margin-bottom:22px;
+  }
+  .cell{
+    aspect-ratio:1;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono);
+    font-size:13px;
+    border-radius:6px;
+    border:1px solid var(--rule);
+    background:transparent;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .cell:hover{border-color:var(--navy);}
+  [data-theme="dark"] .cell:hover{border-color:var(--gold);}
+  .cell.answered{
+    background:var(--answered-bg); color:var(--answered); border-color:var(--answered);
+    font-weight:bold;
+  }
+  .cell.incorrect{
+    background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong);
+    font-weight:bold;
+  }
+  .cell.current{
+    outline:2px solid var(--current-ring); outline-offset:2px;
+  }
+
+  .tally{
+    padding-top:16px; border-top:1px solid var(--rule);
+    color:var(--ink-soft);
+  }
+  .tally-plain{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-plain > div{flex:1; text-align:left;}
+  .tally b{color:var(--ink); font-size:16px; display:block; font-family:var(--sans);}
+  .tally b.stat-correct{color:var(--answered);}
+  .tally b.stat-incorrect{color:var(--wrong);}
+  .tally b.stat-unattempted{color:var(--skipped);}
+
+  .marks-line{
+    text-align:center;
+    background:var(--gold-soft);
+    border:1.5px solid var(--gold);
+    border-radius:8px;
+    padding:12px 10px;
+    margin-bottom:14px;
+  }
+  [data-theme="dark"] .marks-line{background:rgba(217,164,65,0.12);}
+  .marks-line b{
+    font-size:26px; color:var(--navy); font-family:var(--serif); font-weight:700;
+  }
+  [data-theme="dark"] .marks-line b{color:var(--gold);}
+  .marks-line span{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-top:2px;
+  }
+  .tally-grid{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-grid > div{flex:1; text-align:left;}
+
+  .score-breakdown{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+    max-width:420px;
+    margin:24px auto 0;
+  }
+  .score-breakdown .stat{
+    border:1.5px solid var(--rule);
+    border-radius:10px;
+    padding:14px 10px;
+  }
+  .score-breakdown .stat b{
+    display:block; font-size:24px; font-family:var(--sans); margin-bottom:4px;
+  }
+  .score-breakdown .stat span{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft);
+  }
+  .score-breakdown .stat.correct{border-color:var(--answered); background:var(--answered-bg);}
+  .score-breakdown .stat.correct b{color:var(--answered);}
+  .score-breakdown .stat.incorrect{border-color:var(--wrong); background:var(--wrong-bg);}
+  .score-breakdown .stat.incorrect b{color:var(--wrong);}
+  .score-breakdown .stat.unattempted{border-color:var(--skipped); background:var(--skipped-bg);}
+  .score-breakdown .stat.unattempted b{color:var(--skipped);}
+
+  #submitBtn{width:100%; margin-top:20px;}
+
+  /* ---------- Result overlay ---------- */
+  .result-card{
+    background:var(--paper); border:1px solid var(--rule); border-radius:10px;
+    box-shadow:var(--shadow); padding:44px; text-align:center;
+  }
+  .result-card .score{
+    font-family:var(--serif); font-size:52px; color:var(--navy); margin:8px 0;
+  }
+  [data-theme="dark"] .result-card .score{color:var(--gold);}
+  .result-card .percent{
+    font-family:var(--mono); font-size:13px; color:var(--ink-soft);
+    letter-spacing:0.04em; margin-top:-4px;
+  }
+  .hidden{display:none !important;}
+  :root{
+    --desktop-width: 1440;
 }
 
+@media (max-width: 1439px){
+
+    body{
+        width: calc(var(--desktop-width) * 1px);
+
+        transform-origin: top left;
+
+        transform: scale(
+            calc(100vw / (var(--desktop-width) * 1px))
+        );
+
+        overflow-x: hidden;
+
+        min-height: calc(
+            100vh / (100vw / (var(--desktop-width) * 1px))
+        );
+    }
+
+}
 </style>
 </head>
-<body>
+<body data-theme="light">
 
-<!-- Mobile: group timer + toggle -->
-<div class="mobile-bar" id="mobileBar" style="display:none;">
-  <div id="timerMobile" style="background:var(--timer-bg);color:var(--timer-text);padding:10px 18px;font-size:20px;border-radius:8px;font-weight:bold;box-shadow:0 2px 10px var(--shadow);">30:00</div>
-  <div class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode" role="button">
-    <span class="icon" id="iconM">☀️</span>
-    <div class="toggle-track"><div class="toggle-knob"></div></div>
-    <span class="icon" id="iconM2">🌙</span>
+<header class="topbar">
+  <div class="topbar-inner">
+
+    <!-- <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">UPSC<br>LOGO</a> -->
+    <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">
+  <img src="../logo.png" alt="UPSC LoG" style="width:100%; height:100%; object-fit:contain; border-radius:6px;">
+</a>
+    <div class="title-block">
+      <div class="eyebrow">UPSC LoG · Prelims Booster 2027</div>
+      <h1>Geography Test CODE-2027-3</h1>
+      <div class="subnote" style="font-size: 12px;">
+        <span id="qTotalNote">7</span> Questions · +2 Correct / −0.67 Incorrect ·
+        <a href="https://t.me/upsclog" target="_blank" rel="noopener"> Join UPSC-LoG Telegram ↗</a>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="timer" id="timer">30:00</div>
+      <div class="mode-switch">
+        <span>Light</span>
+        <div class="switch" id="themeSwitch" role="button" aria-label="Toggle dark mode">
+          <div class="knob"></div>
+        </div>
+        <span>Dark</span>
+      </div>
+    </div>
   </div>
-</div>
+</header>
 
-<!-- Desktop: fixed position -->
-<div id="timerDesktop" class="timer-desktop" style="position:fixed;top:20px;right:20px;background:var(--timer-bg);color:var(--timer-text);padding:12px 20px;font-size:22px;border-radius:8px;font-weight:bold;box-shadow:0 2px 10px var(--shadow);z-index:100;transition:background 0.25s,color 0.25s;">30:00</div>
+<div class="layout">
 
-<div class="theme-toggle" id="toggleDesktop" onclick="toggleTheme()" aria-label="Toggle dark mode" role="button" style="position:fixed;top:74px;right:20px;">
-  <span class="icon">☀️</span>
-  <div class="toggle-track"><div class="toggle-knob"></div></div>
-  <span class="icon">🌙</span>
-</div>
+  <div class="paper" id="paperView">
+    <div class="paper-head">
+      <div class="q-index">Question <b id="qNum">1</b> of <span id="qTotal">7</span></div>
+      <div class="q-status-tag unanswered" id="qStatusTag">Not Answered</div>
+    </div>
 
-<div class="container">
-  <h1>
-    <a href="https://upsclog.github.io/upsclog/" target="_blank" style="color: black; background-color: #C4A484; border-radius: 8px; padding: 4px 12px; text-decoration: none; display: inline-block;">
-      <img src="../logo.png" alt="." style="height: 1.5em; vertical-align: middle; margin-right: 8px;">
-      UPSC LoG
-    </a>
-    — Prelims Booster 2027
-  </h1>
+    <p class="q-text" id="qText">Loading question…</p>
 
-  <h2>Geography Test CODE-2027-3</h2>
-  <p>
-    <b>Instructions</b>
-    <ul>
-      <li>25 UPSC CSE Thematic Test Series (with explanations)</li>
-      <li><b>Correct = 2.0 &nbsp;|&nbsp; Incorrect = −0.67</b></li>
-      <li><b><i>30-minute timer</i></b></li>
-      <li>Join <a href="https://t.me/upsclog" target="_blank">UPSC LoG Telegram ↗</a></li>
-    </ul>
-  </p>
+    <div class="options" id="optionsList"></div>
 
-  <div id="score"></div>
-  <div id="quiz"></div>
-  <button class="submit-btn" onclick="submitQuiz()">Submit</button>
+    <div class="explain-box hidden" id="explainBox">
+      <span class="exp-label">Explanation</span>
+      <div id="explainText"></div>
+    </div>
+
+    <div class="paper-foot">
+      <div class="nav-group">
+        <button id="prevBtn">← Previous</button>
+        <button class="clear" id="clearBtn">Clear response</button>
+      </div>
+      <button id="nextBtn" class="primary">Next →</button>
+    </div>
+  </div>
+
+  <div class="result-card hidden" id="resultView">
+    <div class="eyebrow" style="color:var(--ink-soft); letter-spacing:0.14em; font-family:var(--mono); font-size:11px; text-transform:uppercase;">Test Complete</div>
+    <div class="score" id="scoreText">0.00 / 14.00</div>
+    <div class="percent" id="scorePercent">0.00%</div>
+    <div class="score-breakdown" id="scoreBreakdown"></div>
+    <p style="color:var(--ink-soft); font-size:14px; margin:20px 0 24px;">You can review your answers and explanations using the palette on the right.</p>
+    <button class="primary" id="reviewBtn">Review Answers</button>
+  </div>
+
+  <aside class="sidebar">
+    <h2>* Explanations attached for each question after you submit the test<br><br></h2>
+    <h2>* Auto-Submission in 30 minutes</h2>
+    <h2>* Dark <-> Bright modes for ease</h2>
+    <div class="sub"></div>
+
+    <div class="legend">
+      <span><span class="dot answered"></span> Answered / Correct</span>
+      <span><span class="dot" style="background:var(--wrong);"></span> Incorrect</span>
+      <span><span class="dot unanswered"></span> Not answered</span>
+      <span><span class="dot current"></span> Currently viewing</span>
+    </div>
+
+    <div class="grid" id="paletteGrid"></div>
+
+    <div class="tally" id="tallyRow">
+      <div class="tally-plain">
+        <div><b id="answeredCount">0</b>Answered</div>
+        <div><b id="skippedCount">7</b>Remaining</div>
+      </div>
+    </div>
+
+    <button class="primary" id="submitBtn">Submit Test</button>
+  </aside>
+
 </div>
 
 <script>
-
-// ── Theme ──────────────────────────────────────────────────────────────────────
-function toggleTheme() {
-  const html = document.documentElement;
-  const next = html.getAttribute("data-theme") === "dark" ? "light" : "dark";
-  html.setAttribute("data-theme", next);
-  localStorage.setItem("upsc-theme", next);
-}
-
-(function () {
-  const saved = localStorage.getItem("upsc-theme");
-  if (saved) document.documentElement.setAttribute("data-theme", saved);
-})();
-
-// ── Responsive bar ─────────────────────────────────────────────────────────────
-function applyLayout() {
-  const mobile = window.innerWidth <= 700;
-  document.getElementById("mobileBar").style.display = mobile ? "flex" : "none";
-  document.getElementById("timerDesktop").style.display = mobile ? "none" : "block";
-  document.getElementById("toggleDesktop").style.display = mobile ? "none" : "flex";
-}
-applyLayout();
-window.addEventListener("resize", applyLayout);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ───────────────────────────────────────────────────────────────── Questions ──────────────────────────────────────────────────────────────────
-const questions = [
+const QUESTIONS = [
     {
         topic: "Development of Western Ghats and Eastern Ghats",
-        question: "With reference to the Western Ghats and Eastern Ghats of India, consider the following statements:<br>1. The Western Ghats are older in geological age than the Eastern Ghats.<br>2. The Eastern Ghats are discontinuous whereas the Western Ghats form a continuous chain of hills.<br>3. The highest peak of the Eastern Ghats is higher than the highest peak of the Western Ghats.<br>Which of the statements given above is/are correct?",
-        options: [
+        q: "With reference to the Western Ghats and Eastern Ghats of India, consider the following statements:<br>1. The Western Ghats are older in geological age than the Eastern Ghats.<br>2. The Eastern Ghats are discontinuous whereas the Western Ghats form a continuous chain of hills.<br>3. The highest peak of the Eastern Ghats is higher than the highest peak of the Western Ghats.<br>Which of the statements given above is/are correct?",
+        opts: [
             "1 and 2 only",
             "2 only",
             "1 and 3 only",
             "2 and 3 only"
         ],
-        answer: 1,
-        explanation: "The Eastern Ghats are discontinuous hills interrupted by rivers like the Mahanadi, Godavari, Krishna, and Kaveri, whereas the Western Ghats form a nearly continuous range. The Western Ghats are considered older geological formations (Precambrian). The highest peak of the Western Ghats is Anamudi (2695 m) in Kerala, which is higher than Jindhagada Peak (~1690 m) in the Eastern Ghats, making Statement 3 incorrect."
+        ans: 1,
+        exp: "The Eastern Ghats are discontinuous hills interrupted by rivers like the Mahanadi, Godavari, Krishna, and Kaveri, whereas the Western Ghats form a nearly continuous range. The Western Ghats are considered older geological formations (Precambrian). The highest peak of the Western Ghats is Anamudi (2695 m) in Kerala, which is higher than Jindhagada Peak (~1690 m) in the Eastern Ghats, making Statement 3 incorrect."
     },
     {
         topic: "Impact of Monsoon Mechanism",
-        question: "Consider the following statements regarding the mechanism of the Indian Monsoon:<br>1. The Inter-Tropical Convergence Zone (ITCZ) shifts northward over the Indian subcontinent in summer, which is a critical driver of the southwest monsoon.<br>2. The Tibetan Plateau acts as a heat engine by heating the upper atmosphere, which helps in establishing the monsoon circulation.<br>3. El Niño conditions invariably lead to deficient monsoon rainfall over India.<br>Which of the statements given above is/are correct?",
-        options: [
+        q: "Consider the following statements regarding the mechanism of the Indian Monsoon:<br>1. The Inter-Tropical Convergence Zone (ITCZ) shifts northward over the Indian subcontinent in summer, which is a critical driver of the southwest monsoon.<br>2. The Tibetan Plateau acts as a heat engine by heating the upper atmosphere, which helps in establishing the monsoon circulation.<br>3. El Niño conditions invariably lead to deficient monsoon rainfall over India.<br>Which of the statements given above is/are correct?",
+        opts: [
             "1 and 2 only",
             "2 and 3 only",
             "1 and 3 only",
             "1, 2 and 3"
         ],
-        answer: 0,
-        explanation: "Both statements 1 and 2 are correct. The northward shift of the ITCZ over the Gangetic plains in summer creates a strong low-pressure system that draws the monsoon, and the Tibetan Plateau acts as an elevated heat source energising the monsoon. Statement 3 is incorrect: while El Niño generally weakens the Indian monsoon, it does not invariably cause deficient rainfall — the relationship is probabilistic, not deterministic, as seen in years like 1997."
+        ans: 0,
+        exp: "Both statements 1 and 2 are correct. The northward shift of the ITCZ over the Gangetic plains in summer creates a strong low-pressure system that draws the monsoon, and the Tibetan Plateau acts as an elevated heat source energising the monsoon. Statement 3 is incorrect: while El Niño generally weakens the Indian monsoon, it does not invariably cause deficient rainfall — the relationship is probabilistic, not deterministic, as seen in years like 1997."
     },
     {
         topic: "Role of Blue Revolution",
-        question: "Which of the following statements best describes the primary objective of the 'Blue Revolution' in India?",
-        options: [
+        q: "Which of the following statements best describes the primary objective of the 'Blue Revolution' in India?",
+        opts: [
             "To promote rainwater harvesting and water conservation across drought-prone states",
             "To achieve integrated development and management of fisheries sector for increasing fish production and productivity",
             "To develop inland waterways as a mode of freight transport reducing pressure on roadways",
             "To expand the coverage of drip and sprinkler irrigation systems for water-efficient agriculture"
         ],
-        answer: 1,
-        explanation: "The Blue Revolution (Neeli Kranti Mission) was launched to achieve integrated development and management of the fisheries sector in India with the aim of increasing fish production, improving productivity, and enhancing the income of fishers. It covers both inland and marine fisheries. The other options relate to separate schemes — water conservation, waterways development (Sagarmala/IWAI), and micro-irrigation."
+        ans: 1,
+        exp: "The Blue Revolution (Neeli Kranti Mission) was launched to achieve integrated development and management of the fisheries sector in India with the aim of increasing fish production, improving productivity, and enhancing the income of fishers. It covers both inland and marine fisheries. The other options relate to separate schemes — water conservation, waterways development (Sagarmala/IWAI), and micro-irrigation."
     },
     {
         topic: "Development of Oil and Gas Basins of India",
-        question: "Consider the following pairs of oil and gas basins and their locations:<br>1. Bombay High — Offshore, Arabian Sea<br>2. Krishna-Godavari Basin — Offshore and Onshore, Bay of Bengal coast<br>3. Cambay Basin — Offshore, Gujarat<br>4. Cauvery Basin — Tamil Nadu and Puducherry coast<br>How many of the above pairs are correctly matched?",
-        options: [
+        q: "Consider the following pairs of oil and gas basins and their locations:<br>1. Bombay High — Offshore, Arabian Sea<br>2. Krishna-Godavari Basin — Offshore and Onshore, Bay of Bengal coast<br>3. Cambay Basin — Offshore, Gujarat<br>4. Cauvery Basin — Tamil Nadu and Puducherry coast<br>How many of the above pairs are correctly matched?",
+        opts: [
             "Only one",
             "Only two",
             "Only three",
             "All four"
         ],
-        answer: 2,
-        explanation: "Pairs 1, 2, and 4 are correctly matched. Bombay High is an offshore basin in the Arabian Sea; the Krishna-Godavari Basin extends both offshore and onshore along the Bay of Bengal; and the Cauvery Basin lies along the Tamil Nadu and Puducherry coast. However, the Cambay (Khambhat) Basin is primarily an onshore basin in Gujarat, not offshore — making Pair 3 incorrect."
+        ans: 2,
+        exp: "Pairs 1, 2, and 4 are correctly matched. Bombay High is an offshore basin in the Arabian Sea; the Krishna-Godavari Basin extends both offshore and onshore along the Bay of Bengal; and the Cauvery Basin lies along the Tamil Nadu and Puducherry coast. However, the Cambay (Khambhat) Basin is primarily an onshore basin in Gujarat, not offshore — making Pair 3 incorrect."
     },
     {
         topic: "Role of Monsoon Mechanism",
-        question: "Which one of the following correctly explains why the western coast of India receives more rainfall than the eastern coast during the southwest monsoon season?",
-        options: [
+        q: "Which one of the following correctly explains why the western coast of India receives more rainfall than the eastern coast during the southwest monsoon season?",
+        opts: [
             "The eastern coast lies in the rain shadow of the Eastern Ghats",
             "The Arabian Sea branch of the monsoon is moisture-laden and directly strikes the Western Ghats, causing orographic rainfall on the windward side",
             "The Bay of Bengal branch loses most of its moisture over Sri Lanka before reaching the eastern coast",
             "Prevailing easterly winds during summer divert moisture away from the eastern coast"
         ],
-        answer: 1,
-        explanation: "The Arabian Sea branch of the southwest monsoon is stronger and more moisture-laden. It strikes the Western Ghats almost perpendicularly, causing heavy orographic (relief) rainfall on the windward (western) side. The leeward eastern slopes fall in the rain shadow, receiving comparatively little rainfall. The Bay of Bengal branch moves north and northwest, delivering rainfall to the northeastern states and Indo-Gangetic plains, not significantly to the eastern coast during the same period."
+        ans: 1,
+        exp: "The Arabian Sea branch of the southwest monsoon is stronger and more moisture-laden. It strikes the Western Ghats almost perpendicularly, causing heavy orographic (relief) rainfall on the windward (western) side. The leeward eastern slopes fall in the rain shadow, receiving comparatively little rainfall. The Bay of Bengal branch moves north and northwest, delivering rainfall to the northeastern states and Indo-Gangetic plains, not significantly to the eastern coast during the same period."
     },
     {
         topic: "Aftermath of River Systems of India",
-        question: "Consider the following statements about the river systems of India:<br>1. The Chambal and Betwa are tributaries of the Yamuna River.<br>2. The Damodar River drains into the Hooghly River.<br>3. The Luni River originates from the Aravalli hills and drains into the Rann of Kutch.<br>4. The Mahanadi River forms its delta in the state of Andhra Pradesh.<br>Which of the statements given above are correct?",
-        options: [
+        q: "Consider the following statements about the river systems of India:<br>1. The Chambal and Betwa are tributaries of the Yamuna River.<br>2. The Damodar River drains into the Hooghly River.<br>3. The Luni River originates from the Aravalli hills and drains into the Rann of Kutch.<br>4. The Mahanadi River forms its delta in the state of Andhra Pradesh.<br>Which of the statements given above are correct?",
+        opts: [
             "1, 2 and 3 only",
             "1 and 3 only",
             "2, 3 and 4 only",
             "1, 2 and 4 only"
         ],
-        answer: 0,
-        explanation: "Statements 1, 2, and 3 are correct. Chambal and Betwa are indeed tributaries of the Yamuna; the Damodar drains into the Hooghly (Bhagirathi); and the Luni rises in the Aravalli hills and drains into the Rann of Kutch. Statement 4 is incorrect — the Mahanadi forms its delta in Odisha (around Cuttack and Puri district), not Andhra Pradesh."
+        ans: 0,
+        exp: "Statements 1, 2, and 3 are correct. Chambal and Betwa are indeed tributaries of the Yamuna; the Damodar drains into the Hooghly (Bhagirathi); and the Luni rises in the Aravalli hills and drains into the Rann of Kutch. Statement 4 is incorrect — the Mahanadi forms its delta in Odisha (around Cuttack and Puri district), not Andhra Pradesh."
     },
     {
         topic: "Background of Wetlands of India",
-        question: "With reference to Ramsar Sites in India, which of the following statements is/are correct?<br>1. Loktak Lake in Manipur is a Ramsar Site known for its phumdis — floating masses of vegetation.<br>2. Chilika Lake is the largest coastal lagoon in India and a Ramsar Site.<br>3. Wular Lake in Jammu & Kashmir is one of the smallest freshwater lakes designated as a Ramsar Site.<br>Select the correct answer using the code given below:",
-        options: [
+        q: "With reference to Ramsar Sites in India, which of the following statements is/are correct?<br>1. Loktak Lake in Manipur is a Ramsar Site known for its phumdis — floating masses of vegetation.<br>2. Chilika Lake is the largest coastal lagoon in India and a Ramsar Site.<br>3. Wular Lake in Jammu & Kashmir is one of the smallest freshwater lakes designated as a Ramsar Site.<br>Select the correct answer using the code given below:",
+        opts: [
             "1 and 2 only",
             "2 and 3 only",
             "1 and 3 only",
             "1, 2 and 3"
         ],
-        answer: 0,
-        explanation: "Loktak Lake (Manipur) is famous for phumdis and is a Ramsar Site. Chilika Lake (Odisha) is indeed the largest coastal lagoon in India and a Ramsar Site. Statement 3 is incorrect — Wular Lake in J&K is actually one of the largest freshwater lakes in Asia, not one of the smallest. Therefore only statements 1 and 2 are correct."
+        ans: 0,
+        exp: "Loktak Lake (Manipur) is famous for phumdis and is a Ramsar Site. Chilika Lake (Odisha) is indeed the largest coastal lagoon in India and a Ramsar Site. Statement 3 is incorrect — Wular Lake in J&K is actually one of the largest freshwater lakes in Asia, not one of the smallest. Therefore only statements 1 and 2 are correct."
     },
     {
         topic: "Development of Biomes of the World",
-        question: "Consider the following biomes and their characteristic features:<br>1. Taiga — dominated by coniferous trees and receives very low annual precipitation<br>2. Savanna — characterised by a continuous grass cover with scattered trees, experiencing distinct wet and dry seasons<br>3. Chaparral (Mediterranean) — dominated by evergreen shrubs and grasses adapted to summer drought<br>4. Tundra — has a rich canopy of deciduous forests underlain by permafrost<br>Which of the above are correctly described?",
-        options: [
+        q: "Consider the following biomes and their characteristic features:<br>1. Taiga — dominated by coniferous trees and receives very low annual precipitation<br>2. Savanna — characterised by a continuous grass cover with scattered trees, experiencing distinct wet and dry seasons<br>3. Chaparral (Mediterranean) — dominated by evergreen shrubs and grasses adapted to summer drought<br>4. Tundra — has a rich canopy of deciduous forests underlain by permafrost<br>Which of the above are correctly described?",
+        opts: [
             "1, 2 and 3 only",
             "2 and 3 only",
             "1 and 4 only",
             "1, 3 and 4 only"
         ],
-        answer: 0,
-        explanation: "Statements 1, 2, and 3 are correctly described. Taiga (boreal forest) is dominated by conifers with low precipitation. Savanna is a tropical grassland with scattered trees and seasonal rainfall. Chaparral/Mediterranean biome has drought-tolerant evergreen shrubs. Statement 4 is incorrect — tundra is characterised by the absence of trees (not deciduous forests), very low temperatures, and the presence of permafrost. The vegetation is predominantly mosses, lichens, and low shrubs."
+        ans: 0,
+        exp: "Statements 1, 2, and 3 are correctly described. Taiga (boreal forest) is dominated by conifers with low precipitation. Savanna is a tropical grassland with scattered trees and seasonal rainfall. Chaparral/Mediterranean biome has drought-tolerant evergreen shrubs. Statement 4 is incorrect — tundra is characterised by the absence of trees (not deciduous forests), very low temperatures, and the presence of permafrost. The vegetation is predominantly mosses, lichens, and low shrubs."
     },
     {
         topic: "Impact of Major Ports of India",
-        question: "With reference to the major ports of India, consider the following statements:<br>1. Jawaharlal Nehru Port (JNPT) handles the largest share of India's container traffic.<br>2. Paradip Port is located in Odisha and is one of the major ports on the eastern coast.<br>3. Ennore Port (Kamarajar Port) is the only corporate (company) major port in India.<br>4. Visakhapatnam Port is the deepest land-locked harbour in India.<br>Which of the statements given above are correct?",
-        options: [
+        q: "With reference to the major ports of India, consider the following statements:<br>1. Jawaharlal Nehru Port (JNPT) handles the largest share of India's container traffic.<br>2. Paradip Port is located in Odisha and is one of the major ports on the eastern coast.<br>3. Ennore Port (Kamarajar Port) is the only corporate (company) major port in India.<br>4. Visakhapatnam Port is the deepest land-locked harbour in India.<br>Which of the statements given above are correct?",
+        opts: [
             "1, 2 and 3 only",
             "1 and 4 only",
             "2, 3 and 4 only",
             "1, 2, 3 and 4"
         ],
-        answer: 3,
-        explanation: "All four statements are correct. JNPT (Nhava Sheva) handles the largest share of India's container traffic. Paradip Port is situated in Odisha on the eastern coast. Ennore (Kamarajar) Port is India's only corporatised major port, functioning as a public limited company. Visakhapatnam is the deepest land-locked harbour in India, making it suitable for large vessels."
+        ans: 3,
+        exp: "All four statements are correct. JNPT (Nhava Sheva) handles the largest share of India's container traffic. Paradip Port is situated in Odisha on the eastern coast. Ennore (Kamarajar) Port is India's only corporatised major port, functioning as a public limited company. Visakhapatnam is the deepest land-locked harbour in India, making it suitable for large vessels."
     },
     {
         topic: "Significance of Iron Ore Distribution",
-        question: "With reference to iron ore production in India, which of the following statements is/are correct?<br>1. India primarily produces haematite and magnetite varieties of iron ore.<br>2. Odisha and Chhattisgarh together account for the largest share of India's iron ore production.<br>3. The Kudremukh iron ore deposits in Karnataka are associated with the laterite soil region.<br>Select the correct answer using the code given below:",
-        options: [
+        q: "With reference to iron ore production in India, which of the following statements is/are correct?<br>1. India primarily produces haematite and magnetite varieties of iron ore.<br>2. Odisha and Chhattisgarh together account for the largest share of India's iron ore production.<br>3. The Kudremukh iron ore deposits in Karnataka are associated with the laterite soil region.<br>Select the correct answer using the code given below:",
+        opts: [
             "1 only",
             "1 and 2 only",
             "2 and 3 only",
             "1, 2 and 3"
         ],
-        answer: 1,
-        explanation: "India primarily produces haematite (high iron content, found in Jharkhand, Odisha, Karnataka) and magnetite (high iron content but magnetic, found in Karnataka, Tamil Nadu). Odisha and Chhattisgarh together dominate India's iron ore production. Statement 3 is incorrect — Kudremukh deposits are associated with the Bababudan Hills range in Karnataka and are magnetite type, not specifically laterite soil regions."
+        ans: 1,
+        exp: "India primarily produces haematite (high iron content, found in Jharkhand, Odisha, Karnataka) and magnetite (high iron content but magnetic, found in Karnataka, Tamil Nadu). Odisha and Chhattisgarh together dominate India's iron ore production. Statement 3 is incorrect — Kudremukh deposits are associated with the Bababudan Hills range in Karnataka and are magnetite type, not specifically laterite soil regions."
     },
     {
         topic: "Decline of Earthquake Zones of India",
-        question: "With reference to seismic zonation of India as per the Bureau of Indian Standards (BIS), consider the following statements:<br>1. India is divided into four seismic zones — Zone II, III, IV, and V.<br>2. Zone V is the most seismically active zone and includes the entire northeastern India and parts of Jammu & Kashmir and Himachal Pradesh.<br>3. The Deccan Plateau region entirely falls under Zone II, indicating the lowest seismic hazard.<br>Which of the statements given above is/are correct?",
-        options: [
+        q: "With reference to seismic zonation of India as per the Bureau of Indian Standards (BIS), consider the following statements:<br>1. India is divided into four seismic zones — Zone II, III, IV, and V.<br>2. Zone V is the most seismically active zone and includes the entire northeastern India and parts of Jammu & Kashmir and Himachal Pradesh.<br>3. The Deccan Plateau region entirely falls under Zone II, indicating the lowest seismic hazard.<br>Which of the statements given above is/are correct?",
+        opts: [
             "1 and 2 only",
             "2 and 3 only",
             "1 only",
             "1, 2 and 3"
         ],
-        answer: 0,
-        explanation: "India's BIS seismic zonation divides the country into four zones (II to V), with Zone V being the highest hazard zone. Zone V includes the entire northeastern India, parts of J&K, Himachal Pradesh, Uttarakhand, Rann of Kutch, and Andaman & Nicobar Islands. Statement 3 is incorrect — while most of the Deccan Plateau falls under Zone II, not all of it does; certain parts of Maharashtra and other interior regions fall in higher zones."
+        ans: 0,
+        exp: "India's BIS seismic zonation divides the country into four zones (II to V), with Zone V being the highest hazard zone. Zone V includes the entire northeastern India, parts of J&K, Himachal Pradesh, Uttarakhand, Rann of Kutch, and Andaman & Nicobar Islands. Statement 3 is incorrect — while most of the Deccan Plateau falls under Zone II, not all of it does; certain parts of Maharashtra and other interior regions fall in higher zones."
     },
     {
         topic: "Development of Urbanisation Trends",
-        question: "Consider the following statements regarding urbanisation trends in India based on Census 2011:<br>1. For the first time since Independence, the absolute increase in population was more in urban areas than in rural areas during 2001–2011.<br>2. Urban population constituted approximately 31% of India's total population in 2011.<br>3. Maharashtra had the highest urban population in absolute numbers among all Indian states in 2011.<br>Which of the statements given above is/are correct?",
-        options: [
+        q: "Consider the following statements regarding urbanisation trends in India based on Census 2011:<br>1. For the first time since Independence, the absolute increase in population was more in urban areas than in rural areas during 2001–2011.<br>2. Urban population constituted approximately 31% of India's total population in 2011.<br>3. Maharashtra had the highest urban population in absolute numbers among all Indian states in 2011.<br>Which of the statements given above is/are correct?",
+        opts: [
             "1 and 2 only",
             "2 and 3 only",
             "1 and 3 only",
             "1, 2 and 3"
         ],
-        answer: 3,
-        explanation: "All three statements are correct based on Census 2011. For the first time since Independence, the absolute increase in urban population (91 million) exceeded the absolute increase in rural population (90.5 million) during 2001–2011. Urban population stood at about 31.16% of India's total population. Maharashtra had the highest absolute urban population, followed by Uttar Pradesh and Tamil Nadu."
+        ans: 3,
+        exp: "All three statements are correct based on Census 2011. For the first time since Independence, the absolute increase in urban population (91 million) exceeded the absolute increase in rural population (90.5 million) during 2001–2011. Urban population stood at about 31.16% of India's total population. Maharashtra had the highest absolute urban population, followed by Uttar Pradesh and Tamil Nadu."
     },
     {
         topic: "Legacy of Blue Revolution",
-        question: "Which of the following are outcomes or significant developments associated with India's Blue Revolution since its launch?<br>1. India emerged as one of the world's top fish-producing nations.<br>2. Inland fisheries production overtook marine fisheries production in terms of tonnage.<br>3. Aquaculture was promoted as a key component of the Blue Revolution.<br>4. India became the largest exporter of fish by value in the world.<br>Select the correct answer using the code given below:",
-        options: [
+        q: "Which of the following are outcomes or significant developments associated with India's Blue Revolution since its launch?<br>1. India emerged as one of the world's top fish-producing nations.<br>2. Inland fisheries production overtook marine fisheries production in terms of tonnage.<br>3. Aquaculture was promoted as a key component of the Blue Revolution.<br>4. India became the largest exporter of fish by value in the world.<br>Select the correct answer using the code given below:",
+        opts: [
             "1, 2 and 3 only",
             "1 and 3 only",
             "2, 3 and 4 only",
             "1, 2, 3 and 4"
         ],
-        answer: 0,
-        explanation: "India is among the world's top fish-producing nations (2nd or 3rd globally). Inland fisheries production has surpassed marine fisheries in total tonnage, reflecting the success of aquaculture. Aquaculture (particularly shrimp and freshwater fish farming) was indeed a central component. However, Statement 4 is incorrect — while India is a major fish exporter, it is not the largest by value globally; Norway and China consistently rank higher."
+        ans: 0,
+        exp: "India is among the world's top fish-producing nations (2nd or 3rd globally). Inland fisheries production has surpassed marine fisheries in total tonnage, reflecting the success of aquaculture. Aquaculture (particularly shrimp and freshwater fish farming) was indeed a central component. However, Statement 4 is incorrect — while India is a major fish exporter, it is not the largest by value globally; Norway and China consistently rank higher."
     },
     {
         topic: "Role of Saline Lakes",
-        question: "Which one of the following statements correctly explains the formation of saline lakes in arid and semi-arid regions?",
-        options: [
+        q: "Which one of the following statements correctly explains the formation of saline lakes in arid and semi-arid regions?",
+        opts: [
             "Saline lakes form due to excessive rainfall causing dissolution of surface minerals into enclosed drainage basins with no outflow",
             "They form in enclosed or interior drainage basins where evaporation exceeds precipitation, causing salts to accumulate over time",
             "They are formed exclusively by tectonic subsidence of river valleys leading to salt accumulation",
             "Saline lakes are formed only in coastal areas where marine water intrudes into fresh water bodies through porous rocks"
         ],
-        answer: 1,
-        explanation: "Saline lakes form in enclosed drainage basins (endorheic basins) with no outlet to the sea. In arid and semi-arid regions, the rate of evaporation exceeds precipitation, causing water to evaporate while dissolved salts remain and accumulate over time. Examples include the Sambhar Lake in Rajasthan and the Dead Sea. The other options describe processes that are either inaccurate or only partially applicable."
+        ans: 1,
+        exp: "Saline lakes form in enclosed drainage basins (endorheic basins) with no outlet to the sea. In arid and semi-arid regions, the rate of evaporation exceeds precipitation, causing water to evaporate while dissolved salts remain and accumulate over time. Examples include the Sambhar Lake in Rajasthan and the Dead Sea. The other options describe processes that are either inaccurate or only partially applicable."
     },
     {
         topic: "Background of Himalayan Passes",
-        question: "Consider the following pairs of Himalayan passes and the states/regions they are located in:<br>1. Rohtang Pass — Himachal Pradesh<br>2. Nathu La — Sikkim<br>3. Lipulekh Pass — Uttarakhand<br>4. Zoji La — Ladakh<br>How many of the above pairs are correctly matched?",
-        options: [
+        q: "Consider the following pairs of Himalayan passes and the states/regions they are located in:<br>1. Rohtang Pass — Himachal Pradesh<br>2. Nathu La — Sikkim<br>3. Lipulekh Pass — Uttarakhand<br>4. Zoji La — Ladakh<br>How many of the above pairs are correctly matched?",
+        opts: [
             "Only two",
             "Only three",
             "All four",
             "Only one"
         ],
-        answer: 2,
-        explanation: "All four pairs are correctly matched. Rohtang Pass lies in Himachal Pradesh on the Manali-Leh highway. Nathu La is in Sikkim and connects India with Tibet (China). Lipulekh Pass is in Uttarakhand and is used for the Kailash Mansarovar Yatra. Zoji La is located in Ladakh on the Srinagar-Leh highway. Hence all four are correctly matched."
+        ans: 2,
+        exp: "All four pairs are correctly matched. Rohtang Pass lies in Himachal Pradesh on the Manali-Leh highway. Nathu La is in Sikkim and connects India with Tibet (China). Lipulekh Pass is in Uttarakhand and is used for the Kailash Mansarovar Yatra. Zoji La is located in Ladakh on the Srinagar-Leh highway. Hence all four are correctly matched."
     },
     {
         topic: "Relationship Between Census 2011 Key Data",
-        question: "With reference to Census 2011 data of India, which of the following statements is/are correct?<br>1. The literacy rate of India as per Census 2011 was approximately 74%.<br>2. The Child Sex Ratio (0–6 years) declined from 927 in 2001 to 918 in 2011.<br>3. Uttar Pradesh was the most populous state and also had the highest population density in 2011.<br>Select the correct answer using the code given below:",
-        options: [
+        q: "With reference to Census 2011 data of India, which of the following statements is/are correct?<br>1. The literacy rate of India as per Census 2011 was approximately 74%.<br>2. The Child Sex Ratio (0–6 years) declined from 927 in 2001 to 918 in 2011.<br>3. Uttar Pradesh was the most populous state and also had the highest population density in 2011.<br>Select the correct answer using the code given below:",
+        opts: [
             "1 and 2 only",
             "2 and 3 only",
             "1 and 3 only",
             "1, 2 and 3"
         ],
-        answer: 0,
-        explanation: "India's literacy rate in 2011 was 74.04% — correct. The child sex ratio (0–6 years) did decline from 927 in 2001 to 918 in 2011 — correct. However, Statement 3 is incorrect — while Uttar Pradesh was indeed the most populous state, it does not have the highest population density. Bihar has the highest population density among large states (1102 persons/sq km), while West Bengal also ranks very high. UP's density was around 828 persons/sq km in 2011."
+        ans: 0,
+        exp: "India's literacy rate in 2011 was 74.04% — correct. The child sex ratio (0–6 years) did decline from 927 in 2001 to 918 in 2011 — correct. However, Statement 3 is incorrect — while Uttar Pradesh was indeed the most populous state, it does not have the highest population density. Bihar has the highest population density among large states (1102 persons/sq km), while West Bengal also ranks very high. UP's density was around 828 persons/sq km in 2011."
     },
     {
         topic: "Background of Saline Lakes",
-        question: "Sambhar Salt Lake, India's largest inland saltwater lake, is located in which of the following states, and which river/drainage system primarily feeds it?",
-        options: [
+        q: "Sambhar Salt Lake, India's largest inland saltwater lake, is located in which of the following states, and which river/drainage system primarily feeds it?",
+        opts: [
             "Gujarat; fed by the Luni River and its tributaries",
             "Rajasthan; fed by the Mendha, Rupangarh, Khari, and Khandela rivers draining into an enclosed basin",
             "Rajasthan; fed by a sub-surface connection to the Thar Desert water table",
             "Haryana; fed by seasonal streams from the Aravalli Range"
         ],
-        answer: 1,
-        explanation: "Sambhar Salt Lake is located in Rajasthan (near Jaipur). It is fed by several seasonal rivers including the Mendha, Rupangarh, Khari, and Khandela rivers, which drain into this enclosed (endorheic) basin. There is no outflow, and the high evaporation rate concentrates the dissolved salts, making it a significant source of salt production in India."
+        ans: 1,
+        exp: "Sambhar Salt Lake is located in Rajasthan (near Jaipur). It is fed by several seasonal rivers including the Mendha, Rupangarh, Khari, and Khandela rivers, which drain into this enclosed (endorheic) basin. There is no outflow, and the high evaporation rate concentrates the dissolved salts, making it a significant source of salt production in India."
     },
     {
         topic: "Development of Iron Ore Distribution",
-        question: "Consider the following statements about the distribution of iron ore in India:<br>1. The Dharwad and Cuddapah rock systems are the primary geological formations hosting iron ore deposits in India.<br>2. The Bailadila range in Chhattisgarh is known for very high-grade haematite iron ore and is a major export source.<br>3. Karnataka's Bellary-Hospet region has significant iron ore deposits.<br>Which of the statements given above is/are correct?",
-        options: [
+        q: "Consider the following statements about the distribution of iron ore in India:<br>1. The Dharwad and Cuddapah rock systems are the primary geological formations hosting iron ore deposits in India.<br>2. The Bailadila range in Chhattisgarh is known for very high-grade haematite iron ore and is a major export source.<br>3. Karnataka's Bellary-Hospet region has significant iron ore deposits.<br>Which of the statements given above is/are correct?",
+        opts: [
             "1 and 2 only",
             "2 and 3 only",
             "1 and 3 only",
             "1, 2 and 3"
         ],
-        answer: 1,
-        explanation: "The Bailadila range in Chhattisgarh contains one of the world's finest deposits of high-grade haematite and is a major source of iron ore exports to Japan and South Korea. The Bellary-Hospet region in Karnataka is also a well-known iron ore producing area. Statement 1 is incorrect — iron ore in India is primarily associated with the Dharwar craton, but specifically the Archaean/Precambrian banded iron formations; the Cuddapah system is more associated with limestone and other sedimentary rocks, not primarily iron ore."
+        ans: 1,
+        exp: "The Bailadila range in Chhattisgarh contains one of the world's finest deposits of high-grade haematite and is a major source of iron ore exports to Japan and South Korea. The Bellary-Hospet region in Karnataka is also a well-known iron ore producing area. Statement 1 is incorrect — iron ore in India is primarily associated with the Dharwar craton, but specifically the Archaean/Precambrian banded iron formations; the Cuddapah system is more associated with limestone and other sedimentary rocks, not primarily iron ore."
     },
     {
         topic: "Impact of Straits of the World",
-        question: "Consider the following pairs of straits and the water bodies they connect:<br>1. Strait of Malacca — Andaman Sea and South China Sea<br>2. Palk Strait — Lakshadweep Sea and Bay of Bengal<br>3. Bab-el-Mandeb — Red Sea and Gulf of Aden<br>4. Strait of Hormuz — Persian Gulf and Gulf of Oman<br>How many of the above pairs are correctly matched?",
-        options: [
+        q: "Consider the following pairs of straits and the water bodies they connect:<br>1. Strait of Malacca — Andaman Sea and South China Sea<br>2. Palk Strait — Lakshadweep Sea and Bay of Bengal<br>3. Bab-el-Mandeb — Red Sea and Gulf of Aden<br>4. Strait of Hormuz — Persian Gulf and Gulf of Oman<br>How many of the above pairs are correctly matched?",
+        opts: [
             "Only two",
             "Only three",
             "All four",
             "Only one"
         ],
-        answer: 1,
-        explanation: "Pairs 1, 3, and 4 are correctly matched. The Strait of Malacca connects the Andaman Sea (part of Indian Ocean) with the South China Sea. Bab-el-Mandeb connects the Red Sea with the Gulf of Aden. The Strait of Hormuz connects the Persian Gulf with the Gulf of Oman. Pair 2 is incorrect — the Palk Strait connects the Bay of Bengal with the Gulf of Mannar (not the Lakshadweep Sea), separating India and Sri Lanka."
+        ans: 1,
+        exp: "Pairs 1, 3, and 4 are correctly matched. The Strait of Malacca connects the Andaman Sea (part of Indian Ocean) with the South China Sea. Bab-el-Mandeb connects the Red Sea with the Gulf of Aden. The Strait of Hormuz connects the Persian Gulf with the Gulf of Oman. Pair 2 is incorrect — the Palk Strait connects the Bay of Bengal with the Gulf of Mannar (not the Lakshadweep Sea), separating India and Sri Lanka."
     },
     {
         topic: "Development of Irrigation Types",
-        question: "With reference to irrigation systems in India, consider the following statements:<br>1. Well and tube-well irrigation accounts for the largest share of net irrigated area in India.<br>2. Tank irrigation is predominantly practised in the Peninsular plateau region due to uneven terrain and impervious rock.<br>3. Canal irrigation is the most suitable form of irrigation in areas with hard crystalline rock formations.<br>Which of the statements given above is/are correct?",
-        options: [
+        q: "With reference to irrigation systems in India, consider the following statements:<br>1. Well and tube-well irrigation accounts for the largest share of net irrigated area in India.<br>2. Tank irrigation is predominantly practised in the Peninsular plateau region due to uneven terrain and impervious rock.<br>3. Canal irrigation is the most suitable form of irrigation in areas with hard crystalline rock formations.<br>Which of the statements given above is/are correct?",
+        opts: [
             "1 and 2 only",
             "2 and 3 only",
             "1 and 3 only",
             "1, 2 and 3"
         ],
-        answer: 0,
-        explanation: "Well and tube-well irrigation (groundwater irrigation) accounts for the largest share of net irrigated area in India — correct. Tank irrigation is most prevalent in the Deccan Plateau (Andhra Pradesh, Tamil Nadu, Karnataka) because the hard impervious rock prevents percolation and the undulating terrain facilitates tank construction — correct. Statement 3 is incorrect — canal irrigation is best suited for alluvial plains with gentle slopes, not areas with hard crystalline rocks. Hard rock areas are better served by tank or well irrigation."
+        ans: 0,
+        exp: "Well and tube-well irrigation (groundwater irrigation) accounts for the largest share of net irrigated area in India — correct. Tank irrigation is most prevalent in the Deccan Plateau (Andhra Pradesh, Tamil Nadu, Karnataka) because the hard impervious rock prevents percolation and the undulating terrain facilitates tank construction — correct. Statement 3 is incorrect — canal irrigation is best suited for alluvial plains with gentle slopes, not areas with hard crystalline rocks. Hard rock areas are better served by tank or well irrigation."
     },
     {
         topic: "Development of Population Distribution in India",
-        question: "Which of the following factors most directly explain the high population density of the Indo-Gangetic Plain compared to the Deccan Plateau?<br>1. Alluvial soil fertility supporting intensive agriculture<br>2. Perennial river systems enabling year-round irrigation<br>3. Historically older settlement pattern and cultural continuity<br>4. Higher average annual rainfall compared to all parts of the Deccan Plateau<br>Select the correct answer using the code given below:",
-        options: [
+        q: "Which of the following factors most directly explain the high population density of the Indo-Gangetic Plain compared to the Deccan Plateau?<br>1. Alluvial soil fertility supporting intensive agriculture<br>2. Perennial river systems enabling year-round irrigation<br>3. Historically older settlement pattern and cultural continuity<br>4. Higher average annual rainfall compared to all parts of the Deccan Plateau<br>Select the correct answer using the code given below:",
+        opts: [
             "1, 2 and 3 only",
             "1 and 2 only",
             "2, 3 and 4 only",
             "1, 2, 3 and 4"
         ],
-        answer: 0,
-        explanation: "The high population density of the Indo-Gangetic Plain is primarily explained by fertile alluvial soils enabling intensive agriculture, perennial rivers (Ganga, Yamuna, their tributaries) supporting year-round irrigation, and historically older settlements with cultural continuity. Statement 4 is incorrect — not all parts of the Deccan Plateau receive low rainfall; the Western Ghats' leeward portions and parts of Telangana receive moderate-to-high rainfall. Rainfall alone does not consistently differentiate the two regions in this context."
+        ans: 0,
+        exp: "The high population density of the Indo-Gangetic Plain is primarily explained by fertile alluvial soils enabling intensive agriculture, perennial rivers (Ganga, Yamuna, their tributaries) supporting year-round irrigation, and historically older settlements with cultural continuity. Statement 4 is incorrect — not all parts of the Deccan Plateau receive low rainfall; the Western Ghats' leeward portions and parts of Telangana receive moderate-to-high rainfall. Rainfall alone does not consistently differentiate the two regions in this context."
     },
     {
         topic: "Comparison of Oil and Gas Basins of India",
-        question: "Which of the following correctly lists India's sedimentary basins in descending order of their estimated hydrocarbon reserves?",
-        options: [
+        q: "Which of the following correctly lists India's sedimentary basins in descending order of their estimated hydrocarbon reserves?",
+        opts: [
             "Cambay Basin > Mumbai Offshore Basin > Krishna-Godavari Basin",
             "Mumbai Offshore Basin > Assam-Arakan Basin > Cambay Basin",
             "Krishna-Godavari Basin > Mumbai Offshore Basin > Rajasthan Basin",
             "Mumbai Offshore Basin > Krishna-Godavari Basin > Rajasthan Basin"
         ],
-        answer: 3,
-        explanation: "The Mumbai Offshore Basin (home to Bombay High) has been India's largest petroleum-producing basin historically. The Krishna-Godavari (KG) Basin, especially with the Reliance KG-D6 block discoveries, is among the most significant in terms of gas reserves. The Rajasthan Basin (Barmer block, operated by Cairn India/Vedanta) has seen significant oil production in recent decades. The Assam-Arakan and Cambay basins, though historically important, have relatively lower remaining reserves compared to Mumbai Offshore and KG basins."
+        ans: 3,
+        exp: "The Mumbai Offshore Basin (home to Bombay High) has been India's largest petroleum-producing basin historically. The Krishna-Godavari (KG) Basin, especially with the Reliance KG-D6 block discoveries, is among the most significant in terms of gas reserves. The Rajasthan Basin (Barmer block, operated by Cairn India/Vedanta) has seen significant oil production in recent decades. The Assam-Arakan and Cambay basins, though historically important, have relatively lower remaining reserves compared to Mumbai Offshore and KG basins."
     },
     {
         topic: "Criticism of Biomes of the World",
-        question: "Which of the following is a valid criticism of the traditional biome classification system used in biogeography?",
-        options: [
+        q: "Which of the following is a valid criticism of the traditional biome classification system used in biogeography?",
+        opts: [
             "It overestimates the role of temperature and underestimates the role of soil type in determining biome boundaries",
             "It treats each biome as a static, homogeneous unit and fails to account for transitional zones (ecotones) and internal biodiversity variations",
             "It is based exclusively on animal community structures and ignores vegetation completely",
             "It was developed only for the Northern Hemisphere and cannot be applied to tropical ecosystems"
         ],
-        answer: 1,
-        explanation: "A major criticism of traditional biome classification is that it treats biomes as discrete, static, and homogeneous units, ignoring the reality of ecotones (transitional zones between biomes) and significant internal variation in climate, soil, and species composition. Climate change further challenges static classifications. Option A is partially valid but overstated. Options C and D are factually wrong — biome classification is based on both vegetation and climate, and is applied globally including tropical regions."
+        ans: 1,
+        exp: "A major criticism of traditional biome classification is that it treats biomes as discrete, static, and homogeneous units, ignoring the reality of ecotones (transitional zones between biomes) and significant internal variation in climate, soil, and species composition. Climate change further challenges static classifications. Option A is partially valid but overstated. Options C and D are factually wrong — biome classification is based on both vegetation and climate, and is applied globally including tropical regions."
     },
     {
         topic: "Relationship Between Indian Coal Fields",
-        question: "Consider the following statements about Indian coalfields:<br>1. Gondwana coalfields account for the bulk of India's coal reserves and are found in peninsular river valleys.<br>2. The Raniganj and Jharia coalfields are located in the Damodar Valley.<br>3. Tertiary coal, found mainly in the northeastern states, is of higher grade (higher carbon content) than Gondwana coal.<br>Which of the statements given above is/are correct?",
-        options: [
+        q: "Consider the following statements about Indian coalfields:<br>1. Gondwana coalfields account for the bulk of India's coal reserves and are found in peninsular river valleys.<br>2. The Raniganj and Jharia coalfields are located in the Damodar Valley.<br>3. Tertiary coal, found mainly in the northeastern states, is of higher grade (higher carbon content) than Gondwana coal.<br>Which of the statements given above is/are correct?",
+        opts: [
             "1 and 2 only",
             "2 and 3 only",
             "1 and 3 only",
             "1, 2 and 3"
         ],
-        answer: 0,
-        explanation: "Gondwana coal constitutes over 98% of India's total coal reserves and occurs in the river valleys of peninsular India (Damodar, Sone, Mahanadi, Godavari, Wardha valleys). Both Raniganj and Jharia are major coalfields located in the Damodar Valley (Jharkhand/West Bengal). Statement 3 is incorrect — Tertiary coal found in Assam, Meghalaya, Nagaland, and Arunachal Pradesh is generally of lower grade (lower carbon, higher sulphur content) than Gondwana coal."
+        ans: 0,
+        exp: "Gondwana coal constitutes over 98% of India's total coal reserves and occurs in the river valleys of peninsular India (Damodar, Sone, Mahanadi, Godavari, Wardha valleys). Both Raniganj and Jharia are major coalfields located in the Damodar Valley (Jharkhand/West Bengal). Statement 3 is incorrect — Tertiary coal found in Assam, Meghalaya, Nagaland, and Arunachal Pradesh is generally of lower grade (lower carbon, higher sulphur content) than Gondwana coal."
     },
     {
         topic: "Criticism of Transport Networks — Golden Quadrilateral",
-        question: "Consider the following statements about the Golden Quadrilateral (GQ) Highway Project of India:<br>1. The Golden Quadrilateral is the longest highway project undertaken in India and connects Delhi, Mumbai, Chennai, and Kolkata.<br>2. It is implemented under the National Highways Development Project (NHDP) by the National Highways Authority of India (NHAI).<br>3. A major criticism of the GQ project is that it primarily benefited urban centres along the corridor while having limited impact on rural hinterland connectivity.<br>4. The GQ was completed well ahead of its original scheduled deadline.<br>Which of the statements given above are correct?",
-        options: [
+        q: "Consider the following statements about the Golden Quadrilateral (GQ) Highway Project of India:<br>1. The Golden Quadrilateral is the longest highway project undertaken in India and connects Delhi, Mumbai, Chennai, and Kolkata.<br>2. It is implemented under the National Highways Development Project (NHDP) by the National Highways Authority of India (NHAI).<br>3. A major criticism of the GQ project is that it primarily benefited urban centres along the corridor while having limited impact on rural hinterland connectivity.<br>4. The GQ was completed well ahead of its original scheduled deadline.<br>Which of the statements given above are correct?",
+        opts: [
             "1, 2 and 3 only",
             "2 and 3 only",
             "1, 3 and 4 only",
             "1, 2, 3 and 4"
         ],
-        answer: 0,
-        explanation: "The GQ connects Delhi, Mumbai, Chennai, and Kolkata (the four metro cities) forming a quadrilateral of about 5,846 km, and is part of NHDP Phase I implemented by NHAI — Statements 1 and 2 are correct. Statement 3 reflects a widely noted criticism that while the GQ boosted industrial corridors and urban connectivity, rural areas away from the highway saw limited direct benefit. Statement 4 is incorrect — the GQ project suffered significant delays and cost overruns, far exceeding its original deadline."
+        ans: 0,
+        exp: "The GQ connects Delhi, Mumbai, Chennai, and Kolkata (the four metro cities) forming a quadrilateral of about 5,846 km, and is part of NHDP Phase I implemented by NHAI — Statements 1 and 2 are correct. Statement 3 reflects a widely noted criticism that while the GQ boosted industrial corridors and urban connectivity, rural areas away from the highway saw limited direct benefit. Statement 4 is incorrect — the GQ project suffered significant delays and cost overruns, far exceeding its original deadline."
     }
 ];
-// ────────────────────────────────────────────────────────────────── Render quiz ────────────────────────────────────────────────────────────────
 
+const CORRECT_MARKS = 2;
+const NEGATIVE_MARKS = 2 / 3;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const quiz = document.getElementById("quiz");
-
-questions.forEach((q, index) => {
-  let html = `<div class="question">
-    <p><b>Q${index + 1}.</b> ${q.question}</p>`;
-
-  q.options.forEach((opt, i) => {
-    html += `<label class="option">
-      <input type="radio" name="q${index}" value="${i}">
-      ${String.fromCharCode(65 + i)}. ${opt}
-    </label>`;
-  });
-
-  html += `<div class="explanation" id="exp${index}"></div></div>`;
-  quiz.innerHTML += html;
-});
-
-// ── Submit ─────────────────────────────────────────────────────────────────────
+let current = 0;
+const responses = new Array(QUESTIONS.length).fill(null);
 let submitted = false;
 
-function submitQuiz() {
-  if (submitted) return;
+const qNumEl = document.getElementById('qNum');
+const qTotalEl = document.getElementById('qTotal');
+const qTotalNoteEl = document.getElementById('qTotalNote');
+const qTextEl = document.getElementById('qText');
+const optionsListEl = document.getElementById('optionsList');
+const qStatusTag = document.getElementById('qStatusTag');
+const explainBox = document.getElementById('explainBox');
+const explainText = document.getElementById('explainText');
+const paletteGrid = document.getElementById('paletteGrid');
+const answeredCountEl = document.getElementById('answeredCount');
+const skippedCountEl = document.getElementById('skippedCount');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const clearBtn = document.getElementById('clearBtn');
+const submitBtn = document.getElementById('submitBtn');
+const paperView = document.getElementById('paperView');
+const resultView = document.getElementById('resultView');
+const reviewBtn = document.getElementById('reviewBtn');
+const scoreText = document.getElementById('scoreText');
+const scorePercent = document.getElementById('scorePercent');
+
+qTotalEl.textContent = QUESTIONS.length;
+qTotalNoteEl.textContent = QUESTIONS.length;
+skippedCountEl.textContent = QUESTIONS.length;
+
+function buildPalette(){
+  paletteGrid.innerHTML = '';
+  QUESTIONS.forEach((_, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.textContent = i + 1;
+    cell.addEventListener('click', () => { current = i; render(); });
+    paletteGrid.appendChild(cell);
+  });
+}
+
+function render(){
+  const item = QUESTIONS[current];
+  qNumEl.textContent = current + 1;
+  qTextEl.innerHTML = item.q;
+
+  optionsListEl.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  const userChoice = responses[current];
+  item.opts.forEach((opt, idx) => {
+    const div = document.createElement('div');
+    let cls = 'option';
+    if (submitted){
+      cls += ' locked';
+      if (idx === item.ans) cls += ' correct';
+      else if (idx === userChoice) cls += ' incorrect';
+    } else if (userChoice === idx){
+      cls += ' selected';
+    }
+    div.className = cls;
+    div.innerHTML = `<span class="tag">${letters[idx]}</span><span class="opt-text"></span>`;
+    div.querySelector('.opt-text').textContent = opt;
+    div.addEventListener('click', () => {
+      if (submitted) return;
+      responses[current] = idx;
+      render();
+    });
+    optionsListEl.appendChild(div);
+  });
+
+  if (submitted){
+    if (userChoice === null){
+      qStatusTag.textContent = '⚠ Not Answered · Correct answer shown';
+      qStatusTag.className = 'q-status-tag review-unanswered';
+    } else if (userChoice === item.ans){
+      qStatusTag.textContent = '✓ Correct';
+      qStatusTag.className = 'q-status-tag correct';
+    } else {
+      qStatusTag.textContent = '✗ Incorrect';
+      qStatusTag.className = 'q-status-tag incorrect';
+    }
+    explainBox.classList.remove('hidden');
+    explainText.innerHTML = '<b>Correct Answer:</b> ' + letters[item.ans] + '. ' + item.opts[item.ans] + '<br><br>' + item.exp;
+  } else {
+    const answered = userChoice !== null;
+    qStatusTag.textContent = answered ? 'Answered' : 'Not Answered';
+    qStatusTag.className = 'q-status-tag ' + (answered ? 'answered' : 'unanswered');
+    explainBox.classList.add('hidden');
+  }
+
+  prevBtn.disabled = current === 0;
+  if (submitted){
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Back to Result' : 'Next →';
+    clearBtn.style.visibility = 'hidden';
+  } else {
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Finish' : 'Next →';
+    clearBtn.style.visibility = 'visible';
+  }
+
+  // palette
+  const cells = paletteGrid.children;
+  for (let i = 0; i < cells.length; i++){
+    cells[i].classList.toggle('current', i === current);
+    if (submitted){
+      const isIncorrect = responses[i] !== null && responses[i] !== QUESTIONS[i].ans;
+      const isCorrect = responses[i] === QUESTIONS[i].ans;
+      cells[i].classList.toggle('incorrect', isIncorrect);
+      cells[i].classList.toggle('answered', isCorrect);
+    } else {
+      cells[i].classList.toggle('answered', responses[i] !== null);
+      cells[i].classList.remove('incorrect');
+    }
+  }
+
+  const answeredTotal = responses.filter(r => r !== null).length;
+  if (submitted){
+    let correct = 0, incorrect = 0;
+    QUESTIONS.forEach((q, i) => {
+      if (responses[i] === null) return;
+      if (responses[i] === q.ans) correct++; else incorrect++;
+    });
+    const unattempted = QUESTIONS.length - answeredTotal;
+    const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+    document.getElementById('tallyRow').innerHTML = `
+      <div class="marks-line"><b>${marks.toFixed(2)}</b><span>Marks Scored</span></div>
+      <div class="tally-grid">
+        <div><b class="stat-correct">${correct}</b>Correct</div>
+        <div><b class="stat-incorrect">${incorrect}</b>Incorrect</div>
+        <div><b class="stat-unattempted">${unattempted}</b>Unattempted</div>
+      </div>
+    `;
+  } else {
+    answeredCountEl.textContent = answeredTotal;
+    skippedCountEl.textContent = QUESTIONS.length - answeredTotal;
+  }
+}
+
+prevBtn.addEventListener('click', () => { if (current > 0){ current--; render(); }});
+nextBtn.addEventListener('click', () => {
+  if (current < QUESTIONS.length - 1){ current++; render(); }
+  else if (submitted){
+    paperView.classList.add('hidden');
+    resultView.classList.remove('hidden');
+  } else {
+    doSubmit();
+  }
+});
+clearBtn.addEventListener('click', () => { responses[current] = null; render(); });
+
+submitBtn.addEventListener('click', doSubmit);
+
+function doSubmit(){
   submitted = true;
   clearInterval(countdown);
-
-  const correctMarks = 2;
-  const negativeMarks = 2 / 3;
-  let score = 0;
-
-  questions.forEach((q, index) => {
-    const radios = document.getElementsByName("q" + index);
-    let selected = -1;
-    radios.forEach(r => { if (r.checked) selected = parseInt(r.value); r.disabled = true; });
-
-    radios.forEach(r => {
-      const label = r.parentElement;
-      const value = parseInt(r.value);
-      if (value === q.answer) label.classList.add("correct");
-      if (value === selected && value !== q.answer) label.classList.add("wrong");
-      if (value === selected) label.classList.add("user-selected");
-    });
-
-    if (selected === q.answer) score += correctMarks;
-    else if (selected !== -1) score -= negativeMarks;
-
-    const exp = document.getElementById("exp" + index);
-    exp.style.display = "block";
-    exp.innerHTML = "<b>Correct Answer:</b> " + String.fromCharCode(65 + q.answer) +
-      "<br><br><b>Explanation:</b> " + q.explanation;
+  let correct = 0, incorrect = 0;
+  QUESTIONS.forEach((q, i) => {
+    if (responses[i] === null) return;
+    if (responses[i] === q.ans) correct++; else incorrect++;
   });
+  const unattempted = QUESTIONS.length - (correct + incorrect);
+  const maxMarks = QUESTIONS.length * CORRECT_MARKS;
+  const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+  const percentage = (marks / maxMarks) * 100;
 
-  const maxScore = questions.length * correctMarks;
-  const percentage = (score / maxScore) * 100;
-
-  document.getElementById("score").innerHTML =
-    "Score: <b>" + score.toFixed(2) + " / " + maxScore.toFixed(2) + "</b>" +
-    "&nbsp;&nbsp;|&nbsp;&nbsp;Percentage: <b>" + percentage.toFixed(2) + "%</b>";
-
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  scoreText.textContent = marks.toFixed(2) + ' / ' + maxMarks.toFixed(2);
+  scorePercent.textContent = percentage.toFixed(2) + '%';
+  document.getElementById('scoreBreakdown').innerHTML = `
+    <div class="stat correct"><b>${correct}</b><span>Correct</span></div>
+    <div class="stat incorrect"><b>${incorrect}</b><span>Incorrect</span></div>
+    <div class="stat unattempted"><b>${unattempted}</b><span>Unattempted</span></div>
+  `;
+  submitBtn.style.display = 'none';
+  paperView.classList.add('hidden');
+  resultView.classList.remove('hidden');
+  render();
 }
 
-// ── Timer ──────────────────────────────────────────────────────────────────────
-let totalSeconds = 1800;
+reviewBtn.addEventListener('click', () => {
+  resultView.classList.add('hidden');
+  paperView.classList.remove('hidden');
+  current = 0;
+  render();
+});
 
-function updateTimers(text, urgent) {
-  ["timerDesktop", "timerMobile"].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.textContent = text;
-      el.style.background = urgent ? "#c62828" : "var(--timer-bg)";
-    }
-  });
-}
+// theme toggle
+const themeSwitch = document.getElementById('themeSwitch');
+themeSwitch.addEventListener('click', () => {
+  const body = document.body;
+  const isDark = body.getAttribute('data-theme') === 'dark';
+  body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+});
 
+// countdown timer
+let seconds = 30 * 60;
+const timerEl = document.getElementById('timer');
 const countdown = setInterval(() => {
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-  const text = String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
-
-  updateTimers(text, totalSeconds <= 60);
-
-  if (totalSeconds === 0) {
-    updateTimers("Time Up!", true);
-    submitQuiz();
+  if (seconds <= 0 || submitted) return;
+  seconds--;
+  const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+  const s = String(seconds % 60).padStart(2, '0');
+  timerEl.textContent = `${m}:${s}`;
+  timerEl.classList.toggle('urgent', seconds <= 60);
+  if (seconds === 0){
+    timerEl.textContent = 'Time Up!';
+    doSubmit();
   }
-  totalSeconds--;
 }, 1000);
 
+buildPalette();
+render();
+
+window.addEventListener('beforeunload', function(e){
+  const hasProgress = !submitted && responses.some(r => r !== null);
+  if (hasProgress){
+    e.preventDefault();
+    e.returnValue = 'Your answers have not been submitted. If you leave or refresh this page, all marked answers will be lost.';
+    return e.returnValue;
+  }
+});
+
 </script>
+
 </body>
 </html>
