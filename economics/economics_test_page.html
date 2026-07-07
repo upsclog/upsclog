@@ -101,7 +101,7 @@
     transition:transform 0.35s ease, border-color 0.35s ease, background 0.35s ease;
     display:flex;
     flex-direction:column;
-    min-height:170px;
+    min-height:100px;
   }
   .quiz-card::before{
     content:"";
@@ -115,7 +115,7 @@
     letter-spacing:2px;
     text-transform:uppercase;
     color:var(--gold);
-    margin-bottom:12px;
+    margin-bottom:5px;
   }
   .quiz-title{
     font-family:'Fraunces',serif;
@@ -124,7 +124,7 @@
     line-height:1.3;
   }
   .quiz-meta{
-    margin-top:10px;
+    margin-top:1px;
     font-size:13px;
     color:var(--text-dim);
     font-weight:300;
@@ -149,9 +149,10 @@
   .quiz-card:hover .quiz-go svg{transform:translateX(4px);}
   .quiz-card:focus-visible{outline:2px solid var(--gold-bright); outline-offset:4px;}
 
-  @media (max-width:520px){
+  @media (max-width:620px){
     .topbar{padding:26px 6vw 0 6vw;}
     .page-head{margin:48px auto 44px auto;}
+/*    .quiz-grid{grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));*/
   }
 </style>
 </head>
@@ -197,9 +198,9 @@
       <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
   </a>
-  <a class="quiz-card" href="waiting_page.html" target="_blank" rel="noopener noreferrer">
+  <a class="quiz-card" href="UPSC LoG - Economy Test CODE-2027-16.html" target="_blank" rel="noopener noreferrer">
     <div class="quiz-tag">UPSC LoG</div>
-    <div class="quiz-title">Economy [UPCOMING]</div>
+    <div class="quiz-title">Economy Test 3</div>
     <div class="quiz-meta">25 Questions · 30 min</div>
     <div class="quiz-go">Start Quiz
       <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
