@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC LoG — Prelims Booster</title>
+<style>
+  :root{
+    --bg: #F3F4F1;
+    --paper: #FFFFFF;
+    --ink: #1D2A35;
+    --ink-soft: #5B6873;
+    --rule: #D8DCD6;
+    --navy: #1B3A5C;
+    --navy-deep: #12283F;
+    --gold: #B8862E;
+    --gold-soft: #EFDFB8;
+    --answered: #2F7D5A;
+    --answered-bg: #E4F3EC;
+    --skipped: #B8862E;
+    --skipped-bg: #FBF1DE;
+    --current-ring: #1B3A5C;
+    --wrong: #B23A2E;
+    --wrong-bg: #FBEAE7;
+    --shadow: 0 1px 2px rgba(20,30,40,0.06), 0 6px 20px rgba(20,30,40,0.05);
+    --serif: Georgia, 'Times New Roman', 'Iowan Old Style', serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --mono: 'Courier New', ui-monospace, monospace;
+  }
+  [data-theme="dark"]{
+    --bg: #0F1A24;
+    --paper: #17232E;
+    --ink: #E7ECEF;
+    --ink-soft: #97A5AF;
+    --rule: #2A3846;
+    --navy: #3E6E9E;
+    --navy-deep: #2A4E70;
+    --gold: #D9A441;
+    --gold-soft: #3A3220;
+    --answered: #4CAF7D;
+    --answered-bg: #163227;
+    --skipped: #D9A441;
+    --skipped-bg: #332A16;
+    --current-ring: #D9A441;
+    --wrong: #E07A6C;
+    --wrong-bg: #3A1E1A;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    min-height:100vh;
+    transition:background .3s ease, color .3s ease;
+  }
+
+  /* ---------- Header ---------- */
+  header.topbar{
+    background:linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color:#F4F1EA;
+    padding:0;
+    box-shadow:var(--shadow);
+    position:sticky; top:0; z-index:50;
+  }
+  .topbar-inner{
+    max-width:1280px; margin:0 auto;
+    display:flex; align-items:center; gap:20px;
+    padding:14px 28px;
+  }
+  .logo-slot{
+    width:52px; height:52px;
+    border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    overflow:hidden;
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .logo-slot img{
+    width:100%; height:100%;
+    object-fit:contain;
+  }
+  .logo-slot:hover{border-color:rgba(244,241,234,0.75); color:#F4F1EA;}
+  .title-block{flex:1; min-width:0;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gold-soft, #D9A441);
+    opacity:0.85;
+  }
+  .title-block h1{
+    font-family:var(--serif);
+    font-size:22px;
+    font-weight:400;
+    margin:2px 0 0 0;
+    letter-spacing:0.01em;
+  }
+  .subnote{
+    font-family:var(--mono);
+    font-size:11px;
+    color:rgba(244,241,234,0.65);
+    margin-top:6px;
+    letter-spacing:0.02em;
+  }
+  .subnote a{color:var(--gold-soft); text-decoration:none;}
+  .subnote a:hover{text-decoration:underline;}
+  .topbar-right{
+    display:flex; align-items:center; gap:18px; flex-shrink:0;
+  }
+  .timer{
+    font-family:var(--mono);
+    font-size:13px;
+    color:#F4F1EA;
+    border:1px solid rgba(244,241,234,0.3);
+    padding:6px 12px;
+    border-radius:6px;
+    background:rgba(0,0,0,0.12);
+    transition:background .2s ease;
+  }
+  .timer.urgent{background:var(--wrong); border-color:var(--wrong);}
+
+  /* dark mode switch */
+  .mode-switch{
+    display:flex; align-items:center; gap:8px;
+    font-size:12px; color:rgba(244,241,234,0.85);
+  }
+  .switch{
+    position:relative; width:44px; height:24px;
+    background:rgba(244,241,234,0.2);
+    border-radius:20px; cursor:pointer;
+    border:1px solid rgba(244,241,234,0.35);
+    flex-shrink:0;
+  }
+  .switch .knob{
+    position:absolute; top:2px; left:2px;
+    width:18px; height:18px; border-radius:50%;
+    background:#F4F1EA;
+    transition:transform .25s ease;
+    box-shadow:0 1px 3px rgba(0,0,0,0.3);
+  }
+  [data-theme="dark"] .switch .knob{
+    transform:translateX(20px);
+    background:var(--gold);
+  }
+
+  /* ---------- Layout ---------- */
+  .layout{
+    max-width:1280px; margin:0 auto;
+    display:grid;
+    grid-template-columns:1fr 320px;
+    gap:23px;
+    padding:32px 28px 60px;
+    align-items:start;
+  }
+
+  /* ---------- Question paper ---------- */
+  .paper{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:36px 44px 32px;
+    min-height:520px;
+    display:flex;
+    flex-direction:column;
+  }
+  .paper-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    border-bottom:1px solid var(--rule);
+    padding-bottom:14px; margin-bottom:28px;
+  }
+  .q-index{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--ink-soft);
+    letter-spacing:0.04em;
+  }
+  .q-index b{color:var(--navy); font-size:15px;}
+  [data-theme="dark"] .q-index b{color:var(--gold);}
+  .q-status-tag{
+    font-family:var(--mono);
+    font-size:13.5px;
+    font-weight:800;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    padding:7px 16px;
+    border-radius:20px;
+    border:2px solid transparent;
+  }
+  .q-status-tag.answered{background:var(--answered-bg); color:var(--answered); border-color:var(--answered);}
+  .q-status-tag.unanswered{background:var(--skipped-bg); color:var(--skipped); border-color:var(--skipped);}
+
+  .q-text{
+    font-family:var(--serif);
+    font-size:19px;
+    line-height:1.5;
+    color:var(--ink);
+    margin:0 0 32px 0;
+  }
+
+  .options{
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .option{
+    display:flex; align-items:flex-start; gap:14px;
+    padding:18px 18px;
+    border:1px solid var(--rule);
+    border-radius:8px;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+    background:transparent;
+  }
+  .option:hover{border-color:var(--navy); background:rgba(27,58,92,0.04);}
+  [data-theme="dark"] .option:hover{background:rgba(217,164,65,0.06); border-color:var(--gold);}
+  .option.selected{
+    border-color:var(--navy);
+    background:rgba(27,58,92,0.07);
+  }
+  [data-theme="dark"] .option.selected{
+    border-color:var(--gold);
+    background:rgba(217,164,65,0.1);
+  }
+  .option .tag{
+    font-family:var(--mono);
+    font-size:13px;
+    font-weight:bold;
+    width:24px; height:24px;
+    border-radius:50%;
+    border:1.5px solid var(--rule);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    color:var(--ink-soft);
+  }
+  .option.selected .tag{
+    border-color:var(--navy);
+    background:var(--navy);
+    color:#fff;
+  }
+  [data-theme="dark"] .option.selected .tag{
+    border-color:var(--gold);
+    background:var(--gold);
+    color:#17232E;
+  }
+  .option .opt-text{
+    font-size:15.5px; line-height:1.5; padding-top:1px;
+  }
+  .option.locked{cursor:default;}
+  .option.correct{
+    border-color:var(--answered);
+    background:var(--answered-bg);
+  }
+  .option.correct .tag{
+    border-color:var(--answered);
+    background:var(--answered);
+    color:#fff;
+  }
+  .option.incorrect{
+    border-color:var(--wrong);
+    background:var(--wrong-bg);
+  }
+  .option.incorrect .tag{
+    border-color:var(--wrong);
+    background:var(--wrong);
+    color:#fff;
+  }
+  .option.locked:hover{background:inherit; border-color:inherit;}
+  .q-status-tag.correct{background:var(--answered-bg); color:var(--answered); border-color:var(--answered); box-shadow:0 0 0 1px var(--answered) inset;}
+  .q-status-tag.incorrect{background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong); box-shadow:0 0 0 1px var(--wrong) inset;}
+  .q-status-tag.review-unanswered{
+    background:var(--wrong-bg);
+    color:var(--wrong);
+    border-color:var(--wrong);
+    box-shadow:0 0 0 1px var(--wrong) inset;
+  }
+
+  /* ---------- Explanation (review mode) ---------- */
+  .explain-box{
+    margin-top:26px;
+    background:var(--gold-soft);
+    border:1px solid var(--gold);
+    border-radius:8px;
+    padding:16px 20px;
+    font-size:14px;
+    line-height:1.65;
+    color:var(--ink);
+  }
+  [data-theme="dark"] .explain-box{background:rgba(217,164,65,0.08);}
+  .explain-box b{color:var(--navy);}
+  [data-theme="dark"] .explain-box b{color:var(--gold);}
+  .explain-box .exp-label{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-bottom:8px;
+  }
+
+  .paper-foot{
+    display:flex; justify-content:space-between;
+    margin-top:32px; padding-top:20px;
+    border-top:1px solid var(--rule);
+  }
+  button{
+    font-family:var(--sans);
+    font-size:14px;
+    font-weight:600;
+    padding:11px 22px;
+    border-radius:7px;
+    border:1px solid var(--rule);
+    background:var(--paper);
+    color:var(--ink);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  button:hover:not(:disabled){border-color:var(--navy); color:var(--navy);}
+  [data-theme="dark"] button:hover:not(:disabled){border-color:var(--gold); color:var(--gold);}
+  button:disabled{opacity:0.35; cursor:not-allowed;}
+  button.primary{
+    background:var(--navy); color:#F4F1EA; border-color:var(--navy);
+  }
+  button.primary:hover{filter:brightness(1.1); color:#F4F1EA;}
+  button.clear{background:transparent; border-color:transparent; color:var(--ink-soft); font-weight:500;}
+  .nav-group{display:flex; gap:10px;}
+
+  /* ---------- Sidebar palette ---------- */
+  .sidebar{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:24px;
+    position:sticky;
+    top:96px;
+  }
+  .sidebar h2{
+    font-family:var(--serif);
+    font-size:16px;
+    font-weight:400;
+    margin:0 0 4px 0;
+    color:var(--ink);
+  }
+  .sidebar .sub{
+    font-size:12px; color:var(--ink-soft); margin-bottom:18px;
+  }
+  .legend{
+    display:flex; flex-direction:column; gap:8px;
+    margin-bottom:20px;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  .legend span{display:flex; align-items:center; gap:8px;}
+  .dot{width:10px; height:10px; border-radius:3px; flex-shrink:0;}
+  .dot.answered{background:var(--answered);}
+  .dot.unanswered{background:var(--rule); border:1px solid var(--ink-soft);}
+  .dot.current{background:transparent; border:2px solid var(--current-ring);}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:8px;
+    margin-bottom:22px;
+  }
+  .cell{
+    aspect-ratio:1;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono);
+    font-size:13px;
+    border-radius:6px;
+    border:1px solid var(--rule);
+    background:transparent;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .cell:hover{border-color:var(--navy);}
+  [data-theme="dark"] .cell:hover{border-color:var(--gold);}
+  .cell.answered{
+    background:var(--answered-bg); color:var(--answered); border-color:var(--answered);
+    font-weight:bold;
+  }
+  .cell.incorrect{
+    background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong);
+    font-weight:bold;
+  }
+  .cell.current{
+    outline:2px solid var(--current-ring); outline-offset:2px;
+  }
+
+  .tally{
+    padding-top:16px; border-top:1px solid var(--rule);
+    color:var(--ink-soft);
+  }
+  .tally-plain{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-plain > div{flex:1; text-align:left;}
+  .tally b{color:var(--ink); font-size:16px; display:block; font-family:var(--sans);}
+  .tally b.stat-correct{color:var(--answered);}
+  .tally b.stat-incorrect{color:var(--wrong);}
+  .tally b.stat-unattempted{color:var(--skipped);}
+
+  .marks-line{
+    text-align:center;
+    background:var(--gold-soft);
+    border:1.5px solid var(--gold);
+    border-radius:8px;
+    padding:12px 10px;
+    margin-bottom:14px;
+  }
+  [data-theme="dark"] .marks-line{background:rgba(217,164,65,0.12);}
+  .marks-line b{
+    font-size:26px; color:var(--navy); font-family:var(--serif); font-weight:700;
+  }
+  [data-theme="dark"] .marks-line b{color:var(--gold);}
+  .marks-line span{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-top:2px;
+  }
+  .tally-grid{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-grid > div{flex:1; text-align:left;}
+
+  .score-breakdown{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+    max-width:420px;
+    margin:24px auto 0;
+  }
+  .score-breakdown .stat{
+    border:1.5px solid var(--rule);
+    border-radius:10px;
+    padding:14px 10px;
+  }
+  .score-breakdown .stat b{
+    display:block; font-size:24px; font-family:var(--sans); margin-bottom:4px;
+  }
+  .score-breakdown .stat span{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft);
+  }
+  .score-breakdown .stat.correct{border-color:var(--answered); background:var(--answered-bg);}
+  .score-breakdown .stat.correct b{color:var(--answered);}
+  .score-breakdown .stat.incorrect{border-color:var(--wrong); background:var(--wrong-bg);}
+  .score-breakdown .stat.incorrect b{color:var(--wrong);}
+  .score-breakdown .stat.unattempted{border-color:var(--skipped); background:var(--skipped-bg);}
+  .score-breakdown .stat.unattempted b{color:var(--skipped);}
+
+  #submitBtn{width:100%; margin-top:20px;}
+
+  /* ---------- Result overlay ---------- */
+  .result-card{
+    background:var(--paper); border:1px solid var(--rule); border-radius:10px;
+    box-shadow:var(--shadow); padding:44px; text-align:center;
+  }
+  .result-card .score{
+    font-family:var(--serif); font-size:52px; color:var(--navy); margin:8px 0;
+  }
+  [data-theme="dark"] .result-card .score{color:var(--gold);}
+  .result-card .percent{
+    font-family:var(--mono); font-size:13px; color:var(--ink-soft);
+    letter-spacing:0.04em; margin-top:-4px;
+  }
+  .hidden{display:none !important;}
+  :root{
+    --desktop-width: 1440;
+}
+
+@media (max-width: 1439px){
+
+    body{
+        width: calc(var(--desktop-width) * 1px);
+
+        transform-origin: top left;
+
+        transform: scale(
+            calc(100vw / (var(--desktop-width) * 1px))
+        );
+
+        overflow-x: hidden;
+
+        min-height: calc(
+            100vh / (100vw / (var(--desktop-width) * 1px))
+        );
+    }
+
+}
+</style>
+</head>
+<body data-theme="light">
+
+<header class="topbar">
+  <div class="topbar-inner">
+
+    <!-- <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">UPSC<br>LOGO</a> -->
+    <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">
+  <img src="../logo.png" alt="UPSC LoG" style="width:100%; height:100%; object-fit:contain; border-radius:6px;">
+</a>
+    <div class="title-block">
+      <div class="eyebrow">UPSC LoG · Prelims Booster 2027</div>
+      <h1>Environment Test CODE-2027-18</h1>
+      <div class="subnote" style="font-size: 12px;">
+        <span id="qTotalNote">7</span> Questions · +2 Correct / −0.67 Incorrect ·
+        <a href="https://t.me/upsclog" target="_blank" rel="noopener"> Join UPSC-LoG Telegram ↗</a>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="timer" id="timer">30:00</div>
+      <div class="mode-switch">
+        <span>Light</span>
+        <div class="switch" id="themeSwitch" role="button" aria-label="Toggle dark mode">
+          <div class="knob"></div>
+        </div>
+        <span>Dark</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <div class="paper" id="paperView">
+    <div class="paper-head">
+      <div class="q-index">Question <b id="qNum">1</b> of <span id="qTotal">7</span></div>
+      <div class="q-status-tag unanswered" id="qStatusTag">Not Answered</div>
+    </div>
+
+    <p class="q-text" id="qText">Loading question…</p>
+
+    <div class="options" id="optionsList"></div>
+
+    <div class="explain-box hidden" id="explainBox">
+      <span class="exp-label">Explanation</span>
+      <div id="explainText"></div>
+    </div>
+
+    <div class="paper-foot">
+      <div class="nav-group">
+        <button id="prevBtn">← Previous</button>
+        <button class="clear" id="clearBtn">Clear response</button>
+      </div>
+      <button id="nextBtn" class="primary">Next →</button>
+    </div>
+  </div>
+
+  <div class="result-card hidden" id="resultView">
+    <div class="eyebrow" style="color:var(--ink-soft); letter-spacing:0.14em; font-family:var(--mono); font-size:11px; text-transform:uppercase;">Test Complete</div>
+    <div class="score" id="scoreText">0.00 / 14.00</div>
+    <div class="percent" id="scorePercent">0.00%</div>
+    <div class="score-breakdown" id="scoreBreakdown"></div>
+    <p style="color:var(--ink-soft); font-size:14px; margin:20px 0 24px;">You can review your answers and explanations using the palette on the right.</p>
+    <button class="primary" id="reviewBtn">Review Answers</button>
+  </div>
+
+  <aside class="sidebar">
+    <h2>* Explanations attached for each question after you submit the test<br><br></h2>
+    <h2>* Auto-Submission in 30 minutes</h2>
+    <h2>* Dark <-> Bright modes for ease</h2>
+    <div class="sub"></div>
+
+    <div class="legend">
+      <span><span class="dot answered"></span> Answered / Correct</span>
+      <span><span class="dot" style="background:var(--wrong);"></span> Incorrect</span>
+      <span><span class="dot unanswered"></span> Not answered</span>
+      <span><span class="dot current"></span> Currently viewing</span>
+    </div>
+
+    <div class="grid" id="paletteGrid"></div>
+
+    <div class="tally" id="tallyRow">
+      <div class="tally-plain">
+        <div><b id="answeredCount">0</b>Answered</div>
+        <div><b id="skippedCount">7</b>Remaining</div>
+      </div>
+    </div>
+
+    <button class="primary" id="submitBtn">Submit Test</button>
+  </aside>
+
+</div>
+
+<script>
+const QUESTIONS = [
+{
+    q: "With reference to India's National Air Quality Index (AQI), consider the following statements:<br>1. It was launched in 2014 by the Central Pollution Control Board.<br>2. It is based on the measurement of eight air pollutants including PM2.5, PM10, and NH3.<br>3. It has four categories ranging from 'Good' to 'Severe'.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "The National AQI was launched in 2014 by the CPCB and measures eight pollutants (PM10, PM2.5, NO2, SO2, CO, O3, NH3, Pb). However, it has six categories (Good, Satisfactory, Moderate, Poor, Very Poor, Severe), not four, making statement 3 incorrect."
+},
+{
+    q: "Consider the following statements regarding greenhouse gases (GHGs):<br>1. Nitrous oxide has a higher Global Warming Potential than methane over a 100-year period.<br>2. Methane remains in the atmosphere for a shorter duration than carbon dioxide.<br>3. Water vapour is the most abundant greenhouse gas in the Earth's atmosphere.<br>Which of the statements given above are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "Nitrous oxide has a GWP of about 298 versus methane's ~28-34 (100-yr basis), methane has a shorter atmospheric lifetime (~12 years) than CO2 (centuries), and water vapour, though not usually regulated, is the most abundant GHG by volume. All three statements are correct."
+},
+{
+    q: "Consider the following statements regarding acid rain:<br>1. It is primarily caused by the emission of sulphur dioxide and nitrogen oxides into the atmosphere.<br>2. Normal, unpolluted rainwater is neutral with a pH of exactly 7.<br>3. The Taj Mahal has been affected by acid rain due to conversion of marble into calcium sulphate.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "Acid rain results from SO2 and NOx reacting with atmospheric moisture, and it has damaged the Taj Mahal's marble through 'marble cancer' (formation of calcium sulphate). However, natural rainwater is slightly acidic (pH ~5.6) due to dissolved CO2, not neutral, making statement 2 incorrect."
+},
+{
+    q: "With reference to Eco-Sensitive Zones (ESZs) in India, consider the following statements:<br>1. They are declared under the provisions of the Wildlife Protection Act, 1972.<br>2. They act as 'shock absorbers' for protected areas by regulating certain activities around them.<br>3. The extent of an ESZ is uniformly fixed at 10 km from the boundary of a protected area in all cases.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "1 only",
+        "2 only",
+        "2 and 3 only"
+    ],
+    ans: 2,
+    exp: "ESZs are declared under the Environment (Protection) Act, 1986, not the Wildlife Protection Act, and function as buffer/shock-absorber zones around protected areas. Their extent is not uniformly 10 km—it varies case by case based on ecological and terrain considerations, so only statement 2 is correct."
+},
+{
+    q: "The complete local extinction of tigers due to poaching, which prompted the constitution of a Tiger Task Force and the subsequent creation of the National Tiger Conservation Authority, occurred in which of the following tiger reserves?",
+    opts: [
+        "Corbett Tiger Reserve",
+        "Kanha Tiger Reserve",
+        "Ranthambore Tiger Reserve",
+        "Sariska Tiger Reserve"
+    ],
+    ans: 3,
+    exp: "Sariska Tiger Reserve in Rajasthan lost its entire tiger population to poaching by 2004-05. This triggered the constitution of the Tiger Task Force (2005), leading to the establishment of the National Tiger Conservation Authority in 2006. Tigers were later reintroduced from Ranthambore."
+},
+{
+    q: "Consider the following statements regarding acid rain:<br>1. Acid deposition refers only to acidic precipitation and does not include dry deposition of acidic particles.<br>2. Acid rain can damage aquatic ecosystems by lowering the pH of lakes and rivers, adversely affecting fish populations.<br>3. Coal-based thermal power plants are a major source of sulphur dioxide, a precursor of acid rain.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "Acid deposition includes both wet deposition (rain, snow, fog) and dry deposition (acidic gases and particles settling directly), making statement 1 incorrect. Acid rain does harm aquatic life by lowering water pH, and coal-fired power plants are indeed a major SO2 source, so statements 2 and 3 are correct."
+},
+{
+    q: "With reference to Biodiversity Hotspots, consider the following statements:<br>1. The concept was first proposed by Norman Myers.<br>2. A region qualifies as a hotspot only if it has at least 1,500 endemic vascular plant species and has lost at least 70% of its original habitat.<br>3. India's four biodiversity hotspots lie entirely within its territorial boundary.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "Norman Myers introduced the hotspot concept, and the criteria of at least 1,500 endemic vascular plant species with 70% habitat loss are correct. However, none of India's four hotspots (Himalaya, Indo-Burma, Western Ghats-Sri Lanka, Sundaland) lie entirely within India—all extend into neighbouring countries, making statement 3 incorrect."
+},
+{
+    q: "Which of the following is a major criticism associated with the implementation of Eco-Sensitive Zones (ESZs) in India?",
+    opts: [
+        "They provide absolute protection by completely banning all human activities within their limits",
+        "The Supreme Court has ruled that no ESZ can be less than 10 km in extent",
+        "ESZs can only be declared around wildlife sanctuaries and not around national parks",
+        "Prolonged delay in the final notification of ESZs has left many areas without effective regulation"
+    ],
+    ans: 3,
+    exp: "A key criticism of ESZs is the inordinate delay in finalizing notifications, during which unregulated activities continue unchecked. ESZs regulate rather than ban activities, apply to both sanctuaries and national parks, and the Supreme Court in 2022 mandated a minimum 1 km buffer, not 10 km."
+},
+{
+    q: "With reference to the nitrogen cycle, consider the following statements:<br>1. Atmospheric nitrogen is directly usable by most plants without any conversion.<br>2. Rhizobium bacteria present in root nodules of leguminous plants help fix atmospheric nitrogen into a usable form.<br>3. Denitrification is the process by which nitrates are converted back into atmospheric nitrogen gas.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "Most plants cannot directly use atmospheric N2 and depend on nitrogen fixation by bacteria like Rhizobium, which converts it into usable ammonium/nitrate compounds. Denitrification, carried out by bacteria such as Pseudomonas, converts nitrates back to atmospheric N2, completing the cycle. Statement 1 is incorrect."
+},
+{
+    q: "With reference to Project Elephant, consider the following statements:<br>1. It was launched in 1992 as a centrally sponsored scheme.<br>2. It aims to protect elephants, their habitats and corridors, and also addresses human-elephant conflict.<br>3. It is administered by the National Tiger Conservation Authority.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "Project Elephant was launched in 1992 to protect elephants, their habitats and migratory corridors, and to mitigate human-elephant conflict. It is administered directly by the Ministry of Environment, Forest and Climate Change, not the National Tiger Conservation Authority, which oversees Project Tiger."
+},
+{
+    q: "Consider the following pairs of Ramsar Wetland Sites and the States in which they are located:<br>1. Chilika Lake — Odisha<br>2. Sasthamkotta Lake — Kerala<br>3. Wular Lake — Jammu & Kashmir<br>4. Loktak Lake — Assam<br>How many of the above pairs are correctly matched?",
+    opts: [
+        "Only one",
+        "Only two",
+        "Only three",
+        "All four"
+    ],
+    ans: 2,
+    exp: "Chilika Lake (Odisha), Sasthamkotta Lake (Kerala), and Wular Lake (Jammu & Kashmir) are correctly matched. Loktak Lake, famous for its floating phumdis, is located in Manipur, not Assam, so only three pairs are correctly matched."
+},
+{
+    q: "With reference to E-Waste Management Rules in India, consider the following statements:<br>1. The E-Waste (Management) Rules were first notified in 2011 and have since been revised.<br>2. The rules introduced the concept of Extended Producer Responsibility (EPR), making producers responsible for environmentally sound management of e-waste.<br>3. Under the rules, only manufacturers, and not bulk consumers, are held accountable for e-waste disposal.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "India's e-waste rules were first notified in 2011 (effective 2012) and revised in 2016 and 2022, introducing Extended Producer Responsibility. However, bulk consumers are also assigned specific responsibilities for channelizing e-waste, making statement 3 incorrect."
+},
+{
+    q: "The concept of 'Biodiversity Hotspots' is significant for global conservation efforts primarily because it:",
+    opts: [
+        "Identifies regions with the highest total number of species regardless of threat level",
+        "Designates areas exclusively for the creation of new national parks",
+        "Helps prioritize conservation funding towards regions with high endemism facing severe habitat loss",
+        "Is a legal classification under the Convention on Biological Diversity, binding on member states"
+    ],
+    ans: 2,
+    exp: "Biodiversity hotspots help conservationists prioritize limited funding and effort towards regions with exceptionally high endemism that have already lost a significant share of their natural habitat. It is a scientific prioritization tool, not a legal designation, and does not automatically create protected areas."
+},
+{
+    q: "With reference to the Plastic Waste Management Rules in India, consider the following statements:<br>1. The Plastic Waste Management Rules were first notified in 2016, replacing the earlier 2011 rules.<br>2. The 2021 amendment prohibited identified single-use plastic items with effect from 1st July 2022.<br>3. The rules prescribe a minimum thickness for plastic carry bags to facilitate their collection and recycling.<br>Which of the statements given above are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "The Plastic Waste Management Rules, 2016 replaced the 2011 Rules; the 2021 amendment banned identified single-use plastic items from 1 July 2022; and successive amendments have prescribed a minimum thickness for carry bags (raised from 50 to 75 to 120 microns) to aid recycling. All three statements are correct."
+},
+{
+    q: "Which of the following is a valid criticism of the Environment (Protection) Act, 1986?",
+    opts: [
+        "It does not empower the Central Government to set environmental quality standards",
+        "It excessively centralizes environmental regulatory powers, limiting the role of States",
+        "It provides for unrestricted citizen suits without any prior notice requirement",
+        "It was enacted before the Bhopal Gas Tragedy and failed to anticipate industrial disasters"
+    ],
+    ans: 1,
+    exp: "A common criticism is that the Act concentrates overwhelming regulatory power with the Central Government, leaving limited scope for State-level environmental governance. The Act does empower the Centre to set standards, was enacted in 1986 after the 1984 Bhopal tragedy, and requires 60 days' prior notice before a citizen can file a complaint under Section 19."
+},
+{
+    q: "The concept of declaring areas around Protected Areas as 'Eco-Sensitive Zones' was first mooted in which of the following?",
+    opts: [
+        "Wildlife Protection Act, 1972",
+        "National Wildlife Action Plan, 2002",
+        "Forest Rights Act, 2006",
+        "National Environment Policy, 2006"
+    ],
+    ans: 1,
+    exp: "The idea of Eco-Sensitive Zones as buffers around Protected Areas was first mooted in the National Wildlife Action Plan (2002-2016). Formal guidelines for their declaration were subsequently issued by the MoEFCC in 2011, under the powers of the Environment (Protection) Act, 1986."
+},
+{
+    q: "With reference to United Nations Climate Change Conferences, consider the following statements:<br>1. The Kyoto Protocol, which set binding emission reduction targets, was adopted at COP-3 held in Japan.<br>2. The Paris Agreement, adopted at COP-21, requires all parties, developed and developing, to submit Nationally Determined Contributions.<br>3. The Kyoto Protocol imposed binding emission reduction obligations equally on both developed and developing countries.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 2 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "The Kyoto Protocol was adopted at COP-3 in Kyoto, Japan (1997), and the Paris Agreement at COP-21 (2015) requires all countries to submit NDCs. However, Kyoto followed the principle of Common but Differentiated Responsibilities and imposed binding targets only on developed (Annex I) countries, not developing ones."
+},
+{
+    q: "Arrange the following IUCN Red List categories in order of increasing extinction risk (lowest to highest):<br>1. Vulnerable<br>2. Critically Endangered<br>3. Near Threatened<br>4. Endangered",
+    opts: [
+        "3-1-4-2",
+        "1-3-2-4",
+        "4-2-1-3",
+        "3-4-1-2"
+    ],
+    ans: 0,
+    exp: "The IUCN Red List threat hierarchy, in increasing order of extinction risk, is: Near Threatened → Vulnerable → Endangered → Critically Endangered, i.e., 3-1-4-2. This sequence precedes the categories Extinct in the Wild and Extinct."
+},
+{
+    q: "Which of the following is a valid criticism of the National Action Plan on Climate Change (NAPCC)?",
+    opts: [
+        "It sets legally binding emission reduction targets for India",
+        "It has been criticized for inadequate coordination among its missions and insufficient dedicated finance",
+        "It was launched after India ratified the Paris Agreement",
+        "It focuses exclusively on mitigation and does not address adaptation"
+    ],
+    ans: 1,
+    exp: "The NAPCC (2008) has been criticized for weak inter-ministerial coordination among its eight national missions and inadequate dedicated financing. It does not set legally binding targets, was launched well before the 2015 Paris Agreement, and covers both mitigation (e.g., Solar Mission) and adaptation (e.g., Himalayan Ecosystem Mission)."
+},
+{
+    q: "The Forest (Conservation) Act, 1980 was primarily enacted to:",
+    opts: [
+        "Provide statutory recognition to the rights of forest-dwelling communities over forest resources",
+        "Restrict de-reservation of forests and diversion of forest land for non-forest purposes without prior Central approval",
+        "Establish the National Tiger Conservation Authority for wildlife protection",
+        "Empower State Governments with exclusive authority over forest land diversion without Central oversight"
+    ],
+    ans: 1,
+    exp: "The Forest (Conservation) Act, 1980 was enacted to check rampant deforestation by requiring prior approval of the Central Government for de-reservation of forests or diversion of forest land to non-forest use. Recognition of forest-dweller rights is under the Forest Rights Act, 2006, and the NTCA was created under the Wildlife Protection Act amendment of 2006."
+},
+{
+    q: "In India's National Air Quality Index, an AQI value in the range of 401-500 for a city is categorised as:",
+    opts: [
+        "Very Poor",
+        "Poor",
+        "Severe",
+        "Hazardous"
+    ],
+    ans: 2,
+    exp: "Under India's National AQI, the range 401-500 is categorised as 'Severe', the highest and most harmful category, associated with serious health impacts even for healthy individuals. 'Hazardous' is used in some international indices like the US AQI, not India's."
+},
+{
+    q: "With reference to the Montreal Protocol, consider the following statements:<br>1. It was signed in 1987 under the auspices of the Vienna Convention for the Protection of the Ozone Layer.<br>2. It specifically aims to phase out production and consumption of ozone-depleting substances such as chlorofluorocarbons (CFCs).<br>3. It is considered one of the most successful international environmental agreements, having achieved universal ratification.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "The Montreal Protocol (1987) was adopted under the framework of the 1985 Vienna Convention to phase out ozone-depleting substances like CFCs, and it is the first UN treaty to achieve universal ratification by all 198 UN member states, widely regarded as highly successful in healing the ozone layer."
+},
+{
+    q: "The Kigali Amendment (2016) to the Montreal Protocol primarily deals with the phase-down of which of the following?",
+    opts: [
+        "Chlorofluorocarbons (CFCs)",
+        "Methyl Bromide",
+        "Hydrochlorofluorocarbons (HCFCs)",
+        "Hydrofluorocarbons (HFCs)"
+    ],
+    ans: 3,
+    exp: "The Kigali Amendment (2016) mandates the phase-down of Hydrofluorocarbons (HFCs), which are potent greenhouse gases though not ozone-depleting, having been introduced as substitutes for CFCs and HCFCs. This extended the Montreal Protocol's scope beyond ozone protection to climate change mitigation."
+},
+{
+    q: "With reference to soil erosion, consider the following statements:<br>1. Sheet erosion involves uniform removal of a thin layer of topsoil over a large area and is often difficult to detect in early stages.<br>2. Gully erosion is generally considered less severe than sheet erosion since it affects only a small portion of land.<br>3. Shifting cultivation is a recognized cause of accelerated soil erosion in parts of North-East India.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 2 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "Sheet erosion removes topsoil uniformly and often goes unnoticed until significant fertility loss occurs, and shifting cultivation (jhum) is a recognized cause of soil erosion in North-East India. Gully erosion, though localized, is generally considered more severe as it creates deep channels that render land unfit for cultivation, so statement 2 is incorrect."
+},
+{
+    q: "With reference to eutrophication, consider the following statements:<br>1. It refers to excessive enrichment of water bodies with nutrients, particularly nitrogen and phosphorus.<br>2. It typically leads to increased dissolved oxygen levels in water, benefiting aquatic life.<br>3. Agricultural runoff containing fertilizers is a major anthropogenic cause of eutrophication.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "Eutrophication is caused by excess nutrient enrichment, often from fertilizer runoff, triggering algal blooms. Far from raising oxygen levels, decomposition of the resulting algal biomass depletes dissolved oxygen, creating hypoxic 'dead zones' harmful to aquatic life, making statement 2 incorrect."
+}
+];
+
+const CORRECT_MARKS = 2;
+const NEGATIVE_MARKS = 2 / 3;
+
+let current = 0;
+const responses = new Array(QUESTIONS.length).fill(null);
+let submitted = false;
+
+const qNumEl = document.getElementById('qNum');
+const qTotalEl = document.getElementById('qTotal');
+const qTotalNoteEl = document.getElementById('qTotalNote');
+const qTextEl = document.getElementById('qText');
+const optionsListEl = document.getElementById('optionsList');
+const qStatusTag = document.getElementById('qStatusTag');
+const explainBox = document.getElementById('explainBox');
+const explainText = document.getElementById('explainText');
+const paletteGrid = document.getElementById('paletteGrid');
+const answeredCountEl = document.getElementById('answeredCount');
+const skippedCountEl = document.getElementById('skippedCount');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const clearBtn = document.getElementById('clearBtn');
+const submitBtn = document.getElementById('submitBtn');
+const paperView = document.getElementById('paperView');
+const resultView = document.getElementById('resultView');
+const reviewBtn = document.getElementById('reviewBtn');
+const scoreText = document.getElementById('scoreText');
+const scorePercent = document.getElementById('scorePercent');
+
+qTotalEl.textContent = QUESTIONS.length;
+qTotalNoteEl.textContent = QUESTIONS.length;
+skippedCountEl.textContent = QUESTIONS.length;
+
+function buildPalette(){
+  paletteGrid.innerHTML = '';
+  QUESTIONS.forEach((_, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.textContent = i + 1;
+    cell.addEventListener('click', () => { current = i; render(); });
+    paletteGrid.appendChild(cell);
+  });
+}
+
+function render(){
+  const item = QUESTIONS[current];
+  qNumEl.textContent = current + 1;
+  qTextEl.innerHTML = item.q;
+
+  optionsListEl.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  const userChoice = responses[current];
+  item.opts.forEach((opt, idx) => {
+    const div = document.createElement('div');
+    let cls = 'option';
+    if (submitted){
+      cls += ' locked';
+      if (idx === item.ans) cls += ' correct';
+      else if (idx === userChoice) cls += ' incorrect';
+    } else if (userChoice === idx){
+      cls += ' selected';
+    }
+    div.className = cls;
+    div.innerHTML = `<span class="tag">${letters[idx]}</span><span class="opt-text"></span>`;
+    div.querySelector('.opt-text').textContent = opt;
+    div.addEventListener('click', () => {
+      if (submitted) return;
+      responses[current] = idx;
+      render();
+    });
+    optionsListEl.appendChild(div);
+  });
+
+  if (submitted){
+    if (userChoice === null){
+      qStatusTag.textContent = '⚠ Not Answered · Correct answer shown';
+      qStatusTag.className = 'q-status-tag review-unanswered';
+    } else if (userChoice === item.ans){
+      qStatusTag.textContent = '✓ Correct';
+      qStatusTag.className = 'q-status-tag correct';
+    } else {
+      qStatusTag.textContent = '✗ Incorrect';
+      qStatusTag.className = 'q-status-tag incorrect';
+    }
+    explainBox.classList.remove('hidden');
+    explainText.innerHTML = '<b>Correct Answer:</b> ' + letters[item.ans] + '. ' + item.opts[item.ans] + '<br><br>' + item.exp;
+  } else {
+    const answered = userChoice !== null;
+    qStatusTag.textContent = answered ? 'Answered' : 'Not Answered';
+    qStatusTag.className = 'q-status-tag ' + (answered ? 'answered' : 'unanswered');
+    explainBox.classList.add('hidden');
+  }
+
+  prevBtn.disabled = current === 0;
+  if (submitted){
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Back to Result' : 'Next →';
+    clearBtn.style.visibility = 'hidden';
+  } else {
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Finish' : 'Next →';
+    clearBtn.style.visibility = 'visible';
+  }
+
+  // palette
+  const cells = paletteGrid.children;
+  for (let i = 0; i < cells.length; i++){
+    cells[i].classList.toggle('current', i === current);
+    if (submitted){
+      const isIncorrect = responses[i] !== null && responses[i] !== QUESTIONS[i].ans;
+      const isCorrect = responses[i] === QUESTIONS[i].ans;
+      cells[i].classList.toggle('incorrect', isIncorrect);
+      cells[i].classList.toggle('answered', isCorrect);
+    } else {
+      cells[i].classList.toggle('answered', responses[i] !== null);
+      cells[i].classList.remove('incorrect');
+    }
+  }
+
+  const answeredTotal = responses.filter(r => r !== null).length;
+  if (submitted){
+    let correct = 0, incorrect = 0;
+    QUESTIONS.forEach((q, i) => {
+      if (responses[i] === null) return;
+      if (responses[i] === q.ans) correct++; else incorrect++;
+    });
+    const unattempted = QUESTIONS.length - answeredTotal;
+    const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+    document.getElementById('tallyRow').innerHTML = `
+      <div class="marks-line"><b>${marks.toFixed(2)}</b><span>Marks Scored</span></div>
+      <div class="tally-grid">
+        <div><b class="stat-correct">${correct}</b>Correct</div>
+        <div><b class="stat-incorrect">${incorrect}</b>Incorrect</div>
+        <div><b class="stat-unattempted">${unattempted}</b>Unattempted</div>
+      </div>
+    `;
+  } else {
+    answeredCountEl.textContent = answeredTotal;
+    skippedCountEl.textContent = QUESTIONS.length - answeredTotal;
+  }
+}
+
+prevBtn.addEventListener('click', () => { if (current > 0){ current--; render(); }});
+nextBtn.addEventListener('click', () => {
+  if (current < QUESTIONS.length - 1){ current++; render(); }
+  else if (submitted){
+    paperView.classList.add('hidden');
+    resultView.classList.remove('hidden');
+  } else {
+    doSubmit();
+  }
+});
+clearBtn.addEventListener('click', () => { responses[current] = null; render(); });
+
+submitBtn.addEventListener('click', doSubmit);
+
+function doSubmit(){
+  submitted = true;
+  clearInterval(countdown);
+  let correct = 0, incorrect = 0;
+  QUESTIONS.forEach((q, i) => {
+    if (responses[i] === null) return;
+    if (responses[i] === q.ans) correct++; else incorrect++;
+  });
+  const unattempted = QUESTIONS.length - (correct + incorrect);
+  const maxMarks = QUESTIONS.length * CORRECT_MARKS;
+  const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+  const percentage = (marks / maxMarks) * 100;
+
+  scoreText.textContent = marks.toFixed(2) + ' / ' + maxMarks.toFixed(2);
+  scorePercent.textContent = percentage.toFixed(2) + '%';
+  document.getElementById('scoreBreakdown').innerHTML = `
+    <div class="stat correct"><b>${correct}</b><span>Correct</span></div>
+    <div class="stat incorrect"><b>${incorrect}</b><span>Incorrect</span></div>
+    <div class="stat unattempted"><b>${unattempted}</b><span>Unattempted</span></div>
+  `;
+  submitBtn.style.display = 'none';
+  paperView.classList.add('hidden');
+  resultView.classList.remove('hidden');
+  render();
+}
+
+reviewBtn.addEventListener('click', () => {
+  resultView.classList.add('hidden');
+  paperView.classList.remove('hidden');
+  current = 0;
+  render();
+});
+
+// theme toggle
+const themeSwitch = document.getElementById('themeSwitch');
+themeSwitch.addEventListener('click', () => {
+  const body = document.body;
+  const isDark = body.getAttribute('data-theme') === 'dark';
+  body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+});
+
+// countdown timer
+let seconds = 30 * 60;
+const timerEl = document.getElementById('timer');
+const countdown = setInterval(() => {
+  if (seconds <= 0 || submitted) return;
+  seconds--;
+  const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+  const s = String(seconds % 60).padStart(2, '0');
+  timerEl.textContent = `${m}:${s}`;
+  timerEl.classList.toggle('urgent', seconds <= 60);
+  if (seconds === 0){
+    timerEl.textContent = 'Time Up!';
+    doSubmit();
+  }
+}, 1000);
+
+buildPalette();
+render();
+
+window.addEventListener('beforeunload', function(e){
+  const hasProgress = !submitted && responses.some(r => r !== null);
+  if (hasProgress){
+    e.preventDefault();
+    e.returnValue = 'Your answers have not been submitted. If you leave or refresh this page, all marked answers will be lost.';
+    return e.returnValue;
+  }
+});
+
+</script>
+
+</body>
+</html>
