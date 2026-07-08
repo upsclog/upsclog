@@ -48,6 +48,10 @@
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
+  html, body{
+    overflow-x: hidden;
+    width: 100%;
+  }
   body{
     background:var(--bg);
     color:var(--ink);
@@ -472,23 +476,87 @@
     --desktop-width: 1440;
 }
 
-@media (max-width: 1439px){
-
-    body{
-        width: calc(var(--desktop-width) * 1px);
-
-        transform-origin: top left;
-
-        transform: scale(
-            calc(100vw / (var(--desktop-width) * 1px))
-        );
-
-        overflow-x: hidden;
-
-        min-height: calc(
-            100vh / (100vw / (var(--desktop-width) * 1px))
-        );
-    }
+@media (max-width: 1024px){
+  .layout{
+    grid-template-columns: 1fr;
+  }
+  .sidebar{
+    position: static;      /* was sticky at top:96px — no longer needed once stacked */
+    top: auto;
+  }
+}
+@media (max-width: 600px){
+  .topbar-inner{
+    flex-wrap: wrap;
+    padding: 14px 16px;
+    gap: 10px;
+  }
+  .topbar-right{
+    flex-shrink: 1;        /* was 0 before — this is what caused the overflow */
+    flex-basis: 100%;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+  .subnote{
+    white-space: normal;
+  }
+}
+@media (max-width: 430px){
+  .layout{
+    padding: 20px 12px 40px;
+  }
+  .paper{
+    padding: 24px 18px 22px;
+  }
+  .sidebar{
+    padding: 18px;
+  }
+  .paper-head{
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .q-status-tag{
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+@media (max-width: 600px){
+  .title-block h1{
+    font-size: 17px;
+  }
+  .eyebrow{
+    font-size: 9.5px;
+  }
+  .subnote{
+    font-size: 10px;
+  }
+  .timer{
+    font-size: 11px;
+    padding: 5px 9px;
+  }
+  .mode-switch{
+    font-size: 11px;
+  }
+}
+@media (max-width: 430px){
+  .result-card{
+    padding: 24px 18px;
+  }
+  .score-breakdown{
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    max-width: 100%;
+  }
+  .score-breakdown .stat{
+    padding: 10px 6px;
+  }
+  .score-breakdown .stat b{
+    font-size: 19px;
+  }
+  .result-card .score{
+    font-size: 38px;
+  }
+}
 
 }
 </style>
