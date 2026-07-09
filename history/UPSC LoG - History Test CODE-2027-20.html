@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC LoG — Prelims Booster</title>
+<style>
+  :root{
+    --bg: #F3F4F1;
+    --paper: #FFFFFF;
+    --ink: #1D2A35;
+    --ink-soft: #5B6873;
+    --rule: #D8DCD6;
+    --navy: #1B3A5C;
+    --navy-deep: #12283F;
+    --gold: #B8862E;
+    --gold-soft: #EFDFB8;
+    --answered: #2F7D5A;
+    --answered-bg: #E4F3EC;
+    --skipped: #B8862E;
+    --skipped-bg: #FBF1DE;
+    --current-ring: #1B3A5C;
+    --wrong: #B23A2E;
+    --wrong-bg: #FBEAE7;
+    --shadow: 0 1px 2px rgba(20,30,40,0.06), 0 6px 20px rgba(20,30,40,0.05);
+    --serif: Georgia, 'Times New Roman', 'Iowan Old Style', serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --mono: 'Courier New', ui-monospace, monospace;
+  }
+  [data-theme="dark"]{
+    --bg: #0F1A24;
+    --paper: #17232E;
+    --ink: #E7ECEF;
+    --ink-soft: #97A5AF;
+    --rule: #2A3846;
+    --navy: #3E6E9E;
+    --navy-deep: #2A4E70;
+    --gold: #D9A441;
+    --gold-soft: #3A3220;
+    --answered: #4CAF7D;
+    --answered-bg: #163227;
+    --skipped: #D9A441;
+    --skipped-bg: #332A16;
+    --current-ring: #D9A441;
+    --wrong: #E07A6C;
+    --wrong-bg: #3A1E1A;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+    html, body{
+    overflow-x: hidden;
+    width: 100%;
+  }
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    min-height:100vh;
+    transition:background .3s ease, color .3s ease;
+  }
+
+  /* ---------- Header ---------- */
+  header.topbar{
+    background:linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color:#F4F1EA;
+    padding:0;
+    box-shadow:var(--shadow);
+    position:sticky; top:0; z-index:50;
+  }
+  .topbar-inner{
+    max-width:1280px; margin:0 auto;
+    display:flex; align-items:center; gap:20px;
+    padding:14px 28px;
+  }
+  .logo-slot{
+    width:52px; height:52px;
+    border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    overflow:hidden;
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .logo-slot img{
+    width:100%; height:100%;
+    object-fit:contain;
+  }
+  .logo-slot:hover{border-color:rgba(244,241,234,0.75); color:#F4F1EA;}
+  .title-block{flex:1; min-width:0;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gold-soft, #D9A441);
+    opacity:0.85;
+  }
+  .title-block h1{
+    font-family:var(--serif);
+    font-size:22px;
+    font-weight:400;
+    margin:2px 0 0 0;
+    letter-spacing:0.01em;
+  }
+  .subnote{
+    font-family:var(--mono);
+    font-size:11px;
+    color:rgba(244,241,234,0.65);
+    margin-top:6px;
+    letter-spacing:0.02em;
+  }
+  .subnote a{color:var(--gold-soft); text-decoration:none;}
+  .subnote a:hover{text-decoration:underline;}
+  .topbar-right{
+    display:flex; align-items:center; gap:18px; flex-shrink:0;
+  }
+  .timer{
+    font-family:var(--mono);
+    font-size:13px;
+    color:#F4F1EA;
+    border:1px solid rgba(244,241,234,0.3);
+    padding:6px 12px;
+    border-radius:6px;
+    background:rgba(0,0,0,0.12);
+    transition:background .2s ease;
+  }
+  .timer.urgent{background:var(--wrong); border-color:var(--wrong);}
+
+  /* dark mode switch */
+  .mode-switch{
+    display:flex; align-items:center; gap:8px;
+    font-size:12px; color:rgba(244,241,234,0.85);
+  }
+  .switch{
+    position:relative; width:44px; height:24px;
+    background:rgba(244,241,234,0.2);
+    border-radius:20px; cursor:pointer;
+    border:1px solid rgba(244,241,234,0.35);
+    flex-shrink:0;
+  }
+  .switch .knob{
+    position:absolute; top:2px; left:2px;
+    width:18px; height:18px; border-radius:50%;
+    background:#F4F1EA;
+    transition:transform .25s ease;
+    box-shadow:0 1px 3px rgba(0,0,0,0.3);
+  }
+  [data-theme="dark"] .switch .knob{
+    transform:translateX(20px);
+    background:var(--gold);
+  }
+
+  /* ---------- Layout ---------- */
+  .name-bar{
+  max-width:1280px; margin:20px auto 0;
+  padding:0 28px;
+  display:flex; align-items:center; gap:12px;
+}
+.name-bar label{
+  font-family:var(--mono); font-size:20px;
+  color:var(--ink-soft); white-space:nowrap;
+}
+.name-bar input{
+  flex:1; max-width:320px;
+  font-family:var(--sans); font-size:14px;
+  padding:9px 14px;
+  border:1px solid var(--rule); border-radius:7px;
+  background:var(--paper); color:var(--ink);
+}
+.name-bar input:focus{ outline:none; border-color:var(--navy); }
+[data-theme="dark"] .name-bar input:focus{ border-color:var(--gold); }
+
+@media (max-width: 430px){
+  .name-bar{ padding:0 12px; margin-top:14px; flex-wrap:wrap; }
+  .name-bar input{ max-width:100%; }
+}
+  .layout{
+    max-width:1280px; margin:0 auto;
+    display:grid;
+    grid-template-columns:1fr 320px;
+    gap:23px;
+    padding:32px 28px 60px;
+    align-items:start;
+  }
+
+  /* ---------- Question paper ---------- */
+  .paper{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:36px 44px 32px;
+    min-height:520px;
+    display:flex;
+    flex-direction:column;
+  }
+  .paper-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    border-bottom:1px solid var(--rule);
+    padding-bottom:14px; margin-bottom:28px;
+  }
+  .q-index{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--ink-soft);
+    letter-spacing:0.04em;
+  }
+  .q-index b{color:var(--navy); font-size:15px;}
+  [data-theme="dark"] .q-index b{color:var(--gold);}
+  .q-status-tag{
+    font-family:var(--mono);
+    font-size:13.5px;
+    font-weight:800;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    padding:7px 16px;
+    border-radius:20px;
+    border:2px solid transparent;
+  }
+  .q-status-tag.answered{background:var(--answered-bg); color:var(--answered); border-color:var(--answered);}
+  .q-status-tag.unanswered{background:var(--skipped-bg); color:var(--skipped); border-color:var(--skipped);}
+
+  .q-text{
+    font-family:var(--serif);
+    font-size:19px;
+    line-height:1.5;
+    color:var(--ink);
+    margin:0 0 32px 0;
+  }
+
+  .options{
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .option{
+    display:flex; align-items:flex-start; gap:14px;
+    padding:18px 18px;
+    border:1px solid var(--rule);
+    border-radius:8px;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+    background:transparent;
+  }
+  .option:hover{border-color:var(--navy); background:rgba(27,58,92,0.04);}
+  [data-theme="dark"] .option:hover{background:rgba(217,164,65,0.06); border-color:var(--gold);}
+  .option.selected{
+    border-color:var(--navy);
+    background:rgba(27,58,92,0.07);
+  }
+  [data-theme="dark"] .option.selected{
+    border-color:var(--gold);
+    background:rgba(217,164,65,0.1);
+  }
+  .option .tag{
+    font-family:var(--mono);
+    font-size:13px;
+    font-weight:bold;
+    width:24px; height:24px;
+    border-radius:50%;
+    border:1.5px solid var(--rule);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    color:var(--ink-soft);
+  }
+  .option.selected .tag{
+    border-color:var(--navy);
+    background:var(--navy);
+    color:#fff;
+  }
+  [data-theme="dark"] .option.selected .tag{
+    border-color:var(--gold);
+    background:var(--gold);
+    color:#17232E;
+  }
+  .option .opt-text{
+    font-size:15.5px; line-height:1.5; padding-top:1px;
+  }
+  .option.locked{cursor:default;}
+  .option.correct{
+    border-color:var(--answered);
+    background:var(--answered-bg);
+  }
+  .option.correct .tag{
+    border-color:var(--answered);
+    background:var(--answered);
+    color:#fff;
+  }
+  .option.incorrect{
+    border-color:var(--wrong);
+    background:var(--wrong-bg);
+  }
+  .option.incorrect .tag{
+    border-color:var(--wrong);
+    background:var(--wrong);
+    color:#fff;
+  }
+  .option.locked:hover{background:inherit; border-color:inherit;}
+  .q-status-tag.correct{background:var(--answered-bg); color:var(--answered); border-color:var(--answered); box-shadow:0 0 0 1px var(--answered) inset;}
+  .q-status-tag.incorrect{background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong); box-shadow:0 0 0 1px var(--wrong) inset;}
+  .q-status-tag.review-unanswered{
+    background:var(--wrong-bg);
+    color:var(--wrong);
+    border-color:var(--wrong);
+    box-shadow:0 0 0 1px var(--wrong) inset;
+  }
+
+  /* ---------- Explanation (review mode) ---------- */
+  .explain-box{
+    margin-top:26px;
+    background:var(--gold-soft);
+    border:1px solid var(--gold);
+    border-radius:8px;
+    padding:16px 20px;
+    font-size:14px;
+    line-height:1.65;
+    color:var(--ink);
+  }
+  [data-theme="dark"] .explain-box{background:rgba(217,164,65,0.08);}
+  .explain-box b{color:var(--navy);}
+  [data-theme="dark"] .explain-box b{color:var(--gold);}
+  .explain-box .exp-label{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-bottom:8px;
+  }
+
+  .paper-foot{
+    display:flex; justify-content:space-between;
+    margin-top:32px; padding-top:20px;
+    border-top:1px solid var(--rule);
+  }
+  button{
+    font-family:var(--sans);
+    font-size:14px;
+    font-weight:600;
+    padding:11px 22px;
+    border-radius:7px;
+    border:1px solid var(--rule);
+    background:var(--paper);
+    color:var(--ink);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  button:hover:not(:disabled){border-color:var(--navy); color:var(--navy);}
+  [data-theme="dark"] button:hover:not(:disabled){border-color:var(--gold); color:var(--gold);}
+  button:disabled{opacity:0.35; cursor:not-allowed;}
+  button.primary{
+    background:var(--navy); color:#F4F1EA; border-color:var(--navy);
+  }
+  button.primary:hover{filter:brightness(1.1); color:#F4F1EA;}
+  button.clear{background:transparent; border-color:transparent; color:var(--ink-soft); font-weight:500;}
+  .nav-group{display:flex; gap:10px;}
+
+  /* ---------- Sidebar palette ---------- */
+  .sidebar{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:24px;
+    position:sticky;
+    top:96px;
+  }
+  .sidebar h2{
+    font-family:var(--serif);
+    font-size:16px;
+    font-weight:400;
+    margin:0 0 4px 0;
+    color:var(--ink);
+  }
+  .sidebar .sub{
+    font-size:12px; color:var(--ink-soft); margin-bottom:18px;
+  }
+  .legend{
+    display:flex; flex-direction:column; gap:8px;
+    margin-bottom:20px;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  .legend span{display:flex; align-items:center; gap:8px;}
+  .dot{width:10px; height:10px; border-radius:3px; flex-shrink:0;}
+  .dot.answered{background:var(--answered);}
+  .dot.unanswered{background:var(--rule); border:1px solid var(--ink-soft);}
+  .dot.current{background:transparent; border:2px solid var(--current-ring);}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:8px;
+    margin-bottom:22px;
+  }
+  .cell{
+    aspect-ratio:1;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono);
+    font-size:13px;
+    border-radius:6px;
+    border:1px solid var(--rule);
+    background:transparent;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .cell:hover{border-color:var(--navy);}
+  [data-theme="dark"] .cell:hover{border-color:var(--gold);}
+  .cell.answered{
+    background:var(--answered-bg); color:var(--answered); border-color:var(--answered);
+    font-weight:bold;
+  }
+  .cell.incorrect{
+    background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong);
+    font-weight:bold;
+  }
+  .cell.current{
+    outline:2px solid var(--current-ring); outline-offset:2px;
+  }
+
+  .tally{
+    padding-top:16px; border-top:1px solid var(--rule);
+    color:var(--ink-soft);
+  }
+  .tally-plain{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-plain > div{flex:1; text-align:left;}
+  .tally b{color:var(--ink); font-size:16px; display:block; font-family:var(--sans);}
+  .tally b.stat-correct{color:var(--answered);}
+  .tally b.stat-incorrect{color:var(--wrong);}
+  .tally b.stat-unattempted{color:var(--skipped);}
+
+  .marks-line{
+    text-align:center;
+    background:var(--gold-soft);
+    border:1.5px solid var(--gold);
+    border-radius:8px;
+    padding:12px 10px;
+    margin-bottom:14px;
+  }
+  [data-theme="dark"] .marks-line{background:rgba(217,164,65,0.12);}
+  .marks-line b{
+    font-size:26px; color:var(--navy); font-family:var(--serif); font-weight:700;
+  }
+  [data-theme="dark"] .marks-line b{color:var(--gold);}
+  .marks-line span{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-top:2px;
+  }
+  .tally-grid{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-grid > div{flex:1; text-align:left;}
+
+  .score-breakdown{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+    max-width:420px;
+    margin:24px auto 0;
+  }
+  .score-breakdown .stat{
+    border:1.5px solid var(--rule);
+    border-radius:10px;
+    padding:14px 10px;
+  }
+  .score-breakdown .stat b{
+    display:block; font-size:24px; font-family:var(--sans); margin-bottom:4px;
+  }
+  .score-breakdown .stat span{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft);
+  }
+  .score-breakdown .stat.correct{border-color:var(--answered); background:var(--answered-bg);}
+  .score-breakdown .stat.correct b{color:var(--answered);}
+  .score-breakdown .stat.incorrect{border-color:var(--wrong); background:var(--wrong-bg);}
+  .score-breakdown .stat.incorrect b{color:var(--wrong);}
+  .score-breakdown .stat.unattempted{border-color:var(--skipped); background:var(--skipped-bg);}
+  .score-breakdown .stat.unattempted b{color:var(--skipped);}
+
+  #submitBtn{width:100%; margin-top:20px;}
+
+  /* ---------- Result overlay ---------- */
+  .result-card{
+    background:var(--paper); border:1px solid var(--rule); border-radius:10px;
+    box-shadow:var(--shadow); padding:44px; text-align:center;
+  }
+  .result-card .score{
+    font-family:var(--serif); font-size:52px; color:var(--navy); margin:8px 0;
+  }
+  [data-theme="dark"] .result-card .score{color:var(--gold);}
+  .result-card .percent{
+    font-family:var(--mono); font-size:13px; color:var(--ink-soft);
+    letter-spacing:0.04em; margin-top:-4px;
+  }
+  .hidden{display:none !important;}
+  :root{
+    --desktop-width: 1440;
+}
+
+@media (max-width: 1024px){
+  .layout{
+    grid-template-columns: 1fr;
+  }
+  .sidebar{
+    position: static;      /* was sticky at top:96px — no longer needed once stacked */
+    top: auto;
+  }
+}
+@media (max-width: 600px){
+  .topbar-inner{
+    flex-wrap: wrap;
+    padding: 14px 16px;
+    gap: 10px;
+  }
+  .topbar-right{
+    flex-shrink: 1;        /* was 0 before — this is what caused the overflow */
+    flex-basis: 100%;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+  .subnote{
+    white-space: normal;
+  }
+}
+@media (max-width: 430px){
+  .layout{
+    padding: 20px 12px 40px;
+  }
+  .paper{
+    padding: 24px 18px 22px;
+  }
+  .sidebar{
+    padding: 18px;
+  }
+  .paper-head{
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .q-status-tag{
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+@media (max-width: 600px){
+  .title-block h1{
+    font-size: 17px;
+  }
+  .eyebrow{
+    font-size: 9.5px;
+  }
+  .subnote{
+    font-size: 10px;
+  }
+  .timer{
+    font-size: 11px;
+    padding: 5px 9px;
+  }
+  .mode-switch{
+    font-size: 11px;
+  }
+}
+@media (max-width: 430px){
+  .result-card{
+    padding: 24px 18px;
+  }
+  .score-breakdown{
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    max-width: 100%;
+  }
+  .score-breakdown .stat{
+    padding: 10px 6px;
+  }
+  .score-breakdown .stat b{
+    font-size: 19px;
+  }
+  .result-card .score{
+    font-size: 38px;
+  }
+}
+
+
+}
+</style>
+</head>
+<body data-theme="light">
+
+<header class="topbar">
+  <div class="topbar-inner">
+
+    <!-- <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">UPSC<br>LOGO</a> -->
+    <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">
+  <img src="../logo.png" alt="UPSC LoG" style="width:100%; height:100%; object-fit:contain; border-radius:6px;">
+</a>
+    <div class="title-block">
+      <div class="eyebrow">UPSC LoG · Prelims Booster 2027</div>
+      <h1>History Test CODE-2027-20</h1>
+      <div class="subnote" style="font-size: 12px;">
+        <span id="qTotalNote">7</span> Questions · +2 Correct / −0.67 Incorrect ·
+        <a href="https://t.me/upsclog" target="_blank" rel="noopener"> Join UPSC-LoG Telegram ↗</a>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="timer" id="timer">30:00</div>
+      <div class="mode-switch">
+        <span>Light</span>
+        <div class="switch" id="themeSwitch" role="button" aria-label="Toggle dark mode">
+          <div class="knob"></div>
+        </div>
+        <span>Dark</span>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="name-bar">
+  <label for="userName">Add name for rank</label>
+  <input type="text" id="userName" placeholder="Enter your name" maxlength="40">
+</div>
+
+<div class="layout">
+
+  <div class="paper" id="paperView">
+    <div class="paper-head">
+      <div class="q-index">Question <b id="qNum">1</b> of <span id="qTotal">7</span></div>
+      <div class="q-status-tag unanswered" id="qStatusTag">Not Answered</div>
+    </div>
+
+    <p class="q-text" id="qText">Loading question…</p>
+
+    <div class="options" id="optionsList"></div>
+
+    <div class="explain-box hidden" id="explainBox">
+      <span class="exp-label">Explanation</span>
+      <div id="explainText"></div>
+    </div>
+
+    <div class="paper-foot">
+      <div class="nav-group">
+        <button id="prevBtn">← Previous</button>
+        <button class="clear" id="clearBtn">Clear response</button>
+      </div>
+      <button id="nextBtn" class="primary">Next →</button>
+    </div>
+  </div>
+
+  <div class="result-card hidden" id="resultView">
+    <div class="eyebrow" style="color:var(--ink-soft); letter-spacing:0.14em; font-family:var(--mono); font-size:11px; text-transform:uppercase;">Marks Sent for rank PDF</div>
+    <div class="score" id="scoreText">0.00 / 14.00</div>
+    <div class="percent" id="scorePercent">0.00%</div>
+    <div class="score-breakdown" id="scoreBreakdown"></div>
+    <p style="color:var(--ink-soft); font-size:14px; margin:20px 0 24px;">You can review your answers and explanations using the palette on the right.</p>
+    <h2>Check <a href="https://t.me/upsclog" target="_blank">UPSC LoG</a> - Telegram for Daily Rankings [PDF]</h2>
+    <button class="primary" id="reviewBtn">Review Answers</button>
+  </div>
+
+  <aside class="sidebar">
+    <h2>* Explanations attached for each question after you submit the test<br><br></h2>
+    <h2>* Auto-Submission in 30 minutes</h2>
+    <h2>* Dark <-> Bright modes for ease</h2>
+    <div class="sub"></div>
+
+    <div class="legend">
+      <span><span class="dot answered"></span> Answered / Correct</span>
+      <span><span class="dot" style="background:var(--wrong);"></span> Incorrect</span>
+      <span><span class="dot unanswered"></span> Not answered</span>
+      <span><span class="dot current"></span> Currently viewing</span>
+    </div>
+
+    <div class="grid" id="paletteGrid"></div>
+
+    <div class="tally" id="tallyRow">
+      <div class="tally-plain">
+        <div><b id="answeredCount">0</b>Answered</div>
+        <div><b id="skippedCount">7</b>Remaining</div>
+      </div>
+    </div>
+
+    <button class="primary" id="submitBtn">Submit Test</button>
+  </aside>
+
+</div>
+
+<script>
+const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyamXySn2AagAN935BcpYuf6oTJNuIkLMuAby7CqWJ20rgdNgdWypVNTjMyWJBxW9OObw/exec";
+const QUESTIONS = [
+{
+    q: "With reference to the Mountbatten Plan (June 3 Plan, 1947), consider the following statements: <br> 1. It proposed the partition of India into two dominions, India and Pakistan.<br>2. It provided for the partition of Punjab and Bengal if the respective legislative assemblies so decided.<br>3. It granted princely states the option to join either dominion or remain independent.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "The June 3 Plan (Mountbatten Plan) proposed partition into India and Pakistan, allowed Punjab and Bengal assemblies to vote on partition, and gave princely states the choice to join either dominion (though not to remain fully independent in practice, the plan technically left the option open before accession was pursued). All three statements reflect the plan's actual provisions."
+},
+{
+    q: "The Dandi March (1930) is considered significant in the history of the Indian freedom struggle primarily because it:",
+    opts: [
+        "Led to the immediate grant of Dominion Status to India",
+        "Marked the beginning of the Civil Disobedience Movement through a symbolic act of breaking the salt law",
+        "Resulted in the Poona Pact between Gandhi and Ambedkar",
+        "Was the first movement in which Gandhi collaborated directly with revolutionary terrorists"
+    ],
+    ans: 1,
+    exp: "The Dandi March, undertaken by Gandhi from Sabarmati Ashram to Dandi to break the salt law, launched the Civil Disobedience Movement and became a powerful symbol of nonviolent mass mobilisation against British monopoly and taxation. The Poona Pact (1932) and Dominion Status were unrelated separate developments."
+},
+{
+    q: "Which of the following best describes the political condition in South India in the period immediately following the decline of the Sangam Age?",
+    opts: [
+        "The Cholas immediately established a pan-Indian empire",
+        "The region witnessed the rise of the Kalabhras, who disrupted existing political and land-grant systems",
+        "The Mauryan empire extended its direct control over the Tamil region",
+        "Buddhism completely replaced Jainism and Shaivism as the dominant faith"
+    ],
+    ans: 1,
+    exp: "The post-Sangam period (roughly 3rd–6th century CE) is often called the 'Kalabhra interregnum', during which the Kalabhras seized power, disrupted traditional land grants to brahmanas and temples, and are recorded in later Pandya and Pallava inscriptions as usurpers. The Chola imperial expansion came later, from the 9th century CE onwards."
+},
+{
+    q: "With reference to the Anglo-Maratha Wars, consider the following statements: <br> 1. The First Anglo-Maratha War ended with the Treaty of Salbai.<br>2. The Second Anglo-Maratha War was fought during the tenure of Governor-General Lord Wellesley.<br>3. The Third Anglo-Maratha War led to the final dissolution of the Maratha Confederacy.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "The First Anglo-Maratha War (1775–82) ended with the Treaty of Salbai; the Second (1803–05) was fought under Lord Wellesley's subsidiary alliance policy; and the Third (1817–18) under Lord Hastings led to the abolition of the Peshwaship and end of the Maratha Confederacy. All three statements are correct."
+},
+{
+    q: "A common criticism of the 'Safety Valve Theory' regarding the founding of the Indian National Congress (1885) is that:",
+    opts: [
+        "It exaggerates the role of A.O. Hume and downplays the pre-existing political consciousness and associations among Indians",
+        "It claims the Congress was founded to overthrow British rule immediately",
+        "It denies any British official's involvement in the Congress's formation",
+        "It was first propounded by Indian nationalist historians to glorify Hume's contribution"
+    ],
+    ans: 0,
+    exp: "The Safety Valve theory holds that A.O. Hume founded the Congress with Lord Dufferin's tacit support to provide a controlled outlet for growing Indian discontent, thereby averting a revolt. Critics argue this theory overstates Hume's role and ignores the significant political activity and associations (like the Indian Association) that predated and shaped the Congress independently."
+},
+{
+    q: "With reference to the Moderates and Extremists within the Indian National Congress, consider the following statements: <br> 1. The Moderates primarily believed in constitutional methods such as petitions, memorials, and resolutions.<br>2. The Extremists advocated methods like Swadeshi, boycott, and passive resistance.<br>3. The split between the two groups became formal at the Surat Session of 1907.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "The Moderates (e.g., Gokhale, Naoroji) favoured constitutional agitation, while the Extremists (e.g., Tilak, Lal, Pal) advocated Swadeshi, boycott, and passive resistance. Tensions culminated in an open split at the Surat Session in 1907. All three statements are historically accurate."
+},
+{
+    q: "The Swadeshi Movement began to decline after 1908 mainly due to:",
+    opts: [
+        "The immediate annulment of the Partition of Bengal by the British",
+        "Government repression, internal splits between Moderates and Extremists, and loss of mass momentum",
+        "Gandhi's arrival and takeover of the movement's leadership",
+        "The outbreak of the First World War"
+    ],
+    ans: 1,
+    exp: "The Swadeshi Movement weakened due to intense government repression, the Congress split at Surat (1907) between Moderates and Extremists, and the movement's inability to sustain mass participation beyond Bengal. The Partition of Bengal was actually annulled only in 1911, and Gandhi had not yet risen to national leadership at this stage."
+},
+{
+    q: "Which of the following is considered an immediate background factor leading to the Revolt of 1857?",
+    opts: [
+        "The introduction of the Ilbert Bill",
+        "The introduction of the Enfield rifle cartridges greased with animal fat",
+        "The passage of the Government of India Act, 1858",
+        "The annexation of Awadh through the Doctrine of Lapse"
+    ],
+    ans: 1,
+    exp: "The introduction of Enfield rifle cartridges, rumoured to be greased with cow and pig fat, offended both Hindu and Muslim sepoys and served as the immediate trigger for the Revolt of 1857. Note that Awadh was annexed on grounds of alleged misgovernance, not the Doctrine of Lapse, and the Ilbert Bill (1883) and GoI Act 1858 came later."
+},
+{
+    q: "A major criticism of Lord Curzon's Partition of Bengal (1905) by Indian nationalists was that it:",
+    opts: [
+        "Reduced the administrative burden without any political motive",
+        "Was designed to weaken Bengali unity and create a communal divide between Hindus and Muslims",
+        "Merged Bengal with Bihar and Odisha to strengthen nationalist sentiment",
+        "Was implemented after full consultation with Indian political leaders"
+    ],
+    ans: 1,
+    exp: "Although officially justified as an administrative necessity, nationalists criticised the Partition of Bengal as a deliberate attempt to weaken the growing nationalist movement in Bengal by fostering communal division between Hindus and Muslims, a strategy of 'divide and rule'. It was announced without genuine consultation with Indian leaders and provoked the Swadeshi Movement."
+},
+{
+    q: "With reference to the Vijayanagara Empire, consider the following statements: <br> 1. It was founded by Harihara and Bukka in the 14th century.<br>2. Its administration was marked by the Ayagar system of village governance.<br>3. The Battle of Talikota (1565) led to the immediate and complete disappearance of the empire.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The Vijayanagara Empire was founded by Harihara and Bukka around 1336, and its village administration featured the Ayagar system of hereditary village servants. However, the empire did not vanish immediately after the Battle of Talikota (1565); it continued in a weakened form for nearly another century under successor lines. Hence statement 3 is incorrect."
+},
+{
+    q: "Which of the following were features of the Government of India Act, 1935?",
+    opts: [
+        "It introduced Dyarchy at the provincial level for the first time",
+        "It provided for an All-India Federation comprising British India and princely states, and provincial autonomy",
+        "It granted universal adult franchise for provincial elections",
+        "It abolished the office of Governor-General"
+    ],
+    ans: 1,
+    exp: "The Government of India Act, 1935 provided for an All-India Federation (which never materialised due to princely states' reluctance) and introduced provincial autonomy by abolishing dyarchy at the provincial level (dyarchy had actually been introduced earlier at the provincial level by the 1919 Act and was now introduced at the centre instead). Franchise remained limited, not universal."
+},
+{
+    q: "A common historiographical criticism of terming the Gupta period as the 'Golden Age' of ancient India is that:",
+    opts: [
+        "It ignores the significant contributions made in science and literature during this period",
+        "It generalises the prosperity of the ruling and upper classes to the entire population, while caste rigidities and the condition of Shudras and women worsened",
+        "It denies that the Gupta rulers patronised Sanskrit literature and the arts",
+        "It applies only to the economic history of the Deccan and South India"
+    ],
+    ans: 1,
+    exp: "Historians such as R.S. Sharma have criticised the 'Golden Age' label for overlooking the deteriorating condition of Shudras and women, and the rigidification of the caste system, arguing that the label reflects primarily the experience of the upper varnas and elite classes rather than society as a whole."
+},
+{
+    q: "Which of the following statements about the Indus Valley Civilisation is/are correct? <br> 1. The cities show evidence of a well-planned grid pattern and an efficient drainage system.<br>2. Evidence of a clear temple or large religious structure dedicated to a specific deity has been found at most Harappan sites.<br>3. The script of the Indus Valley Civilisation has been fully deciphered.<br>Select the correct answer using the code given below:",
+    opts: [
+        "1 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "Harappan cities exhibit a distinctive grid-pattern town planning with an advanced drainage system. However, unlike contemporary civilisations, no clear temple structures dedicated to specific deities have been conclusively identified, and the Indus script remains undeciphered to date. Hence only statement 1 is correct."
+},
+{
+    q: "The Mountbatten Plan (1947) had which of the following impacts on India?",
+    opts: [
+        "It led to the peaceful and violence-free transfer of power without any large-scale displacement",
+        "It resulted in the partition of India, large-scale communal violence, and mass migration of populations across the new borders",
+        "It postponed India's independence by five years to allow for a smoother transition",
+        "It abolished all princely states immediately upon its announcement"
+    ],
+    ans: 1,
+    exp: "The implementation of the Mountbatten Plan led to the partition of India into India and Pakistan, accompanied by unprecedented communal violence and one of the largest forced migrations in history, as millions crossed the newly drawn borders. Princely states were not immediately abolished but were persuaded to accede through separate instruments of accession."
+},
+{
+    q: "The Gupta period (c. 4th–6th century CE) is regarded as significant in Indian history mainly because of:",
+    opts: [
+        "The first unification of the entire Indian subcontinent under a single central authority",
+        "Notable advancements in astronomy, mathematics, metallurgy, and Sanskrit literature under royal patronage",
+        "The introduction of the first organised postal and railway system in India",
+        "The complete elimination of the varna-based social system"
+    ],
+    ans: 1,
+    exp: "The Gupta period witnessed remarkable achievements in astronomy (Aryabhata), mathematics (concept of zero and decimal system), metallurgy (the Iron Pillar of Delhi), and Sanskrit literature (Kalidasa), largely due to royal patronage of arts and sciences. The empire, however, did not extend over the entire subcontinent, and the varna system in fact became more rigid during this period."
+},
+{
+    q: "With reference to the founding of the Indian National Congress, consider the following statements: <br> 1. Its first session was held in Bombay in 1885 under the presidency of W.C. Bonnerjee.<br>2. Allan Octavian Hume played a key role in organising its first session.<br>3. The first session was attended exclusively by delegates from Bengal.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The first session of the Indian National Congress was held in Bombay in December 1885 under the presidency of W.C. Bonnerjee, with A.O. Hume, a retired British civil servant, playing a crucial organisational role. Delegates attended from across India, not exclusively from Bengal, making statement 3 incorrect."
+},
+{
+    q: "Which of the following was a feature of the Indian National Congress during its early (Moderate) phase after its founding in 1885?",
+    opts: [
+        "Advocacy of complete independence (Purna Swaraj) as its stated goal",
+        "Faith in British justice and pursuit of political reforms through constitutional means like petitions and resolutions",
+        "Organisation of an armed struggle against British colonial administration",
+        "Exclusive focus on communal representation in legislatures"
+    ],
+    ans: 1,
+    exp: "In its early years, under Moderate leadership, the Congress professed loyalty to the British Crown and sought reforms through constitutional methods such as petitions, resolutions, and delegations, believing in the innate justice of British rule. The demand for Purna Swaraj came only later, at the Lahore Session of 1929."
+},
+{
+    q: "Which of the following statements correctly describes the relationship between the failure of the Cripps Mission (1942) and the Quit India Movement?",
+    opts: [
+        "The failure of the Cripps Mission had no bearing on subsequent Congress strategy",
+        "The failure of the Cripps Mission convinced the Congress that Britain was not sincere about granting self-government, leading it to launch the Quit India Movement",
+        "The Cripps Mission succeeded in fully satisfying Congress demands, delaying the Quit India Movement",
+        "The Quit India Movement was launched before the Cripps Mission had even begun"
+    ],
+    ans: 1,
+    exp: "The Cripps Mission's failure to offer immediate self-government or a definite transfer of power convinced the Congress leadership of British insincerity, prompting Gandhi to launch the 'Quit India' Movement in August 1942, demanding immediate British withdrawal from India."
+},
+{
+    q: "The Jallianwala Bagh massacre (1919) played a significant role in the Indian freedom struggle because it:",
+    opts: [
+        "Led directly to the launch of the Civil Disobedience Movement",
+        "Deeply alienated Indian public opinion from British rule and became a major factor behind the Non-Cooperation Movement",
+        "Resulted in the immediate repeal of the Rowlatt Act",
+        "Marked the first instance of violence by British forces against Indian civilians"
+    ],
+    ans: 1,
+    exp: "The Jallianwala Bagh massacre, in which General Dyer's troops fired on an unarmed gathering in Amritsar, shocked the nation and significantly eroded faith in British justice, becoming a key catalyst for the launch of the Non-Cooperation Movement in 1920. The Rowlatt Act was not repealed immediately as a result."
+},
+{
+    q: "With reference to the Post-Gupta period in North India, consider the following statements: <br> 1. Harshavardhana of Kannauj managed to establish a large, stable empire across most of North India.<br>2. The Pushyabhuti (Vardhana) dynasty rose to prominence in this period.<br>3. Political fragmentation and the rise of regional kingdoms characterised this period following Harsha's death.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "The Pushyabhuti dynasty, to which Harshavardhana belonged, rose in the post-Gupta period, and after Harsha's death (647 CE) without an heir, North India fragmented into numerous regional kingdoms. However, Harsha's empire, though extensive, was not as stable or centralised as the earlier Gupta empire and depended heavily on personal control, making statement 1 incorrect."
+},
+{
+    q: "The founding of the Indian National Congress (1885) is often linked in historiography to which earlier event/controversy that heightened Indian political consciousness?",
+    opts: [
+        "The Ilbert Bill controversy of 1883",
+        "The Simon Commission's visit to India",
+        "The Government of India Act, 1919",
+        "The Poona Pact of 1932"
+    ],
+    ans: 0,
+    exp: "The Ilbert Bill controversy of 1883, which involved fierce European opposition to a bill allowing Indian judges to try European offenders, exposed racial discrimination under British rule and is seen as a significant precursor that galvanised Indian political consciousness ahead of the Congress's founding in 1885."
+},
+{
+    q: "Which of the following were among the causes leading to the Cabinet Mission (1946) being sent to India?",
+    opts: [
+        "The need to resolve the deadlock between the Congress and the Muslim League over the constitutional future of India",
+        "The complete failure of the Quit India Movement",
+        "The immediate outbreak of the Second World War",
+        "The passage of the Indian Independence Act, 1947"
+    ],
+    ans: 0,
+    exp: "The Cabinet Mission was sent in 1946 by the British government primarily to resolve the deadlock between the Congress and the Muslim League regarding the transfer of power and the constitutional framework for independent India, including the League's demand for Pakistan. It preceded, rather than followed, the Indian Independence Act."
+},
+{
+    q: "Which of the following was a stated official cause given by Lord Curzon's government for the Partition of Bengal in 1905?",
+    opts: [
+        "To create a Muslim-majority province of East Bengal as a reward for loyalty during the Revolt of 1857",
+        "Administrative convenience, since Bengal was considered too large a province for a single administration to govern efficiently",
+        "To immediately grant self-governance to East Bengal",
+        "To merge Bengal, Bihar, Odisha, and Assam into a single stronger unit"
+    ],
+    ans: 1,
+    exp: "The British officially justified the Partition of Bengal on grounds of administrative convenience, arguing that the province was too large and unwieldy to be governed effectively as a single unit. Nationalists, however, saw this as a pretext to divide and weaken Bengali political unity."
+},
+{
+    q: "In the aftermath of the Swadeshi Movement, which of the following developments took place?",
+    opts: [
+        "Indian industries received no encouragement, and the promotion of indigenous goods was abandoned entirely",
+        "The movement inspired the growth of national education institutions and indigenous enterprises, and left a lasting legacy for later mass movements",
+        "The Congress was permanently banned by the British government",
+        "The Partition of Bengal was immediately reversed in 1905 itself"
+    ],
+    ans: 1,
+    exp: "Although the Swadeshi Movement declined after 1908, it left a lasting legacy by encouraging the establishment of national schools, colleges, and indigenous industries, and by demonstrating the potential of mass mobilisation, which influenced later movements led by Gandhi. The Partition of Bengal was annulled only in 1911, not immediately."
+},
+{
+    q: "Which of the following factors is considered a key cause behind the rise and growth of urban centres during the mature phase of the Indus Valley Civilisation?",
+    opts: [
+        "Extensive iron tool usage enabling large-scale agricultural surplus",
+        "Availability of fertile alluvial land and a well-organised trade network, both internal and with regions like Mesopotamia",
+        "Continuous political unification under a single hereditary monarch, as evidenced by royal inscriptions",
+        "State-sponsored large-scale construction of temples as centres of urban growth"
+    ],
+    ans: 1,
+    exp: "The rise of Harappan urban centres is attributed to the fertile alluvial plains of the Indus river system supporting agricultural surplus, along with a well-developed trade network, including maritime and overland trade with Mesopotamia, evidenced by Harappan seals found there. Iron was not used by the Harappans (a Bronze Age civilisation), and no clear evidence of a centralised monarchy or royal inscriptions has been found."
+}
+];
+const CORRECT_MARKS = 2;
+const NEGATIVE_MARKS = 2 / 3;
+
+let current = 0;
+const responses = new Array(QUESTIONS.length).fill(null);
+let submitted = false;
+
+const qNumEl = document.getElementById('qNum');
+const qTotalEl = document.getElementById('qTotal');
+const qTotalNoteEl = document.getElementById('qTotalNote');
+const qTextEl = document.getElementById('qText');
+const optionsListEl = document.getElementById('optionsList');
+const qStatusTag = document.getElementById('qStatusTag');
+const explainBox = document.getElementById('explainBox');
+const explainText = document.getElementById('explainText');
+const paletteGrid = document.getElementById('paletteGrid');
+const answeredCountEl = document.getElementById('answeredCount');
+const skippedCountEl = document.getElementById('skippedCount');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const clearBtn = document.getElementById('clearBtn');
+const submitBtn = document.getElementById('submitBtn');
+const paperView = document.getElementById('paperView');
+const resultView = document.getElementById('resultView');
+const reviewBtn = document.getElementById('reviewBtn');
+const scoreText = document.getElementById('scoreText');
+const scorePercent = document.getElementById('scorePercent');
+
+qTotalEl.textContent = QUESTIONS.length;
+qTotalNoteEl.textContent = QUESTIONS.length;
+skippedCountEl.textContent = QUESTIONS.length;
+
+function buildPalette(){
+  paletteGrid.innerHTML = '';
+  QUESTIONS.forEach((_, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.textContent = i + 1;
+    cell.addEventListener('click', () => { current = i; render(); });
+    paletteGrid.appendChild(cell);
+  });
+}
+
+function render(){
+  const item = QUESTIONS[current];
+  qNumEl.textContent = current + 1;
+  qTextEl.innerHTML = item.q;
+
+  optionsListEl.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  const userChoice = responses[current];
+  item.opts.forEach((opt, idx) => {
+    const div = document.createElement('div');
+    let cls = 'option';
+    if (submitted){
+      cls += ' locked';
+      if (idx === item.ans) cls += ' correct';
+      else if (idx === userChoice) cls += ' incorrect';
+    } else if (userChoice === idx){
+      cls += ' selected';
+    }
+    div.className = cls;
+    div.innerHTML = `<span class="tag">${letters[idx]}</span><span class="opt-text"></span>`;
+    div.querySelector('.opt-text').textContent = opt;
+    div.addEventListener('click', () => {
+      if (submitted) return;
+      responses[current] = idx;
+      render();
+    });
+    optionsListEl.appendChild(div);
+  });
+
+  if (submitted){
+    if (userChoice === null){
+      qStatusTag.textContent = '⚠ Not Answered · Correct answer shown';
+      qStatusTag.className = 'q-status-tag review-unanswered';
+    } else if (userChoice === item.ans){
+      qStatusTag.textContent = '✓ Correct';
+      qStatusTag.className = 'q-status-tag correct';
+    } else {
+      qStatusTag.textContent = '✗ Incorrect';
+      qStatusTag.className = 'q-status-tag incorrect';
+    }
+    explainBox.classList.remove('hidden');
+    explainText.innerHTML = '<b>Correct Answer:</b> ' + letters[item.ans] + '. ' + item.opts[item.ans] + '<br><br>' + item.exp;
+  } else {
+    const answered = userChoice !== null;
+    qStatusTag.textContent = answered ? 'Answered' : 'Not Answered';
+    qStatusTag.className = 'q-status-tag ' + (answered ? 'answered' : 'unanswered');
+    explainBox.classList.add('hidden');
+  }
+
+  prevBtn.disabled = current === 0;
+  if (submitted){
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Back to Result' : 'Next →';
+    clearBtn.style.visibility = 'hidden';
+  } else {
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Finish' : 'Next →';
+    clearBtn.style.visibility = 'visible';
+  }
+
+  // palette
+  const cells = paletteGrid.children;
+  for (let i = 0; i < cells.length; i++){
+    cells[i].classList.toggle('current', i === current);
+    if (submitted){
+      const isIncorrect = responses[i] !== null && responses[i] !== QUESTIONS[i].ans;
+      const isCorrect = responses[i] === QUESTIONS[i].ans;
+      cells[i].classList.toggle('incorrect', isIncorrect);
+      cells[i].classList.toggle('answered', isCorrect);
+    } else {
+      cells[i].classList.toggle('answered', responses[i] !== null);
+      cells[i].classList.remove('incorrect');
+    }
+  }
+
+  const answeredTotal = responses.filter(r => r !== null).length;
+  if (submitted){
+    let correct = 0, incorrect = 0;
+    QUESTIONS.forEach((q, i) => {
+      if (responses[i] === null) return;
+      if (responses[i] === q.ans) correct++; else incorrect++;
+    });
+    const unattempted = QUESTIONS.length - answeredTotal;
+    const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+    document.getElementById('tallyRow').innerHTML = `
+      <div class="marks-line"><b>${marks.toFixed(2)}</b><span>Marks Scored</span></div>
+      <div class="tally-grid">
+        <div><b class="stat-correct">${correct}</b>Correct</div>
+        <div><b class="stat-incorrect">${incorrect}</b>Incorrect</div>
+        <div><b class="stat-unattempted">${unattempted}</b>Unattempted</div>
+      </div>
+    `;
+  } else {
+    answeredCountEl.textContent = answeredTotal;
+    skippedCountEl.textContent = QUESTIONS.length - answeredTotal;
+  }
+}
+
+prevBtn.addEventListener('click', () => { if (current > 0){ current--; render(); }});
+nextBtn.addEventListener('click', () => {
+  if (current < QUESTIONS.length - 1){ current++; render(); }
+  else if (submitted){
+    paperView.classList.add('hidden');
+    resultView.classList.remove('hidden');
+  } else {
+    doSubmit();
+  }
+});
+clearBtn.addEventListener('click', () => { responses[current] = null; render(); });
+
+submitBtn.addEventListener('click', doSubmit);
+
+function doSubmit(){
+  submitted = true;
+  clearInterval(countdown);
+  let correct = 0, incorrect = 0;
+  QUESTIONS.forEach((q, i) => {
+    if (responses[i] === null) return;
+    if (responses[i] === q.ans) correct++; else incorrect++;
+  });
+  const unattempted = QUESTIONS.length - (correct + incorrect);
+  const maxMarks = QUESTIONS.length * CORRECT_MARKS;
+  const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+  const percentage = (marks / maxMarks) * 100;
+
+  scoreText.textContent = marks.toFixed(2) + ' / ' + maxMarks.toFixed(2);
+  scorePercent.textContent = percentage.toFixed(2) + '%';
+  document.getElementById('scoreBreakdown').innerHTML = `
+    <div class="stat correct"><b>${correct}</b><span>Correct</span></div>
+    <div class="stat incorrect"><b>${incorrect}</b><span>Incorrect</span></div>
+    <div class="stat unattempted"><b>${unattempted}</b><span>Unattempted</span></div>
+  `;
+  const userName = document.getElementById('userName').value.trim() || "Anonymous"; 
+  fetch(SHEET_ENDPOINT, {
+    method: "POST",
+    mode: "no-cors",
+    body: JSON.stringify({
+      name: userName,
+      marks: marks.toFixed(2),
+      correct: correct,
+      incorrect: incorrect,
+      unattempted: unattempted,
+      testCode: "History Test CODE-2027-20"
+    })
+  }); 
+  submitBtn.style.display = 'none';
+  paperView.classList.add('hidden');
+  resultView.classList.remove('hidden');
+  render();
+}
+
+reviewBtn.addEventListener('click', () => {
+  resultView.classList.add('hidden');
+  paperView.classList.remove('hidden');
+  current = 0;
+  render();
+});
+
+// theme toggle
+const themeSwitch = document.getElementById('themeSwitch');
+themeSwitch.addEventListener('click', () => {
+  const body = document.body;
+  const isDark = body.getAttribute('data-theme') === 'dark';
+  body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+});
+
+// countdown timer
+let seconds = 30 * 60;
+const timerEl = document.getElementById('timer');
+const countdown = setInterval(() => {
+  if (seconds <= 0 || submitted) return;
+  seconds--;
+  const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+  const s = String(seconds % 60).padStart(2, '0');
+  timerEl.textContent = `${m}:${s}`;
+  timerEl.classList.toggle('urgent', seconds <= 60);
+  if (seconds === 0){
+    timerEl.textContent = 'Time Up!';
+    doSubmit();
+  }
+}, 1000);
+
+buildPalette();
+render();
+
+window.addEventListener('beforeunload', function(e){
+  const hasProgress = !submitted && responses.some(r => r !== null);
+  if (hasProgress){
+    e.preventDefault();
+    e.returnValue = 'Your answers have not been submitted. If you leave or refresh this page, all marked answers will be lost.';
+    return e.returnValue;
+  }
+});
+
+</script>
+
+</body>
+</html>
