@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Five Papers, One Service — UPSC Mains Compendium</title>
+<title>UPSC Log Prelims Test Series</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -53,7 +53,7 @@
   .wrap{position:relative; z-index:1; max-width:1400px; margin:0 auto; padding:0 6vw;}
 
   header{
-    padding:min(11vw,92px) 6vw 40px;
+    padding:20px 6vw 0px;
     max-width:900px;
   }
   .eyebrow{
@@ -291,12 +291,36 @@
   }
   footer a{ color:var(--paper-dim); }
 
+  /* back button — sits in normal document flow, not fixed/absolute */
+  .back-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin:60px 6vw 0;
+    padding:9px 15px;
+    border-radius:100px;
+    border:1px solid var(--card-border);
+    background:var(--ink-2);
+    color:var(--paper);
+    font-family:'IBM Plex Sans', sans-serif;
+    font-weight:500;
+    font-size:13px;
+    text-decoration:none;
+    cursor:pointer;
+    transition:border-color .25s, background .25s, transform .15s;
+  }
+  .back-btn:hover{ border-color:rgba(233,231,222,0.4); background:#191D27; }
+  .back-btn:active{ transform:scale(0.96); }
+  .back-btn:focus-visible{ outline:2px solid var(--paper); outline-offset:2px; }
+  .back-btn svg{ width:15px; height:15px; flex:0 0 auto; }
+
   @media (max-width:640px){
     .rail-controls{ padding:0 6vw 18px; }
     .arrow-group{ display:none; }
     .card{ width:76vw; min-height:440px; padding:24px 20px 22px; margin-left:-30px; }
     .track-wrap{ padding:24px 0 20px; }
-    header{ padding-top:60px; padding-bottom:28px; }
+    header{ padding-top:20px; padding-bottom:0px; }
+    .back-btn{ margin:16px 6vw 0; padding:8px 13px; font-size:12.5px; }
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -307,6 +331,11 @@
 <body>
 
 <div class="grid-veil"></div>
+
+<button class="back-btn" onclick="location.href='../index.html'" aria-label="Go back">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+  UPSC LoG
+</button>
 
 <div class="wrap">
   <header>
@@ -344,7 +373,7 @@ const CARDS = [
     code: "Subject 1",
     seal: "I",
     tint: "gs1",
-    title: "Miscellaneous<span> Test</span>",
+    title: "Miscellaneous<span><br><--SWIPE--></span>",
     desc: "Where ecosystems, biodiversity, and climate converge. From forests and wildlife to environmental governance and conservation, understand the delicate balance that sustains life on Earth.",
     tags: ["Ecology", "Biodiversity", "Climate Change", "Environment & Conservation"],
     weight: "",
@@ -355,7 +384,7 @@ const CARDS = [
     code: "Subject 2",
     seal: "II",
     tint: "gs4",
-    title: "<span>History</span><br> Ancient-Medieval-Modern Test",
+    title: "<span>History</span><br><--SWIPE-->",
     desc: "Where civilizations rise, empires expand, ideas evolve, and revolutions reshape nations. From ancient India to the modern world, history reveals the forces that continue to influence the present.",
     tags: ["Ancient History", "Medieval History", "Modern History", "World History"],
     weight: "",
@@ -366,7 +395,7 @@ const CARDS = [
     code: "Subject 3",
     seal: "III",
     tint: "gs2",
-    title: "<span>GEOGRAPHY</span> Test Series",
+    title: "<span>GEOGRAPHY</span><br><--SWIPE-->",
     desc: "From tectonic plates and monsoon systems to settlements, resources, and global patterns—the forces that shape landscapes, livelihoods, and the world we inhabit.",
     tags: ["Physical Geography", "Indian Geography", "World Geography", "Environment & Human Geography"],
     weight: "",
@@ -377,7 +406,7 @@ const CARDS = [
     code: "Subject 4",
     seal: "IV",
     tint: "gs3",
-    title: "<span>Economy</span>, Agriculture, Infrastructure Tests",
+    title: "<span>Economy</span><br><--SWIPE-->",
     desc: "Growth, land, and livelihood — how a nation feeds itself, builds itself, and looks after those growth tends to leave behind: hunger, ageing, and the welfare net beneath it all.",
     tags: ["Indian Economy", "Agriculture & Food Security", "Infrastructure", "Social Welfare"],
     weight: "",
@@ -388,7 +417,7 @@ const CARDS = [
     code: "Subject 5",
     seal: "V",
     tint: "gs1",
-    title: "<span>POLITY</span> Test Series</span>",
+    title: "<span>POLITY</span><br><--SWIPE-->",
     desc: "From the framing of the Constitution and the debates of the <u><b>Constituent Assembly</b></u> to Parliament, fundamental rights, and the institutions that sustain the <u><b>world's largest democracy</b></u>",
     tags: [  "Constitution of India",  "Governance",  "Polity & Political System",  "Social Justice & Rights"],
     weight: "",
@@ -399,7 +428,7 @@ const CARDS = [
     code: "Subject 6",
     seal: "VI",
     tint: "ph",
-    title: "Environment <span> & Ecology</span> Test Series",
+    title: "Environment <span><br><--SWIPE-->",
     desc: "Where ecosystems, biodiversity, and climate converge. From forests and wildlife to environmental governance and conservation, understand the delicate balance that sustains life on Earth.",
     tags: ["Ecology", "Biodiversity", "Climate Change", "Environment & Conservation"],
     weight: "",
@@ -408,6 +437,7 @@ const CARDS = [
   },
 
 ];
+
 
 const track = document.getElementById('track');
 const dotsWrap = document.getElementById('dots');
@@ -433,7 +463,7 @@ CARDS.forEach((c, i) => {
     <div class="card-bottom">
       <span class="weight">${c.weight}</span>
       <a class="link-btn" href="${c.href}" target="_blank" rel="noopener noreferrer">
-        OPEN TEST
+        START
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
       </a>
     </div>
