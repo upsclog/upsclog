@@ -2,12 +2,12 @@
    CONFIG — edit these two bits to match your files
    ============================================================ */
 
-// Images for the bento grid. Put your files in /images and list them here.
-const IMAGES = ["images/back1.jpg", "images/back2.jpg", "images/back3.jpg", "images/back4.jpg", "images/back5.jpg", 
-              "images/back6.jpg", "images/back7.jpg", "images/back8.jpg", "images/back9.jpg", "images/back10.jpg"];
+const IMAGES = [
+  "images/back1.jpg", "images/back2.jpg", "images/back3.jpg", "images/back4.jpg",
+  "images/back5.jpg", "images/back6.jpg", "images/back7.jpg", "images/back8.jpg",
+  "images/back9.jpg", "images/back10.jpg",
+];
 
-// PDFs are matched by the NUMBER before the colon in data.txt.
-// "3 : Political Philosophers"  ->  pdfs/3.pdf
 const PDF_FOLDER = "pdfs";
 const DATA_FILE = "data.txt";
 
@@ -20,12 +20,11 @@ function renderGrid() {
   const grid = document.getElementById("bentoGrid");
   grid.innerHTML = "";
 
-  // hand-picked sequence that tiles cleanly across a 6-col grid, no gaps
   const pattern = [
     "span-b", "span-a", "span-d", "span-f",
     "span-a", "span-b", "span-b", "span-d",
     "span-f", "span-a"
-  ];
+  ];  
 
   IMAGES.forEach((src, i) => {
     const cell = document.createElement("div");
@@ -67,42 +66,57 @@ async function loadDocuments() {
    ============================================================ */
 
 let docs = [];
+let filteredDocs = [];
 let activeIndex = -1;
-let typeaheadBuffer = "";
-let typeaheadTimer = null;
 
 const trigger = document.getElementById("comboTrigger");
 const list = document.getElementById("comboList");
-const valueLabel = document.getElementById("comboValue");
 
 function renderList() {
   list.innerHTML = "";
 
-  if (docs.length === 0) {
+  if (filteredDocs.length === 0) {
     const empty = document.createElement("li");
     empty.className = "combo-empty";
-    empty.textContent = "No documents found in data.txt";
+    empty.textContent = docs.length === 0
+      ? "No documents found in data.txt"
+      : "No matches";
     list.appendChild(empty);
     return;
   }
 
-  docs.forEach((doc, i) => {
+  filteredDocs.forEach((doc, i) => {
     const li = document.createElement("li");
     li.className = "combo-option";
     li.id = `combo-opt-${i}`;
     li.setAttribute("role", "option");
     li.dataset.index = i;
     li.innerHTML = `<span class="opt-num"></span><span>${doc.title}</span>`;
-    li.addEventListener("click", () => selectDocument(i));
+
+    li.addEventListener("mousedown", (e) => {
+      e.preventDefault(); // stop input blur from closing the list before click fires
+    });
+    li.addEventListener("click", () => {
+      selectDocument(i);
+    });
+
     list.appendChild(li);
   });
+}
+
+function filterDocs(query) {
+  const q = query.trim().toLowerCase();
+  filteredDocs = q === ""
+    ? docs
+    : docs.filter((d) => d.title.toLowerCase().includes(q));
+  activeIndex = -1;
+  renderList();
 }
 
 function openList() {
   list.hidden = false;
   trigger.setAttribute("aria-expanded", "true");
   document.addEventListener("click", handleOutsideClick);
-  document.addEventListener("keydown", handleListKeydown);
 }
 
 function closeList() {
@@ -111,11 +125,6 @@ function closeList() {
   activeIndex = -1;
   clearActive();
   document.removeEventListener("click", handleOutsideClick);
-  document.removeEventListener("keydown", handleListKeydown);
-}
-
-function toggleList() {
-  list.hidden ? openList() : closeList();
 }
 
 function handleOutsideClick(e) {
@@ -136,21 +145,21 @@ function setActive(index) {
   }
 }
 
-// letter-key "search": jumps and scrolls to the next matching title,
-// cycling through repeats if you press the same letter again
-function handleListKeydown(e) {
+function handleTriggerKeydown(e) {
   if (e.key === "Escape") {
     closeList();
-    trigger.focus();
+    trigger.blur();
     return;
   }
   if (e.key === "Enter") {
+    e.preventDefault();
     if (activeIndex >= 0) selectDocument(activeIndex);
     return;
   }
   if (e.key === "ArrowDown") {
     e.preventDefault();
-    setActive(Math.min(activeIndex + 1, docs.length - 1));
+    if (list.hidden) openList();
+    setActive(Math.min(activeIndex + 1, filteredDocs.length - 1));
     return;
   }
   if (e.key === "ArrowUp") {
@@ -158,54 +167,25 @@ function handleListKeydown(e) {
     setActive(Math.max(activeIndex - 1, 0));
     return;
   }
-
-  if (e.key.length === 1 && /[a-z0-9]/i.test(e.key)) {
-    jumpToLetter(e.key.toLowerCase());
-  }
-}
-
-function jumpToLetter(key) {
-  clearTimeout(typeaheadTimer);
-
-  // same letter pressed repeatedly (or fresh buffer) -> single-letter cycling
-  const sameLetter = typeaheadBuffer.length > 0 && [...typeaheadBuffer].every((c) => c === key);
-  typeaheadBuffer = sameLetter ? typeaheadBuffer + key : key;
-
-  const searchTerm = sameLetter ? key : typeaheadBuffer;
-
-  let matches = [];
-  docs.forEach((doc, i) => {
-    if (doc.title.toLowerCase().startsWith(searchTerm)) matches.push(i);
-  });
-
-  if (matches.length === 0 && sameLetter) {
-    matches = docs.reduce((acc, doc, i) => {
-      if (doc.title.toLowerCase().startsWith(key)) acc.push(i);
-      return acc;
-    }, []);
-  }
-
-  if (matches.length > 0) {
-    if (sameLetter) {
-      const currentPos = matches.indexOf(activeIndex);
-      const next = matches[(currentPos + 1) % matches.length];
-      setActive(next);
-    } else {
-      setActive(matches[0]);
-    }
-  }
-
-  typeaheadTimer = setTimeout(() => (typeaheadBuffer = ""), 700);
 }
 
 function selectDocument(index) {
-  const doc = docs[index];
+  const doc = filteredDocs[index];
+  if (!doc) return;
+  trigger.value = doc.title;
   closeList();
-  trigger.focus();
   openConfirmModal(doc);
 }
 
-trigger.addEventListener("click", toggleList);
+trigger.addEventListener("focus", () => {
+  filterDocs(trigger.value);
+  openList();
+});
+trigger.addEventListener("input", () => {
+  filterDocs(trigger.value);
+  openList();
+});
+trigger.addEventListener("keydown", handleTriggerKeydown);
 
 
 /* ============================================================
@@ -257,11 +237,8 @@ async function init() {
   renderGrid();
   try {
     docs = await loadDocuments();
-    valueLabel.textContent = "Browse the catalog…";
-    valueLabel.classList.add("placeholder");
+    filteredDocs = docs;
   } catch (err) {
-    valueLabel.textContent = "data.txt not found";
-    valueLabel.classList.add("placeholder");
     console.error(err);
   }
   renderList();
