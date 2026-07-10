@@ -368,18 +368,19 @@
      watchUrl : where the thumbnail box links to
      pdfUrl   : link to the question paper / notes PDF
      ======================================================================= */
-  const years = ["2025", "2024", "2023", "2022", "2021", "2020"];
+  const years = ["2025", "2024", "2023", "2022", "2021", "2020", "2019"];
 
-  const cardsPerYear = 6;
-  const yearData = {};
-  years.forEach(year => {
-    yearData[year] = Array.from({ length: cardsPerYear }, (_, i) => ({
-      videoId: "AkzdwzyOHQE",
-      title: `GS III — LoG_S01P0${i + 1}`,
-      watchUrl: "waiting_page.html",
-      pdfUrl: "https://drive.google.com/file/d/10aG2HBXxvM81HcyoMRUt8eyQplpYrxHD/view?usp=sharing"
-    }));
-  });
+const cardsPerYear = 5;
+const yearData = {};
+years.forEach(year => {
+  const yy = year.slice(-2); // "2025" -> "25", "2024" -> "24"
+  yearData[year] = Array.from({ length: cardsPerYear }, (_, i) => ({
+    videoId: "AkzdwzyOHQE",
+    title: `GS I — LoG_S${yy}P${String(i + 1).padStart(2, '0')}`,
+    watchUrl: "waiting_page.html",
+    pdfUrl: "waiting_page.html"
+  }));
+});
 
   const navEl = document.getElementById('yearNav');
   const sectionsEl = document.getElementById('yearSections');
@@ -409,7 +410,7 @@
       const card = document.createElement('div');
       card.className = 'pyq-card';
       card.innerHTML = `
-        <a class="pyq-thumb" href="${item.watchUrl}">
+        <a class="pyq-thumb" href="${item.watchUrl}" target="_blank" rel="noopener">
           <img src="https://img.youtube.com/vi/${item.videoId}/hqdefault.jpg" alt="${item.title} thumbnail">
           <div class="pyq-play">
             <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
