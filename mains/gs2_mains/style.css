@@ -40,6 +40,18 @@ body{
 }
 
 /* ---------- Catalog bar ---------- */
+.catalog-mark-link{
+  padding: 8px 16px;
+  border-radius: 6px;
+  background: var(--brass);
+  color: #ffffff;
+  font-weight: 700;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+.catalog-mark-link:hover{
+  opacity: 0.85;
+}
 
 .catalog-bar{
   display:flex;
@@ -58,7 +70,7 @@ body{
   flex-shrink:0;
 }
 .catalog-mark-num{
-  color: var(--brass);
+  color: white;
   font-size: 14px;
   font-family: var(--font-mono);
   letter-spacing: 0.04em;
@@ -84,6 +96,15 @@ body{
 
 @media (max-width: 640px){
   .catalog-hint{ display:none; }
+
+  .catalog-bar{
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .combobox{
+    width: 100%;
+  }
 }
 
 /* ---------- Combobox ---------- */
