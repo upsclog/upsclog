@@ -19,16 +19,12 @@
         <span class="catalog-mark-word">One Pagers</span>
       </div>
 
-      <div class="combobox" id="combobox">
-        <button type="button" class="combo-trigger" id="comboTrigger" aria-haspopup="listbox" aria-expanded="false">
-          <span class="combo-value" id="comboValue">Browse the catalog…</span>
-          <svg class="combo-chevron" width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M2 4.5L7 9.5L12 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-
-        <ul class="combo-list" id="comboList" role="listbox" tabindex="-1" hidden aria-label="Documents"></ul>
-      </div>
+    <div class="combobox" id="combobox">
+      <input type="text" class="combo-trigger" id="comboTrigger" 
+             placeholder="Browse the catalog…" 
+             autocomplete="off" role="combobox" aria-expanded="false" aria-haspopup="listbox" />
+      <ul class="combo-list" id="comboList" role="listbox" tabindex="-1" hidden aria-label="Documents"></ul>
+    </div>
 
       <div class="catalog-hint">Press a letter to jump</div>
     </header>
