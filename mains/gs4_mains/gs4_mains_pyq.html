@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UPSC LoG MAINS PYQ GS-I</title>
+<title>UPSC LoG MAINS PYQ GS-IV</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;1,9..144,450&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -336,17 +336,17 @@
 <div class="page-bg">
 
   <div class="topbar">
-    <a class="back-btn" href="./gs1_mains.html">
+    <a class="back-btn" href="gs4_mains.html">
       <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-      Back to Home
+      Back to GS-IV
     </a>
     <div class="brand-mini">UPSC LoG</div>
   </div>
 
   <div class="page-head">
     <div class="eyebrow">Mains Previous Year Papers</div>
-    <h1 class="title">UPSC LoG <em>MAINS PYQ</em> GS-I</h1>
-    <p class="lede">A year-by-year walkthrough of GS Paper I questions—understand what each question demands, how to structure your answer, and compare it with the original paper.</p>
+    <h1 class="title">UPSC LoG <em>MAINS PYQ</em> GS-IV</h1>
+    <p class="lede">A year-by-year walkthrough of GS Paper IV questions—understand what each question demands, how to structure your answer, and compare it with the original paper.</p>
   </div>
 
   <nav class="year-nav" id="yearNav"></nav>
@@ -368,18 +368,19 @@
      watchUrl : where the thumbnail box links to
      pdfUrl   : link to the question paper / notes PDF
      ======================================================================= */
-  const years = ["2025", "2024", "2023", "2022", "2021", "2020"];
+  const years = ["2025", "2024", "2023", "2022", "2021", "2020", "2019"];
 
-  const cardsPerYear = 6;
-  const yearData = {};
-  years.forEach(year => {
-    yearData[year] = Array.from({ length: cardsPerYear }, (_, i) => ({
-      videoId: "AkzdwzyOHQE",
-      title: `GS III — LoG_S01P0${i + 1}`,
-      watchUrl: "waiting_page.html",
-      pdfUrl: "https://drive.google.com/file/d/10aG2HBXxvM81HcyoMRUt8eyQplpYrxHD/view?usp=sharing"
-    }));
-  });
+const cardsPerYear = 5;
+const yearData = {};
+years.forEach(year => {
+  const yy = year.slice(-2); // "2025" -> "25", "2024" -> "24"
+  yearData[year] = Array.from({ length: cardsPerYear }, (_, i) => ({
+    videoId: "AkzdwzyOHQE",
+    title: `GS IV — LoG_S${yy}P${String(i + 1).padStart(2, '0')}`,
+    watchUrl: "waiting_page.html",
+    pdfUrl: "waiting_page.html"
+  }));
+});
 
   const navEl = document.getElementById('yearNav');
   const sectionsEl = document.getElementById('yearSections');
@@ -409,7 +410,7 @@
       const card = document.createElement('div');
       card.className = 'pyq-card';
       card.innerHTML = `
-        <a class="pyq-thumb" href="${item.watchUrl}">
+        <a class="pyq-thumb" href="${item.watchUrl}" target="_blank" rel="noopener">
           <img src="https://img.youtube.com/vi/${item.videoId}/hqdefault.jpg" alt="${item.title} thumbnail">
           <div class="pyq-play">
             <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
