@@ -81,6 +81,16 @@
     font-weight:300;
     line-height:1.7;
   }
+  .live-rankings-box{
+  display:inline-block;
+  margin-top:18px;
+  margin-bottom:18px;
+  padding:10px 22px;
+  border:1px solid rgba(198,161,91,0.35);
+  border-radius:999px;
+  background:rgba(198,161,91,0.08);
+  font-size:1rem;
+}
 
   /* ---------- Quiz grid ---------- */
   .quiz-grid{
@@ -218,6 +228,7 @@
   text-transform:uppercase;
   font-weight:600;
   transition:background 0.3s ease;
+  margin: 6px 6px 0 6px; /* add horizontal gap between the two buttons */
 }
 .modal-btn:hover{background:var(--gold-bright);}
 .modal-close{
@@ -254,25 +265,27 @@
 <div class="modal-overlay" id="subModal">
   <div class="modal-box">
     <h2>Not Subscribed</h2>
-    <p>You're not subscribed to the remaining 80 Sectionals.</p>
-    <p>Please contact us on Whatsapp to get access.</p>
-    <div class="modal-price">₹999/year</div>
-    <a class="modal-btn" href="https://wa.me/917585886731" target="_blank" rel="noopener noreferrer">a Whatsapp Click away</a>
+    <p>You're not subscribed to the remaining 99 Sectionals.</p>
+    <p>Make your payment via the QR and send the screenshot to us by clicking the link below</p>
+    <div class="modal-price">₹99/year <br>100 Sectional Tests</div>
+    <a class="modal-btn" href="qr.html" target="_blank" rel="noopener noreferrer">Make Payment</a>
+    <a class="modal-btn" href="https://t.me/upsclogger" target="_blank" rel="noopener noreferrer">Send screenshot on Telegram</a>
     <span class="modal-close" onclick="document.getElementById('subModal').classList.remove('active')">Close</span>
   </div>
 </div>
 <body>
 
 <div class="topbar">
-  <a class="back-btn" href="https://upsclog.github.io/upsclog/">
+  <a class="back-btn" href="../index.html">
     <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    Back to UPSC LoG
+    Back to UPSC LoG - HOME
   </a>
 </div>
 
 <div class="page-head">
   <div class="eyebrow">UPSC LoG Prelims Test Series</div>
   <h1>PRELIMS SECTIONAL TEST SERIS (PAID BATCH)</h1>
+  <h2 class="live-rankings-box"><span style="color:#E7C482; font-weight:600;">LIVE RANKINGS for all Sectional Tests</span></h2>
   <p>50 QUESTIONS - 1 HOUR TIMER - RESEARCHED ANSWERS and EXPLANATIONS - VIDEO DISCUSSIONS</p>
 </div>
 

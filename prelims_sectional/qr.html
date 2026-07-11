@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC LoG — Make Payment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;1,9..144,450&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0E1B2E;
+    --navy-deep:#081120;
+    --paper:#FBF8F1;
+    --gold:#C6A15B;
+    --gold-bright:#E7C482;
+    --maroon:#7B2D2D;
+    --text-light:#ECE5D4;
+    --text-dim:#9FA9BC;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background:
+      radial-gradient(circle at 85% 0%, rgba(198,161,91,0.10), transparent 45%),
+      radial-gradient(circle at 5% 100%, rgba(123,45,45,0.12), transparent 40%),
+      linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color:var(--text-light);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+  }
+  h1,h2{font-family:'Fraunces',serif;font-weight:450;}
+  a{text-decoration:none;color:inherit;}
+
+  /* ---------- Top bar / back button ---------- */
+  .topbar{
+    display:flex;
+    align-items:center;
+    padding:34px 6vw 0 6vw;
+  }
+  .back-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 20px 10px 16px;
+    border:1px solid rgba(198,161,91,0.35);
+    border-radius:999px;
+    font-size:13px;
+    letter-spacing:0.5px;
+    color:var(--gold-bright);
+    transition:border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+    background:none;
+    cursor:pointer;
+    font-family:'Inter',sans-serif;
+  }
+  .back-btn svg{width:16px;height:16px;stroke:var(--gold-bright);fill:none;stroke-width:2;}
+  .back-btn:hover{
+    border-color:var(--gold-bright);
+    background:rgba(198,161,91,0.08);
+    transform:translateX(-3px);
+  }
+
+  /* ---------- Page wrapper ---------- */
+  .wrap{
+    max-width:900px;
+    margin:0 auto;
+    padding:44px 6vw 90px 6vw;
+    text-align:center;
+  }
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    color:var(--gold);
+  }
+  .eyebrow::before, .eyebrow::after{content:"—"; color:var(--maroon); margin:0 12px;}
+  .wrap h1{
+    font-size:clamp(1.6rem, 4vw, 2.2rem);
+    color:var(--paper);
+    margin-top:16px;
+  }
+  .wrap > p.sub{
+    margin-top:12px;
+    color:var(--text-dim);
+    font-weight:300;
+    line-height:1.7;
+    font-size:14px;
+  }
+
+  /* ---------- Content row (QR + instructions side by side on desktop) ---------- */
+  .content-row{
+    display:flex;
+    align-items:stretch;
+    gap:28px;
+    margin-top:38px;
+    text-align:left;
+  }
+  .content-row .qr-panel,
+  .content-row .rules{
+    margin-top:0;
+  }
+  .content-row .qr-panel{
+    flex:0 0 340px;
+    text-align:center;
+  }
+  .content-row .rules{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+
+  /* ---------- QR panel ---------- */
+  .qr-panel{
+    margin:38px auto 0 auto;
+    background:linear-gradient(180deg, rgba(246,241,228,0.05), rgba(246,241,228,0.015));
+    border:1px solid rgba(198,161,91,0.25);
+    border-top:2px solid var(--gold);
+    border-radius:4px;
+    padding:34px 28px;
+    position:relative;
+  }
+  .qr-panel::before{
+    content:"";
+    position:absolute;
+    top:8px; left:8px; right:8px; bottom:8px;
+    border:1px solid rgba(198,161,91,0.10);
+    pointer-events:none;
+  }
+  .qr-image-box{
+    position:relative;
+    z-index:1;
+    width:min(320px, 100%);
+    aspect-ratio:1/1;
+    margin:0 auto;
+    background:var(--paper);
+    border-radius:4px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    box-shadow:0 12px 30px rgba(0,0,0,0.35);
+  }
+  .qr-image-box img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    display:block;
+  }
+  .qr-placeholder{
+    color:var(--navy);
+    font-size:13px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    padding:20px;
+    line-height:1.6;
+  }
+  .amount-tag{
+    position:relative;
+    z-index:1;
+    margin-top:22px;
+    font-family:'Fraunces',serif;
+    color:var(--gold-bright);
+    font-size:1.9rem;
+  }
+  .amount-tag span{
+    display:block;
+    font-family:'Inter',sans-serif;
+    font-size:11px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--text-dim);
+    margin-bottom:6px;
+    font-weight:300;
+  }
+
+  /* ---------- Instructions ---------- */
+  .rules{
+    text-align:left;
+    margin:32px auto 0 auto;
+    list-style:none;
+  }
+  .rules li{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    padding:14px 16px;
+    background:rgba(246,241,228,0.03);
+    border:1px solid rgba(198,161,91,0.14);
+    border-left:2px solid var(--maroon);
+    border-radius:2px;
+    margin-bottom:10px;
+    font-size:13.5px;
+    color:var(--text-light);
+    font-weight:300;
+    line-height:1.6;
+  }
+  .rules li strong{
+    color:var(--gold-bright);
+    font-weight:600;
+  }
+  .rules li svg{
+    flex-shrink:0;
+    width:16px;
+    height:16px;
+    stroke:var(--gold);
+    fill:none;
+    stroke-width:2;
+    margin-top:2px;
+  }
+
+  /* ---------- Done button ---------- */
+  .done-btn{
+    display:block;
+    width:100%;
+    margin-top:34px;
+    padding:18px 28px;
+    background:var(--gold);
+    color:var(--navy-deep);
+    border:none;
+    border-radius:999px;
+    font-size:14px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    font-weight:600;
+    font-family:'Inter',sans-serif;
+    cursor:pointer;
+    transition:background 0.3s ease, transform 0.3s ease;
+  }
+  .done-btn:hover{
+    background:var(--gold-bright);
+    transform:translateY(-2px);
+  }
+  .done-note{
+    margin-top:14px;
+    font-size:11.5px;
+    color:var(--text-dim);
+    font-weight:300;
+    letter-spacing:0.3px;
+  }
+
+  @media (max-width:760px){
+    .content-row{
+      flex-direction:column;
+      text-align:center;
+    }
+    .content-row .qr-panel{
+      flex:none;
+    }
+    .content-row .rules{
+      text-align:left;
+    }
+  }
+
+  @media (max-width:520px){
+    .topbar{padding:26px 6vw 0 6vw;}
+    .wrap{padding:36px 6vw 70px 6vw;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="back-btn" href="prelims_sectional_test_page.html">
+    <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    UPSC LoG Prelims Sectional Tests
+  </a>
+</div>
+
+<div class="wrap">
+  <div class="eyebrow">Secure Payment</div>
+  <h1>Scan &amp; Pay to Activate</h1>
+  <p class="sub">Complete your annual subscription to unlock all 100 Sectional Tests.</p>
+
+  <div class="content-row">
+    <div class="qr-panel">
+      <div class="qr-image-box">
+        <!-- Replace the placeholder below with your actual QR code image, e.g.: -->
+        <img src="my_qr.png" alt="Payment QR Code">
+      </div>
+      <div class="amount-tag"><span>Amount to Pay</span>₹99/year <br>100 sectional tests</div>
+    </div>
+
+    <ul class="rules">
+      <li>
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01" stroke-linecap="round"/></svg>
+        <span><strong>Pay only using this QR code.</strong> No other payment method is accepted for this subscription.</span>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01" stroke-linecap="round"/></svg>
+        <span>After payment, take a <strong>screenshot of the successful transaction</strong> as proof.</span>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01" stroke-linecap="round"/></svg>
+        <span>Send the screenshot to us on <strong>Telegram</strong> to get your access activated.</span>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01" stroke-linecap="round"/></svg>
+        <span>Access is typically activated within <strong>a few hours</strong> of verification.</span>
+      </li>
+    </ul>
+  </div>
+
+  <button class="done-btn" onclick="window.close()">Done</button>
+  <div class="done-note">If this tab doesn't close automatically, you may close it manually and return to the test series page.</div>
+</div>
+
+</body>
+</html>
