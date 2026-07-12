@@ -1,11 +1,2 @@
-1 : ___PRESS A LETTER TO JUMP___
-2 : Ethics & Human Values
-3 : Aptitude & Integrity
-4 : Emotional Intelligence
-5 : Attitude
-6 : Public Service Values
-7 : Ethical Thinkers
-8 : Probity in Governance
-9 : Corporate Governance
-10 : Case Studies
-11 : Moral & Ethical Dilemmas
+1 = ___PRESS A LETTER TO JUMP___
+https://acrobat.adobe.com/id/urn:aaid:sc:AP:bdac3724-e2bd-488c-b506-1ae11073ad5b = DPQ1 Quantum Mechanics
