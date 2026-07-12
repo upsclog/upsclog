@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Physics Optional — Paper I — UPSC LoG</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0B0D12;
+    --ink-2:#12151C;
+    --ink-3:#171B23;
+    --card:#151922;
+    --card-border:rgba(233,231,222,0.10);
+    --paper:#E9E7DE;
+    --paper-dim:#9A9C9C;
+    --paper-faint:rgba(233,231,222,0.55);
+
+    /* physics optional — paper I */
+    --tint:#3E7FA6;
+    --tint-soft:rgba(62,127,166,0.14);
+  }
+
+  *{box-sizing:border-box;}
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'IBM Plex Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{ color:inherit; }
+
+  .grid-veil{
+    position:fixed; inset:0; pointer-events:none; z-index:0;
+    background-image:
+      linear-gradient(rgba(233,231,222,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(233,231,222,0.035) 1px, transparent 1px);
+    background-size:44px 44px;
+    mask-image:radial-gradient(ellipse 90% 60% at 50% 0%, black 30%, transparent 85%);
+  }
+
+  /* ===== top bar ===== */
+  .topbar{
+    position:sticky; top:0; z-index:20;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 6vw;
+    background:rgba(11,13,18,0.82);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--card-border);
+  }
+  .back-link{
+    display:inline-flex; align-items:center; gap:8px;
+    text-decoration:none;
+    font-size:13.5px;
+    color:var(--paper-faint);
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing:0.03em;
+    transition:color .2s;
+  }
+  .back-link:hover{ color:var(--paper); }
+  .back-link svg{ width:14px; height:14px; }
+  .paper-code{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.14em;
+    color:var(--tint);
+    background:var(--tint-soft);
+    border:1px solid color-mix(in srgb, var(--tint) 40%, transparent);
+    padding:6px 12px;
+    border-radius:100px;
+  }
+
+  /* ===== hero ===== */
+  .hero{
+    position:relative; z-index:1;
+    padding:min(8vw,70px) 6vw 50px;
+    max-width:900px;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px; letter-spacing:0.16em; text-transform:uppercase;
+    color:var(--paper-dim);
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:20px;
+  }
+  .eyebrow::before{ content:""; width:22px; height:1px; background:var(--paper-dim); }
+  .hero h1{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:clamp(2rem, 5vw, 3.4rem);
+    line-height:1.06;
+    letter-spacing:-0.01em;
+    margin:0 0 18px;
+  }
+  .hero h1 span{ color:var(--tint); }
+  .hero p{
+    font-size:15.5px;
+    line-height:1.65;
+    color:var(--paper-faint);
+    max-width:600px;
+    margin:0;
+  }
+
+  /* ===== section index rail (desktop) ===== */
+  .rail{
+    position:fixed;
+    left:26px; top:50%;
+    transform:translateY(-50%);
+    z-index:15;
+    display:flex; flex-direction:column; gap:26px;
+  }
+  .rail-item{
+    display:flex; align-items:center; gap:12px;
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .rail-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--paper-dim);
+    width:16px;
+    transition:color .25s;
+  }
+  .rail-line{
+    width:22px; height:1px;
+    background:var(--paper-dim);
+    opacity:0.4;
+    transition:all .25s;
+  }
+  .rail-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.1em;
+    color:var(--paper-dim);
+    opacity:0;
+    transform:translateX(-6px);
+    transition:all .25s;
+    white-space:nowrap;
+  }
+  .rail-item:hover .rail-label,
+  .rail-item.active .rail-label{ opacity:0.85; transform:translateX(0); }
+  .rail-item.active .rail-num{ color:var(--tint); }
+  .rail-item.active .rail-line{ width:34px; opacity:1; background:var(--tint); }
+
+  /* ===== sections ===== */
+  section.block{
+    position:relative; z-index:1;
+    padding:70px 6vw 80px;
+    border-top:1px solid var(--card-border);
+    scroll-margin-top:90px;
+  }
+  section.block:nth-of-type(even){ background:var(--ink-2); }
+
+  .block-head{
+    display:flex; align-items:baseline; justify-content:space-between;
+    flex-wrap:wrap; gap:14px;
+    max-width:1200px; margin:0 auto 40px;
+  }
+  .block-head h2{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:clamp(1.5rem,3vw,2.1rem);
+    margin:0;
+    display:flex; align-items:center; gap:14px;
+  }
+  .block-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--tint);
+  }
+  .block-sub{
+    font-size:14px;
+    color:var(--paper-dim);
+    max-width:420px;
+  }
+
+  /* ===== shared slider chrome ===== */
+  .slider-head{
+    display:flex; align-items:baseline; justify-content:space-between;
+    flex-wrap:wrap; gap:14px;
+    max-width:1200px; margin:0 auto 28px;
+  }
+  .slider-controls{ display:flex; gap:10px; }
+  .slider-btn{
+    width:38px; height:38px;
+    border-radius:50%;
+    border:1px solid var(--card-border);
+    background:var(--ink-3);
+    color:var(--paper);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:border-color .25s, transform .15s, background .25s;
+  }
+  .slider-btn:hover{ border-color:color-mix(in srgb, var(--tint) 50%, transparent); background:#1c2129; }
+  .slider-btn:active{ transform:scale(0.92); }
+  .slider-btn:focus-visible{ outline:2px solid var(--tint); outline-offset:2px; }
+  .slider-btn.disabled{ opacity:0.3; pointer-events:none; }
+  .slider-btn svg{ width:15px; height:15px; }
+
+  .slider-viewport{
+    position:relative;
+    max-width:1200px; margin:0 auto;
+    -webkit-mask-image:linear-gradient(90deg, transparent 0, black 24px, black calc(100% - 24px), transparent 100%);
+    mask-image:linear-gradient(90deg, transparent 0, black 24px, black calc(100% - 24px), transparent 100%);
+  }
+  .slider{
+    display:flex;
+    gap:16px;
+    overflow-x:auto;
+    scroll-snap-type:x proximity;
+    padding:6px 24px 14px;
+    cursor:grab;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+  .slider::-webkit-scrollbar{ display:none; }
+  .slider.dragging{ cursor:grabbing; scroll-snap-type:none; }
+
+  /* ---- notes: 9:16 poster cards ---- */
+  .note-card{
+    scroll-snap-align:start;
+    flex:0 0 auto;
+    width:172px;
+    aspect-ratio:9/16;
+    border-radius:14px;
+    overflow:hidden;
+    position:relative;
+    display:block;
+    text-decoration:none;
+    border:1px solid var(--card-border);
+    background:var(--card) center/cover no-repeat;
+    transition:transform .3s, border-color .3s;
+  }
+  .note-card:hover{ transform:translateY(-4px); border-color:color-mix(in srgb, var(--tint) 50%, transparent); }
+  .note-card .scrim{
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.55) 72%, rgba(0,0,0,0.88) 100%);
+  }
+  .note-card .note-info{
+    position:absolute; left:0; right:0; bottom:0;
+    padding:14px 12px;
+  }
+  .note-card .item-tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.04em;
+    color:var(--tint);
+    background:rgba(11,13,18,0.55);
+    backdrop-filter:blur(4px);
+    padding:3px 8px;
+    border-radius:100px;
+    display:inline-block;
+    margin-bottom:8px;
+  }
+  .note-card h4{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:14.5px;
+    line-height:1.3;
+    margin:0;
+    color:var(--paper);
+  }
+
+  .view-all-card{
+    scroll-snap-align:start;
+    flex:0 0 auto;
+    border-radius:14px;
+    border:1px dashed var(--card-border);
+    background:var(--ink-3);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:10px;
+    text-decoration:none;
+    color:var(--paper);
+    transition:border-color .25s, background .25s;
+  }
+  .view-all-card:hover{ border-color:color-mix(in srgb, var(--tint) 55%, transparent); background:var(--ink-2); }
+  .view-all-card .circle{
+    width:38px; height:38px; border-radius:50%;
+    border:1px solid color-mix(in srgb, var(--tint) 55%, transparent);
+    color:var(--tint);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .view-all-card .circle svg{ width:15px; height:15px; }
+  .view-all-card span.label{
+    font-size:12.5px; font-weight:500; text-align:center; padding:0 14px;
+    color:var(--paper-faint);
+  }
+  #notesSlider .view-all-card{ width:172px; aspect-ratio:9/16; }
+  #pyqSlider .view-all-card{ width:236px; height:100%; min-height:214px; }
+
+  /* ---- pyq: youtube-style thumbnail cards ---- */
+  .pyq-card{
+    scroll-snap-align:start;
+    flex:0 0 auto;
+    width:236px;
+    text-decoration:none;
+    color:var(--paper);
+  }
+  .pyq-thumb{
+    display:block;
+    position:relative;
+    width:100%;
+    aspect-ratio:16/9;
+    border-radius:12px;
+    overflow:hidden;
+    background:var(--card) center/cover no-repeat;
+    border:1px solid var(--card-border);
+    text-decoration:none;
+    transition:border-color .3s, transform .3s;
+  }
+  .pyq-thumb:hover{ transform:translateY(-3px); border-color:color-mix(in srgb, var(--tint) 50%, transparent); }
+  .pyq-thumb .play-badge{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .pyq-thumb .play-badge .circle{
+    width:44px; height:44px; border-radius:50%;
+    background:rgba(11,13,18,0.55);
+    backdrop-filter:blur(3px);
+    border:1px solid rgba(233,231,222,0.25);
+    display:flex; align-items:center; justify-content:center;
+    transition:transform .25s, background .25s;
+  }
+  .pyq-thumb:hover .play-badge .circle{ transform:scale(1.08); background:var(--tint); }
+  .pyq-thumb .play-badge svg{ width:16px; height:16px; color:var(--paper); }
+  .pyq-thumb .page-badge{
+    position:absolute; right:7px; bottom:7px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    background:rgba(11,13,18,0.75);
+    padding:2px 6px;
+    border-radius:5px;
+    color:var(--paper-faint);
+  }
+  .pyq-thumb .year-badge{
+    position:absolute; left:7px; top:7px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    background:rgba(11,13,18,0.75);
+    padding:3px 8px;
+    border-radius:100px;
+    color:var(--tint);
+  }
+  .pyq-info{ padding:12px 2px 0; }
+  .pyq-info h4{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-weight:600;
+    font-size:13.5px;
+    line-height:1.4;
+    margin:0 0 10px;
+    color:var(--paper);
+  }
+  .pyq-source{
+    display:flex; align-items:center; justify-content:center; gap:7px;
+    font-size:12.5px;
+    font-weight:500;
+    color:var(--paper);
+    background:var(--card);
+    border:1px solid var(--card-border);
+    border-radius:9px;
+    padding:9px 12px;
+    text-decoration:none;
+    transition:background .2s, border-color .2s, transform .15s;
+  }
+  .pyq-source:hover{
+    background:var(--tint-soft);
+    border-color:color-mix(in srgb, var(--tint) 55%, transparent);
+    color:var(--tint);
+  }
+  .pyq-source:active{ transform:scale(0.98); }
+  .pyq-source svg{ width:14px; height:14px; flex:0 0 auto; }
+
+
+  /* ===== comments ===== */
+  .comments-wrap{ max-width:760px; margin:0 auto; }
+  .comment-form{
+    background:var(--card);
+    border:1px solid var(--card-border);
+    border-radius:16px;
+    padding:26px;
+    margin-bottom:36px;
+  }
+  .field{ margin-bottom:16px; }
+  .field label{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--paper-dim);
+    margin-bottom:8px;
+  }
+  .field input, .field textarea{
+    width:100%;
+    background:var(--ink-2);
+    border:1px solid var(--card-border);
+    border-radius:10px;
+    padding:12px 14px;
+    color:var(--paper);
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:14px;
+    resize:vertical;
+    transition:border-color .2s;
+  }
+  .field input:focus, .field textarea:focus{
+    outline:none;
+    border-color:color-mix(in srgb, var(--tint) 55%, transparent);
+  }
+  .field textarea{ min-height:100px; }
+  .form-bottom{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:14px; flex-wrap:wrap;
+  }
+  .form-note{ font-size:12px; color:var(--paper-dim); }
+  .post-btn{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-weight:500;
+    font-size:14px;
+    color:var(--ink);
+    background:var(--tint);
+    border:none;
+    border-radius:10px;
+    padding:12px 20px;
+    cursor:pointer;
+    transition:filter .2s, transform .15s;
+  }
+  .post-btn:hover{ filter:brightness(1.1); }
+  .post-btn:active{ transform:scale(0.97); }
+
+  .comment{
+    display:flex; gap:14px;
+    padding:18px 0;
+    border-top:1px solid var(--card-border);
+  }
+  .avatar{
+    width:38px; height:38px; border-radius:50%;
+    background:var(--tint-soft);
+    border:1px solid color-mix(in srgb, var(--tint) 45%, transparent);
+    color:var(--tint);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces', serif; font-style:italic; font-size:14px;
+    flex:0 0 auto;
+  }
+  .comment-body{ flex:1; }
+  .comment-top{ display:flex; align-items:baseline; gap:10px; margin-bottom:6px; flex-wrap:wrap; }
+  .comment-name{ font-weight:600; font-size:14px; }
+  .comment-time{ font-size:11.5px; color:var(--paper-dim); font-family:'IBM Plex Mono', monospace; }
+  .comment-text{ font-size:13.5px; line-height:1.6; color:var(--paper-faint); margin:0; }
+
+  @media (max-width:900px){
+    .rail{ display:none; }
+  }
+  @media (max-width:640px){
+    .topbar{ padding:16px 6vw; }
+    section.block{ padding:50px 6vw 60px; }
+    .note-card{ width:148px; }
+    #notesSlider .view-all-card{ width:148px; }
+    .pyq-card{ width:206px; }
+    #pyqSlider .view-all-card{ width:206px; min-height:186px; }
+    .slider-viewport{ -webkit-mask-image:linear-gradient(90deg, transparent 0, black 16px, black calc(100% - 16px), transparent 100%); mask-image:linear-gradient(90deg, transparent 0, black 16px, black calc(100% - 16px), transparent 100%); }
+    .slider{ padding:6px 16px 14px; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{ scroll-behavior:auto !important; transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-veil"></div>
+
+<nav class="rail" id="rail">
+  <a class="rail-item active" data-target="notes">
+    <span class="rail-num">01</span><span class="rail-line"></span><span class="rail-label">NOTES</span>
+  </a>
+  <a class="rail-item" data-target="pyqs">
+    <span class="rail-num">02</span><span class="rail-line"></span><span class="rail-label">PAPER I PYQ SERIES</span>
+  </a>
+  <a class="rail-item" data-target="comments">
+    <span class="rail-num">03</span><span class="rail-line"></span><span class="rail-label">COMMENTS</span>
+  </a>
+</nav>
+
+<header class="topbar">
+  <a class="back-link" href="../mains_navigate.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+    Back to papers
+  </a>
+  <span class="paper-code">OPTIONAL — I</span>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">UPSC CSE - Mains Monk</div>
+  <h1>Physics Optional <span>Paper I</span></h1>
+  <p>Mechanics, waves &amp; optics, electricity &amp; magnetism, and thermal &amp; statistical physics — everything for this paper, in one place.</p>
+</section>
+
+<section class="block" id="notes">
+  <div class="slider-head">
+    <h2><span class="block-num"></span>Physics Paper I One-Pagers [scroll -->]</h2>
+    <div class="slider-controls">
+      <button class="slider-btn" id="notesPrev" aria-label="Previous notes">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button class="slider-btn" id="notesNext" aria-label="Next notes">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+  </div>
+  <span class="block-sub" style="display:block;max-width:1200px;margin:-16px auto 24px;">Condensed notes — one topic, one page, built for quick revision.</span>
+  <div class="slider-viewport">
+    <div class="slider" id="notesSlider"></div>
+  </div>
+</section>
+
+<section class="block" id="pyqs">
+  <div class="slider-head">
+    <h2><span class="block-num"></span>Physics Paper I PYQ Series [scroll -->]</h2>
+    <div class="slider-controls">
+      <button class="slider-btn" id="pyqPrev" aria-label="Previous PYQs">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button class="slider-btn" id="pyqNext" aria-label="Next PYQs">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+  </div>
+  <span class="block-sub" style="display:block;max-width:1200px;margin:-16px auto 24px;"></span>
+  <div class="slider-viewport">
+    <div class="slider" id="pyqSlider"></div>
+  </div>
+</section>
+
+<section class="block" id="comments">
+  <div class="block-head">
+    <h2><span class="block-num"></span> Comments</h2>
+    <span class="block-sub">Comment on Recommendations and Exchanges</span>
+  </div>
+  <div class="comments-wrap">
+    <form class="comment-form" id="commentForm">
+      <div class="field">
+        <label for="cName">Name</label>
+        <input type="text" id="cName" placeholder="Your name" autocomplete="name">
+      </div>
+      <div class="field">
+        <label for="cText">Comment</label>
+        <textarea id="cText" placeholder="Share a doubt, a source, or a correction..."></textarea>
+      </div>
+      <div class="form-bottom">
+        <span class="form-note">Posting isn't wired up to a server yet — comments only appear locally for now.</span>
+        <button type="submit" class="post-btn">Post comment</button>
+      </div>
+    </form>
+
+    <div id="commentList"></div>
+  </div>
+</section>
+
+<script>
+/* ---------- placeholder content — swap `img` / `href` for your GitHub-hosted files later ---------- */
+const NOTES = [
+  { tag:"Mechanics", title:"Physics Paper I", img:"../back1.png", href:"index.html" },
+  { tag:"Waves & Optics", title:"Physics Paper I", img:"../back2.png", href:"index.html" },
+  { tag:"Electricity & Magnetism", title:"Physics Paper I", img:"../back3.png", href:"index.html" },
+  { tag:"Electromagnetic Theory", title:"Physics Paper I", img:"../back4.png", href:"index.html" },
+  { tag:"Thermal Physics", title:"Physics Paper I", img:"../back5.png", href:"index.html#" },
+  { tag:"Statistical Physics", title:"Physics Paper I", img:"../back6.png", href:"index.html" }
+];
+
+const PYQS = [
+  { year:"2023", title:"Physics Paper I - LoG_S01P01", pages:"3 pages", img:"../waiting_image.png", href:"https://www.youtube.com/watch?v=AkzdwzyOHQE", href_p : 'physics_paper1_pyq.html' },
+  { year:"2022", title:"Physics Paper I - LoG_S01P02", pages:"2 pages", img:"../waiting_image.png", href:"https://www.youtube.com/watch?v=AkzdwzyOHQE" , href_p : 'physics_paper1_pyq.html'},
+  { year:"2021", title:"Physics Paper I - LoG_S01P03", pages:"4 pages", img:"../waiting_image.png", href:"https://www.youtube.com/watch?v=AkzdwzyOHQE" , href_p : 'physics_paper1_pyq.html'},
+  { year:"2020", title:"Physics Paper I - LoG_S01P04", pages:"3 pages", img:"../waiting_image.png", href:"https://www.youtube.com/watch?v=AkzdwzyOHQE" , href_p : 'physics_paper1_pyq.html'},
+  { year:"2019", title:"Physics Paper I - LoG_S01P05", pages:"2 pages", img:"../waiting_image.png", href:"https://www.youtube.com/watch?v=AkzdwzyOHQE" , href_p : 'physics_paper1_pyq.html'},
+  { year:"2018", title:"Physics Paper I - LoG_S01P06", pages:"3 pages", img:"../waiting_image.png", href:"https://www.youtube.com/watch?v=AkzdwzyOHQE", href_p : 'physics_paper1_pyq.html' }
+];
+
+const arrowSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;
+
+function renderNotes(){
+  const el = document.getElementById('notesSlider');
+  el.innerHTML = NOTES.map(n => `
+    <a class="note-card" href="${n.href}" target="_blank" rel="noopener noreferrer" style="background-image:url('${n.img}')">
+      <div class="scrim"></div>
+      <div class="note-info">
+        <span class="item-tag">${n.tag}</span>
+        <h4>${n.title}</h4>
+      </div>
+    </a>
+  `).join('') + `
+    <a class="view-all-card" href="index.html" target = "_blank">
+      <span class="circle">${arrowSvg}</span>
+      <span class="label">View all<br>notes</span>
+    </a>
+  `;
+}
+
+function renderPyqs(){
+  const el = document.getElementById('pyqSlider');
+  el.innerHTML = PYQS.map(p => `
+    <article class="pyq-card">
+      <a class="pyq-thumb" href="${p.href}" target="_blank" rel="noopener noreferrer" style="background-image:url('${p.img}')">
+
+        <span class="year-badge">${p.year}</span>
+        <span class="page-badge">${p.pages}</span>
+        <span class="play-badge">
+          <span class="circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4l12 8-12 8V4z"/><path d="M6 4l12 8-12 8V4z"/><path d="M6 4l12 8-12 8V4z"/></svg>
+          </span>
+        </span>
+      </a>
+      <div class="pyq-info">
+        <h4>${p.title}</h4>
+        <a class="pyq-source" href="${p.href_p}" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2 2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          [View PDF]
+        </a>
+      </div>
+    </article>
+  `).join('') + `
+    <a class="view-all-card" href="physics1_pyq.html" target = "_blank">
+      <span class="circle">${arrowSvg}</span>
+      <span class="label">View all<br>PYQs</span>
+    </a>
+  `;
+}
+
+renderNotes();
+renderPyqs();
+
+/* ---------- generic drag + arrow slider engine ---------- */
+function initSlider(sliderEl, prevBtn, nextBtn){
+  function step(){
+    const first = sliderEl.querySelector(':scope > *');
+    return first ? first.getBoundingClientRect().width + 16 : 200; // card width + gap
+  }
+  function updateArrows(){
+    prevBtn.classList.toggle('disabled', sliderEl.scrollLeft <= 4);
+    prevBtn.disabled = sliderEl.scrollLeft <= 4;
+    const atEnd = sliderEl.scrollLeft >= sliderEl.scrollWidth - sliderEl.clientWidth - 4;
+    nextBtn.classList.toggle('disabled', atEnd);
+    nextBtn.disabled = atEnd;
+  }
+  function scrollByCards(dir){
+    sliderEl.scrollBy({ left: dir * step() * 3, behavior: 'smooth' });
+  }
+  prevBtn.addEventListener('click', () => scrollByCards(-1));
+  nextBtn.addEventListener('click', () => scrollByCards(1));
+
+  let t;
+  sliderEl.addEventListener('scroll', () => { clearTimeout(t); t = setTimeout(updateArrows, 60); });
+
+  // drag to scroll (desktop mouse)
+  let isDown = false, startX, startScroll;
+  sliderEl.addEventListener('mousedown', (e) => {
+    isDown = true;
+    sliderEl.classList.add('dragging');
+    startX = e.pageX;
+    startScroll = sliderEl.scrollLeft;
+  });
+  window.addEventListener('mouseup', () => { isDown = false; sliderEl.classList.remove('dragging'); });
+  window.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    sliderEl.scrollLeft = startScroll - (e.pageX - startX);
+  });
+
+  window.addEventListener('resize', updateArrows);
+  updateArrows();
+}
+
+initSlider(document.getElementById('notesSlider'), document.getElementById('notesPrev'), document.getElementById('notesNext'));
+initSlider(document.getElementById('pyqSlider'), document.getElementById('pyqPrev'), document.getElementById('pyqNext'));
+
+
+/* ---------- comments — local only, no backend wired up yet ---------- */
+const seedComments = [
+  { name:"Ananya R.", text:"Could we get a one-pager on rigid body dynamics too? Feels underrepresented here.", time:"2 days ago" },
+  { name:"Kabir S.", text:"The thermal physics notes are great — cleared up entropy confusion I've had for months.", time:"5 days ago" }
+];
+
+const commentList = document.getElementById('commentList');
+
+function initials(name){
+  return name.trim().split(/\s+/).slice(0,2).map(w => w[0].toUpperCase()).join('');
+}
+
+function renderComment(c){
+  const div = document.createElement('div');
+  div.className = 'comment';
+  div.innerHTML = `
+    <div class="avatar">${initials(c.name)}</div>
+    <div class="comment-body">
+      <div class="comment-top">
+        <span class="comment-name">${c.name}</span>
+        <span class="comment-time">${c.time}</span>
+      </div>
+      <p class="comment-text">${c.text}</p>
+    </div>
+  `;
+  return div;
+}
+
+seedComments.forEach(c => commentList.appendChild(renderComment(c)));
+
+document.getElementById('commentForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const nameEl = document.getElementById('cName');
+  const textEl = document.getElementById('cText');
+  const name = nameEl.value.trim();
+  const text = textEl.value.trim();
+  if (!name || !text) return;
+
+  // TODO: replace this local-only insert with a real POST to your backend once it exists
+  const node = renderComment({ name, text, time:'just now' });
+  commentList.insertBefore(node, commentList.firstChild);
+
+  nameEl.value = '';
+  textEl.value = '';
+});
+
+/* ---------- scroll-spy for the side rail ---------- */
+const railItems = Array.from(document.querySelectorAll('.rail-item'));
+const blocks = ['notes','pyqs','comments'].map(id => document.getElementById(id));
+
+railItems.forEach(item => {
+  item.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.getElementById(item.dataset.target).scrollIntoView({ behavior:'smooth' });
+  });
+});
+
+const spy = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting){
+      railItems.forEach(item => item.classList.toggle('active', item.dataset.target === entry.target.id));
+    }
+  });
+}, { rootMargin: '-40% 0px -50% 0px', threshold: 0 });
+
+blocks.forEach(b => spy.observe(b));
+</script>
+
+</body>
+</html>
