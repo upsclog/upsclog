@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC LoG — Prelims Booster</title>
+<style>
+  :root{
+    --bg: #F3F4F1;
+    --paper: #FFFFFF;
+    --ink: #1D2A35;
+    --ink-soft: #5B6873;
+    --rule: #D8DCD6;
+    --navy: #1B3A5C;
+    --navy-deep: #12283F;
+    --gold: #B8862E;
+    --gold-soft: #EFDFB8;
+    --answered: #2F7D5A;
+    --answered-bg: #E4F3EC;
+    --skipped: #B8862E;
+    --skipped-bg: #FBF1DE;
+    --current-ring: #1B3A5C;
+    --wrong: #B23A2E;
+    --wrong-bg: #FBEAE7;
+    --shadow: 0 1px 2px rgba(20,30,40,0.06), 0 6px 20px rgba(20,30,40,0.05);
+    --serif: Georgia, 'Times New Roman', 'Iowan Old Style', serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --mono: 'Courier New', ui-monospace, monospace;
+  }
+  [data-theme="dark"]{
+    --bg: #0F1A24;
+    --paper: #17232E;
+    --ink: #E7ECEF;
+    --ink-soft: #97A5AF;
+    --rule: #2A3846;
+    --navy: #3E6E9E;
+    --navy-deep: #2A4E70;
+    --gold: #D9A441;
+    --gold-soft: #3A3220;
+    --answered: #4CAF7D;
+    --answered-bg: #163227;
+    --skipped: #D9A441;
+    --skipped-bg: #332A16;
+    --current-ring: #D9A441;
+    --wrong: #E07A6C;
+    --wrong-bg: #3A1E1A;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+    html, body{
+    overflow-x: hidden;
+    width: 100%;
+  }
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    min-height:100vh;
+    transition:background .3s ease, color .3s ease;
+  }
+
+  /* ---------- Header ---------- */
+  header.topbar{
+    background:linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color:#F4F1EA;
+    padding:0;
+    box-shadow:var(--shadow);
+    position:sticky; top:0; z-index:50;
+  }
+  .topbar-inner{
+    max-width:1280px; margin:0 auto;
+    display:flex; align-items:center; gap:20px;
+    padding:14px 28px;
+  }
+  .logo-slot{
+    width:52px; height:52px;
+    border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    overflow:hidden;
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .logo-slot img{
+    width:100%; height:100%;
+    object-fit:contain;
+  }
+  .logo-slot:hover{border-color:rgba(244,241,234,0.75); color:#F4F1EA;}
+  .title-block{flex:1; min-width:0;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gold-soft, #D9A441);
+    opacity:0.85;
+  }
+  .title-block h1{
+    font-family:var(--serif);
+    font-size:22px;
+    font-weight:400;
+    margin:2px 0 0 0;
+    letter-spacing:0.01em;
+  }
+  .subnote{
+    font-family:var(--mono);
+    font-size:11px;
+    color:rgba(244,241,234,0.65);
+    margin-top:6px;
+    letter-spacing:0.02em;
+  }
+  .subnote a{color:var(--gold-soft); text-decoration:none;}
+  .subnote a:hover{text-decoration:underline;}
+  .topbar-right{
+    display:flex; align-items:center; gap:18px; flex-shrink:0;
+  }
+  .timer{
+    font-family:var(--mono);
+    font-size:13px;
+    color:#F4F1EA;
+    border:1px solid rgba(244,241,234,0.3);
+    padding:6px 12px;
+    border-radius:6px;
+    background:rgba(0,0,0,0.12);
+    transition:background .2s ease;
+  }
+  .timer.urgent{background:var(--wrong); border-color:var(--wrong);}
+
+  /* dark mode switch */
+  .mode-switch{
+    display:flex; align-items:center; gap:8px;
+    font-size:12px; color:rgba(244,241,234,0.85);
+  }
+  .switch{
+    position:relative; width:44px; height:24px;
+    background:rgba(244,241,234,0.2);
+    border-radius:20px; cursor:pointer;
+    border:1px solid rgba(244,241,234,0.35);
+    flex-shrink:0;
+  }
+  .switch .knob{
+    position:absolute; top:2px; left:2px;
+    width:18px; height:18px; border-radius:50%;
+    background:#F4F1EA;
+    transition:transform .25s ease;
+    box-shadow:0 1px 3px rgba(0,0,0,0.3);
+  }
+  [data-theme="dark"] .switch .knob{
+    transform:translateX(20px);
+    background:var(--gold);
+  }
+
+  /* ---------- Layout ---------- */
+  .name-bar{
+  max-width:1280px; margin:20px auto 0;
+  padding:0 28px;
+  display:flex; align-items:center; gap:12px;
+}
+.name-bar label{
+  font-family:var(--mono); font-size:20px;
+  color:var(--ink-soft); white-space:nowrap;
+}
+.name-bar input{
+  flex:1; max-width:320px;
+  font-family:var(--sans); font-size:14px;
+  padding:9px 14px;
+  border:1px solid var(--rule); border-radius:7px;
+  background:var(--paper); color:var(--ink);
+}
+.name-bar input:focus{ outline:none; border-color:var(--navy); }
+[data-theme="dark"] .name-bar input:focus{ border-color:var(--gold); }
+
+@media (max-width: 430px){
+  .name-bar{ padding:0 12px; margin-top:14px; flex-wrap:wrap; }
+  .name-bar input{ max-width:100%; }
+}
+  .layout{
+    max-width:1280px; margin:0 auto;
+    display:grid;
+    grid-template-columns:1fr 320px;
+    gap:23px;
+    padding:32px 28px 60px;
+    align-items:start;
+  }
+
+  /* ---------- Question paper ---------- */
+  .paper{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:36px 44px 32px;
+    min-height:520px;
+    display:flex;
+    flex-direction:column;
+  }
+  .paper-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    border-bottom:1px solid var(--rule);
+    padding-bottom:14px; margin-bottom:28px;
+  }
+  .q-index{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--ink-soft);
+    letter-spacing:0.04em;
+  }
+  .q-index b{color:var(--navy); font-size:15px;}
+  [data-theme="dark"] .q-index b{color:var(--gold);}
+  .q-status-tag{
+    font-family:var(--mono);
+    font-size:13.5px;
+    font-weight:800;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    padding:7px 16px;
+    border-radius:20px;
+    border:2px solid transparent;
+  }
+  .q-status-tag.answered{background:var(--answered-bg); color:var(--answered); border-color:var(--answered);}
+  .q-status-tag.unanswered{background:var(--skipped-bg); color:var(--skipped); border-color:var(--skipped);}
+
+  .q-text{
+    font-family:var(--serif);
+    font-size:19px;
+    line-height:1.5;
+    color:var(--ink);
+    margin:0 0 32px 0;
+  }
+
+  .options{
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .option{
+    display:flex; align-items:flex-start; gap:14px;
+    padding:18px 18px;
+    border:1px solid var(--rule);
+    border-radius:8px;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+    background:transparent;
+  }
+  .option:hover{border-color:var(--navy); background:rgba(27,58,92,0.04);}
+  [data-theme="dark"] .option:hover{background:rgba(217,164,65,0.06); border-color:var(--gold);}
+  .option.selected{
+    border-color:var(--navy);
+    background:rgba(27,58,92,0.07);
+  }
+  [data-theme="dark"] .option.selected{
+    border-color:var(--gold);
+    background:rgba(217,164,65,0.1);
+  }
+  .option .tag{
+    font-family:var(--mono);
+    font-size:13px;
+    font-weight:bold;
+    width:24px; height:24px;
+    border-radius:50%;
+    border:1.5px solid var(--rule);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    color:var(--ink-soft);
+  }
+  .option.selected .tag{
+    border-color:var(--navy);
+    background:var(--navy);
+    color:#fff;
+  }
+  [data-theme="dark"] .option.selected .tag{
+    border-color:var(--gold);
+    background:var(--gold);
+    color:#17232E;
+  }
+  .option .opt-text{
+    font-size:15.5px; line-height:1.5; padding-top:1px;
+  }
+  .option.locked{cursor:default;}
+  .option.correct{
+    border-color:var(--answered);
+    background:var(--answered-bg);
+  }
+  .option.correct .tag{
+    border-color:var(--answered);
+    background:var(--answered);
+    color:#fff;
+  }
+  .option.incorrect{
+    border-color:var(--wrong);
+    background:var(--wrong-bg);
+  }
+  .option.incorrect .tag{
+    border-color:var(--wrong);
+    background:var(--wrong);
+    color:#fff;
+  }
+  .option.locked:hover{background:inherit; border-color:inherit;}
+  .q-status-tag.correct{background:var(--answered-bg); color:var(--answered); border-color:var(--answered); box-shadow:0 0 0 1px var(--answered) inset;}
+  .q-status-tag.incorrect{background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong); box-shadow:0 0 0 1px var(--wrong) inset;}
+  .q-status-tag.review-unanswered{
+    background:var(--wrong-bg);
+    color:var(--wrong);
+    border-color:var(--wrong);
+    box-shadow:0 0 0 1px var(--wrong) inset;
+  }
+
+  /* ---------- Explanation (review mode) ---------- */
+  .explain-box{
+    margin-top:26px;
+    background:var(--gold-soft);
+    border:1px solid var(--gold);
+    border-radius:8px;
+    padding:16px 20px;
+    font-size:14px;
+    line-height:1.65;
+    color:var(--ink);
+  }
+  [data-theme="dark"] .explain-box{background:rgba(217,164,65,0.08);}
+  .explain-box b{color:var(--navy);}
+  [data-theme="dark"] .explain-box b{color:var(--gold);}
+  .explain-box .exp-label{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-bottom:8px;
+  }
+
+  .paper-foot{
+    display:flex; justify-content:space-between;
+    margin-top:32px; padding-top:20px;
+    border-top:1px solid var(--rule);
+  }
+  button{
+    font-family:var(--sans);
+    font-size:14px;
+    font-weight:600;
+    padding:11px 22px;
+    border-radius:7px;
+    border:1px solid var(--rule);
+    background:var(--paper);
+    color:var(--ink);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  button:hover:not(:disabled){border-color:var(--navy); color:var(--navy);}
+  [data-theme="dark"] button:hover:not(:disabled){border-color:var(--gold); color:var(--gold);}
+  button:disabled{opacity:0.35; cursor:not-allowed;}
+  button.primary{
+    background:var(--navy); color:#F4F1EA; border-color:var(--navy);
+  }
+  button.primary:hover{filter:brightness(1.1); color:#F4F1EA;}
+  button.clear{background:transparent; border-color:transparent; color:var(--ink-soft); font-weight:500;}
+  .nav-group{display:flex; gap:10px;}
+
+  /* ---------- Sidebar palette ---------- */
+  .sidebar{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:24px;
+    position:sticky;
+    top:96px;
+  }
+  .sidebar h2{
+    font-family:var(--serif);
+    font-size:16px;
+    font-weight:400;
+    margin:0 0 4px 0;
+    color:var(--ink);
+  }
+  .sidebar .sub{
+    font-size:12px; color:var(--ink-soft); margin-bottom:18px;
+  }
+  .legend{
+    display:flex; flex-direction:column; gap:8px;
+    margin-bottom:20px;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  .legend span{display:flex; align-items:center; gap:8px;}
+  .dot{width:10px; height:10px; border-radius:3px; flex-shrink:0;}
+  .dot.answered{background:var(--answered);}
+  .dot.unanswered{background:var(--rule); border:1px solid var(--ink-soft);}
+  .dot.current{background:transparent; border:2px solid var(--current-ring);}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:8px;
+    margin-bottom:22px;
+  }
+  .cell{
+    aspect-ratio:1;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono);
+    font-size:13px;
+    border-radius:6px;
+    border:1px solid var(--rule);
+    background:transparent;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .cell:hover{border-color:var(--navy);}
+  [data-theme="dark"] .cell:hover{border-color:var(--gold);}
+  .cell.answered{
+    background:var(--answered-bg); color:var(--answered); border-color:var(--answered);
+    font-weight:bold;
+  }
+  .cell.incorrect{
+    background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong);
+    font-weight:bold;
+  }
+  .cell.current{
+    outline:2px solid var(--current-ring); outline-offset:2px;
+  }
+
+  .tally{
+    padding-top:16px; border-top:1px solid var(--rule);
+    color:var(--ink-soft);
+  }
+  .tally-plain{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-plain > div{flex:1; text-align:left;}
+  .tally b{color:var(--ink); font-size:16px; display:block; font-family:var(--sans);}
+  .tally b.stat-correct{color:var(--answered);}
+  .tally b.stat-incorrect{color:var(--wrong);}
+  .tally b.stat-unattempted{color:var(--skipped);}
+
+  .marks-line{
+    text-align:center;
+    background:var(--gold-soft);
+    border:1.5px solid var(--gold);
+    border-radius:8px;
+    padding:12px 10px;
+    margin-bottom:14px;
+  }
+  [data-theme="dark"] .marks-line{background:rgba(217,164,65,0.12);}
+  .marks-line b{
+    font-size:26px; color:var(--navy); font-family:var(--serif); font-weight:700;
+  }
+  [data-theme="dark"] .marks-line b{color:var(--gold);}
+  .marks-line span{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-top:2px;
+  }
+  .tally-grid{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-grid > div{flex:1; text-align:left;}
+
+  .score-breakdown{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+    max-width:420px;
+    margin:24px auto 0;
+  }
+  .score-breakdown .stat{
+    border:1.5px solid var(--rule);
+    border-radius:10px;
+    padding:14px 10px;
+  }
+  .score-breakdown .stat b{
+    display:block; font-size:24px; font-family:var(--sans); margin-bottom:4px;
+  }
+  .score-breakdown .stat span{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft);
+  }
+  .score-breakdown .stat.correct{border-color:var(--answered); background:var(--answered-bg);}
+  .score-breakdown .stat.correct b{color:var(--answered);}
+  .score-breakdown .stat.incorrect{border-color:var(--wrong); background:var(--wrong-bg);}
+  .score-breakdown .stat.incorrect b{color:var(--wrong);}
+  .score-breakdown .stat.unattempted{border-color:var(--skipped); background:var(--skipped-bg);}
+  .score-breakdown .stat.unattempted b{color:var(--skipped);}
+
+  #submitBtn{width:100%; margin-top:20px;}
+
+  /* ---------- Result overlay ---------- */
+  .result-card{
+    background:var(--paper); border:1px solid var(--rule); border-radius:10px;
+    box-shadow:var(--shadow); padding:44px; text-align:center;
+  }
+  .result-card .score{
+    font-family:var(--serif); font-size:52px; color:var(--navy); margin:8px 0;
+  }
+  [data-theme="dark"] .result-card .score{color:var(--gold);}
+  .result-card .percent{
+    font-family:var(--mono); font-size:13px; color:var(--ink-soft);
+    letter-spacing:0.04em; margin-top:-4px;
+  }
+  .hidden{display:none !important;}
+
+  /* ---------- Confirm submit modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background:rgba(15,20,25,0.55);
+    display:flex; align-items:center; justify-content:center;
+    z-index:200;
+    padding:20px;
+  }
+  .modal-box{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:12px;
+    box-shadow:var(--shadow);
+    padding:30px 30px 24px;
+    max-width:380px;
+    width:100%;
+    text-align:center;
+  }
+  .modal-box .modal-icon{
+    font-size:26px;
+    margin-bottom:6px;
+  }
+  .modal-box p{
+    font-family:var(--sans);
+    font-size:15px;
+    line-height:1.55;
+    color:var(--ink);
+    margin:10px 0 22px;
+  }
+  .modal-box p b{color:var(--navy);}
+  [data-theme="dark"] .modal-box p b{color:var(--gold);}
+  .modal-box .modal-warn{
+    font-family:var(--mono);
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--skipped);
+    background:var(--skipped-bg);
+    border:1px solid var(--skipped);
+    border-radius:6px;
+    padding:8px 10px;
+    margin:0 0 18px;
+    text-align:left;
+    line-height:1.5;
+  }
+  .modal-actions{
+    display:flex; gap:12px;
+  }
+  .modal-actions button{
+    flex:1;
+    padding:12px 10px;
+  }
+  #modalGoBack{color:var(--ink);}
+  #modalConfirm{background:var(--navy); color:#F4F1EA; border-color:var(--navy);}
+  #modalConfirm:hover{filter:brightness(1.1); color:#F4F1EA;}
+
+  :root{
+    --desktop-width: 1440;
+}
+
+@media (max-width: 1024px){
+  .layout{
+    grid-template-columns: 1fr;
+  }
+  .sidebar{
+    position: static;      /* was sticky at top:96px — no longer needed once stacked */
+    top: auto;
+  }
+}
+@media (max-width: 600px){
+  .topbar-inner{
+    flex-wrap: wrap;
+    padding: 14px 16px;
+    gap: 10px;
+  }
+  .topbar-right{
+    flex-shrink: 1;        /* was 0 before — this is what caused the overflow */
+    flex-basis: 100%;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+  .subnote{
+    white-space: normal;
+  }
+}
+@media (max-width: 430px){
+  .layout{
+    padding: 20px 12px 40px;
+  }
+  .paper{
+    padding: 24px 18px 22px;
+  }
+  .sidebar{
+    padding: 18px;
+  }
+  .paper-head{
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .q-status-tag{
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+@media (max-width: 600px){
+  .title-block h1{
+    font-size: 17px;
+  }
+  .eyebrow{
+    font-size: 9.5px;
+  }
+  .subnote{
+    font-size: 10px;
+  }
+  .timer{
+    font-size: 11px;
+    padding: 5px 9px;
+  }
+  .mode-switch{
+    font-size: 11px;
+  }
+}
+@media (max-width: 430px){
+  .result-card{
+    padding: 24px 18px;
+  }
+  .score-breakdown{
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    max-width: 100%;
+  }
+  .score-breakdown .stat{
+    padding: 10px 6px;
+  }
+  .score-breakdown .stat b{
+    font-size: 19px;
+  }
+  .result-card .score{
+    font-size: 38px;
+  }
+}
+
+</style>
+</head>
+<body data-theme="light">
+
+<header class="topbar">
+  <div class="topbar-inner">
+
+    <!-- <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">UPSC<br>LOGO</a> -->
+    <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">
+  <img src="../logo.png" alt="UPSC LoG" style="width:100%; height:100%; object-fit:contain; border-radius:6px;">
+</a>
+    <div class="title-block">
+      <div class="eyebrow">UPSC LoG · Prelims Booster 2027</div>
+      <h1>Economy Test CODE-2027-22</h1>
+      <div class="subnote" style="font-size: 12px;">
+        <span id="qTotalNote">7</span> Questions · +2 Correct / −0.67 Incorrect ·
+        <a href="https://t.me/upsclog" target="_blank" rel="noopener"> Join UPSC-LoG Telegram ↗</a>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="timer" id="timer">30:00</div>
+      <div class="mode-switch">
+        <span>Light</span>
+        <div class="switch" id="themeSwitch" role="button" aria-label="Toggle dark mode">
+          <div class="knob"></div>
+        </div>
+        <span>Dark</span>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="name-bar">
+  <label for="userName">Add name for rank</label>
+  <input type="text" id="userName" placeholder="Enter your name" maxlength="40">
+</div>
+
+<div class="layout">
+
+  <div class="paper" id="paperView">
+    <div class="paper-head">
+      <div class="q-index">Question <b id="qNum">1</b> of <span id="qTotal">7</span></div>
+      <div class="q-status-tag unanswered" id="qStatusTag">Not Answered</div>
+    </div>
+
+    <p class="q-text" id="qText">Loading question…</p>
+
+    <div class="options" id="optionsList"></div>
+
+    <div class="explain-box hidden" id="explainBox">
+      <span class="exp-label">Explanation</span>
+      <div id="explainText"></div>
+    </div>
+
+    <div class="paper-foot">
+      <div class="nav-group">
+        <button id="prevBtn">← Previous</button>
+        <button class="clear" id="clearBtn">Clear response</button>
+      </div>
+      <button id="nextBtn" class="primary">Next →</button>
+    </div>
+  </div>
+
+  <div class="result-card hidden" id="resultView">
+    <div class="eyebrow" style="color:var(--ink-soft); letter-spacing:0.14em; font-family:var(--mono); font-size:11px; text-transform:uppercase;">Marks Sent for rank PDF</div>
+    <div class="score" id="scoreText">0.00 / 14.00</div>
+    <div class="percent" id="scorePercent">0.00%</div>
+    <div class="score-breakdown" id="scoreBreakdown"></div>
+    <p style="color:var(--ink-soft); font-size:14px; margin:20px 0 24px;">You can review your answers and explanations using the palette on the right.</p>
+    <h2>Check <a href="https://upsclog.github.io/upsclog/ranks_tests/daily_rankings.html" target="_blank">[RANKINGS]</a> - for Daily Rankings [PDF]</h2>
+    <button class="primary" id="reviewBtn">Review Answers</button>
+  </div>
+
+  <aside class="sidebar">
+    <h2>* Explanations attached for each question after you submit the test<br><br></h2>
+    <h2>* Auto-Submission in 30 minutes</h2>
+    <h2>* Dark <-> Bright modes for ease</h2>
+    <div class="sub"></div>
+
+    <div class="legend">
+      <span><span class="dot answered"></span> Answered / Correct</span>
+      <span><span class="dot" style="background:var(--wrong);"></span> Incorrect</span>
+      <span><span class="dot unanswered"></span> Not answered</span>
+      <span><span class="dot current"></span> Currently viewing</span>
+    </div>
+
+    <div class="grid" id="paletteGrid"></div>
+
+    <div class="tally" id="tallyRow">
+      <div class="tally-plain">
+        <div><b id="answeredCount">0</b>Answered</div>
+        <div><b id="skippedCount">7</b>Remaining</div>
+      </div>
+    </div>
+
+    <button class="primary" id="submitBtn">Submit Test</button>
+  </aside>
+
+</div>
+
+<div class="modal-overlay hidden" id="confirmModal">
+  <div class="modal-box">
+    <div class="modal-icon" id="modalIcon">📝</div>
+    <p id="modalMessage">Submit test?</p>
+    <div class="modal-actions">
+      <button id="modalGoBack">Go Back</button>
+      <button id="modalConfirm" class="primary">Yes, Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyamXySn2AagAN935BcpYuf6oTJNuIkLMuAby7CqWJ20rgdNgdWypVNTjMyWJBxW9OObw/exec";
+const QUESTIONS = [
+{
+    q: "With reference to the Sustainable Development Goals (SDGs), consider the following statements:<br>1. The SDGs were adopted at the UN Sustainable Development Summit in 2015, succeeding the Millennium Development Goals.<br>2. The 2030 Agenda for Sustainable Development comprises 17 Goals and 169 targets.<br>3. Unlike the MDGs, the SDGs are legally binding on all UN member states.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "The SDGs were adopted in September 2015 at the UN Sustainable Development Summit as the successor framework to the MDGs, comprising 17 Goals and 169 targets under the 2030 Agenda. However, like the MDGs, the SDGs are aspirational and not legally binding on member states; they rely on voluntary national reporting and implementation."
+},
+{
+    q: "With reference to the Securities and Exchange Board of India (SEBI), consider the following statements:<br>1. SEBI was originally set up in 1988 as a non-statutory body and was given statutory powers in 1992 through the SEBI Act.<br>2. SEBI regulates stock exchanges and mutual funds but has no jurisdiction over credit rating agencies.<br>3. The SEBI Act, 1992 empowers SEBI to impose penalties and initiate prosecution for violations of its regulations.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1, 2 and 3",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only"
+    ],
+    ans: 2,
+    exp: "SEBI was constituted in 1988 as a non-statutory body and given statutory status in 1992 via the SEBI Act, which also empowers it to impose penalties and prosecute violators. SEBI does regulate credit rating agencies, along with stock exchanges, mutual funds, and other market intermediaries, making statement 2 incorrect."
+},
+{
+    q: "With reference to poverty measurement in India, consider the following statements:<br>1. The Tendulkar Committee recommended a uniform poverty line basket (PLB) for both rural and urban areas, moving away from purely calorie-based norms.<br>2. The Rangarajan Committee (2014) estimated a higher percentage of population below the poverty line compared to the Tendulkar Committee.<br>3. The Lakdawala Committee introduced the Mixed Reference Period (MRP) methodology for poverty estimation.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The Tendulkar Committee shifted to a uniform PLB anchored to a specific level of per capita consumption expenditure, and the Rangarajan Committee's poverty estimates were indeed higher than Tendulkar's. However, the Mixed Reference Period methodology was introduced with the Tendulkar Committee's framework (based on the 2009 Expert Group), not by the earlier Lakdawala Committee, which relied on calorie-based, state-specific poverty lines."
+},
+{
+    q: "With reference to the National Bank for Agriculture and Rural Development (NABARD), consider the following statements:<br>1. NABARD was established in 1982 based on the recommendations of the CRAFICARD, chaired by B. Sivaraman.<br>2. NABARD directly provides short-term crop loans to individual farmers.<br>3. The Rural Infrastructure Development Fund (RIDF) is administered by NABARD.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "NABARD was set up in 1982 on the recommendation of CRAFICARD headed by B. Sivaraman, and it administers the RIDF, which finances rural infrastructure projects through state governments. NABARD is primarily an apex refinancing institution and does not lend directly to individual farmers; credit reaches farmers through commercial banks, RRBs, and cooperative banks."
+},
+{
+    q: "With reference to the agriculture and allied sector's share in India's GDP, consider the following statements:<br>1. The share of agriculture and allied sectors in GDP has declined significantly since independence, while the share of workforce dependent on agriculture has declined at a much slower pace.<br>2. This mismatch between GDP share and workforce share is often cited as evidence of low agricultural productivity and disguised unemployment.<br>3. As per recent estimates, the share of agriculture in Gross Value Added (GVA) is higher than that of the services sector.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "Agriculture's share in GDP has fallen to around 15-18%, while nearly 42-45% of the workforce still depends on it, reflecting low productivity and disguised unemployment, a widely cited structural criticism of the sector. The services sector, not agriculture, contributes the largest share (over 50%) to India's GVA, making statement 3 incorrect."
+},
+{
+    q: "With reference to the regulatory features of SEBI over the Indian capital markets, consider the following statements:<br>1. SEBI regulates the substantial acquisition of shares and takeovers through the SAST Regulations.<br>2. Initial Public Offerings (IPOs) of companies do not require SEBI approval as they fall under the jurisdiction of the Ministry of Corporate Affairs.<br>3. SEBI has the power to regulate insider trading in listed companies.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 2 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "SEBI regulates substantial acquisitions and takeovers through the SAST (Substantial Acquisition of Shares and Takeovers) Regulations and also regulates insider trading through the SEBI (Prohibition of Insider Trading) Regulations. IPOs of companies do require SEBI's scrutiny of the draft offer document before listing, so statement 2 is incorrect."
+},
+{
+    q: "With reference to the Index of Industrial Production (IIP) in India, consider the following statements:<br>1. IIP is compiled and released monthly by the National Statistical Office (NSO).<br>2. The current base year for IIP is 2011-12, and Manufacturing has the highest weight among the three sectors covered.<br>3. IIP measures the volume of production, not its value.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "IIP is a monthly index released by the NSO (under MoSPI), with 2011-12 as the current base year; Manufacturing carries the highest weight (about 77-78%) among the three sectors — Mining, Manufacturing, and Electricity. As a quantity-based index, IIP measures the volume of industrial production and does not capture value or price changes directly."
+},
+{
+    q: "With reference to the classification of economies, consider the following statements:<br>1. In a socialist economy, the means of production are owned and controlled by the state, and resource allocation is primarily guided by central planning.<br>2. A mixed economy is characterized by the coexistence of both public and private sectors, with market forces as well as government intervention influencing resource allocation.<br>3. In a purely capitalist economy, the price mechanism plays no role in the allocation of resources.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "In a socialist economy, the state owns the means of production and allocates resources via central planning, whereas a mixed economy blends market mechanisms with government intervention, as seen in India. In a purely capitalist economy, the price mechanism is the central determinant of resource allocation, making statement 3 factually incorrect."
+},
+{
+    q: "With reference to India's foreign exchange reserves, consider the following statements:<br>1. Foreign exchange reserves comprise foreign currency assets, gold holdings, Special Drawing Rights (SDRs), and the Reserve Tranche Position (RTP) in the IMF.<br>2. The Reserve Bank of India is the custodian of India's foreign exchange reserves.<br>3. A rise in foreign exchange reserves always leads to a proportionate increase in the money supply within the domestic economy.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "India's forex reserves consist of Foreign Currency Assets, gold, SDRs, and the Reserve Tranche Position in the IMF, and the RBI acts as their custodian, managing them under the FEMA framework. The impact of reserve accumulation on domestic money supply is not automatic or proportionate, since the RBI can sterilize the monetary impact through instruments like the Market Stabilisation Scheme (MSS) and open market operations."
+},
+{
+    q: "With reference to Revenue Expenditure and Capital Expenditure in the Union Budget of India, consider the following statements:<br>1. Expenditure on the creation of assets, such as roads and buildings, is classified as capital expenditure.<br>2. Interest payments and subsidies are examples of revenue expenditure.<br>3. In recent years, there has been a policy emphasis on increasing the share of capital expenditure to boost economic growth through the multiplier effect.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "Capital expenditure creates assets or reduces liabilities (e.g., infrastructure spending, loan repayments), while revenue expenditure, such as interest payments and subsidies, does not create assets and is recurring in nature. Recent Union Budgets have emphasized higher capital expenditure to generate a larger fiscal multiplier effect and crowd-in private investment, reflecting a deliberate shift from consumption-driven to investment-driven spending."
+},
+{
+    q: "With reference to key concepts of the Union Budget in India, consider the following statements:<br>1. Fiscal deficit refers to the difference between total expenditure and total revenue receipts alone, excluding capital receipts.<br>2. Primary deficit is calculated as fiscal deficit minus interest payments.<br>3. Revenue deficit indicates that the government is dissaving, as it has to borrow to meet its consumption expenditure.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "Fiscal deficit is the difference between total expenditure and total receipts excluding borrowings, which includes both revenue receipts and non-debt capital receipts, not revenue receipts alone, making statement 1 incorrect. Primary deficit equals fiscal deficit minus interest payments, and revenue deficit reflects government dissaving since it implies borrowing is used to finance current consumption rather than asset creation."
+},
+{
+    q: "With reference to the Human Development Index (HDI), consider the following statements:<br>1. HDI is published annually by the World Bank as part of its World Development Report.<br>2. HDI is a composite index based on three dimensions: health, education, and standard of living.<br>3. Gross National Income (GNI) per capita, rather than GDP per capita, is used as the indicator for the standard of living dimension in HDI.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "HDI is published by the UNDP through its annual Human Development Report, not the World Bank, making statement 1 incorrect. HDI is a composite index combining health (life expectancy), education (mean and expected years of schooling), and standard of living, with GNI per capita (PPP) used as the indicator for the last dimension since it better captures income actually available to residents."
+},
+{
+    q: "With reference to Microfinance and Self-Help Groups (SHGs) in India, consider the following statements:<br>1. The SHG-Bank Linkage Programme (SBLP) was launched by NABARD in 1992.<br>2. Microfinance Institutions (MFIs) in India are regulated exclusively by NABARD.<br>3. SHGs typically function on the principle of thrift and credit, relying on peer pressure to ensure loan repayment instead of collateral.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The SHG-Bank Linkage Programme was launched by NABARD in 1992 to link informal SHGs with the formal banking system, and SHGs operate on collateral-free lending backed by mutual trust and peer pressure among members. NBFC-MFIs are regulated by the Reserve Bank of India, not NABARD, making statement 2 incorrect."
+},
+{
+    q: "With reference to disinvestment and privatisation in India, consider the following statements:<br>1. The New Economic Policy of 1991 marked the beginning of systematic disinvestment of equity in Central Public Sector Enterprises (CPSEs).<br>2. Strategic disinvestment involves the sale of a substantial portion of government shareholding along with transfer of management control to a private entity.<br>3. The Department of Investment and Public Asset Management (DIPAM) functions under the Ministry of Commerce and Industry.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "Disinvestment began systematically after the 1991 economic reforms, and strategic disinvestment specifically involves selling a significant equity stake (usually 50% or more) along with transferring management control to a private buyer. DIPAM functions under the Ministry of Finance, not the Ministry of Commerce and Industry, making statement 3 incorrect."
+},
+{
+    q: "With reference to Green GDP and environmental accounting, consider the following statements:<br>1. Green GDP adjusts the conventional GDP by accounting for the depletion of natural resources and environmental degradation.<br>2. The System of Environmental-Economic Accounting (SEEA) has been developed under the aegis of the United Nations.<br>3. Green GDP is currently used as the official measure of national income in India, replacing conventional GDP.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "Green GDP accounts for environmental costs like resource depletion and pollution, and the UN-developed System of Environmental-Economic Accounting (SEEA) provides an internationally agreed framework for such accounting. However, Green GDP is not yet used as India's official measure of national income; conventional GDP, as per the Central Statistics Office/NSO methodology, remains the official indicator."
+},
+{
+    q: "With reference to criticisms of NABARD and the rural credit system in India, consider the following statements:<br>1. A major criticism of NABARD's rural credit delivery is the continued dominance of moneylenders in providing credit to marginal and small farmers despite decades of institutional credit expansion.<br>2. The Kisan Credit Card (KCC) scheme was introduced to simplify credit access for farmers and reduce their dependence on informal credit sources.<br>3. Regional Rural Banks (RRBs), refinanced by NABARD, have been criticized for high non-performing assets (NPAs) and regional imbalances in credit disbursement.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "Despite institutional credit expansion under NABARD, informal moneylenders still account for a significant share of rural credit, particularly for marginal farmers, reflecting gaps in outreach. The Kisan Credit Card scheme was launched to ease farmers' access to timely credit, while RRBs have faced persistent criticism for high NPAs and skewed regional credit distribution, favouring agriculturally developed states."
+},
+{
+    q: "With reference to the nationalisation of banks in India, consider the following statements:<br>1. Fourteen major commercial banks were nationalised in 1969, followed by six more banks in 1980.<br>2. The primary objective behind bank nationalisation was to shift credit priorities from urban industry towards agriculture and priority sectors.<br>3. The Imperial Bank of India was nationalised in 1969 and renamed the State Bank of India.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "Fourteen banks were nationalised in 1969 and six more in 1980, with the objective of redirecting credit towards agriculture, small industries, and other priority sectors, moving away from concentration on urban industrial lending. The Imperial Bank of India was nationalised and renamed the State Bank of India in 1955, not 1969, making statement 3 incorrect."
+},
+{
+    q: "With reference to national income concepts, consider the following statements:<br>1. Gross Domestic Product (GDP) is the sum of the value of all final goods and services produced within the domestic territory of a country during a given period.<br>2. Net National Product (NNP) is obtained by subtracting depreciation from Gross National Product (GNP).<br>3. Gross National Product (GNP) is always less than GDP for a country whose citizens earn more from abroad than foreigners earn within that country.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "GDP measures final goods and services produced within domestic territory, and NNP is derived by subtracting depreciation (consumption of fixed capital) from GNP. GNP equals GDP plus net factor income from abroad; if citizens earn more from abroad than foreigners earn domestically, GNP would be greater than GDP, not less, making statement 3 incorrect."
+},
+{
+    q: "With reference to the tax structure in India, consider the following statements:<br>1. Goods and Services Tax (GST) is an example of a direct tax levied on the supply of goods and services.<br>2. Corporation tax is a direct tax levied on the net income of companies.<br>3. A regressive tax system is one in which the tax rate increases as the taxable income or base increases.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "2 only"
+    ],
+    ans: 3,
+    exp: "GST is an indirect tax, as its burden can be shifted to the final consumer, making statement 1 incorrect; corporation tax, however, is correctly classified as a direct tax on companies' net income. A regressive tax is one where the tax rate decreases (not increases) as the taxable base rises, disproportionately burdening lower-income groups, making statement 3 incorrect."
+},
+{
+    q: "With reference to the Human Development Index (HDI), consider the following statements:<br>1. The concept of the HDI was developed by economists Mahbub ul Haq and Amartya Sen and was first published in the Human Development Report of 1990.<br>2. Countries are classified into four groups, namely Very High, High, Medium, and Low human development, based on their HDI values.<br>3. The HDI has been criticized for not accounting for inequality, environmental sustainability, and gender disparity within its basic formulation.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "The HDI was conceptualized by Mahbub ul Haq, with contributions from Amartya Sen, and was first introduced in the UNDP's Human Development Report of 1990. Countries are grouped into four categories based on HDI values, and the index has been critiqued for ignoring distributional inequality, environmental factors, and gender gaps, leading to supplementary indices like the IHDI and GDI."
+},
+{
+    q: "With reference to Public Debt and Fiscal Deficit in India, consider the following statements:<br>1. Public debt includes both internal liabilities, such as market borrowings, and external liabilities, such as loans from foreign governments and institutions.<br>2. According to the FRBM Act, 2003, the Central Government is mandated to eliminate the fiscal deficit entirely by a specified target year.<br>3. A persistently high fiscal deficit financed through borrowings can lead to a debt trap if the interest rate exceeds the growth rate of the economy.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "Public debt comprises both internal borrowings (like G-Secs) and external liabilities (like loans from bodies such as the World Bank), and a debt trap can arise when the interest rate on borrowings exceeds the GDP growth rate, causing the debt-to-GDP ratio to spiral. The FRBM Act mandates targets for reducing fiscal deficit to a specified percentage of GDP (such as 3%), not its complete elimination, making statement 2 incorrect."
+},
+{
+    q: "With reference to the share of the agriculture and allied sector in India's GDP since independence, consider the following statements:<br>1. At the time of independence, agriculture and allied activities contributed more than half of India's Net Domestic Product.<br>2. The declining share of agriculture in GDP alongside a rising share of industry and services is generally regarded as a sign of structural transformation of the economy.<br>3. The Green Revolution of the 1960s led to a continuous increase in agriculture's share in GDP relative to the services sector, a trend that persists today.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "At independence, agriculture contributed more than 50% of national income, and its declining share relative to industry and services over decades is a hallmark of structural transformation seen in developing economies. Although the Green Revolution boosted agricultural output, the services sector has since grown much faster, and agriculture's share in GDP has continuously declined, not increased, making statement 3 incorrect."
+},
+{
+    q: "With reference to the World Trade Organization (WTO) and India's trade policy, consider the following statements:<br>1. The WTO was established in 1995 as the successor to the General Agreement on Tariffs and Trade (GATT).<br>2. The Agreement on Agriculture (AoA) under the WTO classifies domestic support to farmers into Amber Box, Blue Box, and Green Box categories.<br>3. India has been a founding member of GATT since 1948 and continued as a founding member of the WTO in 1995.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "The WTO was established on 1 January 1995 as the successor to GATT, and India, being an original signatory to GATT in 1948, is also a founding member of the WTO. The Agreement on Agriculture classifies domestic support into Amber Box (trade-distorting), Blue Box (production-limiting), and Green Box (minimally trade-distorting) categories, all of which are actively debated in India's trade negotiations."
+},
+{
+    q: "With reference to disinvestment and privatisation in India, consider the following statements:<br>1. The Rangarajan Committee (1993) recommended that the government's equity holding in non-strategic public sector enterprises be brought down to 26 percent.<br>2. The National Investment Fund (NIF) was set up to channel proceeds from disinvestment exclusively into social sector schemes on a permanent basis.<br>3. Privatisation necessarily implies 100 percent transfer of government ownership to the private sector.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The Rangarajan Committee recommended reducing government equity in non-strategic PSEs to 26%, allowing majority private ownership while retaining a minority government stake. The NIF's mandate and utilization rules have been modified over time (including permitting use for fiscal deficit financing), so it was not fixed exclusively for social schemes, and privatisation does not necessarily mean complete (100%) transfer of ownership, as strategic disinvestment can retain government minority stakes."
+},
+{
+    q: "With reference to the Index of Industrial Production (IIP), consider the following statements:<br>1. IIP classifies industries under a use-based classification comprising categories such as Primary Goods, Capital Goods, and Consumer Goods.<br>2. IIP data is used as one of the key inputs for computing the Gross Value Added (GVA) of the industrial sector on a monthly basis.<br>3. An increase in the IIP for consumer durables indicates greater consumer confidence and spending capacity in the economy.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "IIP employs both sectoral (Mining, Manufacturing, Electricity) and use-based classification (Primary Goods, Capital Goods, Intermediate Goods, Infrastructure/Construction Goods, Consumer Durables, and Consumer Non-Durables), and rising consumer durables output is generally read as a proxy for improving consumer demand and confidence. However, IIP is a high-frequency indicator used for short-term analysis and is not itself used to directly compute GVA, which is derived from more comprehensive data sources like the Annual Survey of Industries."
+}
+];
+
+const CORRECT_MARKS = 2;
+const NEGATIVE_MARKS = 2 / 3;
+
+let current = 0;
+const responses = new Array(QUESTIONS.length).fill(null);
+let submitted = false;
+
+const qNumEl = document.getElementById('qNum');
+const qTotalEl = document.getElementById('qTotal');
+const qTotalNoteEl = document.getElementById('qTotalNote');
+const qTextEl = document.getElementById('qText');
+const optionsListEl = document.getElementById('optionsList');
+const qStatusTag = document.getElementById('qStatusTag');
+const explainBox = document.getElementById('explainBox');
+const explainText = document.getElementById('explainText');
+const paletteGrid = document.getElementById('paletteGrid');
+const answeredCountEl = document.getElementById('answeredCount');
+const skippedCountEl = document.getElementById('skippedCount');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const clearBtn = document.getElementById('clearBtn');
+const submitBtn = document.getElementById('submitBtn');
+const paperView = document.getElementById('paperView');
+const resultView = document.getElementById('resultView');
+const reviewBtn = document.getElementById('reviewBtn');
+const scoreText = document.getElementById('scoreText');
+const scorePercent = document.getElementById('scorePercent');
+
+const confirmModal = document.getElementById('confirmModal');
+const modalMessage = document.getElementById('modalMessage');
+const modalIcon = document.getElementById('modalIcon');
+const modalGoBack = document.getElementById('modalGoBack');
+const modalConfirm = document.getElementById('modalConfirm');
+
+qTotalEl.textContent = QUESTIONS.length;
+qTotalNoteEl.textContent = QUESTIONS.length;
+skippedCountEl.textContent = QUESTIONS.length;
+
+function buildPalette(){
+  paletteGrid.innerHTML = '';
+  QUESTIONS.forEach((_, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.textContent = i + 1;
+    cell.addEventListener('click', () => { current = i; render(); });
+    paletteGrid.appendChild(cell);
+  });
+}
+
+function render(){
+  const item = QUESTIONS[current];
+  qNumEl.textContent = current + 1;
+  qTextEl.innerHTML = item.q;
+
+  optionsListEl.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  const userChoice = responses[current];
+  item.opts.forEach((opt, idx) => {
+    const div = document.createElement('div');
+    let cls = 'option';
+    if (submitted){
+      cls += ' locked';
+      if (idx === item.ans) cls += ' correct';
+      else if (idx === userChoice) cls += ' incorrect';
+    } else if (userChoice === idx){
+      cls += ' selected';
+    }
+    div.className = cls;
+    div.innerHTML = `<span class="tag">${letters[idx]}</span><span class="opt-text"></span>`;
+    div.querySelector('.opt-text').textContent = opt;
+    div.addEventListener('click', () => {
+      if (submitted) return;
+      responses[current] = idx;
+      render();
+    });
+    optionsListEl.appendChild(div);
+  });
+
+  if (submitted){
+    if (userChoice === null){
+      qStatusTag.textContent = '⚠ Not Answered · Correct answer shown';
+      qStatusTag.className = 'q-status-tag review-unanswered';
+    } else if (userChoice === item.ans){
+      qStatusTag.textContent = '✓ Correct';
+      qStatusTag.className = 'q-status-tag correct';
+    } else {
+      qStatusTag.textContent = '✗ Incorrect';
+      qStatusTag.className = 'q-status-tag incorrect';
+    }
+    explainBox.classList.remove('hidden');
+    explainText.innerHTML = '<b>Correct Answer:</b> ' + letters[item.ans] + '. ' + item.opts[item.ans] + '<br><br>' + item.exp;
+  } else {
+    const answered = userChoice !== null;
+    qStatusTag.textContent = answered ? 'Answered' : 'Not Answered';
+    qStatusTag.className = 'q-status-tag ' + (answered ? 'answered' : 'unanswered');
+    explainBox.classList.add('hidden');
+  }
+
+  prevBtn.disabled = current === 0;
+  if (submitted){
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Back to Result' : 'Next →';
+    clearBtn.style.visibility = 'hidden';
+  } else {
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Finish' : 'Next →';
+    clearBtn.style.visibility = 'visible';
+  }
+
+  // palette
+  const cells = paletteGrid.children;
+  for (let i = 0; i < cells.length; i++){
+    cells[i].classList.toggle('current', i === current);
+    if (submitted){
+      const isIncorrect = responses[i] !== null && responses[i] !== QUESTIONS[i].ans;
+      const isCorrect = responses[i] === QUESTIONS[i].ans;
+      cells[i].classList.toggle('incorrect', isIncorrect);
+      cells[i].classList.toggle('answered', isCorrect);
+    } else {
+      cells[i].classList.toggle('answered', responses[i] !== null);
+      cells[i].classList.remove('incorrect');
+    }
+  }
+
+  const answeredTotal = responses.filter(r => r !== null).length;
+  if (submitted){
+    let correct = 0, incorrect = 0;
+    QUESTIONS.forEach((q, i) => {
+      if (responses[i] === null) return;
+      if (responses[i] === q.ans) correct++; else incorrect++;
+    });
+    const unattempted = QUESTIONS.length - answeredTotal;
+    const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+    document.getElementById('tallyRow').innerHTML = `
+      <div class="marks-line"><b>${marks.toFixed(2)}</b><span>Marks Scored</span></div>
+      <div class="tally-grid">
+        <div><b class="stat-correct">${correct}</b>Correct</div>
+        <div><b class="stat-incorrect">${incorrect}</b>Incorrect</div>
+        <div><b class="stat-unattempted">${unattempted}</b>Unattempted</div>
+      </div>
+    `;
+  } else {
+    answeredCountEl.textContent = answeredTotal;
+    skippedCountEl.textContent = QUESTIONS.length - answeredTotal;
+  }
+}
+
+prevBtn.addEventListener('click', () => { if (current > 0){ current--; render(); }});
+nextBtn.addEventListener('click', () => {
+  if (current < QUESTIONS.length - 1){ current++; render(); }
+  else if (submitted){
+    paperView.classList.add('hidden');
+    resultView.classList.remove('hidden');
+  } else {
+    openConfirmModal();
+  }
+});
+clearBtn.addEventListener('click', () => { responses[current] = null; render(); });
+
+submitBtn.addEventListener('click', openConfirmModal);
+
+/* ---------- Confirmation modal logic ---------- */
+function openConfirmModal(){
+  const nameVal = document.getElementById('userName').value.trim();
+  if (nameVal){
+    modalIcon.textContent = '📝';
+    modalMessage.innerHTML = `Submit test : <b>${escapeHtml(nameVal)}</b> ?`;
+  } else {
+    modalIcon.textContent = '⚠️';
+    modalMessage.innerHTML = `You have not set your name, your rank will be set as: <b>Anonymous</b>`;
+  }
+  confirmModal.classList.remove('hidden');
+}
+
+function closeConfirmModal(){
+  confirmModal.classList.add('hidden');
+}
+
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+modalGoBack.addEventListener('click', closeConfirmModal);
+modalConfirm.addEventListener('click', () => {
+  closeConfirmModal();
+  doSubmit();
+});
+confirmModal.addEventListener('click', (e) => {
+  if (e.target === confirmModal) closeConfirmModal();
+});
+
+function doSubmit(){
+  submitted = true;
+  clearInterval(countdown);
+  let correct = 0, incorrect = 0;
+  QUESTIONS.forEach((q, i) => {
+    if (responses[i] === null) return;
+    if (responses[i] === q.ans) correct++; else incorrect++;
+  });
+  const unattempted = QUESTIONS.length - (correct + incorrect);
+  const maxMarks = QUESTIONS.length * CORRECT_MARKS;
+  const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+  const percentage = (marks / maxMarks) * 100;
+
+  scoreText.textContent = marks.toFixed(2) + ' / ' + maxMarks.toFixed(2);
+  scorePercent.textContent = percentage.toFixed(2) + '%';
+  document.getElementById('scoreBreakdown').innerHTML = `
+    <div class="stat correct"><b>${correct}</b><span>Correct</span></div>
+    <div class="stat incorrect"><b>${incorrect}</b><span>Incorrect</span></div>
+    <div class="stat unattempted"><b>${unattempted}</b><span>Unattempted</span></div>
+  `;
+  const userName = document.getElementById('userName').value.trim() || "Anonymous"; 
+  fetch(SHEET_ENDPOINT, {
+    method: "POST",
+    mode: "no-cors",
+    body: JSON.stringify({
+      name: userName,
+      marks: marks.toFixed(2),
+      correct: correct,
+      incorrect: incorrect,
+      unattempted: unattempted,
+      testCode: "Economy Test CODE-2027-22"
+    })
+  }); 
+  submitBtn.style.display = 'none';
+  paperView.classList.add('hidden');
+  resultView.classList.remove('hidden');
+  render();
+}
+
+reviewBtn.addEventListener('click', () => {
+  resultView.classList.add('hidden');
+  paperView.classList.remove('hidden');
+  current = 0;
+  render();
+});
+
+// theme toggle
+const themeSwitch = document.getElementById('themeSwitch');
+themeSwitch.addEventListener('click', () => {
+  const body = document.body;
+  const isDark = body.getAttribute('data-theme') === 'dark';
+  body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+});
+
+// countdown timer
+let seconds = 30 * 60;
+const timerEl = document.getElementById('timer');
+const countdown = setInterval(() => {
+  if (seconds <= 0 || submitted) return;
+  seconds--;
+  const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+  const s = String(seconds % 60).padStart(2, '0');
+  timerEl.textContent = `${m}:${s}`;
+  timerEl.classList.toggle('urgent', seconds <= 60);
+  if (seconds === 0){
+    timerEl.textContent = 'Time Up!';
+    doSubmit();
+  }
+}, 1000);
+
+buildPalette();
+render();
+
+window.addEventListener('beforeunload', function(e){
+  const hasProgress = !submitted && responses.some(r => r !== null);
+  if (hasProgress){
+    e.preventDefault();
+    e.returnValue = 'Your answers have not been submitted. If you leave or refresh this page, all marked answers will be lost.';
+    return e.returnValue;
+  }
+});
+
+</script>
+
+</body>
+</html>
