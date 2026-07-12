@@ -495,6 +495,63 @@
     letter-spacing:0.04em; margin-top:-4px;
   }
   .hidden{display:none !important;}
+
+  /* ---------- Confirm submit modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background:rgba(15,20,25,0.55);
+    display:flex; align-items:center; justify-content:center;
+    z-index:200;
+    padding:20px;
+  }
+  .modal-box{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:12px;
+    box-shadow:var(--shadow);
+    padding:30px 30px 24px;
+    max-width:380px;
+    width:100%;
+    text-align:center;
+  }
+  .modal-box .modal-icon{
+    font-size:26px;
+    margin-bottom:6px;
+  }
+  .modal-box p{
+    font-family:var(--sans);
+    font-size:15px;
+    line-height:1.55;
+    color:var(--ink);
+    margin:10px 0 22px;
+  }
+  .modal-box p b{color:var(--navy);}
+  [data-theme="dark"] .modal-box p b{color:var(--gold);}
+  .modal-box .modal-warn{
+    font-family:var(--mono);
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--skipped);
+    background:var(--skipped-bg);
+    border:1px solid var(--skipped);
+    border-radius:6px;
+    padding:8px 10px;
+    margin:0 0 18px;
+    text-align:left;
+    line-height:1.5;
+  }
+  .modal-actions{
+    display:flex; gap:12px;
+  }
+  .modal-actions button{
+    flex:1;
+    padding:12px 10px;
+  }
+  #modalGoBack{color:var(--ink);}
+  #modalConfirm{background:var(--navy); color:#F4F1EA; border-color:var(--navy);}
+  #modalConfirm:hover{filter:brightness(1.1); color:#F4F1EA;}
+
   :root{
     --desktop-width: 1440;
 }
@@ -581,8 +638,6 @@
   }
 }
 
-
-}
 </style>
 </head>
 <body data-theme="light">
@@ -680,6 +735,17 @@
     <button class="primary" id="submitBtn">Submit Test</button>
   </aside>
 
+</div>
+
+<div class="modal-overlay hidden" id="confirmModal">
+  <div class="modal-box">
+    <div class="modal-icon" id="modalIcon">📝</div>
+    <p id="modalMessage">Submit test?</p>
+    <div class="modal-actions">
+      <button id="modalGoBack">Go Back</button>
+      <button id="modalConfirm" class="primary">Yes, Submit</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -986,7 +1052,6 @@ const QUESTIONS = [
         exp: "Statements 2 and 3 are correct. The salt tax was deliberately chosen by Gandhi as the symbol of Civil Disobedience because it was a daily necessity taxed by the British, affecting every Indian from the poorest peasant to the wealthiest merchant — making it an ideal unifying grievance. The Lahore Congress of December 1929, presided over by Jawaharlal Nehru, passed the Purna Swaraj resolution and set January 26, 1930 as Independence Day — directly mandating the launch of a civil disobedience campaign, which began with the Dandi March on March 12, 1930. Statement 1 is partially misleading — while the Simon Commission's failure contributed to the political climate, the more immediate background was the failure of the Dominion Status deadline (set for end of 1929) given to the British by Congress."
     }
 ];
-
 const CORRECT_MARKS = 2;
 const NEGATIVE_MARKS = 2 / 3;
 
@@ -1014,6 +1079,12 @@ const resultView = document.getElementById('resultView');
 const reviewBtn = document.getElementById('reviewBtn');
 const scoreText = document.getElementById('scoreText');
 const scorePercent = document.getElementById('scorePercent');
+
+const confirmModal = document.getElementById('confirmModal');
+const modalMessage = document.getElementById('modalMessage');
+const modalIcon = document.getElementById('modalIcon');
+const modalGoBack = document.getElementById('modalGoBack');
+const modalConfirm = document.getElementById('modalConfirm');
 
 qTotalEl.textContent = QUESTIONS.length;
 qTotalNoteEl.textContent = QUESTIONS.length;
@@ -1133,12 +1204,44 @@ nextBtn.addEventListener('click', () => {
     paperView.classList.add('hidden');
     resultView.classList.remove('hidden');
   } else {
-    doSubmit();
+    openConfirmModal();
   }
 });
 clearBtn.addEventListener('click', () => { responses[current] = null; render(); });
 
-submitBtn.addEventListener('click', doSubmit);
+submitBtn.addEventListener('click', openConfirmModal);
+
+/* ---------- Confirmation modal logic ---------- */
+function openConfirmModal(){
+  const nameVal = document.getElementById('userName').value.trim();
+  if (nameVal){
+    modalIcon.textContent = '📝';
+    modalMessage.innerHTML = `Submit test : <b>${escapeHtml(nameVal)}</b> ?`;
+  } else {
+    modalIcon.textContent = '⚠️';
+    modalMessage.innerHTML = `You have not set your name, your rank will be set as: <b>Anonymous</b>`;
+  }
+  confirmModal.classList.remove('hidden');
+}
+
+function closeConfirmModal(){
+  confirmModal.classList.add('hidden');
+}
+
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+modalGoBack.addEventListener('click', closeConfirmModal);
+modalConfirm.addEventListener('click', () => {
+  closeConfirmModal();
+  doSubmit();
+});
+confirmModal.addEventListener('click', (e) => {
+  if (e.target === confirmModal) closeConfirmModal();
+});
 
 function doSubmit(){
   submitted = true;

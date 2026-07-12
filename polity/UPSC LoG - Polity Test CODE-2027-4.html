@@ -495,6 +495,63 @@
     letter-spacing:0.04em; margin-top:-4px;
   }
   .hidden{display:none !important;}
+
+  /* ---------- Confirm submit modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background:rgba(15,20,25,0.55);
+    display:flex; align-items:center; justify-content:center;
+    z-index:200;
+    padding:20px;
+  }
+  .modal-box{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:12px;
+    box-shadow:var(--shadow);
+    padding:30px 30px 24px;
+    max-width:380px;
+    width:100%;
+    text-align:center;
+  }
+  .modal-box .modal-icon{
+    font-size:26px;
+    margin-bottom:6px;
+  }
+  .modal-box p{
+    font-family:var(--sans);
+    font-size:15px;
+    line-height:1.55;
+    color:var(--ink);
+    margin:10px 0 22px;
+  }
+  .modal-box p b{color:var(--navy);}
+  [data-theme="dark"] .modal-box p b{color:var(--gold);}
+  .modal-box .modal-warn{
+    font-family:var(--mono);
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--skipped);
+    background:var(--skipped-bg);
+    border:1px solid var(--skipped);
+    border-radius:6px;
+    padding:8px 10px;
+    margin:0 0 18px;
+    text-align:left;
+    line-height:1.5;
+  }
+  .modal-actions{
+    display:flex; gap:12px;
+  }
+  .modal-actions button{
+    flex:1;
+    padding:12px 10px;
+  }
+  #modalGoBack{color:var(--ink);}
+  #modalConfirm{background:var(--navy); color:#F4F1EA; border-color:var(--navy);}
+  #modalConfirm:hover{filter:brightness(1.1); color:#F4F1EA;}
+
   :root{
     --desktop-width: 1440;
 }
@@ -581,8 +638,6 @@
   }
 }
 
-
-}
 </style>
 </head>
 <body data-theme="light">
@@ -651,7 +706,7 @@
     <div class="percent" id="scorePercent">0.00%</div>
     <div class="score-breakdown" id="scoreBreakdown"></div>
     <p style="color:var(--ink-soft); font-size:14px; margin:20px 0 24px;">You can review your answers and explanations using the palette on the right.</p>
-    <h2>Check <a href="https://t.me/upsclog" target="_blank">UPSC LoG</a> - Telegram for Daily Rankings [PDF]</h2>
+    <h2>Check <a href="https://upsclog.github.io/upsclog/ranks_tests/daily_rankings.html" target="_blank">[RANKINGS]</a> - for Daily Rankings [PDF]</h2>
     <button class="primary" id="reviewBtn">Review Answers</button>
   </div>
 
@@ -681,7 +736,16 @@
   </aside>
 
 </div>
-
+<div class="modal-overlay hidden" id="confirmModal">
+  <div class="modal-box">
+    <div class="modal-icon" id="modalIcon">📝</div>
+    <p id="modalMessage">Submit test?</p>
+    <div class="modal-actions">
+      <button id="modalGoBack">Go Back</button>
+      <button id="modalConfirm" class="primary">Yes, Submit</button>
+    </div>
+  </div>
+</div>
 <script>
 const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyamXySn2AagAN935BcpYuf6oTJNuIkLMuAby7CqWJ20rgdNgdWypVNTjMyWJBxW9OObw/exec";
 const QUESTIONS = [
@@ -961,7 +1025,6 @@ const QUESTIONS = [
         exp: "Statement 1 is incorrect — the Official Languages Act, 1963, far from making Hindi mandatory, actually continued English as an associate official language even after 1965, following widespread protests in southern states (especially Tamil Nadu). Statements 2 and 3 are correct. Non-Hindi states can communicate with the Union in their own language with an English translation, and the Rajbhasha Vibhag under the Ministry of Home Affairs is the nodal department for Official Language implementation."
     }
 ];
-
 const CORRECT_MARKS = 2;
 const NEGATIVE_MARKS = 2 / 3;
 
@@ -989,6 +1052,12 @@ const resultView = document.getElementById('resultView');
 const reviewBtn = document.getElementById('reviewBtn');
 const scoreText = document.getElementById('scoreText');
 const scorePercent = document.getElementById('scorePercent');
+
+const confirmModal = document.getElementById('confirmModal');
+const modalMessage = document.getElementById('modalMessage');
+const modalIcon = document.getElementById('modalIcon');
+const modalGoBack = document.getElementById('modalGoBack');
+const modalConfirm = document.getElementById('modalConfirm');
 
 qTotalEl.textContent = QUESTIONS.length;
 qTotalNoteEl.textContent = QUESTIONS.length;
@@ -1108,12 +1177,44 @@ nextBtn.addEventListener('click', () => {
     paperView.classList.add('hidden');
     resultView.classList.remove('hidden');
   } else {
-    doSubmit();
+    openConfirmModal();
   }
 });
 clearBtn.addEventListener('click', () => { responses[current] = null; render(); });
 
-submitBtn.addEventListener('click', doSubmit);
+submitBtn.addEventListener('click', openConfirmModal);
+
+/* ---------- Confirmation modal logic ---------- */
+function openConfirmModal(){
+  const nameVal = document.getElementById('userName').value.trim();
+  if (nameVal){
+    modalIcon.textContent = '📝';
+    modalMessage.innerHTML = `Submit test : <b>${escapeHtml(nameVal)}</b> ?`;
+  } else {
+    modalIcon.textContent = '⚠️';
+    modalMessage.innerHTML = `You have not set your name, your rank will be set as: <b>Anonymous</b>`;
+  }
+  confirmModal.classList.remove('hidden');
+}
+
+function closeConfirmModal(){
+  confirmModal.classList.add('hidden');
+}
+
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+modalGoBack.addEventListener('click', closeConfirmModal);
+modalConfirm.addEventListener('click', () => {
+  closeConfirmModal();
+  doSubmit();
+});
+confirmModal.addEventListener('click', (e) => {
+  if (e.target === confirmModal) closeConfirmModal();
+});
 
 function doSubmit(){
   submitted = true;
@@ -1147,7 +1248,7 @@ function doSubmit(){
       unattempted: unattempted,
       testCode: "Polity Test CODE-2027-4"
     })
-  });   
+  }); 
   submitBtn.style.display = 'none';
   paperView.classList.add('hidden');
   resultView.classList.remove('hidden');

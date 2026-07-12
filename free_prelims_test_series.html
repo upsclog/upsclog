@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UPSC Log Prelims Test Series</title>
+<title>UPSC LoG Prelims Test Series</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -94,191 +94,124 @@
     margin:0;
   }
 
-  /* ===== carousel ===== */
-  .carousel-section{
-    padding:10px 0 min(9vw,80px);
+  /* ===== PYQ boxes ===== */
+  .pyq-section{
     position:relative;
-    overflow:visible;
+    padding:56px 6vw min(11vw,96px);
   }
-  .rail-controls{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 6vw 26px;
-  }
-  .progress-dots{ display:flex; gap:9px; }
-  .dot{
-    width:7px; height:7px; border-radius:50%;
-    background:rgba(233,231,222,0.18);
-    transition:background .35s, transform .35s;
-  }
-  .dot.active{ background:var(--paper); transform:scale(1.25); }
-
-  .arrow-group{ display:flex; gap:10px; }
-  .arrow-btn{
-    width:42px; height:42px;
-    border-radius:50%;
-    border:1px solid var(--card-border);
-    background:var(--ink-2);
-    color:var(--paper);
-    display:flex; align-items:center; justify-content:center;
-    cursor:pointer;
-    transition:border-color .25s, transform .18s, background .25s;
-  }
-  .arrow-btn:hover{ border-color:rgba(233,231,222,0.4); background:#191D27; }
-  .arrow-btn:active{ transform:scale(0.92); }
-  .arrow-btn:focus-visible{ outline:2px solid var(--paper); outline-offset:2px; }
-  .arrow-btn svg{ width:16px; height:16px; }
-  .arrow-btn.disabled{ opacity:0.3; pointer-events:none; }
-
-  .track-wrap{
-    perspective:1600px;
-    padding:40px 0 30px;
-  }
-  .track{
-    display:flex;
-    align-items:center;
-    overflow-x:auto;
-    overflow-y:visible;
-    scroll-snap-type:x mandatory;
-    cursor:grab;
-    scrollbar-width:none;
-    -webkit-overflow-scrolling:touch;
-  }
-  .track::-webkit-scrollbar{ display:none; }
-  .track.dragging{ cursor:grabbing; scroll-snap-type:none; }
-
-  .spacer{ flex:0 0 auto; }
-
-  .card{
-    scroll-snap-align:center;
-    flex:0 0 auto;
-    width:min(72vw, 360px);
-    min-height:480px;
-    margin-left:-46px;
-    border-radius:20px;
-    background:
-      radial-gradient(120% 140% at 100% 0%, var(--tint-soft), transparent 60%),
-      var(--card);
-    border:1px solid var(--card-border);
-    position:relative;
-    overflow:hidden;
-    padding:30px 28px 28px;
-    display:flex;
-    flex-direction:column;
-    user-select:none;
-    box-shadow:0 30px 60px -30px rgba(0,0,0,0.7);
-    will-change:transform, opacity, filter;
-    transition:box-shadow .35s ease;
-    backface-visibility:hidden;
-    cursor:pointer;
-  }
-  .card:first-child{ margin-left:0; }
-
-  .card .motif{
+  .pyq-spine{
     position:absolute;
-    right:-30px; top:-20px;
-    width:230px; height:230px;
-    opacity:0.16;
-    color:var(--tint);
-    pointer-events:none;
+    left:50%;
+    top:20px;
+    bottom:60px;
+    width:1px;
+    background:repeating-linear-gradient(
+      to bottom,
+      rgba(233,231,222,0.14) 0px,
+      rgba(233,231,222,0.14) 6px,
+      transparent 6px,
+      transparent 14px
+    );
+    transform:translateX(-0.5px);
   }
-
-  .card-top{
-    display:flex;
-    align-items:flex-start;
-    justify-content:space-between;
+  .pyq-list{
     position:relative;
     z-index:1;
+    max-width:980px;
+    margin:0 auto;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
   }
-  .code{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:12.5px;
-    letter-spacing:0.14em;
-    color:var(--tint);
-    background:var(--tint-soft);
-    border:1px solid color-mix(in srgb, var(--tint) 40%, transparent);
-    padding:6px 11px;
-    border-radius:100px;
+  .pyq-row{
+    display:flex;
   }
-  .seal{
-    width:46px; height:46px;
+  .pyq-row.start{ justify-content:flex-start; }
+  .pyq-row.end{ justify-content:flex-end; }
+
+  .pyq-box{
+    --tint: var(--gs1);
+    --tint-soft: var(--gs1-soft);
+    width:min(400px, 62%);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    padding:14px 18px;
+    border-radius:14px;
+    background:
+      radial-gradient(120% 160% at 0% 0%, var(--tint-soft), transparent 65%),
+      var(--card);
+    border:1px solid var(--card-border);
+    text-decoration:none;
+    color:var(--paper);
+    box-shadow:0 18px 34px -26px rgba(0,0,0,0.7);
+    transition:transform .22s ease, border-color .22s ease, box-shadow .22s ease, background .22s ease;
+  }
+  .pyq-row.end .pyq-box{ flex-direction:row-reverse; text-align:right; }
+
+  .pyq-box:hover{
+    transform:translateY(-3px);
+    border-color:color-mix(in srgb, var(--tint) 55%, transparent);
+    box-shadow:0 24px 44px -22px rgba(0,0,0,0.8);
+  }
+  .pyq-box:active{ transform:translateY(-1px) scale(0.985); }
+
+  .pyq-main{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    min-width:0;
+  }
+  .pyq-row.end .pyq-main{ flex-direction:row-reverse; }
+
+  .pyq-seal{
+    flex:0 0 auto;
+    width:38px; height:38px;
     border-radius:50%;
     border:1px solid color-mix(in srgb, var(--tint) 55%, transparent);
     display:flex; align-items:center; justify-content:center;
     font-family:'Fraunces', serif;
     font-style:italic;
-    font-size:15px;
+    font-size:13px;
     color:var(--tint);
+    background:var(--tint-soft);
+  }
+
+  .pyq-divider{
     flex:0 0 auto;
+    width:1px;
+    height:28px;
+    background:linear-gradient(to bottom, transparent, color-mix(in srgb, var(--tint) 55%, transparent), transparent);
   }
 
-  .card h2{
-    font-family:'Fraunces', serif;
-    font-weight:500;
-    font-size:26px;
-    line-height:1.18;
-    margin:26px 0 12px;
-    position:relative; z-index:1;
-  }
-  .card h2 span{ color:var(--tint); }
-
-  .card p.desc{
-    font-size:14.5px;
-    line-height:1.65;
-    color:var(--paper-faint);
-    margin:0 0 22px;
-    position:relative; z-index:1;
-    flex-grow:1;
-  }
-
-  .tags{
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-    margin-bottom:26px;
-    position:relative; z-index:1;
-  }
-  .tag{
-    font-size:12px;
-    padding:6px 10px;
-    border-radius:7px;
-    background:rgba(233,231,222,0.05);
-    border:1px solid var(--card-border);
-    color:var(--paper-dim);
-  }
-
-  .card-bottom{
-    border-top:1px solid var(--card-border);
-    padding-top:20px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    position:relative; z-index:1;
-  }
-  .link-btn{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
+  .pyq-text{ min-width:0; }
+  .pyq-title{
     font-family:'IBM Plex Sans', sans-serif;
-    font-weight:500;
-    font-size:14px;
+    font-weight:600;
+    font-size:14.5px;
+    line-height:1.3;
+    margin:0 0 3px;
     color:var(--paper);
-    text-decoration:none;
-    padding:11px 16px;
-    border-radius:10px;
-    background:var(--tint);
-    transition:filter .2s, transform .15s;
   }
-  .link-btn:hover{ filter:brightness(1.12); }
-  .link-btn:active{ transform:scale(0.97); }
-  .link-btn svg{ width:14px; height:14px; transition:transform .2s; }
-  .link-btn:hover svg{ transform:translate(2px,-2px); }
-  .weight{
+  .pyq-sub{
     font-family:'IBM Plex Mono', monospace;
-    font-size:11.5px;
-    color:var(--paper-dim);
+    font-size:11px;
+    letter-spacing:0.04em;
+    color:var(--tint);
+    margin:0;
   }
+
+  .pyq-arrow{
+    flex:0 0 auto;
+    width:15px; height:15px;
+    color:var(--tint);
+    opacity:0.55;
+    transition:transform .22s ease, opacity .22s ease;
+  }
+  .pyq-box:hover .pyq-arrow{ opacity:1; transform:translateX(3px); }
+  .pyq-row.end .pyq-arrow{ transform:scaleX(-1); }
+  .pyq-row.end .pyq-box:hover .pyq-arrow{ transform:scaleX(-1) translateX(3px); }
 
   footer{
     padding:0 6vw 70px;
@@ -315,12 +248,28 @@
   .back-btn svg{ width:15px; height:15px; flex:0 0 auto; }
 
   @media (max-width:640px){
-    .rail-controls{ padding:0 6vw 18px; }
-    .arrow-group{ display:none; }
-    .card{ width:76vw; min-height:440px; padding:24px 20px 22px; margin-left:-30px; }
-    .track-wrap{ padding:24px 0 20px; }
     header{ padding-top:20px; padding-bottom:0px; }
     .back-btn{ margin:16px 6vw 0; padding:8px 13px; font-size:12.5px; }
+
+    .pyq-section{ padding:36px 6vw 64px; }
+    .pyq-spine{ left:22px; }
+    .pyq-list{ gap:16px; }
+    .pyq-row.start, .pyq-row.end{ justify-content:flex-start; }
+    .pyq-box{
+      width:100%;
+      max-width:400px;
+      margin-left:40px;
+      padding:12px 16px;
+      gap:11px;
+    }
+    .pyq-row.end .pyq-box{ flex-direction:row; text-align:left; }
+    .pyq-row.end .pyq-main{ flex-direction:row; }
+    .pyq-row.end .pyq-arrow{ transform:none; }
+    .pyq-row.end .pyq-box:hover .pyq-arrow{ transform:translateX(3px); }
+    .pyq-seal{ width:32px; height:32px; font-size:11.5px; }
+    .pyq-divider{ height:24px; }
+    .pyq-title{ font-size:13.5px; }
+    .pyq-sub{ font-size:10px; }
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -339,27 +288,16 @@
 
 <div class="wrap">
   <header>
-    <div class="eyebrow">UPSC Civil Services Examination — Prelims</div>
-    <h1>UPSC LoG <em>free</em> PTS</h1>
+    <h1>UPSC LoG - <br><em>Prelims Booster Test</em></h1>
+    <p>Test your knowledge and
+      <a href="file:///C:/Users/srija/Desktop/UPSC_DAILY/my_new_website/ranks_tests/daily_rankings.html" target="_blank" style="display:inline-block;margin:0 2px;padding:4px 12px;border:1px solid rgba(200,166,70,.35);border-radius:999px;background:rgba(200,166,70,.10);color:#B58D2E;font-weight:800;font-size:.92em;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;transition:all .2s ease;">
+      SEE YOUR RANK [click me]</a><br>to compete with aspirants all over India.</p>
   </header>
 </div>
 
-<section class="carousel-section">
-  <div class="rail-controls">
-    <div class="progress-dots" id="dots"></div>
-    <div class="arrow-group">
-      <button class="arrow-btn" id="prevBtn" aria-label="Previous paper">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
-      </button>
-      <button class="arrow-btn" id="nextBtn" aria-label="Next paper">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
-      </button>
-    </div>
-  </div>
-
-  <div class="track-wrap">
-    <div class="track" id="track"></div>
-  </div>
+<section class="pyq-section">
+  <div class="pyq-spine"></div>
+  <div class="pyq-list" id="pyqList"></div>
 </section>
 
 <div class="wrap">
@@ -368,248 +306,46 @@
 </div>
 
 <script>
-const CARDS = [
-    {
-    code: "Subject 1",
-    seal: "I",
-    tint: "gs1",
-    title: "Miscellaneous<span><br><--SWIPE--></span>",
-    desc: "Where ecosystems, biodiversity, and climate converge. From forests and wildlife to environmental governance and conservation, understand the delicate balance that sustains life on Earth.",
-    tags: ["Ecology", "Biodiversity", "Climate Change", "Environment & Conservation"],
-    weight: "",
-    href: "miscellaneous/miscellaneous_test_page.html",
-    motif: `<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="100" cy="100" rx="80" ry="30" stroke="currentColor" stroke-width="1.5"/><ellipse cx="100" cy="100" rx="80" ry="30" stroke="currentColor" stroke-width="1.5" transform="rotate(60 100 100)"/><ellipse cx="100" cy="100" rx="80" ry="30" stroke="currentColor" stroke-width="1.5" transform="rotate(120 100 100)"/><circle cx="100" cy="100" r="8" fill="currentColor"/></svg>`
-  },
-    {
-    code: "Subject 2",
-    seal: "II",
-    tint: "gs4",
-    title: "<span>History</span><br><--SWIPE-->",
-    desc: "Where civilizations rise, empires expand, ideas evolve, and revolutions reshape nations. From ancient India to the modern world, history reveals the forces that continue to influence the present.",
-    tags: ["Ancient History", "Medieval History", "Modern History", "World History"],
-    weight: "",
-    href: "history/history_test_page.html",
-    motif: `<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M100 30 L100 150" stroke="currentColor" stroke-width="2"/><path d="M60 50 L140 50" stroke="currentColor" stroke-width="2"/><path d="M60 50 L40 90 L80 90 Z" stroke="currentColor" stroke-width="1.5"/><path d="M140 50 L120 90 L160 90 Z" stroke="currentColor" stroke-width="1.5"/><path d="M75 165 L125 165" stroke="currentColor" stroke-width="2"/></svg>`
-  },
-  {
-    code: "Subject 3",
-    seal: "III",
-    tint: "gs2",
-    title: "<span>GEOGRAPHY</span><br><--SWIPE-->",
-    desc: "From tectonic plates and monsoon systems to settlements, resources, and global patterns—the forces that shape landscapes, livelihoods, and the world we inhabit.",
-    tags: ["Physical Geography", "Indian Geography", "World Geography", "Environment & Human Geography"],
-    weight: "",
-    href: "geography/geography_test_page.html",
-    motif: `<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M100 20 L100 170" stroke="currentColor" stroke-width="2"/><path d="M40 50 L160 50" stroke="currentColor" stroke-width="2"/><path d="M40 50 L20 100 L60 100 Z" stroke="currentColor" stroke-width="1.5"/><path d="M160 50 L140 100 L180 100 Z" stroke="currentColor" stroke-width="1.5"/><path d="M60 170 L140 170" stroke="currentColor" stroke-width="2"/></svg>`
-  },
-  {
-    code: "Subject 4",
-    seal: "IV",
-    tint: "gs3",
-    title: "<span>Economy</span><br><--SWIPE-->",
-    desc: "Growth, land, and livelihood — how a nation feeds itself, builds itself, and looks after those growth tends to leave behind: hunger, ageing, and the welfare net beneath it all.",
-    tags: ["Indian Economy", "Agriculture & Food Security", "Infrastructure", "Social Welfare"],
-    weight: "",
-    href: "economics/economics_test_page.html",
-    motif: `<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M100 170 L100 90 M100 90 C80 90 70 70 75 45 C90 55 100 65 100 90 Z" stroke="currentColor" stroke-width="1.5"/><path d="M100 90 C120 90 130 70 125 45 C110 55 100 65 100 90 Z" stroke="currentColor" stroke-width="1.5"/><path d="M30 170 L170 170" stroke="currentColor" stroke-width="2"/><path d="M40 170 L40 140 L60 140 L60 170 M80 170 L80 120 L100 120" stroke="currentColor" stroke-width="1.2"/></svg>`
-  },
-  {
-    code: "Subject 5",
-    seal: "V",
-    tint: "gs1",
-    title: "<span>POLITY</span><br><--SWIPE-->",
-    desc: "From the framing of the Constitution and the debates of the <u><b>Constituent Assembly</b></u> to Parliament, fundamental rights, and the institutions that sustain the <u><b>world's largest democracy</b></u>",
-    tags: [  "Constitution of India",  "Governance",  "Polity & Political System",  "Social Justice & Rights"],
-    weight: "",
-    href: "polity/polity_test_page.html",
-    motif: `<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 160 L60 90 L90 130 L120 60 L150 100 L180 40" stroke="currentColor" stroke-width="2"/><circle cx="150" cy="40" r="26" stroke="currentColor" stroke-width="1.5"/><path d="M150 14 L150 66 M124 40 L176 40 M132 22 L168 58 M132 58 L168 22" stroke="currentColor" stroke-width="1"/></svg>`
-  },
-  {
-    code: "Subject 6",
-    seal: "VI",
-    tint: "ph",
-    title: "Environment <span><br><--SWIPE-->",
-    desc: "Where ecosystems, biodiversity, and climate converge. From forests and wildlife to environmental governance and conservation, understand the delicate balance that sustains life on Earth.",
-    tags: ["Ecology", "Biodiversity", "Climate Change", "Environment & Conservation"],
-    weight: "",
-    href: "environment/environment_test_page.html",
-    motif: `<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="100" cy="100" rx="80" ry="30" stroke="currentColor" stroke-width="1.5"/><ellipse cx="100" cy="100" rx="80" ry="30" stroke="currentColor" stroke-width="1.5" transform="rotate(60 100 100)"/><ellipse cx="100" cy="100" rx="80" ry="30" stroke="currentColor" stroke-width="1.5" transform="rotate(120 100 100)"/><circle cx="100" cy="100" r="8" fill="currentColor"/></svg>`
-  },
+const BOXES = [
+  { seal:"I", tint:"ph",  title:"MISCELLANEOUS", sub:"Test your knowledge of <b><u>Miscellaneous Subjects</u></b><br>Let's see how well you do <br>among your peers.", href:"miscellaneous/miscellaneous_test_page.html" },
 
+  { seal:"II",  tint:"gs1", title:"HISTORY", sub:"Test your knowledge of <b><u>History</u></b><br>Let's see how well you do <br>among your peers.", href:"history/history_test_page.html" },
+
+  { seal:"III", tint:"gs2", title:"GEOGRAPHY", sub:"Test your knowledge of <b><u>Geography</u></b><br>Let's see how well you do <br>among your peers.", href: "geography/geography_test_page.html", },
+  { seal:"IV",tint:"gs3", title:"INDIAN ECONOMY", sub:"Test your knowledge of <b><u>Indian Economy</u></b><br>Let's see how well you do <br>among your peers.", href:"economics/economics_test_page.html" },
+  { seal:"V", tint:"gs4", title:"POLITY", sub:"Test your knowledge of <b><u>Polity</u></b><br>Let's see how well you do <br>among your peers.", href:"polity/polity_test_page.html" },
+
+  { seal:"VI", tint:"ph",  title:"ENVIRONMENT", sub:"Test your knowledge of <b><u>Environment</u></b><br>Let's see how well you do <br>among your peers.", href:"environment/environment_test_page.html" },
 ];
 
+const list = document.getElementById('pyqList');
 
-const track = document.getElementById('track');
-const dotsWrap = document.getElementById('dots');
+BOXES.forEach((b, i) => {
+  const row = document.createElement('div');
+  row.className = 'pyq-row ' + (i % 2 === 0 ? 'start' : 'end');
 
-const leftSpacer = document.createElement('div');
-leftSpacer.className = 'spacer';
-track.appendChild(leftSpacer);
-
-CARDS.forEach((c, i) => {
-  const card = document.createElement('article');
-  card.className = 'card';
-  card.style.setProperty('--tint', `var(--${c.tint})`);
-  card.style.setProperty('--tint-soft', `var(--${c.tint}-soft)`);
-  card.innerHTML = `
-    <div class="motif">${c.motif}</div>
-    <div class="card-top">
-      <span class="code">${c.code}</span>
-      <span class="seal">${c.seal}</span>
-    </div>
-    <h2>${c.title}</h2>
-    <p class="desc">${c.desc}</p>
-    <div class="tags">${c.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
-    <div class="card-bottom">
-      <span class="weight">${c.weight}</span>
-      <a class="link-btn" href="${c.href}" target="_blank" rel="noopener noreferrer">
-        START
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
-      </a>
-    </div>
+  const a = document.createElement('a');
+  a.className = 'pyq-box';
+  a.href = b.href;
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+  a.style.setProperty('--tint', `var(--${b.tint})`);
+  a.style.setProperty('--tint-soft', `var(--${b.tint}-soft)`);
+  a.innerHTML = `
+    <span class="pyq-main">
+      <span class="pyq-seal">${b.seal}</span>
+      <span class="pyq-divider"></span>
+      <span class="pyq-text">
+        <p class="pyq-title">${b.title}</p>
+        <p class="pyq-sub">${b.sub}</p>
+      </span>
+    </span>
+    <svg class="pyq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
   `;
-  track.appendChild(card);
 
-  const dot = document.createElement('div');
-  dot.className = 'dot' + (i === 0 ? ' active' : '');
-  dotsWrap.appendChild(dot);
+  row.appendChild(a);
+  list.appendChild(row);
 });
-
-const rightSpacer = document.createElement('div');
-rightSpacer.className = 'spacer';
-track.appendChild(rightSpacer);
-
-const dots = Array.from(dotsWrap.children);
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
-const cardEls = Array.from(track.querySelectorAll('.card'));
-
-function sizeSpacers(){
-  const trackW = track.clientWidth;
-  const cardW = cardEls[0].getBoundingClientRect().width;
-  const half = Math.max((trackW - cardW) / 2, 0);
-  leftSpacer.style.width = half + 'px';
-  rightSpacer.style.width = half + 'px';
-}
-
-function centersOf(){
-  return cardEls.map(card => card.offsetLeft + card.offsetWidth / 2);
-}
-
-function currentIndex(){
-  const centers = centersOf();
-  const target = track.scrollLeft + track.clientWidth / 2;
-  let best = 0, bestDist = Infinity;
-  centers.forEach((c, i) => {
-    const d = Math.abs(c - target);
-    if (d < bestDist){ bestDist = d; best = i; }
-  });
-  return best;
-}
-
-function goTo(idx){
-  idx = Math.max(0, Math.min(idx, cardEls.length - 1));
-  const centers = centersOf();
-  track.scrollTo({ left: centers[idx] - track.clientWidth / 2, behavior: 'smooth' });
-}
-
-// coverflow transform: scale/opacity/tilt/lift by distance from viewport center
-let ticking = false;
-function applyCoverflow(){
-  const trackRect = track.getBoundingClientRect();
-  const centerX = trackRect.left + trackRect.width / 2;
-  cardEls.forEach(card => {
-    const r = card.getBoundingClientRect();
-    const cardCenter = r.left + r.width / 2;
-    const norm = (cardCenter - centerX) / (trackRect.width / 2.1);
-    const dist = Math.min(Math.abs(norm), 1.4);
-    const scale = 1 - dist * 0.26;
-    const opacity = 1 - dist * 0.62;
-    const lift = dist * 34;
-    const rotate = Math.max(-16, Math.min(16, -norm * 14));
-    const bright = 1 - dist * 0.42;
-    card.style.transform = `translateY(${lift}px) scale(${scale}) rotateY(${rotate}deg)`;
-    card.style.opacity = Math.max(opacity, 0.28);
-    card.style.filter = `brightness(${bright}) saturate(${1 - dist*0.3})`;
-    card.style.zIndex = Math.round((1 - dist) * 100);
-    card.style.boxShadow = dist < 0.12
-      ? '0 40px 80px -25px rgba(0,0,0,0.75)'
-      : '0 20px 40px -25px rgba(0,0,0,0.6)';
-  });
-
-  const idx = Math.min(currentIndex(), cardEls.length - 1);
-  dots.forEach((d,i) => d.classList.toggle('active', i === idx));
-  prevBtn.classList.toggle('disabled', idx <= 0);
-  prevBtn.disabled = idx <= 0;
-  nextBtn.classList.toggle('disabled', idx >= cardEls.length - 1);
-  nextBtn.disabled = idx >= cardEls.length - 1;
-
-  ticking = false;
-}
-
-function requestCoverflowUpdate(){
-  if (!ticking){
-    requestAnimationFrame(applyCoverflow);
-    ticking = true;
-  }
-}
-
-prevBtn.addEventListener('click', () => goTo(currentIndex() - 1));
-nextBtn.addEventListener('click', () => goTo(currentIndex() + 1));
-dots.forEach((d,i) => d.addEventListener('click', () => goTo(i)));
-cardEls.forEach((card, i) => card.addEventListener('click', (e) => {
-  if (i !== currentIndex() && !e.target.closest('a')) goTo(i);
-}));
-
-track.addEventListener('scroll', requestCoverflowUpdate);
-
-// only hijack wheel input for genuine horizontal gestures (trackpad swipe or Shift+wheel)
-// plain vertical mouse-wheel scrolling is left alone so the page scrolls normally
-track.addEventListener('wheel', (e) => {
-  const isHorizontalGesture = Math.abs(e.deltaX) > Math.abs(e.deltaY);
-  if (isHorizontalGesture || e.shiftKey) {
-    e.preventDefault();
-    track.scrollLeft += (e.deltaX !== 0 ? e.deltaX : e.deltaY);
-  }
-  // otherwise: do nothing, let the page scroll vertically as normal
-}, { passive: false });
-
-// drag to scroll (desktop mouse)
-let isDown = false, startX, startScroll, moved = false;
-track.addEventListener('mousedown', (e) => {
-  isDown = true;
-  moved = false;
-  track.classList.add('dragging');
-  startX = e.pageX;
-  startScroll = track.scrollLeft;
-});
-window.addEventListener('mouseup', () => {
-  if (!isDown) return;
-  isDown = false;
-  track.classList.remove('dragging');
-  if (moved) goTo(currentIndex());
-});
-window.addEventListener('mousemove', (e) => {
-  if (!isDown) return;
-  e.preventDefault();
-  moved = true;
-  const dx = e.pageX - startX;
-  track.scrollLeft = startScroll - dx;
-  requestCoverflowUpdate();
-});
-
-// keyboard navigation
-track.setAttribute('tabindex', '0');
-track.addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowRight') goTo(currentIndex() + 1);
-  if (e.key === 'ArrowLeft') goTo(currentIndex() - 1);
-});
-
-window.addEventListener('resize', () => { sizeSpacers(); requestCoverflowUpdate(); });
-
-sizeSpacers();
-requestCoverflowUpdate();
-requestAnimationFrame(() => goTo(2)); // start centered on the middle paper
 </script>
 
 </body>
