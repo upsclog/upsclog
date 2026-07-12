@@ -1,2 +1,2 @@
-1 : ___PRESS A LETTER TO JUMP___
-https://acrobat.adobe.com/id/urn:aaid:sc:AP:bdac3724-e2bd-488c-b506-1ae11073ad5b : DPQ1-Quantum Mechanics
+1 = ___PRESS A LETTER TO JUMP___
+https://acrobat.adobe.com/id/urn:aaid:sc:AP:bdac3724-e2bd-488c-b506-1ae11073ad5b = DPQ1 Quantum Mechanics
