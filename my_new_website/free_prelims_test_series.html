@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC LoG Prelims Test Series</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0B0D12;
+    --ink-2:#12151C;
+    --card:#151922;
+    --card-border:rgba(233,231,222,0.10);
+    --paper:#E9E7DE;
+    --paper-dim:#9A9C9C;
+    --paper-faint:rgba(233,231,222,0.55);
+
+    --gs1: #B8834A;   /* history / geography / society — clay, terrain */
+    --gs1-soft: rgba(184,131,74,0.14);
+    --gs2: #4B5FBF;   /* polity / constitution — indigo of authority */
+    --gs2-soft: rgba(75,95,191,0.14);
+    --gs3: #4C8558;   /* economy / agri / infra — cultivated green */
+    --gs3-soft: rgba(76,133,88,0.14);
+    --gs4: #8A3B4C;   /* ethics — considered, weighted maroon */
+    --gs4-soft: rgba(138,59,76,0.14);
+    --ph:  #3E7FA6;   /* physics — cold, precise cyan-blue */
+    --ph-soft: rgba(62,127,166,0.14);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'IBM Plex Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    min-height:100vh;
+  }
+
+  /* faint dossier grid texture */
+  .grid-veil{
+    position:fixed; inset:0; pointer-events:none; z-index:0;
+    background-image:
+      linear-gradient(rgba(233,231,222,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(233,231,222,0.035) 1px, transparent 1px);
+    background-size:44px 44px;
+    mask-image:radial-gradient(ellipse 90% 70% at 50% 0%, black 40%, transparent 85%);
+  }
+
+  .wrap{position:relative; z-index:1; max-width:1400px; margin:0 auto; padding:0 6vw;}
+
+  header{
+    padding:20px 6vw 0px;
+    max-width:900px;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--paper-dim);
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:22px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px; height:1px;
+    background:var(--paper-dim);
+  }
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:clamp(2.4rem, 6vw, 4.4rem);
+    line-height:1.03;
+    letter-spacing:-0.01em;
+    margin:0 0 20px;
+  }
+  h1 em{
+    font-style:italic;
+    font-weight:500;
+    color:transparent;
+    background:linear-gradient(90deg, var(--gs1), var(--gs2) 30%, var(--gs3) 55%, var(--gs4) 75%, var(--ph));
+    -webkit-background-clip:text;
+    background-clip:text;
+  }
+  header p{
+    font-size:16px;
+    line-height:1.65;
+    color:var(--paper-faint);
+    max-width:560px;
+    margin:0;
+  }
+
+  /* ===== PYQ boxes ===== */
+  .pyq-section{
+    position:relative;
+    padding:56px 6vw min(11vw,96px);
+  }
+  .pyq-spine{
+    position:absolute;
+    left:50%;
+    top:20px;
+    bottom:60px;
+    width:1px;
+    background:repeating-linear-gradient(
+      to bottom,
+      rgba(233,231,222,0.14) 0px,
+      rgba(233,231,222,0.14) 6px,
+      transparent 6px,
+      transparent 14px
+    );
+    transform:translateX(-0.5px);
+  }
+  .pyq-list{
+    position:relative;
+    z-index:1;
+    max-width:980px;
+    margin:0 auto;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+  .pyq-row{
+    display:flex;
+  }
+  .pyq-row.start{ justify-content:flex-start; }
+  .pyq-row.end{ justify-content:flex-end; }
+
+  .pyq-box{
+    --tint: var(--gs1);
+    --tint-soft: var(--gs1-soft);
+    width:min(400px, 62%);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    padding:14px 18px;
+    border-radius:14px;
+    background:
+      radial-gradient(120% 160% at 0% 0%, var(--tint-soft), transparent 65%),
+      var(--card);
+    border:1px solid var(--card-border);
+    text-decoration:none;
+    color:var(--paper);
+    box-shadow:0 18px 34px -26px rgba(0,0,0,0.7);
+    transition:transform .22s ease, border-color .22s ease, box-shadow .22s ease, background .22s ease;
+  }
+  .pyq-row.end .pyq-box{ flex-direction:row-reverse; text-align:right; }
+
+  .pyq-box:hover{
+    transform:translateY(-3px);
+    border-color:color-mix(in srgb, var(--tint) 55%, transparent);
+    box-shadow:0 24px 44px -22px rgba(0,0,0,0.8);
+  }
+  .pyq-box:active{ transform:translateY(-1px) scale(0.985); }
+
+  .pyq-main{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    min-width:0;
+  }
+  .pyq-row.end .pyq-main{ flex-direction:row-reverse; }
+
+  .pyq-seal{
+    flex:0 0 auto;
+    width:38px; height:38px;
+    border-radius:50%;
+    border:1px solid color-mix(in srgb, var(--tint) 55%, transparent);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:13px;
+    color:var(--tint);
+    background:var(--tint-soft);
+  }
+
+  .pyq-divider{
+    flex:0 0 auto;
+    width:1px;
+    height:28px;
+    background:linear-gradient(to bottom, transparent, color-mix(in srgb, var(--tint) 55%, transparent), transparent);
+  }
+
+  .pyq-text{ min-width:0; }
+  .pyq-title{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-weight:600;
+    font-size:14.5px;
+    line-height:1.3;
+    margin:0 0 3px;
+    color:var(--paper);
+  }
+  .pyq-sub{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.04em;
+    color:var(--tint);
+    margin:0;
+  }
+
+  .pyq-arrow{
+    flex:0 0 auto;
+    width:15px; height:15px;
+    color:var(--tint);
+    opacity:0.55;
+    transition:transform .22s ease, opacity .22s ease;
+  }
+  .pyq-box:hover .pyq-arrow{ opacity:1; transform:translateX(3px); }
+  .pyq-row.end .pyq-arrow{ transform:scaleX(-1); }
+  .pyq-row.end .pyq-box:hover .pyq-arrow{ transform:scaleX(-1) translateX(3px); }
+
+  footer{
+    padding:0 6vw 70px;
+    color:var(--paper-dim);
+    font-size:13px;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  footer a{ color:var(--paper-dim); }
+
+  /* back button — sits in normal document flow, not fixed/absolute */
+  .back-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin:60px 6vw 0;
+    padding:9px 15px;
+    border-radius:100px;
+    border:1px solid var(--card-border);
+    background:var(--ink-2);
+    color:var(--paper);
+    font-family:'IBM Plex Sans', sans-serif;
+    font-weight:500;
+    font-size:13px;
+    text-decoration:none;
+    cursor:pointer;
+    transition:border-color .25s, background .25s, transform .15s;
+  }
+  .back-btn:hover{ border-color:rgba(233,231,222,0.4); background:#191D27; }
+  .back-btn:active{ transform:scale(0.96); }
+  .back-btn:focus-visible{ outline:2px solid var(--paper); outline-offset:2px; }
+  .back-btn svg{ width:15px; height:15px; flex:0 0 auto; }
+
+  @media (max-width:640px){
+    header{ padding-top:20px; padding-bottom:0px; }
+    .back-btn{ margin:16px 6vw 0; padding:8px 13px; font-size:12.5px; }
+
+    .pyq-section{ padding:36px 6vw 64px; }
+    .pyq-spine{ left:22px; }
+    .pyq-list{ gap:16px; }
+    .pyq-row.start, .pyq-row.end{ justify-content:flex-start; }
+    .pyq-box{
+      width:100%;
+      max-width:400px;
+      margin-left:40px;
+      padding:12px 16px;
+      gap:11px;
+    }
+    .pyq-row.end .pyq-box{ flex-direction:row; text-align:left; }
+    .pyq-row.end .pyq-main{ flex-direction:row; }
+    .pyq-row.end .pyq-arrow{ transform:none; }
+    .pyq-row.end .pyq-box:hover .pyq-arrow{ transform:translateX(3px); }
+    .pyq-seal{ width:32px; height:32px; font-size:11.5px; }
+    .pyq-divider{ height:24px; }
+    .pyq-title{ font-size:13.5px; }
+    .pyq-sub{ font-size:10px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ scroll-behavior:auto !important; transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-veil"></div>
+
+<button class="back-btn" onclick="location.href='index.html'" aria-label="Go back">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+  UPSC LoG
+</button>
+
+<div class="wrap">
+  <header>
+    <h1>UPSC LoG - <br><em>Prelims Booster Test</em></h1>
+    <p>Test your knowledge and
+      <a href="ranks_tests/daily_rankings.html" target="_blank" style="display:inline-block;margin:0 2px;padding:4px 12px;border:1px solid rgba(200,166,70,.35);border-radius:999px;background:rgba(200,166,70,.10);color:#B58D2E;font-weight:800;font-size:.92em;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;transition:all .2s ease;">
+      SEE YOUR RANK [click me]</a><br>to compete with aspirants all over India.</p>
+  </header>
+</div>
+
+<section class="pyq-section">
+  <div class="pyq-spine"></div>
+  <div class="pyq-list" id="pyqList"></div>
+</section>
+
+<div class="wrap">
+  <footer>
+  </footer>
+</div>
+
+<script>
+const BOXES = [
+  { seal:"I", tint:"ph",  title:"MISCELLANEOUS", sub:"Test your knowledge of <b><u>Miscellaneous Subjects</u></b><br>Let's see how well you do <br>among your peers.", href:"miscellaneous/miscellaneous_test_page.html" },
+
+  { seal:"II",  tint:"gs1", title:"HISTORY", sub:"Test your knowledge of <b><u>History</u></b><br>Let's see how well you do <br>among your peers.", href:"history/history_test_page.html" },
+
+  { seal:"III", tint:"gs2", title:"GEOGRAPHY", sub:"Test your knowledge of <b><u>Geography</u></b><br>Let's see how well you do <br>among your peers.", href: "geography/geography_test_page.html", },
+  { seal:"IV",tint:"gs3", title:"INDIAN ECONOMY", sub:"Test your knowledge of <b><u>Indian Economy</u></b><br>Let's see how well you do <br>among your peers.", href:"economics/economics_test_page.html" },
+  { seal:"V", tint:"gs4", title:"POLITY", sub:"Test your knowledge of <b><u>Polity</u></b><br>Let's see how well you do <br>among your peers.", href:"polity/polity_test_page.html" },
+
+  { seal:"VI", tint:"ph",  title:"ENVIRONMENT", sub:"Test your knowledge of <b><u>Environment</u></b><br>Let's see how well you do <br>among your peers.", href:"environment/environment_test_page.html" },
+];
+
+const list = document.getElementById('pyqList');
+
+BOXES.forEach((b, i) => {
+  const row = document.createElement('div');
+  row.className = 'pyq-row ' + (i % 2 === 0 ? 'start' : 'end');
+
+  const a = document.createElement('a');
+  a.className = 'pyq-box';
+  a.href = b.href;
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+  a.style.setProperty('--tint', `var(--${b.tint})`);
+  a.style.setProperty('--tint-soft', `var(--${b.tint}-soft)`);
+  a.innerHTML = `
+    <span class="pyq-main">
+      <span class="pyq-seal">${b.seal}</span>
+      <span class="pyq-divider"></span>
+      <span class="pyq-text">
+        <p class="pyq-title">${b.title}</p>
+        <p class="pyq-sub">${b.sub}</p>
+      </span>
+    </span>
+    <svg class="pyq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
+  `;
+
+  row.appendChild(a);
+  list.appendChild(row);
+});
+</script>
+
+</body>
+</html>

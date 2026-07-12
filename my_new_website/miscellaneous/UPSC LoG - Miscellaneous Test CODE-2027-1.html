@@ -1,792 +1,1331 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UPSC LoG - Prelims Booster</title>
+<title>UPSC LoG — Prelims Booster</title>
 <style>
-
-:root {
-  --bg: #f5f5f5;
-  --surface: #ffffff;
-  --text: #1a1a1a;
-  --text-secondary: #555;
-  --border: #ddd;
-  --option-hover: #f0f0f0;
-  --correct: #b7f7b7;
-  --correct-text: #145214;
-  --wrong: #ffb6b6;
-  --wrong-text: #6b0000;
-  --exp-bg: #eef;
-  --exp-text: #1a1a2e;
-  --timer-bg: #222;
-  --timer-text: #fff;
-  --btn-bg: #1a1a2e;
-  --btn-text: #fff;
-  --btn-hover: #2e2e50;
-  --shadow: rgba(0,0,0,0.1);
-  --track: #ccc;
-  --thumb: #1a1a2e;
-  --toggle-bg: #ccc;
-  --toggle-knob: #fff;
-  --toggle-active: #4a6fa5;
-}
-
-[data-theme="dark"] {
-  --bg: #12121e;
-  --surface: #1e1e30;
-  --text: #e8e8f0;
-  --text-secondary: #aaa;
-  --border: #333;
-  --option-hover: #2a2a40;
-  --correct: #1a4d1a;
-  --correct-text: #7ef07e;
-  --wrong: #4d1a1a;
-  --wrong-text: #f07e7e;
-  --exp-bg: #1a1a35;
-  --exp-text: #c8c8e8;
-  --timer-bg: #0d0d1a;
-  --timer-text: #e8e8f0;
-  --btn-bg: #4a6fa5;
-  --btn-hover: #5a80b8;
-  --btn-text: #fff;
-  --shadow: rgba(0,0,0,0.4);
-  --track: #444;
-  --thumb: #4a6fa5;
-  --toggle-bg: #444;
-  --toggle-knob: #fff;
-  --toggle-active: #4a6fa5;
-}
-
-*, *::before, *::after { box-sizing: border-box; }
-
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  margin: 30px;
-  transition: background 0.25s, color 0.25s;
-}
-
-.container {
-  max-width: 900px;
-  margin: auto;
-  background: var(--surface);
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 0 15px var(--shadow);
-  transition: background 0.25s, box-shadow 0.25s;
-}
-
-h1 { text-align: center; color: var(--text); }
-h2 { text-align: center; color: var(--text); }
-
-ul { color: var(--text-secondary); }
-ul a { color: #4a6fa5; }
-
-.question {
-  border: 1px solid var(--border);
-  padding: 20px;
-  margin-top: 20px;
-  border-radius: 8px;
-  transition: border-color 0.25s;
-}
-
-.question h3 {
-  margin-top: 0;
-  color: var(--text-secondary);
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.option {
-  display: block;
-  margin: 8px 0;
-  padding: 10px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: background 0.15s, border-color 0.15s;
-  color: var(--text);
-}
-
-.option:hover {
-  background: var(--option-hover);
-  border-color: var(--border);
-}
-
-.correct {
-  background: var(--correct) !important;
-  color: var(--correct-text) !important;
-  border-color: transparent !important;
-}
-
-.wrong {
-  background: var(--wrong) !important;
-  color: var(--wrong-text) !important;
-  border-color: transparent !important;
-}
-
-/* orange outline = what the user actually selected */
-.user-selected {
-  outline: 3px solid #f97316 !important;
-  outline-offset: -2px;
-  border-radius: 6px;
-}
-
-.explanation {
-  display: none;
-  margin-top: 15px;
-  background: var(--exp-bg);
-  color: var(--exp-text);
-  padding: 12px 16px;
-  border-radius: 6px;
-  font-size: 14px;
-  line-height: 1.6;
-  border-left: 3px solid #4a6fa5;
-}
-
-button.submit-btn {
-  display: block;
-  padding: 12px 32px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 24px;
-  background: var(--btn-bg);
-  color: var(--btn-text);
-  border: none;
-  border-radius: 8px;
-  transition: background 0.2s, transform 0.1s;
-}
-
-button.submit-btn:hover { background: var(--btn-hover); }
-button.submit-btn:active { transform: scale(0.98); }
-
-#score {
-  font-size: 20px;
-  font-weight: bold;
-  margin: 20px 0;
-  padding: 16px;
-  border-radius: 8px;
-  background: var(--exp-bg);
-  color: var(--exp-text);
-}
-
-/* ── Timer ── */
-#timer {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: var(--timer-bg);
-  color: var(--timer-text);
-  padding: 12px 20px;
-  font-size: 22px;
-  border-radius: 8px;
-  font-weight: bold;
-  box-shadow: 0 2px 10px var(--shadow);
-  transition: background 0.25s, color 0.25s;
-  z-index: 100;
-}
-
-/* ── Dark mode toggle ── */
-.theme-toggle {
-  position: fixed;
-  top: 74px;
-  right: 20px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 30px;
-  padding: 6px 12px;
-  box-shadow: 0 2px 8px var(--shadow);
-  z-index: 100;
-  cursor: pointer;
-  transition: background 0.25s, border-color 0.25s;
-  user-select: none;
-}
-
-.theme-toggle .icon {
-  font-size: 15px;
-  line-height: 1;
-}
-
-.toggle-track {
-  width: 36px;
-  height: 20px;
-  background: var(--toggle-bg);
-  border-radius: 999px;
-  position: relative;
-  transition: background 0.25s;
-  flex-shrink: 0;
-}
-
-[data-theme="dark"] .toggle-track {
-  background: var(--toggle-active);
-}
-
-.toggle-knob {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 14px;
-  height: 14px;
-  background: var(--toggle-knob);
-  border-radius: 50%;
-  transition: transform 0.25s;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-}
-
-[data-theme="dark"] .toggle-knob {
-  transform: translateX(16px);
-}
-
-/* ── Mobile ── */
-@media (max-width: 700px) {
-  body { margin: 10px; }
-
-  #timer {
-    position: static;
-    width: fit-content;
-    margin: 0 auto 12px;
-    display: block;
-    text-align: center;
+  :root{
+    --bg: #F3F4F1;
+    --paper: #FFFFFF;
+    --ink: #1D2A35;
+    --ink-soft: #5B6873;
+    --rule: #D8DCD6;
+    --navy: #1B3A5C;
+    --navy-deep: #12283F;
+    --gold: #B8862E;
+    --gold-soft: #EFDFB8;
+    --answered: #2F7D5A;
+    --answered-bg: #E4F3EC;
+    --skipped: #B8862E;
+    --skipped-bg: #FBF1DE;
+    --current-ring: #1B3A5C;
+    --wrong: #B23A2E;
+    --wrong-bg: #FBEAE7;
+    --shadow: 0 1px 2px rgba(20,30,40,0.06), 0 6px 20px rgba(20,30,40,0.05);
+    --serif: Georgia, 'Times New Roman', 'Iowan Old Style', serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --mono: 'Courier New', ui-monospace, monospace;
+  }
+  [data-theme="dark"]{
+    --bg: #0F1A24;
+    --paper: #17232E;
+    --ink: #E7ECEF;
+    --ink-soft: #97A5AF;
+    --rule: #2A3846;
+    --navy: #3E6E9E;
+    --navy-deep: #2A4E70;
+    --gold: #D9A441;
+    --gold-soft: #3A3220;
+    --answered: #4CAF7D;
+    --answered-bg: #163227;
+    --skipped: #D9A441;
+    --skipped-bg: #332A16;
+    --current-ring: #D9A441;
+    --wrong: #E07A6C;
+    --wrong-bg: #3A1E1A;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+    html, body{
+    overflow-x: hidden;
+    width: 100%;
+  }
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    min-height:100vh;
+    transition:background .3s ease, color .3s ease;
   }
 
-  .theme-toggle {
-    position: static;
-    width: fit-content;
-    margin: 0 auto 16px;
+  /* ---------- Header ---------- */
+  header.topbar{
+    background:linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color:#F4F1EA;
+    padding:0;
+    box-shadow:var(--shadow);
+    position:sticky; top:0; z-index:50;
+  }
+  .topbar-inner{
+    max-width:1280px; margin:0 auto;
+    display:flex; align-items:center; gap:20px;
+    padding:14px 28px;
+  }
+  .logo-slot{
+    width:52px; height:52px;
+    border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    overflow:hidden;
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .logo-slot img{
+    width:100%; height:100%;
+    object-fit:contain;
+  }
+  .logo-slot:hover{border-color:rgba(244,241,234,0.75); color:#F4F1EA;}
+  .title-block{flex:1; min-width:0;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gold-soft, #D9A441);
+    opacity:0.85;
+  }
+  .title-block h1{
+    font-family:var(--serif);
+    font-size:22px;
+    font-weight:400;
+    margin:2px 0 0 0;
+    letter-spacing:0.01em;
+  }
+  .subnote{
+    font-family:var(--mono);
+    font-size:11px;
+    color:rgba(244,241,234,0.65);
+    margin-top:6px;
+    letter-spacing:0.02em;
+  }
+  .subnote a{color:var(--gold-soft); text-decoration:none;}
+  .subnote a:hover{text-decoration:underline;}
+  .topbar-right{
+    display:flex; align-items:center; gap:18px; flex-shrink:0;
+  }
+  .timer{
+    font-family:var(--mono);
+    font-size:13px;
+    color:#F4F1EA;
+    border:1px solid rgba(244,241,234,0.3);
+    padding:6px 12px;
+    border-radius:6px;
+    background:rgba(0,0,0,0.12);
+    transition:background .2s ease;
+  }
+  .timer.urgent{background:var(--wrong); border-color:var(--wrong);}
+
+  /* dark mode switch */
+  .mode-switch{
+    display:flex; align-items:center; gap:8px;
+    font-size:12px; color:rgba(244,241,234,0.85);
+  }
+  .switch{
+    position:relative; width:44px; height:24px;
+    background:rgba(244,241,234,0.2);
+    border-radius:20px; cursor:pointer;
+    border:1px solid rgba(244,241,234,0.35);
+    flex-shrink:0;
+  }
+  .switch .knob{
+    position:absolute; top:2px; left:2px;
+    width:18px; height:18px; border-radius:50%;
+    background:#F4F1EA;
+    transition:transform .25s ease;
+    box-shadow:0 1px 3px rgba(0,0,0,0.3);
+  }
+  [data-theme="dark"] .switch .knob{
+    transform:translateX(20px);
+    background:var(--gold);
   }
 
-  .mobile-bar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
+  /* ---------- Layout ---------- */
+  .name-bar{
+  max-width:1280px; margin:20px auto 0;
+  padding:0 28px;
+  display:flex; align-items:center; gap:12px;
+}
+.name-bar label{
+  font-family:var(--mono); font-size:20px;
+  color:var(--ink-soft); white-space:nowrap;
+}
+.name-bar input{
+  flex:1; max-width:320px;
+  font-family:var(--sans); font-size:14px;
+  padding:9px 14px;
+  border:1px solid var(--rule); border-radius:7px;
+  background:var(--paper); color:var(--ink);
+}
+.name-bar input:focus{ outline:none; border-color:var(--navy); }
+[data-theme="dark"] .name-bar input:focus{ border-color:var(--gold); }
+
+@media (max-width: 430px){
+  .name-bar{ padding:0 12px; margin-top:14px; flex-wrap:wrap; }
+  .name-bar input{ max-width:100%; }
+}
+  .layout{
+    max-width:1280px; margin:0 auto;
+    display:grid;
+    grid-template-columns:1fr 320px;
+    gap:23px;
+    padding:32px 28px 60px;
+    align-items:start;
+  }
+
+  /* ---------- Question paper ---------- */
+  .paper{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:36px 44px 32px;
+    min-height:520px;
+    display:flex;
+    flex-direction:column;
+  }
+  .paper-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    border-bottom:1px solid var(--rule);
+    padding-bottom:14px; margin-bottom:28px;
+  }
+  .q-index{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--ink-soft);
+    letter-spacing:0.04em;
+  }
+  .q-index b{color:var(--navy); font-size:15px;}
+  [data-theme="dark"] .q-index b{color:var(--gold);}
+  .q-status-tag{
+    font-family:var(--mono);
+    font-size:13.5px;
+    font-weight:800;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    padding:7px 16px;
+    border-radius:20px;
+    border:2px solid transparent;
+  }
+  .q-status-tag.answered{background:var(--answered-bg); color:var(--answered); border-color:var(--answered);}
+  .q-status-tag.unanswered{background:var(--skipped-bg); color:var(--skipped); border-color:var(--skipped);}
+
+  .q-text{
+    font-family:var(--serif);
+    font-size:19px;
+    line-height:1.5;
+    color:var(--ink);
+    margin:0 0 32px 0;
+  }
+
+  .options{
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .option{
+    display:flex; align-items:flex-start; gap:14px;
+    padding:18px 18px;
+    border:1px solid var(--rule);
+    border-radius:8px;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+    background:transparent;
+  }
+  .option:hover{border-color:var(--navy); background:rgba(27,58,92,0.04);}
+  [data-theme="dark"] .option:hover{background:rgba(217,164,65,0.06); border-color:var(--gold);}
+  .option.selected{
+    border-color:var(--navy);
+    background:rgba(27,58,92,0.07);
+  }
+  [data-theme="dark"] .option.selected{
+    border-color:var(--gold);
+    background:rgba(217,164,65,0.1);
+  }
+  .option .tag{
+    font-family:var(--mono);
+    font-size:13px;
+    font-weight:bold;
+    width:24px; height:24px;
+    border-radius:50%;
+    border:1.5px solid var(--rule);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    color:var(--ink-soft);
+  }
+  .option.selected .tag{
+    border-color:var(--navy);
+    background:var(--navy);
+    color:#fff;
+  }
+  [data-theme="dark"] .option.selected .tag{
+    border-color:var(--gold);
+    background:var(--gold);
+    color:#17232E;
+  }
+  .option .opt-text{
+    font-size:15.5px; line-height:1.5; padding-top:1px;
+  }
+  .option.locked{cursor:default;}
+  .option.correct{
+    border-color:var(--answered);
+    background:var(--answered-bg);
+  }
+  .option.correct .tag{
+    border-color:var(--answered);
+    background:var(--answered);
+    color:#fff;
+  }
+  .option.incorrect{
+    border-color:var(--wrong);
+    background:var(--wrong-bg);
+  }
+  .option.incorrect .tag{
+    border-color:var(--wrong);
+    background:var(--wrong);
+    color:#fff;
+  }
+  .option.locked:hover{background:inherit; border-color:inherit;}
+  .q-status-tag.correct{background:var(--answered-bg); color:var(--answered); border-color:var(--answered); box-shadow:0 0 0 1px var(--answered) inset;}
+  .q-status-tag.incorrect{background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong); box-shadow:0 0 0 1px var(--wrong) inset;}
+  .q-status-tag.review-unanswered{
+    background:var(--wrong-bg);
+    color:var(--wrong);
+    border-color:var(--wrong);
+    box-shadow:0 0 0 1px var(--wrong) inset;
+  }
+
+  /* ---------- Explanation (review mode) ---------- */
+  .explain-box{
+    margin-top:26px;
+    background:var(--gold-soft);
+    border:1px solid var(--gold);
+    border-radius:8px;
+    padding:16px 20px;
+    font-size:14px;
+    line-height:1.65;
+    color:var(--ink);
+  }
+  [data-theme="dark"] .explain-box{background:rgba(217,164,65,0.08);}
+  .explain-box b{color:var(--navy);}
+  [data-theme="dark"] .explain-box b{color:var(--gold);}
+  .explain-box .exp-label{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-bottom:8px;
+  }
+
+  .paper-foot{
+    display:flex; justify-content:space-between;
+    margin-top:32px; padding-top:20px;
+    border-top:1px solid var(--rule);
+  }
+  button{
+    font-family:var(--sans);
+    font-size:14px;
+    font-weight:600;
+    padding:11px 22px;
+    border-radius:7px;
+    border:1px solid var(--rule);
+    background:var(--paper);
+    color:var(--ink);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  button:hover:not(:disabled){border-color:var(--navy); color:var(--navy);}
+  [data-theme="dark"] button:hover:not(:disabled){border-color:var(--gold); color:var(--gold);}
+  button:disabled{opacity:0.35; cursor:not-allowed;}
+  button.primary{
+    background:var(--navy); color:#F4F1EA; border-color:var(--navy);
+  }
+  button.primary:hover{filter:brightness(1.1); color:#F4F1EA;}
+  button.clear{background:transparent; border-color:transparent; color:var(--ink-soft); font-weight:500;}
+  .nav-group{display:flex; gap:10px;}
+
+  /* ---------- Sidebar palette ---------- */
+  .sidebar{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:24px;
+    position:sticky;
+    top:96px;
+  }
+  .sidebar h2{
+    font-family:var(--serif);
+    font-size:16px;
+    font-weight:400;
+    margin:0 0 4px 0;
+    color:var(--ink);
+  }
+  .sidebar .sub{
+    font-size:12px; color:var(--ink-soft); margin-bottom:18px;
+  }
+  .legend{
+    display:flex; flex-direction:column; gap:8px;
+    margin-bottom:20px;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  .legend span{display:flex; align-items:center; gap:8px;}
+  .dot{width:10px; height:10px; border-radius:3px; flex-shrink:0;}
+  .dot.answered{background:var(--answered);}
+  .dot.unanswered{background:var(--rule); border:1px solid var(--ink-soft);}
+  .dot.current{background:transparent; border:2px solid var(--current-ring);}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:8px;
+    margin-bottom:22px;
+  }
+  .cell{
+    aspect-ratio:1;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono);
+    font-size:13px;
+    border-radius:6px;
+    border:1px solid var(--rule);
+    background:transparent;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .cell:hover{border-color:var(--navy);}
+  [data-theme="dark"] .cell:hover{border-color:var(--gold);}
+  .cell.answered{
+    background:var(--answered-bg); color:var(--answered); border-color:var(--answered);
+    font-weight:bold;
+  }
+  .cell.incorrect{
+    background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong);
+    font-weight:bold;
+  }
+  .cell.current{
+    outline:2px solid var(--current-ring); outline-offset:2px;
+  }
+
+  .tally{
+    padding-top:16px; border-top:1px solid var(--rule);
+    color:var(--ink-soft);
+  }
+  .tally-plain{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-plain > div{flex:1; text-align:left;}
+  .tally b{color:var(--ink); font-size:16px; display:block; font-family:var(--sans);}
+  .tally b.stat-correct{color:var(--answered);}
+  .tally b.stat-incorrect{color:var(--wrong);}
+  .tally b.stat-unattempted{color:var(--skipped);}
+
+  .marks-line{
+    text-align:center;
+    background:var(--gold-soft);
+    border:1.5px solid var(--gold);
+    border-radius:8px;
+    padding:12px 10px;
+    margin-bottom:14px;
+  }
+  [data-theme="dark"] .marks-line{background:rgba(217,164,65,0.12);}
+  .marks-line b{
+    font-size:26px; color:var(--navy); font-family:var(--serif); font-weight:700;
+  }
+  [data-theme="dark"] .marks-line b{color:var(--gold);}
+  .marks-line span{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-top:2px;
+  }
+  .tally-grid{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-grid > div{flex:1; text-align:left;}
+
+  .score-breakdown{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+    max-width:420px;
+    margin:24px auto 0;
+  }
+  .score-breakdown .stat{
+    border:1.5px solid var(--rule);
+    border-radius:10px;
+    padding:14px 10px;
+  }
+  .score-breakdown .stat b{
+    display:block; font-size:24px; font-family:var(--sans); margin-bottom:4px;
+  }
+  .score-breakdown .stat span{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft);
+  }
+  .score-breakdown .stat.correct{border-color:var(--answered); background:var(--answered-bg);}
+  .score-breakdown .stat.correct b{color:var(--answered);}
+  .score-breakdown .stat.incorrect{border-color:var(--wrong); background:var(--wrong-bg);}
+  .score-breakdown .stat.incorrect b{color:var(--wrong);}
+  .score-breakdown .stat.unattempted{border-color:var(--skipped); background:var(--skipped-bg);}
+  .score-breakdown .stat.unattempted b{color:var(--skipped);}
+
+  #submitBtn{width:100%; margin-top:20px;}
+
+  /* ---------- Result overlay ---------- */
+  .result-card{
+    background:var(--paper); border:1px solid var(--rule); border-radius:10px;
+    box-shadow:var(--shadow); padding:44px; text-align:center;
+  }
+  .result-card .score{
+    font-family:var(--serif); font-size:52px; color:var(--navy); margin:8px 0;
+  }
+  [data-theme="dark"] .result-card .score{color:var(--gold);}
+  .result-card .percent{
+    font-family:var(--mono); font-size:13px; color:var(--ink-soft);
+    letter-spacing:0.04em; margin-top:-4px;
+  }
+  .hidden{display:none !important;}
+
+  /* ---------- Confirm submit modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background:rgba(15,20,25,0.55);
+    display:flex; align-items:center; justify-content:center;
+    z-index:200;
+    padding:20px;
+  }
+  .modal-box{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:12px;
+    box-shadow:var(--shadow);
+    padding:30px 30px 24px;
+    max-width:380px;
+    width:100%;
+    text-align:center;
+  }
+  .modal-box .modal-icon{
+    font-size:26px;
+    margin-bottom:6px;
+  }
+  .modal-box p{
+    font-family:var(--sans);
+    font-size:15px;
+    line-height:1.55;
+    color:var(--ink);
+    margin:10px 0 22px;
+  }
+  .modal-box p b{color:var(--navy);}
+  [data-theme="dark"] .modal-box p b{color:var(--gold);}
+  .modal-box .modal-warn{
+    font-family:var(--mono);
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--skipped);
+    background:var(--skipped-bg);
+    border:1px solid var(--skipped);
+    border-radius:6px;
+    padding:8px 10px;
+    margin:0 0 18px;
+    text-align:left;
+    line-height:1.5;
+  }
+  .modal-actions{
+    display:flex; gap:12px;
+  }
+  .modal-actions button{
+    flex:1;
+    padding:12px 10px;
+  }
+  #modalGoBack{color:var(--ink);}
+  #modalConfirm{background:var(--navy); color:#F4F1EA; border-color:var(--navy);}
+  #modalConfirm:hover{filter:brightness(1.1); color:#F4F1EA;}
+
+  :root{
+    --desktop-width: 1440;
+}
+
+@media (max-width: 1024px){
+  .layout{
+    grid-template-columns: 1fr;
+  }
+  .sidebar{
+    position: static;      /* was sticky at top:96px — no longer needed once stacked */
+    top: auto;
+  }
+}
+@media (max-width: 600px){
+  .topbar-inner{
     flex-wrap: wrap;
-    margin-bottom: 16px;
+    padding: 14px 16px;
+    gap: 10px;
   }
-
-  .mobile-bar #timer,
-  .mobile-bar .theme-toggle {
-    position: static;
-    margin: 0;
+  .topbar-right{
+    flex-shrink: 1;        /* was 0 before — this is what caused the overflow */
+    flex-basis: 100%;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+  .subnote{
+    white-space: normal;
+  }
+}
+@media (max-width: 430px){
+  .layout{
+    padding: 20px 12px 40px;
+  }
+  .paper{
+    padding: 24px 18px 22px;
+  }
+  .sidebar{
+    padding: 18px;
+  }
+  .paper-head{
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .q-status-tag{
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+@media (max-width: 600px){
+  .title-block h1{
+    font-size: 17px;
+  }
+  .eyebrow{
+    font-size: 9.5px;
+  }
+  .subnote{
+    font-size: 10px;
+  }
+  .timer{
+    font-size: 11px;
+    padding: 5px 9px;
+  }
+  .mode-switch{
+    font-size: 11px;
+  }
+}
+@media (max-width: 430px){
+  .result-card{
+    padding: 24px 18px;
+  }
+  .score-breakdown{
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    max-width: 100%;
+  }
+  .score-breakdown .stat{
+    padding: 10px 6px;
+  }
+  .score-breakdown .stat b{
+    font-size: 19px;
+  }
+  .result-card .score{
+    font-size: 38px;
   }
 }
 
 </style>
 </head>
-<body>
+<body data-theme="light">
 
-<!-- Mobile: group timer + toggle -->
-<div class="mobile-bar" id="mobileBar" style="display:none;">
-  <div id="timerMobile" style="background:var(--timer-bg);color:var(--timer-text);padding:10px 18px;font-size:20px;border-radius:8px;font-weight:bold;box-shadow:0 2px 10px var(--shadow);">30:00</div>
-  <div class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode" role="button">
-    <span class="icon" id="iconM">☀️</span>
-    <div class="toggle-track"><div class="toggle-knob"></div></div>
-    <span class="icon" id="iconM2">🌙</span>
+<header class="topbar">
+  <div class="topbar-inner">
+
+    <!-- <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">UPSC<br>LOGO</a> -->
+    <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">
+  <img src="../logo.png" alt="UPSC LoG" style="width:100%; height:100%; object-fit:contain; border-radius:6px;">
+</a>
+    <div class="title-block">
+      <div class="eyebrow">UPSC LoG · Prelims Booster 2027</div>
+      <h1>Miscellaneous Test CODE-2027-1</h1>
+      <div class="subnote" style="font-size: 12px;">
+        <span id="qTotalNote">7</span> Questions · +2 Correct / −0.67 Incorrect ·
+        <a href="https://t.me/upsclog" target="_blank" rel="noopener"> Join UPSC-LoG Telegram ↗</a>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="timer" id="timer">30:00</div>
+      <div class="mode-switch">
+        <span>Light</span>
+        <div class="switch" id="themeSwitch" role="button" aria-label="Toggle dark mode">
+          <div class="knob"></div>
+        </div>
+        <span>Dark</span>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="name-bar">
+  <label for="userName">Add name for rank</label>
+  <input type="text" id="userName" placeholder="Enter your name" maxlength="40">
+</div>
+
+<div class="layout">
+
+  <div class="paper" id="paperView">
+    <div class="paper-head">
+      <div class="q-index">Question <b id="qNum">1</b> of <span id="qTotal">7</span></div>
+      <div class="q-status-tag unanswered" id="qStatusTag">Not Answered</div>
+    </div>
+
+    <p class="q-text" id="qText">Loading question…</p>
+
+    <div class="options" id="optionsList"></div>
+
+    <div class="explain-box hidden" id="explainBox">
+      <span class="exp-label">Explanation</span>
+      <div id="explainText"></div>
+    </div>
+
+    <div class="paper-foot">
+      <div class="nav-group">
+        <button id="prevBtn">← Previous</button>
+        <button class="clear" id="clearBtn">Clear response</button>
+      </div>
+      <button id="nextBtn" class="primary">Next →</button>
+    </div>
+  </div>
+
+  <div class="result-card hidden" id="resultView">
+    <div class="eyebrow" style="color:var(--ink-soft); letter-spacing:0.14em; font-family:var(--mono); font-size:11px; text-transform:uppercase;">Marks Sent for rank PDF</div>
+    <div class="score" id="scoreText">0.00 / 14.00</div>
+    <div class="percent" id="scorePercent">0.00%</div>
+    <div class="score-breakdown" id="scoreBreakdown"></div>
+    <p style="color:var(--ink-soft); font-size:14px; margin:20px 0 24px;">You can review your answers and explanations using the palette on the right.</p>
+    <h2>Check <a href="https://upsclog.github.io/upsclog/ranks_tests/daily_rankings.html" target="_blank">[RANKINGS]</a> - for Daily Rankings [PDF]</h2>
+    <button class="primary" id="reviewBtn">Review Answers</button>
+  </div>
+
+  <aside class="sidebar">
+    <h2>* Explanations attached for each question after you submit the test<br><br></h2>
+    <h2>* Auto-Submission in 30 minutes</h2>
+    <h2>* Dark <-> Bright modes for ease</h2>
+    <div class="sub"></div>
+
+    <div class="legend">
+      <span><span class="dot answered"></span> Answered / Correct</span>
+      <span><span class="dot" style="background:var(--wrong);"></span> Incorrect</span>
+      <span><span class="dot unanswered"></span> Not answered</span>
+      <span><span class="dot current"></span> Currently viewing</span>
+    </div>
+
+    <div class="grid" id="paletteGrid"></div>
+
+    <div class="tally" id="tallyRow">
+      <div class="tally-plain">
+        <div><b id="answeredCount">0</b>Answered</div>
+        <div><b id="skippedCount">7</b>Remaining</div>
+      </div>
+    </div>
+
+    <button class="primary" id="submitBtn">Submit Test</button>
+  </aside>
+
+</div>
+
+<div class="modal-overlay hidden" id="confirmModal">
+  <div class="modal-box">
+    <div class="modal-icon" id="modalIcon">📝</div>
+    <p id="modalMessage">Submit test?</p>
+    <div class="modal-actions">
+      <button id="modalGoBack">Go Back</button>
+      <button id="modalConfirm" class="primary">Yes, Submit</button>
+    </div>
   </div>
 </div>
 
-<!-- Desktop: fixed position -->
-<div id="timerDesktop" class="timer-desktop" style="position:fixed;top:20px;right:20px;background:var(--timer-bg);color:var(--timer-text);padding:12px 20px;font-size:22px;border-radius:8px;font-weight:bold;box-shadow:0 2px 10px var(--shadow);z-index:100;transition:background 0.25s,color 0.25s;">30:00</div>
-
-<div class="theme-toggle" id="toggleDesktop" onclick="toggleTheme()" aria-label="Toggle dark mode" role="button" style="position:fixed;top:74px;right:20px;">
-  <span class="icon">☀️</span>
-  <div class="toggle-track"><div class="toggle-knob"></div></div>
-  <span class="icon">🌙</span>
-</div>
-
-<div class="container">
-  <!-- <h1><a href="https://https://upsclog.github.io/upsclog/" target="_blank">UPSC LoG</a> — Prelims Booster 2027</h1> -->
-  <h1>
-    <a href="https://upsclog.github.io/upsclog/" target="_blank" style="color: black; background-color: #C4A484; border-radius: 8px; padding: 4px 12px; text-decoration: none; display: inline-block;">
-      <img src="../logo.png" alt="." style="height: 1.5em; vertical-align: middle; margin-right: 8px;">
-      UPSC LoG
-    </a>
-    — Prelims Booster 2027
-  </h1>
-  <h2>Miscellaneous Test CODE-2027-1</h2>
-  <p>
-    <b>Instructions</b>
-    <ul>
-      <li>25 UPSC CSE Thematic Test Series (with explanations)</li>
-      <li><b>Correct = 2.0 &nbsp;|&nbsp; Incorrect = −0.67</b></li>
-      <li><b><i>30-minute timer</i></b></li>
-      <li>Join <a href="https://t.me/upsclog" target="_blank">UPSC LoG Telegram ↗</a></li>
-    </ul>
-  </p>
-
-  <div id="score"></div>
-  <div id="quiz"></div>
-  <button class="submit-btn" onclick="submitQuiz()">Submit</button>
-</div>
-
 <script>
-
-// ── Theme ──────────────────────────────────────────────────────────────────────
-function toggleTheme() {
-  const html = document.documentElement;
-  const next = html.getAttribute("data-theme") === "dark" ? "light" : "dark";
-  html.setAttribute("data-theme", next);
-  localStorage.setItem("upsc-theme", next);
-}
-
-(function () {
-  const saved = localStorage.getItem("upsc-theme");
-  if (saved) document.documentElement.setAttribute("data-theme", saved);
-})();
-
-// ── Responsive bar ─────────────────────────────────────────────────────────────
-function applyLayout() {
-  const mobile = window.innerWidth <= 700;
-  document.getElementById("mobileBar").style.display = mobile ? "flex" : "none";
-  document.getElementById("timerDesktop").style.display = mobile ? "none" : "block";
-  document.getElementById("toggleDesktop").style.display = mobile ? "none" : "flex";
-}
-applyLayout();
-window.addEventListener("resize", applyLayout);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ───────────────────────────────────────────────────────────────── Questions ──────────────────────────────────────────────────────────────────
-const questions = [
+const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyamXySn2AagAN935BcpYuf6oTJNuIkLMuAby7CqWJ20rgdNgdWypVNTjMyWJBxW9OObw/exec";
+const QUESTIONS = [
   {
     topic: "Notable aspects of Lakes in India",
-    question: "With reference to lakes in India, consider the following statements:<br>1. Chilika Lake in Odisha is the largest brackish water lagoon in Asia.<br>2. Loktak Lake in Manipur is famous for its phumdis, which are heterogeneous masses of vegetation, soil, and organic matter.<br>3. Wular Lake in Jammu & Kashmir is a freshwater lake formed due to tectonic activity.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to lakes in India, consider the following statements:<br>1. Chilika Lake in Odisha is the largest brackish water lagoon in Asia.<br>2. Loktak Lake in Manipur is famous for its phumdis, which are heterogeneous masses of vegetation, soil, and organic matter.<br>3. Wular Lake in Jammu & Kashmir is a freshwater lake formed due to tectonic activity.<br>Which of the statements given above is/are correct?",
+    opts: [
       "1 and 2 only",
       "2 and 3 only",
       "1 and 3 only",
       "1, 2 and 3"
     ],
-    answer: 3,
-    explanation: "All three statements are correct. Chilika Lake is indeed Asia's largest brackish water lagoon and a Ramsar site. Loktak Lake is known for its unique floating phumdis and is home to Keibul Lamjao, the world's only floating national park. Wular Lake is a tectonic lake formed due to subsidence and is one of the largest freshwater lakes in Asia."
+    ans: 3,
+    exp: "All three statements are correct. Chilika Lake is indeed Asia's largest brackish water lagoon and a Ramsar site. Loktak Lake is known for its unique floating phumdis and is home to Keibul Lamjao, the world's only floating national park. Wular Lake is a tectonic lake formed due to subsidence and is one of the largest freshwater lakes in Asia."
   },
   {
     topic: "Background of Renewable Energy in India",
-    question: "Consider the following statements regarding renewable energy development in India:<br>1. The National Solar Mission was launched as part of the National Action Plan on Climate Change (NAPCC).<br>2. India has set a target of achieving 500 GW of non-fossil fuel-based electricity capacity by 2030.<br>3. The International Solar Alliance (ISA) was jointly launched by India and France at the COP21 climate summit.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "Consider the following statements regarding renewable energy development in India:<br>1. The National Solar Mission was launched as part of the National Action Plan on Climate Change (NAPCC).<br>2. India has set a target of achieving 500 GW of non-fossil fuel-based electricity capacity by 2030.<br>3. The International Solar Alliance (ISA) was jointly launched by India and France at the COP21 climate summit.<br>Which of the statements given above is/are correct?",
+    opts: [
       "1 and 2 only",
       "2 and 3 only",
       "1 and 3 only",
       "1, 2 and 3"
     ],
-    answer: 3,
-    explanation: "All three statements are correct. The National Solar Mission (Jawaharlal Nehru National Solar Mission) is one of the eight missions under NAPCC. India's NDC target includes 500 GW of non-fossil fuel installed capacity by 2030. The ISA was launched by Prime Minister Modi and French President Hollande at COP21 in Paris in 2015, bringing together sunshine-rich countries."
+    ans: 3,
+    exp: "All three statements are correct. The National Solar Mission (Jawaharlal Nehru National Solar Mission) is one of the eight missions under NAPCC. India's NDC target includes 500 GW of non-fossil fuel installed capacity by 2030. The ISA was launched by Prime Minister Modi and French President Hollande at COP21 in Paris in 2015, bringing together sunshine-rich countries."
   },
   {
     topic: "Programs related to Rise of Regional Kingdoms",
-    question: "With reference to the rise of regional kingdoms in post-Gupta India, which of the following pairs is/are correctly matched?<br>1. Chalukyas of Badami — Pulakesin II defeated Harshavardhana on the banks of the Narmada<br>2. Pallavas of Kanchipuram — Narasimhavarman I defeated Pulakesin II and captured Vatapi<br>3. Rashtrakutas — Amoghavarsha I is credited with writing the earliest Kannada literary work<br>Select the correct answer using the code given below:",
-    options: [
+    q: "With reference to the rise of regional kingdoms in post-Gupta India, which of the following pairs is/are correctly matched?<br>1. Chalukyas of Badami — Pulakesin II defeated Harshavardhana on the banks of the Narmada<br>2. Pallavas of Kanchipuram — Narasimhavarman I defeated Pulakesin II and captured Vatapi<br>3. Rashtrakutas — Amoghavarsha I is credited with writing the earliest Kannada literary work<br>Select the correct answer using the code given below:",
+    opts: [
       "1 and 2 only",
       "2 and 3 only",
       "1 and 3 only",
       "1, 2 and 3"
     ],
-    answer: 3,
-    explanation: "All three pairs are correctly matched. Pulakesin II of the Chalukyas of Badami famously halted Harsha's southern expansion at the Narmada. Narasimhavarman I (Mamalla) avenged the Pallava defeat by storming Vatapi and killing Pulakesin II. Amoghavarsha I of the Rashtrakutas authored Kavirajamarga, considered the earliest existing work in Kannada literature."
+    ans: 3,
+    exp: "All three pairs are correctly matched. Pulakesin II of the Chalukyas of Badami famously halted Harsha's southern expansion at the Narmada. Narasimhavarman I (Mamalla) avenged the Pallava defeat by storming Vatapi and killing Pulakesin II. Amoghavarsha I of the Rashtrakutas authored Kavirajamarga, considered the earliest existing work in Kannada literature."
   },
   {
     topic: "Framework of Anglo-French Rivalry",
-    question: "Which of the following statements best explains the outcome of the Anglo-French rivalry in India during the 18th century?",
-    options: [
+    q: "Which of the following statements best explains the outcome of the Anglo-French rivalry in India during the 18th century?",
+    opts: [
       "The French were defeated primarily because they lacked naval superiority and adequate support from the French government.",
       "The British victory was mainly a result of superior land forces and greater military strength in the Carnatic region.",
       "The French lost control of Pondicherry permanently after the Battle of Plassey in 1757.",
       "The Anglo-French rivalry ended decisively with the First Carnatic War, after which France withdrew from Indian affairs."
     ],
-    answer: 0,
-    explanation: "The Anglo-French rivalry in India, concluded primarily through the three Carnatic Wars, ended in British supremacy largely due to British naval superiority — which ensured better supply of reinforcements and disrupted French supply lines — and inadequate financial and military backing from the French crown. The British, supported by the East India Company's commercial strength, outlasted the French. Pondicherry was returned to France multiple times and permanently lost only in 1954; Plassey was a British victory over Nawab Siraj ud-Daulah, not the French."
+    ans: 0,
+    exp: "The Anglo-French rivalry in India, concluded primarily through the three Carnatic Wars, ended in British supremacy largely due to British naval superiority — which ensured better supply of reinforcements and disrupted French supply lines — and inadequate financial and military backing from the French crown. The British, supported by the East India Company's commercial strength, outlasted the French. Pondicherry was returned to France multiple times and permanently lost only in 1954; Plassey was a British victory over Nawab Siraj ud-Daulah, not the French."
   },
   {
     topic: "Emergence of Constitutional Safeguards for Minorities",
-    question: "With reference to constitutional safeguards for minorities in India, consider the following statements:<br>1. Article 29 grants the right to conserve language, script, or culture to any section of citizens, not just minorities.<br>2. Article 30 grants the right to establish and administer educational institutions only to religious minorities, not linguistic minorities.<br>3. The right under Article 30 can be regulated but cannot be abrogated by the State.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to constitutional safeguards for minorities in India, consider the following statements:<br>1. Article 29 grants the right to conserve language, script, or culture to any section of citizens, not just minorities.<br>2. Article 30 grants the right to establish and administer educational institutions only to religious minorities, not linguistic minorities.<br>3. The right under Article 30 can be regulated but cannot be abrogated by the State.<br>Which of the statements given above is/are correct?",
+    opts: [
       "1 only",
       "1 and 3 only",
       "2 and 3 only",
       "1, 2 and 3"
     ],
-    answer: 1,
-    explanation: "Statement 1 is correct — Article 29 applies to any section of citizens having a distinct language, script, or culture, and is not restricted to minorities. Statement 2 is incorrect — Article 30 grants the right to establish and administer educational institutions to both religious AND linguistic minorities. Statement 3 is correct — the State may regulate (e.g., prescribe standards) but cannot abrogate the rights conferred under Article 30."
+    ans: 1,
+    exp: "Statement 1 is correct — Article 29 applies to any section of citizens having a distinct language, script, or culture, and is not restricted to minorities. Statement 2 is incorrect — Article 30 grants the right to establish and administer educational institutions to both religious AND linguistic minorities. Statement 3 is correct — the State may regulate (e.g., prescribe standards) but cannot abrogate the rights conferred under Article 30."
   },
   {
     topic: "Forms of Foreign Direct Investment (FDI)",
-    question: "With reference to Foreign Direct Investment (FDI) in India, consider the following statements:<br>1. Under the automatic route, the foreign investor does not require prior approval from the Government or the Reserve Bank of India.<br>2. FDI through the government route requires prior approval from the Foreign Investment Promotion Board (FIPB).<br>3. FDI in multi-brand retail trading is permitted up to 51% under the automatic route.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to Foreign Direct Investment (FDI) in India, consider the following statements:<br>1. Under the automatic route, the foreign investor does not require prior approval from the Government or the Reserve Bank of India.<br>2. FDI through the government route requires prior approval from the Foreign Investment Promotion Board (FIPB).<br>3. FDI in multi-brand retail trading is permitted up to 51% under the automatic route.<br>Which of the statements given above is/are correct?",
+    opts: [
       "1 only",
       "1 and 3 only",
       "2 and 3 only",
       "1, 2 and 3"
     ],
-    answer: 0,
-    explanation: "Only statement 1 is correct. Under the automatic route, no prior approval from the Government or the RBI is required; the investor needs to only notify the RBI after making the investment. Statement 2 is incorrect because FIPB was abolished in 2017; the government route now involves approval from the competent ministry/department. Statement 3 is incorrect — FDI in multi-brand retail is permitted up to 51% but requires government approval, not through the automatic route."
+    ans: 0,
+    exp: "Only statement 1 is correct. Under the automatic route, no prior approval from the Government or the RBI is required; the investor needs to only notify the RBI after making the investment. Statement 2 is incorrect because FIPB was abolished in 2017; the government route now involves approval from the competent ministry/department. Statement 3 is incorrect — FDI in multi-brand retail is permitted up to 51% but requires government approval, not through the automatic route."
   },
   {
     topic: "Introduction to Inter-State River Water Disputes",
-    question: "Which of the following statements is/are correct regarding the constitutional and legal framework for resolving inter-state river water disputes in India?<br>1. Under Article 262 of the Constitution, Parliament may by law provide for the adjudication of disputes relating to waters of inter-state rivers.<br>2. The Supreme Court of India has original jurisdiction to adjudicate inter-state river water disputes under Article 131.<br>3. The Inter-State River Water Disputes Act, 1956 excludes the jurisdiction of the Supreme Court in matters referred to a Tribunal.<br>Select the correct answer using the code given below:",
-    options: [
+    q: "Which of the following statements is/are correct regarding the constitutional and legal framework for resolving inter-state river water disputes in India?<br>1. Under Article 262 of the Constitution, Parliament may by law provide for the adjudication of disputes relating to waters of inter-state rivers.<br>2. The Supreme Court of India has original jurisdiction to adjudicate inter-state river water disputes under Article 131.<br>3. The Inter-State River Water Disputes Act, 1956 excludes the jurisdiction of the Supreme Court in matters referred to a Tribunal.<br>Select the correct answer using the code given below:",
+    opts: [
       "1 and 2 only",
       "1 and 3 only",
       "2 and 3 only",
       "1, 2 and 3"
     ],
-    answer: 1,
-    explanation: "Statements 1 and 3 are correct. Article 262 empowers Parliament to enact laws for adjudication of inter-state water disputes and to bar the Supreme Court's jurisdiction in such matters. The Inter-State River Water Disputes Act, 1956 bars the jurisdiction of the Supreme Court for disputes referred to a Tribunal. Statement 2 is incorrect — while Article 131 grants the Supreme Court original jurisdiction in centre-state and inter-state disputes, Parliament has specifically barred this jurisdiction in water disputes through the 1956 Act invoking Article 262."
+    ans: 1,
+    exp: "Statements 1 and 3 are correct. Article 262 empowers Parliament to enact laws for adjudication of inter-state water disputes and to bar the Supreme Court's jurisdiction in such matters. The Inter-State River Water Disputes Act, 1956 bars the jurisdiction of the Supreme Court for disputes referred to a Tribunal. Statement 2 is incorrect — while Article 131 grants the Supreme Court original jurisdiction in centre-state and inter-state disputes, Parliament has specifically barred this jurisdiction in water disputes through the 1956 Act invoking Article 262."
   },
   {
     topic: "Divisions of Tribunals in India",
-    question: "With reference to Tribunals in India, consider the following statements:<br>1. Articles 323A and 323B of the Constitution provide for the establishment of administrative tribunals and tribunals for other matters respectively.<br>2. The Administrative Tribunals Act, 1985 was enacted under Article 323B of the Constitution.<br>3. The Central Administrative Tribunal (CAT) deals with service matters of employees of the Central Government and certain Union Territory administrations.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to Tribunals in India, consider the following statements:<br>1. Articles 323A and 323B of the Constitution provide for the establishment of administrative tribunals and tribunals for other matters respectively.<br>2. The Administrative Tribunals Act, 1985 was enacted under Article 323B of the Constitution.<br>3. The Central Administrative Tribunal (CAT) deals with service matters of employees of the Central Government and certain Union Territory administrations.<br>Which of the statements given above is/are correct?",
+    opts: [
       "1 and 3 only",
       "2 and 3 only",
       "1 and 2 only",
       "1, 2 and 3"
     ],
-    answer: 0,
-    explanation: "Statements 1 and 3 are correct. Article 323A deals with administrative tribunals for adjudication of disputes relating to recruitment and conditions of service, while Article 323B empowers Parliament and state legislatures to set up tribunals for other matters. Statement 2 is incorrect — the Administrative Tribunals Act, 1985 was enacted under Article 323A, not 323B. The Central Administrative Tribunal indeed handles service matters of central government employees."
+    ans: 0,
+    exp: "Statements 1 and 3 are correct. Article 323A deals with administrative tribunals for adjudication of disputes relating to recruitment and conditions of service, while Article 323B empowers Parliament and state legislatures to set up tribunals for other matters. Statement 2 is incorrect — the Administrative Tribunals Act, 1985 was enacted under Article 323A, not 323B. The Central Administrative Tribunal indeed handles service matters of central government employees."
   },
   {
     topic: "Emergence of Rajya Sabha",
-    question: "With reference to the Rajya Sabha, which of the following statements is/are correct?<br>1. The Rajya Sabha is a permanent body and cannot be dissolved, but one-third of its members retire every two years.<br>2. The Vice President of India acts as the ex-officio Chairman of the Rajya Sabha.<br>3. Money Bills can be introduced in the Rajya Sabha with the prior recommendation of the President.<br>Select the correct answer using the code given below:",
-    options: [
+    q: "With reference to the Rajya Sabha, which of the following statements is/are correct?<br>1. The Rajya Sabha is a permanent body and cannot be dissolved, but one-third of its members retire every two years.<br>2. The Vice President of India acts as the ex-officio Chairman of the Rajya Sabha.<br>3. Money Bills can be introduced in the Rajya Sabha with the prior recommendation of the President.<br>Select the correct answer using the code given below:",
+    opts: [
       "1 and 2 only",
       "2 and 3 only",
       "1 and 3 only",
       "1, 2 and 3"
     ],
-    answer: 0,
-    explanation: "Statements 1 and 2 are correct. The Rajya Sabha is a permanent House — it cannot be dissolved — and one-third of its members retire every two years, with members serving six-year terms. The Vice President is the ex-officio Chairman of the Rajya Sabha. Statement 3 is incorrect — Money Bills can only be introduced in the Lok Sabha, not the Rajya Sabha. Rajya Sabha may only suggest amendments within 14 days, which the Lok Sabha may or may not accept."
+    ans: 0,
+    exp: "Statements 1 and 2 are correct. The Rajya Sabha is a permanent House — it cannot be dissolved — and one-third of its members retire every two years, with members serving six-year terms. The Vice President is the ex-officio Chairman of the Rajya Sabha. Statement 3 is incorrect — Money Bills can only be introduced in the Lok Sabha, not the Rajya Sabha. Rajya Sabha may only suggest amendments within 14 days, which the Lok Sabha may or may not accept."
   },
   {
     topic: "Components of Ryotwari System",
-    question: "The Ryotwari System, introduced in parts of British India, differed from the Zamindari System primarily because:",
-    options: [
+    q: "The Ryotwari System, introduced in parts of British India, differed from the Zamindari System primarily because:",
+    opts: [
       "Land revenue was fixed permanently and could not be revised by colonial authorities.",
       "The settlement was made directly between the colonial government and the individual cultivator, making the ryot both the owner and the revenue payer.",
       "It was introduced across all provinces of British India to ensure uniformity in land revenue collection.",
       "Intermediary landlords were retained to collect revenue on behalf of the colonial government."
     ],
-    answer: 1,
-    explanation: "The defining feature of the Ryotwari System — introduced mainly in Madras and Bombay presidencies by Thomas Munro — was the direct settlement between the colonial state and the individual cultivator (ryot), who was recognized as the owner of land and paid revenue directly to the government without any intermediary. This eliminated zamindars as middlemen. Revenue was periodically reassessed (not permanently fixed, unlike the Permanent Settlement), and it was not implemented across all provinces."
+    ans: 1,
+    exp: "The defining feature of the Ryotwari System — introduced mainly in Madras and Bombay presidencies by Thomas Munro — was the direct settlement between the colonial state and the individual cultivator (ryot), who was recognized as the owner of land and paid revenue directly to the government without any intermediary. This eliminated zamindars as middlemen. Revenue was periodically reassessed (not permanently fixed, unlike the Permanent Settlement), and it was not implemented across all provinces."
   },
   {
     topic: "Sections of Continental Drift Theory",
-    question: "With reference to Alfred Wegener's Continental Drift Theory, which of the following statements is/are correct?<br>1. Wegener proposed that all continents were once joined in a supercontinent called Pangaea, surrounded by a universal ocean called Panthalassa.<br>2. Wegener's theory was widely accepted in his lifetime primarily because he explained the mechanism of continental movement convincingly.<br>3. The Glossopteris flora found across South America, Africa, India, Australia, and Antarctica is cited as evidence for continental drift.<br>Select the correct answer using the code given below:",
-    options: [
+    q: "With reference to Alfred Wegener's Continental Drift Theory, which of the following statements is/are correct?<br>1. Wegener proposed that all continents were once joined in a supercontinent called Pangaea, surrounded by a universal ocean called Panthalassa.<br>2. Wegener's theory was widely accepted in his lifetime primarily because he explained the mechanism of continental movement convincingly.<br>3. The Glossopteris flora found across South America, Africa, India, Australia, and Antarctica is cited as evidence for continental drift.<br>Select the correct answer using the code given below:",
+    opts: [
       "1 and 2 only",
       "2 and 3 only",
       "1 and 3 only",
       "1, 2 and 3"
     ],
-    answer: 2,
-    explanation: "Statements 1 and 3 are correct. Wegener's Pangaea hypothesis and the surrounding Panthalassa ocean are central elements of Continental Drift Theory. The Glossopteris fossil flora, found across the Gondwana continents, is strong paleontological evidence for the theory. Statement 2 is incorrect — Wegener's theory was largely rejected during his lifetime because he failed to provide a convincing mechanism to explain how continents moved. The mechanism was later explained by the theory of Plate Tectonics."
+    ans: 2,
+    exp: "Statements 1 and 3 are correct. Wegener's Pangaea hypothesis and the surrounding Panthalassa ocean are central elements of Continental Drift Theory. The Glossopteris fossil flora, found across the Gondwana continents, is strong paleontological evidence for the theory. Statement 2 is incorrect — Wegener's theory was largely rejected during his lifetime because he failed to provide a convincing mechanism to explain how continents moved. The mechanism was later explained by the theory of Plate Tectonics."
   },
   {
     topic: "Policies of Blue Revolution",
-    question: "With reference to the Blue Revolution in India, consider the following statements:<br>1. The Blue Revolution primarily focuses on the integrated development and management of fisheries to increase fish production.<br>2. The Pradhan Mantri Matsya Sampada Yojana (PMMSY) was launched to realize the potential of the fisheries sector under the Aatmanirbhar Bharat initiative.<br>3. India is currently the largest producer of fish in the world, surpassing China.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to the Blue Revolution in India, consider the following statements:<br>1. The Blue Revolution primarily focuses on the integrated development and management of fisheries to increase fish production.<br>2. The Pradhan Mantri Matsya Sampada Yojana (PMMSY) was launched to realize the potential of the fisheries sector under the Aatmanirbhar Bharat initiative.<br>3. India is currently the largest producer of fish in the world, surpassing China.<br>Which of the statements given above is/are correct?",
+    opts: [
       "1 and 2 only",
       "2 and 3 only",
       "1 and 3 only",
       "1, 2 and 3"
     ],
-    answer: 0,
-    explanation: "Statements 1 and 2 are correct. The Blue Revolution aims at the integrated and holistic development of fisheries, encompassing both inland and marine fisheries. PMMSY was launched in 2020 with an investment of Rs. 20,050 crore to enhance fish production and fishers' income, forming a key part of the Aatmanirbhar Bharat package. Statement 3 is incorrect — China is the world's largest fish producer; India ranks second globally and is the second-largest aquaculture producer."
+    ans: 0,
+    exp: "Statements 1 and 2 are correct. The Blue Revolution aims at the integrated and holistic development of fisheries, encompassing both inland and marine fisheries. PMMSY was launched in 2020 with an investment of Rs. 20,050 crore to enhance fish production and fishers' income, forming a key part of the Aatmanirbhar Bharat package. Statement 3 is incorrect — China is the world's largest fish producer; India ranks second globally and is the second-largest aquaculture producer."
   },
   {
     topic: "Evolution of Art and Craft in Harappan Civilization",
-    question: "With reference to the art and craft of the Harappan Civilization, which of the following statements is/are correct?<br>1. Bronze casting using the lost-wax (cire perdue) technique is evidenced by the famous Dancing Girl figurine found at Mohenjo-daro.<br>2. Harappan seals were primarily made of terracotta and were used mainly for decorative purposes.<br>3. The Harappans were among the earliest to develop standardized weights and measures based on a binary and decimal system.<br>Select the correct answer using the code given below:",
-    options: [
+    q: "With reference to the art and craft of the Harappan Civilization, which of the following statements is/are correct?<br>1. Bronze casting using the lost-wax (cire perdue) technique is evidenced by the famous Dancing Girl figurine found at Mohenjo-daro.<br>2. Harappan seals were primarily made of terracotta and were used mainly for decorative purposes.<br>3. The Harappans were among the earliest to develop standardized weights and measures based on a binary and decimal system.<br>Select the correct answer using the code given below:",
+    opts: [
       "1 only",
       "1 and 3 only",
       "2 and 3 only",
       "1, 2 and 3"
     ],
-    answer: 1,
-    explanation: "Statements 1 and 3 are correct. The Dancing Girl of Mohenjo-daro is a notable example of bronze casting using the lost-wax technique, demonstrating advanced metallurgical skills. Harappan weights followed a binary system (1, 2, 4, 8, 16...) and a decimal system, among the earliest standardized measurement systems. Statement 2 is incorrect — Harappan seals were primarily made of steatite (soapstone), not terracotta, and were used for trade and administrative purposes, not merely decoration."
+    ans: 1,
+    exp: "Statements 1 and 3 are correct. The Dancing Girl of Mohenjo-daro is a notable example of bronze casting using the lost-wax technique, demonstrating advanced metallurgical skills. Harappan weights followed a binary system (1, 2, 4, 8, 16...) and a decimal system, among the earliest standardized measurement systems. Statement 2 is incorrect — Harappan seals were primarily made of steatite (soapstone), not terracotta, and were used for trade and administrative purposes, not merely decoration."
   },
   {
     topic: "Explanation of Legislative Assemblies",
-    question: "With reference to State Legislative Assemblies (Vidhan Sabha) in India, consider the following statements:<br>1. The maximum strength of a Vidhan Sabha is fixed at 500 members and the minimum at 60 members by the Constitution.<br>2. The Governor may nominate one member to the Vidhan Sabha to represent the Anglo-Indian community if the community is not adequately represented.<br>3. A member of a Vidhan Sabha must be a citizen of India and must have attained the age of 25 years.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to State Legislative Assemblies (Vidhan Sabha) in India, consider the following statements:<br>1. The maximum strength of a Vidhan Sabha is fixed at 500 members and the minimum at 60 members by the Constitution.<br>2. The Governor may nominate one member to the Vidhan Sabha to represent the Anglo-Indian community if the community is not adequately represented.<br>3. A member of a Vidhan Sabha must be a citizen of India and must have attained the age of 25 years.<br>Which of the statements given above is/are correct?",
+    opts: [
       "1 and 2 only",
       "2 and 3 only",
       "1 and 3 only",
       "1, 2 and 3"
     ],
-    answer: 3,
-    explanation: "All three statements are correct. The Constitution (Article 170) fixes the maximum strength of a Vidhan Sabha at 500 and minimum at 60, with exceptions for smaller states like Sikkim, Goa, and Mizoram. The Governor has the power to nominate one Anglo-Indian member if the community is not adequately represented (though this provision was extended periodically). The minimum age qualification for a Vidhan Sabha member is 25 years as prescribed under Article 173."
+    ans: 3,
+    exp: "All three statements are correct. The Constitution (Article 170) fixes the maximum strength of a Vidhan Sabha at 500 and minimum at 60, with exceptions for smaller states like Sikkim, Goa, and Mizoram. The Governor has the power to nominate one Anglo-Indian member if the community is not adequately represented (though this provision was extended periodically). The minimum age qualification for a Vidhan Sabha member is 25 years as prescribed under Article 173."
   },
   {
     topic: "Milestones in Mountbatten Plan",
-    question: "Consider the following events related to the Mountbatten Plan of 1947 and arrange them in the correct chronological order:<br>1. Announcement of the Mountbatten Plan (3rd June Plan)<br>2. Passing of the Indian Independence Act by the British Parliament<br>3. Acceptance of the plan by the Indian National Congress and Muslim League<br>4. Appointment of Lord Mountbatten as Viceroy of India<br>Select the correct chronological sequence:",
-    options: [
+    q: "Consider the following events related to the Mountbatten Plan of 1947 and arrange them in the correct chronological order:<br>1. Announcement of the Mountbatten Plan (3rd June Plan)<br>2. Passing of the Indian Independence Act by the British Parliament<br>3. Acceptance of the plan by the Indian National Congress and Muslim League<br>4. Appointment of Lord Mountbatten as Viceroy of India<br>Select the correct chronological sequence:",
+    opts: [
       "4 → 1 → 3 → 2",
       "4 → 3 → 1 → 2",
       "1 → 4 → 3 → 2",
       "4 → 1 → 2 → 3"
     ],
-    answer: 0,
-    explanation: "The correct sequence is: Mountbatten was appointed Viceroy in March 1947 (4), followed by the announcement of the Mountbatten/3rd June Plan on June 3, 1947 (1), then its acceptance by both the Congress and the Muslim League (3), and finally the passage of the Indian Independence Act by the British Parliament on July 18, 1947 (2), which gave legal effect to the partition and independence of India and Pakistan."
+    ans: 0,
+    exp: "The correct sequence is: Mountbatten was appointed Viceroy in March 1947 (4), followed by the announcement of the Mountbatten/3rd June Plan on June 3, 1947 (1), then its acceptance by both the Congress and the Muslim League (3), and finally the passage of the Indian Independence Act by the British Parliament on July 18, 1947 (2), which gave legal effect to the partition and independence of India and Pakistan."
   },
   {
     topic: "Notable aspects of Infrastructure Development",
-    question: "With reference to infrastructure development in India, consider the following statements:<br>1. The National Infrastructure Pipeline (NIP) was launched to provide world-class infrastructure across the country and was initially projected at Rs. 102 lakh crore for the period 2019–2025.<br>2. The PM Gati Shakti National Master Plan aims to integrate the infrastructure planning of 16 ministries through a GIS-based portal.<br>3. The concept of monetizing existing public infrastructure assets to fund new infrastructure is the core principle behind the National Monetisation Pipeline.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to infrastructure development in India, consider the following statements:<br>1. The National Infrastructure Pipeline (NIP) was launched to provide world-class infrastructure across the country and was initially projected at Rs. 102 lakh crore for the period 2019–2025.<br>2. The PM Gati Shakti National Master Plan aims to integrate the infrastructure planning of 16 ministries through a GIS-based portal.<br>3. The concept of monetizing existing public infrastructure assets to fund new infrastructure is the core principle behind the National Monetisation Pipeline.<br>Which of the statements given above is/are correct?",
+    opts: [
       "1 and 2 only",
       "2 and 3 only",
       "1 and 3 only",
       "1, 2 and 3"
     ],
-    answer: 3,
-    explanation: "All three statements are correct. The NIP was launched in 2019 with an investment target of Rs. 102 lakh crore for 2019–2025 and has since been expanded. PM Gati Shakti is a digital platform integrating planning of multiple ministries (expanded to 16) for multimodal connectivity using GIS-based tools. The National Monetisation Pipeline (NMP) involves transferring operational rights of existing brownfield public assets to private investors for a fee, with proceeds used to fund new greenfield infrastructure."
+    ans: 3,
+    exp: "All three statements are correct. The NIP was launched in 2019 with an investment target of Rs. 102 lakh crore for 2019–2025 and has since been expanded. PM Gati Shakti is a digital platform integrating planning of multiple ministries (expanded to 16) for multimodal connectivity using GIS-based tools. The National Monetisation Pipeline (NMP) involves transferring operational rights of existing brownfield public assets to private investors for a fee, with proceeds used to fund new greenfield infrastructure."
   },
   {
     topic: "Definition of Power Sector in India",
-    question: "Which of the following is/are correctly matched with respect to the power sector in India?<br>1. Electricity — Item in the Concurrent List of the Seventh Schedule of the Constitution<br>2. Central Electricity Authority (CEA) — A statutory body constituted under the Electricity Act, 2003<br>3. UDAY Scheme — A scheme for financial and operational turnaround of Distribution Companies (DISCOMs)<br>Select the correct answer using the code given below:",
-    options: [
+    q: "Which of the following is/are correctly matched with respect to the power sector in India?<br>1. Electricity — Item in the Concurrent List of the Seventh Schedule of the Constitution<br>2. Central Electricity Authority (CEA) — A statutory body constituted under the Electricity Act, 2003<br>3. UDAY Scheme — A scheme for financial and operational turnaround of Distribution Companies (DISCOMs)<br>Select the correct answer using the code given below:",
+    opts: [
       "1 and 2 only",
       "2 and 3 only",
       "1 and 3 only",
       "1, 2 and 3"
     ],
-    answer: 3,
-    explanation: "All three are correctly matched. Electricity (Entry 38) is in the Concurrent List, allowing both Parliament and state legislatures to legislate on it. The Central Electricity Authority is constituted under the Electricity Act, 2003, and advises the government on national electricity policy. The UDAY (Ujwal DISCOM Assurance Yojana) scheme, launched in 2015, focused on the financial restructuring and operational improvement of debt-laden state electricity distribution companies."
+    ans: 3,
+    exp: "All three are correctly matched. Electricity (Entry 38) is in the Concurrent List, allowing both Parliament and state legislatures to legislate on it. The Central Electricity Authority is constituted under the Electricity Act, 2003, and advises the government on national electricity policy. The UDAY (Ujwal DISCOM Assurance Yojana) scheme, launched in 2015, focused on the financial restructuring and operational improvement of debt-laden state electricity distribution companies."
   },
   {
     topic: "Overview of Demographic Dividend",
-    question: "Which of the following statements best explains the concept of 'Demographic Dividend' and its relevance to India?",
-    options: [
+    q: "Which of the following statements best explains the concept of 'Demographic Dividend' and its relevance to India?",
+    opts: [
       "Demographic dividend refers to the economic growth potential that arises when the share of working-age population (15–64 years) is larger than the non-working-age population, resulting in higher savings and productivity.",
       "Demographic dividend is achieved when a country attains zero population growth, ensuring stable economic conditions.",
       "Demographic dividend in India is equally distributed across all states, as fertility decline has been uniform.",
       "India has already fully utilized its demographic dividend, as peak working-age population was reached in 2011."
     ],
-    answer: 0,
-    explanation: "Demographic dividend refers to the accelerated economic growth that can occur when the proportion of working-age people (15–64 years) is larger relative to dependents (children and elderly), leading to higher savings rates, increased productivity, and greater per-capita income. India is currently in this window of opportunity, which is projected to continue until around 2055–2060. Options B, C, and D are incorrect: zero population growth is not the definition; fertility decline has been uneven across states (e.g., Kerala vs. UP/Bihar); and India has not yet peaked in its demographic dividend."
+    ans: 0,
+    exp: "Demographic dividend refers to the accelerated economic growth that can occur when the proportion of working-age people (15–64 years) is larger relative to dependents (children and elderly), leading to higher savings rates, increased productivity, and greater per-capita income. India is currently in this window of opportunity, which is projected to continue until around 2055–2060. Options B, C, and D are incorrect: zero population growth is not the definition; fertility decline has been uneven across states (e.g., Kerala vs. UP/Bihar); and India has not yet peaked in its demographic dividend."
   },
   {
     topic: "Growth of Cabinet Committees",
-    question: "With reference to Cabinet Committees in India, which of the following statements is/are correct?<br>1. Cabinet Committees are extra-constitutional bodies that emerge from the rules of business of the Government of India.<br>2. The Prime Minister is the mandatory chairman of all Cabinet Committees.<br>3. Decisions taken by Cabinet Committees are considered decisions of the Cabinet itself.<br>Select the correct answer using the code given below:",
-    options: [
+    q: "With reference to Cabinet Committees in India, which of the following statements is/are correct?<br>1. Cabinet Committees are extra-constitutional bodies that emerge from the rules of business of the Government of India.<br>2. The Prime Minister is the mandatory chairman of all Cabinet Committees.<br>3. Decisions taken by Cabinet Committees are considered decisions of the Cabinet itself.<br>Select the correct answer using the code given below:",
+    opts: [
       "1 only",
       "1 and 3 only",
       "2 and 3 only",
       "1, 2 and 3"
     ],
-    answer: 1,
-    explanation: "Statements 1 and 3 are correct. Cabinet Committees are not mentioned in the Constitution and derive their authority from the Government of India (Transaction of Business) Rules, hence they are extra-constitutional bodies. Their decisions are equivalent to decisions of the Cabinet. Statement 2 is incorrect — the Prime Minister chairs most important committees such as the Cabinet Committee on Security and the Cabinet Committee on Economic Affairs, but is not the mandatory chairman of all Cabinet Committees (e.g., the Cabinet Committee on Parliamentary Affairs may be chaired by a senior minister)."
+    ans: 1,
+    exp: "Statements 1 and 3 are correct. Cabinet Committees are not mentioned in the Constitution and derive their authority from the Government of India (Transaction of Business) Rules, hence they are extra-constitutional bodies. Their decisions are equivalent to decisions of the Cabinet. Statement 2 is incorrect — the Prime Minister chairs most important committees such as the Cabinet Committee on Security and the Cabinet Committee on Economic Affairs, but is not the mandatory chairman of all Cabinet Committees (e.g., the Cabinet Committee on Parliamentary Affairs may be chaired by a senior minister)."
   },
   {
     topic: "Rules regarding Mountbatten Plan",
-    question: "Consider the following provisions of the Mountbatten Plan (June 3rd Plan) of 1947:<br>1. Bengal and Punjab were to be partitioned, with boundary commissions set up to demarcate boundaries.<br>2. The princely states were declared independent and were given the right to join either India or Pakistan or remain independent.<br>3. A referendum was to be held in the North-West Frontier Province (NWFP) to decide which dominion it would join.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "Consider the following provisions of the Mountbatten Plan (June 3rd Plan) of 1947:<br>1. Bengal and Punjab were to be partitioned, with boundary commissions set up to demarcate boundaries.<br>2. The princely states were declared independent and were given the right to join either India or Pakistan or remain independent.<br>3. A referendum was to be held in the North-West Frontier Province (NWFP) to decide which dominion it would join.<br>Which of the statements given above is/are correct?",
+    opts: [
       "1 and 2 only",
       "1 and 3 only",
       "2 and 3 only",
       "1, 2 and 3"
     ],
-    answer: 1,
-    explanation: "Statements 1 and 3 are correct. The Mountbatten Plan provided for the partition of Bengal and Punjab through boundary commissions chaired by Sir Cyril Radcliffe. A referendum was also held in NWFP, where voters chose to join Pakistan. Statement 2 is incorrect — the Plan did not declare the princely states as independent entities with a right to remain permanently independent; rather, the Indian Independence Act, 1947, lapsed the British paramountcy over them, but they were strongly urged by Sardar Patel to accede to either India or Pakistan. The Plan itself focused on the two dominions for British Indian provinces."
+    ans: 1,
+    exp: "Statements 1 and 3 are correct. The Mountbatten Plan provided for the partition of Bengal and Punjab through boundary commissions chaired by Sir Cyril Radcliffe. A referendum was also held in NWFP, where voters chose to join Pakistan. Statement 2 is incorrect — the Plan did not declare the princely states as independent entities with a right to remain permanently independent; rather, the Indian Independence Act, 1947, lapsed the British paramountcy over them, but they were strongly urged by Sardar Patel to accede to either India or Pakistan. The Plan itself focused on the two dominions for British Indian provinces."
   },
   {
     topic: "Characteristics of Centre-State Disputes",
-    question: "With reference to Centre-State relations and disputes in India, consider the following statements:<br>1. The Supreme Court of India has exclusive original jurisdiction to adjudicate disputes between the Centre and States under Article 131 of the Constitution.<br>2. The Sarkaria Commission was appointed primarily to examine Centre-State financial relations and recommend reforms to the Finance Commission.<br>3. Governors acting as agents of the Centre in states is one of the most contentious aspects of Centre-State disputes.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to Centre-State relations and disputes in India, consider the following statements:<br>1. The Supreme Court of India has exclusive original jurisdiction to adjudicate disputes between the Centre and States under Article 131 of the Constitution.<br>2. The Sarkaria Commission was appointed primarily to examine Centre-State financial relations and recommend reforms to the Finance Commission.<br>3. Governors acting as agents of the Centre in states is one of the most contentious aspects of Centre-State disputes.<br>Which of the statements given above is/are correct?",
+    opts: [
       "1 and 2 only",
       "1 and 3 only",
       "2 and 3 only",
       "1, 2 and 3"
     ],
-    answer: 1,
-    explanation: "Statements 1 and 3 are correct. Article 131 grants the Supreme Court exclusive original jurisdiction to adjudicate disputes between the Union and States or between States inter se, involving legal rights. The role of Governors acting as agents of the Central government rather than as constitutional heads has indeed been a persistent source of Centre-State friction. Statement 2 is incorrect — the Sarkaria Commission (1983) was set up to examine the entire gamut of Centre-State relations (legislative, administrative, and financial), not merely to review Finance Commission provisions."
+    ans: 1,
+    exp: "Statements 1 and 3 are correct. Article 131 grants the Supreme Court exclusive original jurisdiction to adjudicate disputes between the Union and States or between States inter se, involving legal rights. The role of Governors acting as agents of the Central government rather than as constitutional heads has indeed been a persistent source of Centre-State friction. Statement 2 is incorrect — the Sarkaria Commission (1983) was set up to examine the entire gamut of Centre-State relations (legislative, administrative, and financial), not merely to review Finance Commission provisions."
   },
   {
     topic: "Composition of Small Finance Banks",
-    question: "With reference to Small Finance Banks (SFBs) in India, which of the following statements is/are correct?<br>1. Small Finance Banks are required to extend 75% of their Adjusted Net Bank Credit (ANBC) to the priority sector.<br>2. Small Finance Banks can undertake all banking activities except foreign exchange transactions and certain other restricted activities.<br>3. Payments Banks can convert into Small Finance Banks after five years of operation, subject to RBI approval.<br>Select the correct answer using the code given below:",
-    options: [
+    q: "With reference to Small Finance Banks (SFBs) in India, which of the following statements is/are correct?<br>1. Small Finance Banks are required to extend 75% of their Adjusted Net Bank Credit (ANBC) to the priority sector.<br>2. Small Finance Banks can undertake all banking activities except foreign exchange transactions and certain other restricted activities.<br>3. Payments Banks can convert into Small Finance Banks after five years of operation, subject to RBI approval.<br>Select the correct answer using the code given below:",
+    opts: [
       "1 only",
       "1 and 2 only",
       "2 and 3 only",
       "1, 2 and 3"
     ],
-    answer: 3,
-    explanation: "All three statements are correct. SFBs must lend 75% of their ANBC to priority sectors — much higher than the 40% norm for commercial banks. They are licensed to undertake most banking activities but with restrictions on complex products, foreign exchange (limited to domestic operations), and certain wholesale banking activities. The RBI's regulatory framework does allow Payments Banks that fulfill certain conditions to apply for conversion to Small Finance Banks after completing five years of operations."
+    ans: 3,
+    exp: "All three statements are correct. SFBs must lend 75% of their ANBC to priority sectors — much higher than the 40% norm for commercial banks. They are licensed to undertake most banking activities but with restrictions on complex products, foreign exchange (limited to domestic operations), and certain wholesale banking activities. The RBI's regulatory framework does allow Payments Banks that fulfill certain conditions to apply for conversion to Small Finance Banks after completing five years of operations."
   },
   {
     topic: "Emergence of Estimates Committee",
-    question: "With reference to the Estimates Committee of the Indian Parliament, consider the following statements:<br>1. The Estimates Committee examines the estimates of expenditure included in the Union Budget and suggests economies and improvements in organization and administration.<br>2. The Estimates Committee is a permanent standing committee and its members are elected from both the Lok Sabha and the Rajya Sabha.<br>3. The Estimates Committee cannot vote for the reduction or modification of estimates, but can only suggest alternatives.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to the Estimates Committee of the Indian Parliament, consider the following statements:<br>1. The Estimates Committee examines the estimates of expenditure included in the Union Budget and suggests economies and improvements in organization and administration.<br>2. The Estimates Committee is a permanent standing committee and its members are elected from both the Lok Sabha and the Rajya Sabha.<br>3. The Estimates Committee cannot vote for the reduction or modification of estimates, but can only suggest alternatives.<br>Which of the statements given above is/are correct?",
+    opts: [
       "1 only",
       "1 and 3 only",
       "2 and 3 only",
       "1, 2 and 3"
     ],
-    answer: 0,
-    explanation: "Only statement 1 is correct. The Estimates Committee examines budgetary estimates and suggests economies, alternatives, and administrative efficiency. Statement 2 is incorrect — the Estimates Committee consists only of members from the Lok Sabha (currently 30 members), not from the Rajya Sabha; it is therefore not a joint committee. Statement 3 is incorrect — the Estimates Committee can recommend reduction or modification of estimates and suggest policy changes; however, its recommendations are not binding on the government."
+    ans: 0,
+    exp: "Only statement 1 is correct. The Estimates Committee examines budgetary estimates and suggests economies, alternatives, and administrative efficiency. Statement 2 is incorrect — the Estimates Committee consists only of members from the Lok Sabha (currently 30 members), not from the Rajya Sabha; it is therefore not a joint committee. Statement 3 is incorrect — the Estimates Committee can recommend reduction or modification of estimates and suggest policy changes; however, its recommendations are not binding on the government."
   },
   {
     topic: "Elements of Inter-State River Water Disputes",
-    question: "With reference to the elements and functioning of Water Disputes Tribunals under the Inter-State River Water Disputes Act, 1956, consider the following statements:<br>1. The Central Government is mandatorily required to set up a Tribunal within one year of receiving a complaint from a state government.<br>2. The award of a Tribunal has the same force as a decree of the Supreme Court of India.<br>3. States can appeal to the Supreme Court against the decision of a Water Disputes Tribunal.<br>Which of the statements given above is/are correct?",
-    options: [
+    q: "With reference to the elements and functioning of Water Disputes Tribunals under the Inter-State River Water Disputes Act, 1956, consider the following statements:<br>1. The Central Government is mandatorily required to set up a Tribunal within one year of receiving a complaint from a state government.<br>2. The award of a Tribunal has the same force as a decree of the Supreme Court of India.<br>3. States can appeal to the Supreme Court against the decision of a Water Disputes Tribunal.<br>Which of the statements given above is/are correct?",
+    opts: [
       "1 and 2 only",
       "2 only",
       "1 and 3 only",
       "1, 2 and 3"
     ],
-    answer: 1,
-    explanation: "Only statement 2 is correct. Under the Inter-State River Water Disputes Act, 1956, the award of a Tribunal is final and binding and has the same force as a decree of the Supreme Court. Statement 1 is incorrect — the Act requires the Central Government to set up a Tribunal only if it is of the opinion that the water dispute cannot be settled by negotiations, and there is no strict one-year mandate. Statement 3 is incorrect — the jurisdiction of the Supreme Court is explicitly barred for matters referred to a Tribunal under Article 262, so states cannot appeal against Tribunal awards to the Supreme Court."
+    ans: 1,
+    exp: "Only statement 2 is correct. Under the Inter-State River Water Disputes Act, 1956, the award of a Tribunal is final and binding and has the same force as a decree of the Supreme Court. Statement 1 is incorrect — the Act requires the Central Government to set up a Tribunal only if it is of the opinion that the water dispute cannot be settled by negotiations, and there is no strict one-year mandate. Statement 3 is incorrect — the jurisdiction of the Supreme Court is explicitly barred for matters referred to a Tribunal under Article 262, so states cannot appeal against Tribunal awards to the Supreme Court."
   },
   {
     topic: "Emergence of Centre-State Disputes",
-    question: "Which of the following commissions/committees was specifically appointed to review the Centre-State relations in India and gave wide-ranging recommendations on legislative, administrative, and financial aspects?",
-    options: [
+    q: "Which of the following commissions/committees was specifically appointed to review the Centre-State relations in India and gave wide-ranging recommendations on legislative, administrative, and financial aspects?",
+    opts: [
       "Balwant Rai Mehta Committee",
       "Sarkaria Commission",
       "Rajamannar Committee",
       "Punchhi Commission"
     ],
-    answer: 1,
-    explanation: "The Sarkaria Commission (1983–1988), chaired by Justice R.S. Sarkaria, was specifically appointed to examine Centre-State relations comprehensively across legislative, administrative, and financial dimensions. It gave over 200 recommendations, many relating to the role of Governors, use of Article 356, and the working of Inter-Governmental Councils. The Balwant Rai Mehta Committee (1957) focused on Panchayati Raj; the Rajamannar Committee (1969) was constituted by Tamil Nadu to recommend greater state autonomy; and the Punchhi Commission (2007–2010) was a later committee on Centre-State relations."
+    ans: 1,
+    exp: "The Sarkaria Commission (1983–1988), chaired by Justice R.S. Sarkaria, was specifically appointed to examine Centre-State relations comprehensively across legislative, administrative, and financial dimensions. It gave over 200 recommendations, many relating to the role of Governors, use of Article 356, and the working of Inter-Governmental Councils. The Balwant Rai Mehta Committee (1957) focused on Panchayati Raj; the Rajamannar Committee (1969) was constituted by Tamil Nadu to recommend greater state autonomy; and the Punchhi Commission (2007–2010) was a later committee on Centre-State relations."
   }
 ];
-// ────────────────────────────────────────────────────────────────── Render quiz ────────────────────────────────────────────────────────────────
+const CORRECT_MARKS = 2;
+const NEGATIVE_MARKS = 2 / 3;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const quiz = document.getElementById("quiz");
-
-questions.forEach((q, index) => {
-  let html = `<div class="question">
-    <p><b>Q${index + 1}.</b> ${q.question}</p>`;
-
-  q.options.forEach((opt, i) => {
-    html += `<label class="option">
-      <input type="radio" name="q${index}" value="${i}">
-      ${String.fromCharCode(65 + i)}. ${opt}
-    </label>`;
-  });
-
-  html += `<div class="explanation" id="exp${index}"></div></div>`;
-  quiz.innerHTML += html;
-});
-
-// ── Submit ─────────────────────────────────────────────────────────────────────
+let current = 0;
+const responses = new Array(QUESTIONS.length).fill(null);
 let submitted = false;
 
-function submitQuiz() {
-  if (submitted) return;
+const qNumEl = document.getElementById('qNum');
+const qTotalEl = document.getElementById('qTotal');
+const qTotalNoteEl = document.getElementById('qTotalNote');
+const qTextEl = document.getElementById('qText');
+const optionsListEl = document.getElementById('optionsList');
+const qStatusTag = document.getElementById('qStatusTag');
+const explainBox = document.getElementById('explainBox');
+const explainText = document.getElementById('explainText');
+const paletteGrid = document.getElementById('paletteGrid');
+const answeredCountEl = document.getElementById('answeredCount');
+const skippedCountEl = document.getElementById('skippedCount');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const clearBtn = document.getElementById('clearBtn');
+const submitBtn = document.getElementById('submitBtn');
+const paperView = document.getElementById('paperView');
+const resultView = document.getElementById('resultView');
+const reviewBtn = document.getElementById('reviewBtn');
+const scoreText = document.getElementById('scoreText');
+const scorePercent = document.getElementById('scorePercent');
+
+const confirmModal = document.getElementById('confirmModal');
+const modalMessage = document.getElementById('modalMessage');
+const modalIcon = document.getElementById('modalIcon');
+const modalGoBack = document.getElementById('modalGoBack');
+const modalConfirm = document.getElementById('modalConfirm');
+
+qTotalEl.textContent = QUESTIONS.length;
+qTotalNoteEl.textContent = QUESTIONS.length;
+skippedCountEl.textContent = QUESTIONS.length;
+
+function buildPalette(){
+  paletteGrid.innerHTML = '';
+  QUESTIONS.forEach((_, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.textContent = i + 1;
+    cell.addEventListener('click', () => { current = i; render(); });
+    paletteGrid.appendChild(cell);
+  });
+}
+
+function render(){
+  const item = QUESTIONS[current];
+  qNumEl.textContent = current + 1;
+  qTextEl.innerHTML = item.q;
+
+  optionsListEl.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  const userChoice = responses[current];
+  item.opts.forEach((opt, idx) => {
+    const div = document.createElement('div');
+    let cls = 'option';
+    if (submitted){
+      cls += ' locked';
+      if (idx === item.ans) cls += ' correct';
+      else if (idx === userChoice) cls += ' incorrect';
+    } else if (userChoice === idx){
+      cls += ' selected';
+    }
+    div.className = cls;
+    div.innerHTML = `<span class="tag">${letters[idx]}</span><span class="opt-text"></span>`;
+    div.querySelector('.opt-text').textContent = opt;
+    div.addEventListener('click', () => {
+      if (submitted) return;
+      responses[current] = idx;
+      render();
+    });
+    optionsListEl.appendChild(div);
+  });
+
+  if (submitted){
+    if (userChoice === null){
+      qStatusTag.textContent = '⚠ Not Answered · Correct answer shown';
+      qStatusTag.className = 'q-status-tag review-unanswered';
+    } else if (userChoice === item.ans){
+      qStatusTag.textContent = '✓ Correct';
+      qStatusTag.className = 'q-status-tag correct';
+    } else {
+      qStatusTag.textContent = '✗ Incorrect';
+      qStatusTag.className = 'q-status-tag incorrect';
+    }
+    explainBox.classList.remove('hidden');
+    explainText.innerHTML = '<b>Correct Answer:</b> ' + letters[item.ans] + '. ' + item.opts[item.ans] + '<br><br>' + item.exp;
+  } else {
+    const answered = userChoice !== null;
+    qStatusTag.textContent = answered ? 'Answered' : 'Not Answered';
+    qStatusTag.className = 'q-status-tag ' + (answered ? 'answered' : 'unanswered');
+    explainBox.classList.add('hidden');
+  }
+
+  prevBtn.disabled = current === 0;
+  if (submitted){
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Back to Result' : 'Next →';
+    clearBtn.style.visibility = 'hidden';
+  } else {
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Finish' : 'Next →';
+    clearBtn.style.visibility = 'visible';
+  }
+
+  // palette
+  const cells = paletteGrid.children;
+  for (let i = 0; i < cells.length; i++){
+    cells[i].classList.toggle('current', i === current);
+    if (submitted){
+      const isIncorrect = responses[i] !== null && responses[i] !== QUESTIONS[i].ans;
+      const isCorrect = responses[i] === QUESTIONS[i].ans;
+      cells[i].classList.toggle('incorrect', isIncorrect);
+      cells[i].classList.toggle('answered', isCorrect);
+    } else {
+      cells[i].classList.toggle('answered', responses[i] !== null);
+      cells[i].classList.remove('incorrect');
+    }
+  }
+
+  const answeredTotal = responses.filter(r => r !== null).length;
+  if (submitted){
+    let correct = 0, incorrect = 0;
+    QUESTIONS.forEach((q, i) => {
+      if (responses[i] === null) return;
+      if (responses[i] === q.ans) correct++; else incorrect++;
+    });
+    const unattempted = QUESTIONS.length - answeredTotal;
+    const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+    document.getElementById('tallyRow').innerHTML = `
+      <div class="marks-line"><b>${marks.toFixed(2)}</b><span>Marks Scored</span></div>
+      <div class="tally-grid">
+        <div><b class="stat-correct">${correct}</b>Correct</div>
+        <div><b class="stat-incorrect">${incorrect}</b>Incorrect</div>
+        <div><b class="stat-unattempted">${unattempted}</b>Unattempted</div>
+      </div>
+    `;
+  } else {
+    answeredCountEl.textContent = answeredTotal;
+    skippedCountEl.textContent = QUESTIONS.length - answeredTotal;
+  }
+}
+
+prevBtn.addEventListener('click', () => { if (current > 0){ current--; render(); }});
+nextBtn.addEventListener('click', () => {
+  if (current < QUESTIONS.length - 1){ current++; render(); }
+  else if (submitted){
+    paperView.classList.add('hidden');
+    resultView.classList.remove('hidden');
+  } else {
+    openConfirmModal();
+  }
+});
+clearBtn.addEventListener('click', () => { responses[current] = null; render(); });
+
+submitBtn.addEventListener('click', openConfirmModal);
+
+/* ---------- Confirmation modal logic ---------- */
+function openConfirmModal(){
+  const nameVal = document.getElementById('userName').value.trim();
+  if (nameVal){
+    modalIcon.textContent = '📝';
+    modalMessage.innerHTML = `Submit test : <b>${escapeHtml(nameVal)}</b> ?`;
+  } else {
+    modalIcon.textContent = '⚠️';
+    modalMessage.innerHTML = `You have not set your name, your rank will be set as: <b>Anonymous</b>`;
+  }
+  confirmModal.classList.remove('hidden');
+}
+
+function closeConfirmModal(){
+  confirmModal.classList.add('hidden');
+}
+
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+modalGoBack.addEventListener('click', closeConfirmModal);
+modalConfirm.addEventListener('click', () => {
+  closeConfirmModal();
+  doSubmit();
+});
+confirmModal.addEventListener('click', (e) => {
+  if (e.target === confirmModal) closeConfirmModal();
+});
+
+function doSubmit(){
   submitted = true;
   clearInterval(countdown);
-
-  const correctMarks = 2;
-  const negativeMarks = 2 / 3;
-  let score = 0;
-
-  questions.forEach((q, index) => {
-    const radios = document.getElementsByName("q" + index);
-    let selected = -1;
-    radios.forEach(r => { if (r.checked) selected = parseInt(r.value); r.disabled = true; });
-
-    radios.forEach(r => {
-      const label = r.parentElement;
-      const value = parseInt(r.value);
-      if (value === q.answer) label.classList.add("correct");
-      if (value === selected && value !== q.answer) label.classList.add("wrong");
-      if (value === selected) label.classList.add("user-selected");
-    });
-
-    if (selected === q.answer) score += correctMarks;
-    else if (selected !== -1) score -= negativeMarks;
-
-    const exp = document.getElementById("exp" + index);
-    exp.style.display = "block";
-    exp.innerHTML = "<b>Correct Answer:</b> " + String.fromCharCode(65 + q.answer) +
-      "<br><br><b>Explanation:</b> " + q.explanation;
+  let correct = 0, incorrect = 0;
+  QUESTIONS.forEach((q, i) => {
+    if (responses[i] === null) return;
+    if (responses[i] === q.ans) correct++; else incorrect++;
   });
+  const unattempted = QUESTIONS.length - (correct + incorrect);
+  const maxMarks = QUESTIONS.length * CORRECT_MARKS;
+  const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+  const percentage = (marks / maxMarks) * 100;
 
-  const maxScore = questions.length * correctMarks;
-  const percentage = (score / maxScore) * 100;
-
-  document.getElementById("score").innerHTML =
-    "Score: <b>" + score.toFixed(2) + " / " + maxScore.toFixed(2) + "</b>" +
-    "&nbsp;&nbsp;|&nbsp;&nbsp;Percentage: <b>" + percentage.toFixed(2) + "%</b>";
-
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  scoreText.textContent = marks.toFixed(2) + ' / ' + maxMarks.toFixed(2);
+  scorePercent.textContent = percentage.toFixed(2) + '%';
+  document.getElementById('scoreBreakdown').innerHTML = `
+    <div class="stat correct"><b>${correct}</b><span>Correct</span></div>
+    <div class="stat incorrect"><b>${incorrect}</b><span>Incorrect</span></div>
+    <div class="stat unattempted"><b>${unattempted}</b><span>Unattempted</span></div>
+  `;
+  const userName = document.getElementById('userName').value.trim() || "Anonymous"; 
+  fetch(SHEET_ENDPOINT, {
+    method: "POST",
+    mode: "no-cors",
+    body: JSON.stringify({
+      name: userName,
+      marks: marks.toFixed(2),
+      correct: correct,
+      incorrect: incorrect,
+      unattempted: unattempted,
+      testCode: "Miscellaneous Test CODE-2027-1"
+    })
+  }); 
+  submitBtn.style.display = 'none';
+  paperView.classList.add('hidden');
+  resultView.classList.remove('hidden');
+  render();
 }
 
-// ── Timer ──────────────────────────────────────────────────────────────────────
-let totalSeconds = 1800;
+reviewBtn.addEventListener('click', () => {
+  resultView.classList.add('hidden');
+  paperView.classList.remove('hidden');
+  current = 0;
+  render();
+});
 
-function updateTimers(text, urgent) {
-  ["timerDesktop", "timerMobile"].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.textContent = text;
-      el.style.background = urgent ? "#c62828" : "var(--timer-bg)";
-    }
-  });
-}
+// theme toggle
+const themeSwitch = document.getElementById('themeSwitch');
+themeSwitch.addEventListener('click', () => {
+  const body = document.body;
+  const isDark = body.getAttribute('data-theme') === 'dark';
+  body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+});
 
+// countdown timer
+let seconds = 30 * 60;
+const timerEl = document.getElementById('timer');
 const countdown = setInterval(() => {
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-  const text = String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
-
-  updateTimers(text, totalSeconds <= 60);
-
-  if (totalSeconds === 0) {
-    updateTimers("Time Up!", true);
-    submitQuiz();
+  if (seconds <= 0 || submitted) return;
+  seconds--;
+  const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+  const s = String(seconds % 60).padStart(2, '0');
+  timerEl.textContent = `${m}:${s}`;
+  timerEl.classList.toggle('urgent', seconds <= 60);
+  if (seconds === 0){
+    timerEl.textContent = 'Time Up!';
+    doSubmit();
   }
-  totalSeconds--;
 }, 1000);
 
+buildPalette();
+render();
+
+window.addEventListener('beforeunload', function(e){
+  const hasProgress = !submitted && responses.some(r => r !== null);
+  if (hasProgress){
+    e.preventDefault();
+    e.returnValue = 'Your answers have not been submitted. If you leave or refresh this page, all marked answers will be lost.';
+    return e.returnValue;
+  }
+});
+
 </script>
+
 </body>
 </html>

@@ -651,7 +651,7 @@
 </a>
     <div class="title-block">
       <div class="eyebrow">UPSC LoG · Prelims Booster 2027</div>
-      <h1>Geography Test CODE-2027-3</h1>
+      <h1>Economy Test CODE-2027-5</h1>
       <div class="subnote" style="font-size: 12px;">
         <span id="qTotalNote">7</span> Questions · +2 Correct / −0.67 Incorrect ·
         <a href="https://t.me/upsclog" target="_blank" rel="noopener"> Join UPSC-LoG Telegram ↗</a>
@@ -752,116 +752,95 @@
 const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyamXySn2AagAN935BcpYuf6oTJNuIkLMuAby7CqWJ20rgdNgdWypVNTjMyWJBxW9OObw/exec";
 const QUESTIONS = [
     {
-        topic: "Development of Western Ghats and Eastern Ghats",
-        q: "With reference to the Western Ghats and Eastern Ghats of India, consider the following statements:<br>1. The Western Ghats are older in geological age than the Eastern Ghats.<br>2. The Eastern Ghats are discontinuous whereas the Western Ghats form a continuous chain of hills.<br>3. The highest peak of the Eastern Ghats is higher than the highest peak of the Western Ghats.<br>Which of the statements given above is/are correct?",
+        q: "With reference to the background of Microfinance and Self-Help Groups (SHGs) in India, consider the following statements:<br>1. The SHG-Bank Linkage Programme was launched by NABARD in 1992 as a pilot project and is currently the world's largest microfinance programme.<br>2. SHGs in India are primarily formal bodies registered under the Societies Registration Act, making them eligible for bank credit.<br>3. Microfinance Institutions (MFIs) in India are regulated by the Reserve Bank of India under the Microfinance Institutions (Development and Regulation) Act, 2012.<br>Which of the statements given above is/are correct?",
         opts: [
-            "1 and 2 only",
-            "2 only",
+            "1 only",
             "1 and 3 only",
-            "2 and 3 only"
+            "2 and 3 only",
+            "1, 2 and 3"
         ],
-        ans: 1,
-        exp: "The Eastern Ghats are discontinuous hills interrupted by rivers like the Mahanadi, Godavari, Krishna, and Kaveri, whereas the Western Ghats form a nearly continuous range. The Western Ghats are considered older geological formations (Precambrian). The highest peak of the Western Ghats is Anamudi (2695 m) in Kerala, which is higher than Jindhagada Peak (~1690 m) in the Eastern Ghats, making Statement 3 incorrect."
+        ans: 0,
+        exp: "Only Statement 1 is correct. NABARD launched the SHG-Bank Linkage Programme in 1992 and it is indeed the world's largest microfinance programme. Statement 2 is incorrect because SHGs are typically informal groups, not registered formal bodies, yet banks extend credit to them. Statement 3 is incorrect because a standalone Microfinance Institutions (Development and Regulation) Act has not been enacted; MFIs are regulated through RBI guidelines under the existing legal framework."
     },
     {
-        topic: "Impact of Monsoon Mechanism",
-        q: "Consider the following statements regarding the mechanism of the Indian Monsoon:<br>1. The Inter-Tropical Convergence Zone (ITCZ) shifts northward over the Indian subcontinent in summer, which is a critical driver of the southwest monsoon.<br>2. The Tibetan Plateau acts as a heat engine by heating the upper atmosphere, which helps in establishing the monsoon circulation.<br>3. El Niño conditions invariably lead to deficient monsoon rainfall over India.<br>Which of the statements given above is/are correct?",
+        q: "Which of the following best distinguishes the Make in India initiative from earlier industrial policies of India?",
+        opts: [
+            "Make in India focuses exclusively on manufacturing, while earlier policies like the Industrial Policy 1991 covered both manufacturing and services.",
+            "Unlike earlier policies that relied on import substitution industrialisation, Make in India emphasises export-led manufacturing growth integrated with global value chains.",
+            "Make in India restricts foreign direct investment to joint ventures with domestic firms, unlike the liberalisation policies of 1991.",
+            "Make in India was specifically designed to replace the Public Sector Undertakings model with complete privatisation of all industries."
+        ],
+        ans: 1,
+        exp: "Make in India (launched 2014) marks a shift from the earlier import substitution model — which focused on protecting domestic industries from foreign competition — to a strategy of integrating India into global value chains through export-led manufacturing, ease of doing business, and attracting FDI. It covers 25 sectors including services, not just manufacturing. FDI norms were liberalised, not restricted to joint ventures, and it does not mandate complete privatisation."
+    },
+    {
+        q: "Consider the following statements about Priority Sector Lending (PSL) and its impact:<br>1. Under RBI guidelines, domestic commercial banks are required to lend 40% of their Adjusted Net Bank Credit (ANBC) to priority sectors.<br>2. Foreign banks with 20 or more branches in India are required to meet the same 40% PSL target as domestic commercial banks.<br>3. Shortfalls in PSL targets by banks must be deposited with the Rural Infrastructure Development Fund (RIDF) maintained by NABARD.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1 and 3 only",
+            "2 and 3 only",
+            "1 and 2 only",
+            "1, 2 and 3"
+        ],
+        ans: 0,
+        exp: "Statements 1 and 3 are correct. Domestic commercial banks must lend 40% of ANBC to priority sectors, and PSL shortfalls are deposited in RIDF or other funds managed by NABARD, MUDRA, etc. Statement 2 is incorrect — foreign banks with 20 or more branches are required to achieve the 40% target, but those with fewer than 20 branches have a lower target of 32% with a different sub-target structure, introduced to be phased in over time."
+    },
+    {
+        q: "Which of the following correctly explains a key conceptual difference between the Wholesale Price Index (WPI) and the Consumer Price Index (CPI) in India?",
+        opts: [
+            "WPI measures price changes at the retail level, while CPI measures price changes at the producer or wholesale level.",
+            "CPI captures the cost of a fixed basket of goods and services paid by consumers, including services, whereas WPI tracks prices of goods traded in bulk between businesses and does not include services.",
+            "WPI is released by the Ministry of Statistics and Programme Implementation, while CPI is released by the Ministry of Commerce and Industry.",
+            "Both WPI and CPI use the same base year and identical commodity basket, differing only in geographic coverage."
+        ],
+        ans: 1,
+        exp: "The key distinction is that CPI measures price changes faced by consumers and includes services (housing, education, health), whereas WPI tracks prices of goods at the wholesale/producer stage and excludes services. WPI is released by the Office of the Economic Adviser under the Ministry of Commerce and Industry, while CPI is released by the Ministry of Statistics and Programme Implementation (MoSPI). Their commodity baskets and base years differ."
+    },
+    {
+        q: "The declining share of agriculture in India's GDP, while the sector still employs over 40% of the workforce, is best described by which of the following concepts?",
+        opts: [
+            "Dutch Disease",
+            "Structural transformation with incomplete occupational transition",
+            "Stagflation in the primary sector",
+            "Disguised unemployment leading to negative marginal productivity"
+        ],
+        ans: 1,
+        exp: "The phenomenon where agriculture's share in GDP declines with economic growth (structural transformation) but the workforce dependent on agriculture remains disproportionately large is called incomplete or lagging occupational transition. It is a classic feature of developing economies where labour moves out of agriculture slowly relative to the sector's declining output share. This creates a large productivity gap between agriculture and other sectors, not Dutch Disease (resource curse) or stagflation."
+    },
+    {
+        q: "With reference to fiscal policy and budget concepts in India, which of the following statements about deficits is correct?",
+        opts: [
+            "Fiscal Deficit equals Revenue Deficit plus Capital Expenditure minus Capital Receipts excluding borrowings.",
+            "Revenue Deficit indicates that the government's revenue expenditure exceeds its revenue receipts, implying borrowing for consumption rather than investment.",
+            "Primary Deficit is the difference between fiscal deficit and total interest payments, and a zero primary deficit implies that current borrowings finance only past debt interest.",
+            "The Effective Revenue Deficit was introduced to capture only the monetised portion of the fiscal deficit."
+        ],
+        ans: 1,
+        exp: "Revenue Deficit = Revenue Expenditure minus Revenue Receipts. A revenue deficit means the government borrows to finance current consumption expenditure (salaries, subsidies, interest), which is considered fiscally imprudent as it does not create assets. Option A's formula is imprecise. Option C is correct in definition but the inference is reversed — zero primary deficit means current borrowings only service interest on past debt, which is the correct implication. Effective Revenue Deficit (introduced 2011-12) excludes grants for capital asset creation from revenue deficit, not the monetised portion."
+    },
+    {
+        q: "Consider the following criticisms levelled against the IMF, World Bank, and Asian Development Bank (ADB):<br>1. The IMF's Structural Adjustment Programmes have been criticised for imposing fiscal austerity on developing nations, which often led to cuts in social sector spending.<br>2. The World Bank's voting structure is weighted by capital subscription, giving disproportionate influence to developed nations, particularly the United States.<br>3. The ADB has been criticised for prioritising infrastructure lending linked to donor-country contractors, raising concerns about tied aid.<br>Which of the statements given above is/are correct?",
         opts: [
             "1 and 2 only",
             "2 and 3 only",
             "1 and 3 only",
             "1, 2 and 3"
-        ],
-        ans: 0,
-        exp: "Both statements 1 and 2 are correct. The northward shift of the ITCZ over the Gangetic plains in summer creates a strong low-pressure system that draws the monsoon, and the Tibetan Plateau acts as an elevated heat source energising the monsoon. Statement 3 is incorrect: while El Niño generally weakens the Indian monsoon, it does not invariably cause deficient rainfall — the relationship is probabilistic, not deterministic, as seen in years like 1997."
-    },
-    {
-        topic: "Role of Blue Revolution",
-        q: "Which of the following statements best describes the primary objective of the 'Blue Revolution' in India?",
-        opts: [
-            "To promote rainwater harvesting and water conservation across drought-prone states",
-            "To achieve integrated development and management of fisheries sector for increasing fish production and productivity",
-            "To develop inland waterways as a mode of freight transport reducing pressure on roadways",
-            "To expand the coverage of drip and sprinkler irrigation systems for water-efficient agriculture"
-        ],
-        ans: 1,
-        exp: "The Blue Revolution (Neeli Kranti Mission) was launched to achieve integrated development and management of the fisheries sector in India with the aim of increasing fish production, improving productivity, and enhancing the income of fishers. It covers both inland and marine fisheries. The other options relate to separate schemes — water conservation, waterways development (Sagarmala/IWAI), and micro-irrigation."
-    },
-    {
-        topic: "Development of Oil and Gas Basins of India",
-        q: "Consider the following pairs of oil and gas basins and their locations:<br>1. Bombay High — Offshore, Arabian Sea<br>2. Krishna-Godavari Basin — Offshore and Onshore, Bay of Bengal coast<br>3. Cambay Basin — Offshore, Gujarat<br>4. Cauvery Basin — Tamil Nadu and Puducherry coast<br>How many of the above pairs are correctly matched?",
-        opts: [
-            "Only one",
-            "Only two",
-            "Only three",
-            "All four"
-        ],
-        ans: 2,
-        exp: "Pairs 1, 2, and 4 are correctly matched. Bombay High is an offshore basin in the Arabian Sea; the Krishna-Godavari Basin extends both offshore and onshore along the Bay of Bengal; and the Cauvery Basin lies along the Tamil Nadu and Puducherry coast. However, the Cambay (Khambhat) Basin is primarily an onshore basin in Gujarat, not offshore — making Pair 3 incorrect."
-    },
-    {
-        topic: "Role of Monsoon Mechanism",
-        q: "Which one of the following correctly explains why the western coast of India receives more rainfall than the eastern coast during the southwest monsoon season?",
-        opts: [
-            "The eastern coast lies in the rain shadow of the Eastern Ghats",
-            "The Arabian Sea branch of the monsoon is moisture-laden and directly strikes the Western Ghats, causing orographic rainfall on the windward side",
-            "The Bay of Bengal branch loses most of its moisture over Sri Lanka before reaching the eastern coast",
-            "Prevailing easterly winds during summer divert moisture away from the eastern coast"
-        ],
-        ans: 1,
-        exp: "The Arabian Sea branch of the southwest monsoon is stronger and more moisture-laden. It strikes the Western Ghats almost perpendicularly, causing heavy orographic (relief) rainfall on the windward (western) side. The leeward eastern slopes fall in the rain shadow, receiving comparatively little rainfall. The Bay of Bengal branch moves north and northwest, delivering rainfall to the northeastern states and Indo-Gangetic plains, not significantly to the eastern coast during the same period."
-    },
-    {
-        topic: "Aftermath of River Systems of India",
-        q: "Consider the following statements about the river systems of India:<br>1. The Chambal and Betwa are tributaries of the Yamuna River.<br>2. The Damodar River drains into the Hooghly River.<br>3. The Luni River originates from the Aravalli hills and drains into the Rann of Kutch.<br>4. The Mahanadi River forms its delta in the state of Andhra Pradesh.<br>Which of the statements given above are correct?",
-        opts: [
-            "1, 2 and 3 only",
-            "1 and 3 only",
-            "2, 3 and 4 only",
-            "1, 2 and 4 only"
-        ],
-        ans: 0,
-        exp: "Statements 1, 2, and 3 are correct. Chambal and Betwa are indeed tributaries of the Yamuna; the Damodar drains into the Hooghly (Bhagirathi); and the Luni rises in the Aravalli hills and drains into the Rann of Kutch. Statement 4 is incorrect — the Mahanadi forms its delta in Odisha (around Cuttack and Puri district), not Andhra Pradesh."
-    },
-    {
-        topic: "Background of Wetlands of India",
-        q: "With reference to Ramsar Sites in India, which of the following statements is/are correct?<br>1. Loktak Lake in Manipur is a Ramsar Site known for its phumdis — floating masses of vegetation.<br>2. Chilika Lake is the largest coastal lagoon in India and a Ramsar Site.<br>3. Wular Lake in Jammu & Kashmir is one of the smallest freshwater lakes designated as a Ramsar Site.<br>Select the correct answer using the code given below:",
-        opts: [
-            "1 and 2 only",
-            "2 and 3 only",
-            "1 and 3 only",
-            "1, 2 and 3"
-        ],
-        ans: 0,
-        exp: "Loktak Lake (Manipur) is famous for phumdis and is a Ramsar Site. Chilika Lake (Odisha) is indeed the largest coastal lagoon in India and a Ramsar Site. Statement 3 is incorrect — Wular Lake in J&K is actually one of the largest freshwater lakes in Asia, not one of the smallest. Therefore only statements 1 and 2 are correct."
-    },
-    {
-        topic: "Development of Biomes of the World",
-        q: "Consider the following biomes and their characteristic features:<br>1. Taiga — dominated by coniferous trees and receives very low annual precipitation<br>2. Savanna — characterised by a continuous grass cover with scattered trees, experiencing distinct wet and dry seasons<br>3. Chaparral (Mediterranean) — dominated by evergreen shrubs and grasses adapted to summer drought<br>4. Tundra — has a rich canopy of deciduous forests underlain by permafrost<br>Which of the above are correctly described?",
-        opts: [
-            "1, 2 and 3 only",
-            "2 and 3 only",
-            "1 and 4 only",
-            "1, 3 and 4 only"
-        ],
-        ans: 0,
-        exp: "Statements 1, 2, and 3 are correctly described. Taiga (boreal forest) is dominated by conifers with low precipitation. Savanna is a tropical grassland with scattered trees and seasonal rainfall. Chaparral/Mediterranean biome has drought-tolerant evergreen shrubs. Statement 4 is incorrect — tundra is characterised by the absence of trees (not deciduous forests), very low temperatures, and the presence of permafrost. The vegetation is predominantly mosses, lichens, and low shrubs."
-    },
-    {
-        topic: "Impact of Major Ports of India",
-        q: "With reference to the major ports of India, consider the following statements:<br>1. Jawaharlal Nehru Port (JNPT) handles the largest share of India's container traffic.<br>2. Paradip Port is located in Odisha and is one of the major ports on the eastern coast.<br>3. Ennore Port (Kamarajar Port) is the only corporate (company) major port in India.<br>4. Visakhapatnam Port is the deepest land-locked harbour in India.<br>Which of the statements given above are correct?",
-        opts: [
-            "1, 2 and 3 only",
-            "1 and 4 only",
-            "2, 3 and 4 only",
-            "1, 2, 3 and 4"
         ],
         ans: 3,
-        exp: "All four statements are correct. JNPT (Nhava Sheva) handles the largest share of India's container traffic. Paradip Port is situated in Odisha on the eastern coast. Ennore (Kamarajar) Port is India's only corporatised major port, functioning as a public limited company. Visakhapatnam is the deepest land-locked harbour in India, making it suitable for large vessels."
+        exp: "All three statements reflect well-documented criticisms. IMF's SAPs required fiscal consolidation that frequently reduced social spending. The World Bank, like the IMF, uses a weighted voting system tied to capital contributions, giving the US effective veto power over major decisions. The ADB has faced criticism for procurement practices that benefited donor-country firms, a form of tied aid that reduces the development effectiveness of loans."
     },
     {
-        topic: "Significance of Iron Ore Distribution",
-        q: "With reference to iron ore production in India, which of the following statements is/are correct?<br>1. India primarily produces haematite and magnetite varieties of iron ore.<br>2. Odisha and Chhattisgarh together account for the largest share of India's iron ore production.<br>3. The Kudremukh iron ore deposits in Karnataka are associated with the laterite soil region.<br>Select the correct answer using the code given below:",
+        q: "With reference to the evolution of Priority Sector Lending (PSL) norms in India, which of the following sequences is correct?",
+        opts: [
+            "The concept of PSL was first introduced by the Narasimham Committee (1991) → formalised by RBI in 1972 → targets revised post-nationalisation of banks.",
+            "Bank nationalisation in 1969 created the impetus → RBI formalised PSL targets in 1972 → Nair Committee (2012) revised the PSL framework including new categories like renewable energy.",
+            "PSL was introduced at independence in 1947 → targets were set at 25% in 1969 → revised to 40% after liberalisation in 1991.",
+            "PSL norms were first introduced by NABARD in 1982 → adopted by RBI in 1991 → targets set at 40% for all banks."
+        ],
+        ans: 1,
+        exp: "The correct sequence is: the nationalisation of 14 major banks in 1969 created the policy environment for directed credit. RBI formalised PSL targets in 1972, initially at 33.33% and later raised to 40%. The M. V. Nair Committee (2012) revised PSL guidelines, adding new categories such as renewable energy and social infrastructure. NABARD was established in 1982 for agricultural refinance, separate from the PSL framework's origin."
+    },
+    {
+        q: "Consider the following statements about the Balance of Payments (BoP) and its components:<br>1. The Current Account of BoP records transactions in goods, services, income, and current transfers.<br>2. A Current Account Deficit necessarily implies that a country is running a Capital Account Surplus.<br>3. Foreign Direct Investment inflows are recorded under the Current Account of the Balance of Payments.<br>Which of the statements given above is/are correct?",
         opts: [
             "1 only",
             "1 and 2 only",
@@ -869,23 +848,21 @@ const QUESTIONS = [
             "1, 2 and 3"
         ],
         ans: 1,
-        exp: "India primarily produces haematite (high iron content, found in Jharkhand, Odisha, Karnataka) and magnetite (high iron content but magnetic, found in Karnataka, Tamil Nadu). Odisha and Chhattisgarh together dominate India's iron ore production. Statement 3 is incorrect — Kudremukh deposits are associated with the Bababudan Hills range in Karnataka and are magnetite type, not specifically laterite soil regions."
+        exp: "Statement 1 is correct — the Current Account records trade in goods (visible trade), services (invisible trade), income (investment income, remittances), and current transfers. Statement 2 is broadly correct as the BoP must balance; a current account deficit is financed by a surplus in the capital and financial account. Statement 3 is incorrect — FDI is a capital/financial account transaction, not a current account transaction."
     },
     {
-        topic: "Decline of Earthquake Zones of India",
-        q: "With reference to seismic zonation of India as per the Bureau of Indian Standards (BIS), consider the following statements:<br>1. India is divided into four seismic zones — Zone II, III, IV, and V.<br>2. Zone V is the most seismically active zone and includes the entire northeastern India and parts of Jammu & Kashmir and Himachal Pradesh.<br>3. The Deccan Plateau region entirely falls under Zone II, indicating the lowest seismic hazard.<br>Which of the statements given above is/are correct?",
+        q: "Which of the following correctly arranges the macroeconomic aggregates in descending order of their value for a typical economy with positive net factor income from abroad and positive depreciation?",
         opts: [
-            "1 and 2 only",
-            "2 and 3 only",
-            "1 only",
-            "1, 2 and 3"
+            "GDP > GNP > NNP at Market Price > NNP at Factor Cost",
+            "GNP > GDP > NNP at Market Price > NNP at Factor Cost",
+            "GDP > NNP at Market Price > GNP > NNP at Factor Cost",
+            "GNP > NNP at Market Price > GDP > NNP at Factor Cost"
         ],
-        ans: 0,
-        exp: "India's BIS seismic zonation divides the country into four zones (II to V), with Zone V being the highest hazard zone. Zone V includes the entire northeastern India, parts of J&K, Himachal Pradesh, Uttarakhand, Rann of Kutch, and Andaman & Nicobar Islands. Statement 3 is incorrect — while most of the Deccan Plateau falls under Zone II, not all of it does; certain parts of Maharashtra and other interior regions fall in higher zones."
+        ans: 1,
+        exp: "GNP = GDP + Net Factor Income from Abroad (NFIA). If NFIA is positive, GNP > GDP. NNP at Market Price = GNP minus Depreciation, so NNP (MP) < GNP. NNP at Factor Cost = NNP at Market Price minus Net Indirect Taxes, so NNP (FC) < NNP (MP). The descending order is: GNP > GDP > NNP at Market Price > NNP at Factor Cost, assuming positive NFIA and positive depreciation and net indirect taxes."
     },
     {
-        topic: "Development of Urbanisation Trends",
-        q: "Consider the following statements regarding urbanisation trends in India based on Census 2011:<br>1. For the first time since Independence, the absolute increase in population was more in urban areas than in rural areas during 2001–2011.<br>2. Urban population constituted approximately 31% of India's total population in 2011.<br>3. Maharashtra had the highest urban population in absolute numbers among all Indian states in 2011.<br>Which of the statements given above is/are correct?",
+        q: "With reference to the Human Development Index (HDI), consider the following statements:<br>1. The HDI was developed by the United Nations Development Programme (UNDP) and was first published in the Human Development Report of 1990, conceptualised by Mahbub ul Haq and Amartya Sen.<br>2. The HDI currently uses four indicators: per capita GNI (PPP), mean years of schooling, expected years of schooling, and life expectancy at birth.<br>3. A country can have a high per capita income but a low HDI if it performs poorly on health and education dimensions.<br>Which of the statements given above is/are correct?",
         opts: [
             "1 and 2 only",
             "2 and 3 only",
@@ -893,165 +870,164 @@ const QUESTIONS = [
             "1, 2 and 3"
         ],
         ans: 3,
-        exp: "All three statements are correct based on Census 2011. For the first time since Independence, the absolute increase in urban population (91 million) exceeded the absolute increase in rural population (90.5 million) during 2001–2011. Urban population stood at about 31.16% of India's total population. Maharashtra had the highest absolute urban population, followed by Uttar Pradesh and Tamil Nadu."
+        exp: "All three statements are correct. The HDI was introduced in the 1990 UNDP Human Development Report, with Mahbub ul Haq as the principal architect and Amartya Sen as an intellectual contributor. The current HDI uses three dimensions (health, education, income) measured by four indicators: life expectancy, mean years of schooling, expected years of schooling, and GNI per capita at PPP. Countries like Gulf states historically had high incomes but lower HDI due to gaps in health and education."
     },
     {
-        topic: "Legacy of Blue Revolution",
-        q: "Which of the following are outcomes or significant developments associated with India's Blue Revolution since its launch?<br>1. India emerged as one of the world's top fish-producing nations.<br>2. Inland fisheries production overtook marine fisheries production in terms of tonnage.<br>3. Aquaculture was promoted as a key component of the Blue Revolution.<br>4. India became the largest exporter of fish by value in the world.<br>Select the correct answer using the code given below:",
+        q: "Consider the following statements about WTO and India's trade policy:<br>1. India has consistently opposed the inclusion of labour standards and environmental norms within the WTO framework, viewing them as potential protectionist barriers by developed nations.<br>2. The Agreement on Agriculture (AoA) under WTO prohibits India from providing Minimum Support Price (MSP) to farmers under any circumstance.<br>3. India successfully negotiated the Peace Clause at the Bali Ministerial Conference (2013) to protect its food security programme from WTO dispute action.<br>Which of the statements given above is/are correct?",
         opts: [
-            "1, 2 and 3 only",
             "1 and 3 only",
-            "2, 3 and 4 only",
-            "1, 2, 3 and 4"
+            "2 and 3 only",
+            "1 and 2 only",
+            "1, 2 and 3"
         ],
         ans: 0,
-        exp: "India is among the world's top fish-producing nations (2nd or 3rd globally). Inland fisheries production has surpassed marine fisheries in total tonnage, reflecting the success of aquaculture. Aquaculture (particularly shrimp and freshwater fish farming) was indeed a central component. However, Statement 4 is incorrect — while India is a major fish exporter, it is not the largest by value globally; Norway and China consistently rank higher."
+        exp: "Statements 1 and 3 are correct. India has strongly opposed inserting labour and environmental conditionalities into WTO trade rules, terming them disguised protectionism. At Bali (2013), India secured the Peace Clause, shielding its public stockholding for food security from WTO challenge until a permanent solution is found. Statement 2 is incorrect — the AoA does not prohibit MSP; it limits trade-distorting subsidies (Amber Box) above a de minimis threshold, and India's food security programme is the subject of ongoing WTO negotiations."
     },
     {
-        topic: "Role of Saline Lakes",
-        q: "Which one of the following statements correctly explains the formation of saline lakes in arid and semi-arid regions?",
+        q: "Which of the following best captures the fiscal significance of the distinction between Revenue and Capital budgets in India?",
         opts: [
-            "Saline lakes form due to excessive rainfall causing dissolution of surface minerals into enclosed drainage basins with no outflow",
-            "They form in enclosed or interior drainage basins where evaporation exceeds precipitation, causing salts to accumulate over time",
-            "They are formed exclusively by tectonic subsidence of river valleys leading to salt accumulation",
-            "Saline lakes are formed only in coastal areas where marine water intrudes into fresh water bodies through porous rocks"
+            "Revenue budget surpluses can be used to retire public debt, while capital budget deficits require mandatory monetisation by the RBI.",
+            "Capital expenditure creates assets or reduces liabilities, and its financing through borrowing is considered more sustainable than borrowing to meet revenue expenditure.",
+            "The Revenue Budget includes all borrowings of the government, which distinguishes it from the Capital Budget that covers only tax revenues.",
+            "Under the FRBM Act, the government is mandated to eliminate the capital deficit but is allowed to maintain a revenue deficit up to 3% of GDP."
         ],
         ans: 1,
-        exp: "Saline lakes form in enclosed drainage basins (endorheic basins) with no outlet to the sea. In arid and semi-arid regions, the rate of evaporation exceeds precipitation, causing water to evaporate while dissolved salts remain and accumulate over time. Examples include the Sambhar Lake in Rajasthan and the Dead Sea. The other options describe processes that are either inaccurate or only partially applicable."
+        exp: "The core fiscal principle is that capital expenditure — spending on infrastructure, assets, and repayment of loans — is investment-oriented and borrowing for it is considered acceptable since it generates future returns. Borrowing to finance revenue expenditure (salaries, subsidies, interest) is considered unsustainable as it creates no assets. The FRBM Act targets fiscal deficit and revenue deficit reduction, not capital deficit; and RBI monetisation of deficit was discontinued in 1997."
     },
     {
-        topic: "Background of Himalayan Passes",
-        q: "Consider the following pairs of Himalayan passes and the states/regions they are located in:<br>1. Rohtang Pass — Himachal Pradesh<br>2. Nathu La — Sikkim<br>3. Lipulekh Pass — Uttarakhand<br>4. Zoji La — Ladakh<br>How many of the above pairs are correctly matched?",
-        opts: [
-            "Only two",
-            "Only three",
-            "All four",
-            "Only one"
-        ],
-        ans: 2,
-        exp: "All four pairs are correctly matched. Rohtang Pass lies in Himachal Pradesh on the Manali-Leh highway. Nathu La is in Sikkim and connects India with Tibet (China). Lipulekh Pass is in Uttarakhand and is used for the Kailash Mansarovar Yatra. Zoji La is located in Ladakh on the Srinagar-Leh highway. Hence all four are correctly matched."
-    },
-    {
-        topic: "Relationship Between Census 2011 Key Data",
-        q: "With reference to Census 2011 data of India, which of the following statements is/are correct?<br>1. The literacy rate of India as per Census 2011 was approximately 74%.<br>2. The Child Sex Ratio (0–6 years) declined from 927 in 2001 to 918 in 2011.<br>3. Uttar Pradesh was the most populous state and also had the highest population density in 2011.<br>Select the correct answer using the code given below:",
+        q: "Consider the following statements about the Mahatma Gandhi National Rural Employment Guarantee Act (MGNREGA):<br>1. MGNREGA legally guarantees 100 days of wage employment per financial year to every rural household whose adult members volunteer to do unskilled manual work.<br>2. If employment is not provided within 15 days of application, the applicant is entitled to an unemployment allowance paid by the state government.<br>3. Women must constitute at least one-third of the beneficiaries of MGNREGA in every state.<br>Which of the statements given above is/are correct?",
         opts: [
             "1 and 2 only",
             "2 and 3 only",
             "1 and 3 only",
             "1, 2 and 3"
-        ],
-        ans: 0,
-        exp: "India's literacy rate in 2011 was 74.04% — correct. The child sex ratio (0–6 years) did decline from 927 in 2001 to 918 in 2011 — correct. However, Statement 3 is incorrect — while Uttar Pradesh was indeed the most populous state, it does not have the highest population density. Bihar has the highest population density among large states (1102 persons/sq km), while West Bengal also ranks very high. UP's density was around 828 persons/sq km in 2011."
-    },
-    {
-        topic: "Background of Saline Lakes",
-        q: "Sambhar Salt Lake, India's largest inland saltwater lake, is located in which of the following states, and which river/drainage system primarily feeds it?",
-        opts: [
-            "Gujarat; fed by the Luni River and its tributaries",
-            "Rajasthan; fed by the Mendha, Rupangarh, Khari, and Khandela rivers draining into an enclosed basin",
-            "Rajasthan; fed by a sub-surface connection to the Thar Desert water table",
-            "Haryana; fed by seasonal streams from the Aravalli Range"
-        ],
-        ans: 1,
-        exp: "Sambhar Salt Lake is located in Rajasthan (near Jaipur). It is fed by several seasonal rivers including the Mendha, Rupangarh, Khari, and Khandela rivers, which drain into this enclosed (endorheic) basin. There is no outflow, and the high evaporation rate concentrates the dissolved salts, making it a significant source of salt production in India."
-    },
-    {
-        topic: "Development of Iron Ore Distribution",
-        q: "Consider the following statements about the distribution of iron ore in India:<br>1. The Dharwad and Cuddapah rock systems are the primary geological formations hosting iron ore deposits in India.<br>2. The Bailadila range in Chhattisgarh is known for very high-grade haematite iron ore and is a major export source.<br>3. Karnataka's Bellary-Hospet region has significant iron ore deposits.<br>Which of the statements given above is/are correct?",
-        opts: [
-            "1 and 2 only",
-            "2 and 3 only",
-            "1 and 3 only",
-            "1, 2 and 3"
-        ],
-        ans: 1,
-        exp: "The Bailadila range in Chhattisgarh contains one of the world's finest deposits of high-grade haematite and is a major source of iron ore exports to Japan and South Korea. The Bellary-Hospet region in Karnataka is also a well-known iron ore producing area. Statement 1 is incorrect — iron ore in India is primarily associated with the Dharwar craton, but specifically the Archaean/Precambrian banded iron formations; the Cuddapah system is more associated with limestone and other sedimentary rocks, not primarily iron ore."
-    },
-    {
-        topic: "Impact of Straits of the World",
-        q: "Consider the following pairs of straits and the water bodies they connect:<br>1. Strait of Malacca — Andaman Sea and South China Sea<br>2. Palk Strait — Lakshadweep Sea and Bay of Bengal<br>3. Bab-el-Mandeb — Red Sea and Gulf of Aden<br>4. Strait of Hormuz — Persian Gulf and Gulf of Oman<br>How many of the above pairs are correctly matched?",
-        opts: [
-            "Only two",
-            "Only three",
-            "All four",
-            "Only one"
-        ],
-        ans: 1,
-        exp: "Pairs 1, 3, and 4 are correctly matched. The Strait of Malacca connects the Andaman Sea (part of Indian Ocean) with the South China Sea. Bab-el-Mandeb connects the Red Sea with the Gulf of Aden. The Strait of Hormuz connects the Persian Gulf with the Gulf of Oman. Pair 2 is incorrect — the Palk Strait connects the Bay of Bengal with the Gulf of Mannar (not the Lakshadweep Sea), separating India and Sri Lanka."
-    },
-    {
-        topic: "Development of Irrigation Types",
-        q: "With reference to irrigation systems in India, consider the following statements:<br>1. Well and tube-well irrigation accounts for the largest share of net irrigated area in India.<br>2. Tank irrigation is predominantly practised in the Peninsular plateau region due to uneven terrain and impervious rock.<br>3. Canal irrigation is the most suitable form of irrigation in areas with hard crystalline rock formations.<br>Which of the statements given above is/are correct?",
-        opts: [
-            "1 and 2 only",
-            "2 and 3 only",
-            "1 and 3 only",
-            "1, 2 and 3"
-        ],
-        ans: 0,
-        exp: "Well and tube-well irrigation (groundwater irrigation) accounts for the largest share of net irrigated area in India — correct. Tank irrigation is most prevalent in the Deccan Plateau (Andhra Pradesh, Tamil Nadu, Karnataka) because the hard impervious rock prevents percolation and the undulating terrain facilitates tank construction — correct. Statement 3 is incorrect — canal irrigation is best suited for alluvial plains with gentle slopes, not areas with hard crystalline rocks. Hard rock areas are better served by tank or well irrigation."
-    },
-    {
-        topic: "Development of Population Distribution in India",
-        q: "Which of the following factors most directly explain the high population density of the Indo-Gangetic Plain compared to the Deccan Plateau?<br>1. Alluvial soil fertility supporting intensive agriculture<br>2. Perennial river systems enabling year-round irrigation<br>3. Historically older settlement pattern and cultural continuity<br>4. Higher average annual rainfall compared to all parts of the Deccan Plateau<br>Select the correct answer using the code given below:",
-        opts: [
-            "1, 2 and 3 only",
-            "1 and 2 only",
-            "2, 3 and 4 only",
-            "1, 2, 3 and 4"
-        ],
-        ans: 0,
-        exp: "The high population density of the Indo-Gangetic Plain is primarily explained by fertile alluvial soils enabling intensive agriculture, perennial rivers (Ganga, Yamuna, their tributaries) supporting year-round irrigation, and historically older settlements with cultural continuity. Statement 4 is incorrect — not all parts of the Deccan Plateau receive low rainfall; the Western Ghats' leeward portions and parts of Telangana receive moderate-to-high rainfall. Rainfall alone does not consistently differentiate the two regions in this context."
-    },
-    {
-        topic: "Comparison of Oil and Gas Basins of India",
-        q: "Which of the following correctly lists India's sedimentary basins in descending order of their estimated hydrocarbon reserves?",
-        opts: [
-            "Cambay Basin > Mumbai Offshore Basin > Krishna-Godavari Basin",
-            "Mumbai Offshore Basin > Assam-Arakan Basin > Cambay Basin",
-            "Krishna-Godavari Basin > Mumbai Offshore Basin > Rajasthan Basin",
-            "Mumbai Offshore Basin > Krishna-Godavari Basin > Rajasthan Basin"
         ],
         ans: 3,
-        exp: "The Mumbai Offshore Basin (home to Bombay High) has been India's largest petroleum-producing basin historically. The Krishna-Godavari (KG) Basin, especially with the Reliance KG-D6 block discoveries, is among the most significant in terms of gas reserves. The Rajasthan Basin (Barmer block, operated by Cairn India/Vedanta) has seen significant oil production in recent decades. The Assam-Arakan and Cambay basins, though historically important, have relatively lower remaining reserves compared to Mumbai Offshore and KG basins."
+        exp: "All three statements are correct. MGNREGA provides a legal guarantee of 100 days of unskilled manual work per household per year. If employment is not provided within 15 days, the state government must pay an unemployment allowance (one-fourth of wage rate for the first 30 days, one-half thereafter). Women's participation is mandated at not less than one-third — a provision that has contributed to women constituting over 50% of MGNREGA workers nationally."
     },
     {
-        topic: "Criticism of Biomes of the World",
-        q: "Which of the following is a valid criticism of the traditional biome classification system used in biogeography?",
+        q: "With reference to the measurement of poverty in India, which of the following is correctly matched?",
         opts: [
-            "It overestimates the role of temperature and underestimates the role of soil type in determining biome boundaries",
-            "It treats each biome as a static, homogeneous unit and fails to account for transitional zones (ecotones) and internal biodiversity variations",
-            "It is based exclusively on animal community structures and ignores vegetation completely",
-            "It was developed only for the Northern Hemisphere and cannot be applied to tropical ecosystems"
+            "Tendulkar Committee (2009) — introduced the concept of calorie-based poverty line using 2,400 kcal (rural) and 2,100 kcal (urban) norms",
+            "Rangarajan Committee (2014) — recommended a higher poverty line based on consumption expenditure, estimating a higher poverty ratio than Tendulkar",
+            "Lakdawala Committee (1993) — first introduced the Multidimensional Poverty Index as India's official measure of poverty",
+            "Alagh Committee (1979) — recommended poverty lines based solely on income thresholds rather than consumption expenditure"
         ],
         ans: 1,
-        exp: "A major criticism of traditional biome classification is that it treats biomes as discrete, static, and homogeneous units, ignoring the reality of ecotones (transitional zones between biomes) and significant internal variation in climate, soil, and species composition. Climate change further challenges static classifications. Option A is partially valid but overstated. Options C and D are factually wrong — biome classification is based on both vegetation and climate, and is applied globally including tropical regions."
+        exp: "The Rangarajan Committee (2014) recommended a revised poverty line based on broader consumption expenditure norms and estimated a higher poverty ratio than the Tendulkar Committee. The Tendulkar Committee (2009) moved away from the calorie-based norm (introduced by the Alagh/Lakdawala committees) to a consumption expenditure basket approach. Lakdawala (1993) used calorie norms, not MPI. The MPI was introduced by UNDP/OPHI, not by any Indian committee."
     },
     {
-        topic: "Relationship Between Indian Coal Fields",
-        q: "Consider the following statements about Indian coalfields:<br>1. Gondwana coalfields account for the bulk of India's coal reserves and are found in peninsular river valleys.<br>2. The Raniganj and Jharia coalfields are located in the Damodar Valley.<br>3. Tertiary coal, found mainly in the northeastern states, is of higher grade (higher carbon content) than Gondwana coal.<br>Which of the statements given above is/are correct?",
+        q: "Which of the following correctly distinguishes Revenue Expenditure from Capital Expenditure in the Union Budget of India?",
+        opts: [
+            "Revenue Expenditure includes interest payments on debt, while Capital Expenditure includes repayment of the principal amount of debt.",
+            "Capital Expenditure refers only to expenditure on physical infrastructure like roads and bridges; expenditure on education and health is classified as Revenue Expenditure regardless of asset creation.",
+            "Revenue Expenditure always leads to a deficit, while Capital Expenditure always leads to a surplus in the respective accounts.",
+            "Grants given by the Centre to states for capital works are classified as Capital Expenditure in the Union Budget."
+        ],
+        ans: 0,
+        exp: "Interest payments are recurring obligations classified as Revenue Expenditure, while repayment of the principal amount of public debt reduces the government's liability and is classified as Capital Expenditure. Option B is partially incorrect — grants to states for capital formation are classified as Revenue Expenditure in the Union Budget (a source of criticism leading to the Effective Revenue Deficit concept). Option C is incorrect as deficits/surpluses depend on receipts versus expenditure, not the type of expenditure alone."
+    },
+    {
+        q: "With reference to the role of Revenue Expenditure in public finance, which of the following statements is most accurate?",
+        opts: [
+            "Revenue Expenditure is always unproductive and should be minimised in all circumstances to ensure fiscal prudence.",
+            "High revenue expenditure relative to revenue receipts reduces the government's capacity for capital formation and may crowd out private investment through higher borrowings.",
+            "Revenue Expenditure on subsidies is classified separately from Revenue Expenditure on salaries and pensions under Indian budget classification.",
+            "The FRBM Act, 2003 mandates that Revenue Expenditure must not exceed 60% of total government expenditure."
+        ],
+        ans: 1,
+        exp: "When revenue expenditure consistently exceeds revenue receipts (causing revenue deficit), the government must borrow to finance consumption spending. This crowds out private investment by raising interest rates and reduces fiscal space for capital expenditure. Not all revenue expenditure is unproductive — expenditure on education and health has long-term productivity effects. The FRBM Act targets deficit ratios, not expenditure composition percentages."
+    },
+    {
+        q: "Consider the following statements about the Pradhan Mantri Jan Dhan Yojana (PMJDY):<br>1. PMJDY was launched in 2014 with the objective of ensuring financial inclusion by providing universal access to banking facilities.<br>2. Accounts opened under PMJDY are zero-balance accounts and provide an overdraft facility of up to ₹10,000 after six months of satisfactory operation.<br>3. PMJDY accounts are linked to the JAM trinity — Jan Dhan, Aadhaar, and Mobile — to enable direct benefit transfers.<br>Which of the statements given above is/are correct?",
         opts: [
             "1 and 2 only",
             "2 and 3 only",
             "1 and 3 only",
             "1, 2 and 3"
         ],
-        ans: 0,
-        exp: "Gondwana coal constitutes over 98% of India's total coal reserves and occurs in the river valleys of peninsular India (Damodar, Sone, Mahanadi, Godavari, Wardha valleys). Both Raniganj and Jharia are major coalfields located in the Damodar Valley (Jharkhand/West Bengal). Statement 3 is incorrect — Tertiary coal found in Assam, Meghalaya, Nagaland, and Arunachal Pradesh is generally of lower grade (lower carbon, higher sulphur content) than Gondwana coal."
+        ans: 3,
+        exp: "All three statements are correct. PMJDY was launched on August 28, 2014 to universalise banking access. PMJDY accounts are zero-balance accounts offering an overdraft facility (initially ₹5,000, later enhanced to ₹10,000) after satisfactory account operation for six months. The JAM trinity (Jan Dhan-Aadhaar-Mobile) forms the infrastructure for direct benefit transfers, eliminating leakages in subsidy delivery — a key reform outcome of PMJDY."
     },
     {
-        topic: "Criticism of Transport Networks — Golden Quadrilateral",
-        q: "Consider the following statements about the Golden Quadrilateral (GQ) Highway Project of India:<br>1. The Golden Quadrilateral is the longest highway project undertaken in India and connects Delhi, Mumbai, Chennai, and Kolkata.<br>2. It is implemented under the National Highways Development Project (NHDP) by the National Highways Authority of India (NHAI).<br>3. A major criticism of the GQ project is that it primarily benefited urban centres along the corridor while having limited impact on rural hinterland connectivity.<br>4. The GQ was completed well ahead of its original scheduled deadline.<br>Which of the statements given above are correct?",
+        q: "With reference to the MUDRA (Micro Units Development and Refinance Agency) scheme, which of the following statements is correct?",
         opts: [
-            "1, 2 and 3 only",
-            "2 and 3 only",
-            "1, 3 and 4 only",
-            "1, 2, 3 and 4"
+            "MUDRA provides loans directly to micro-entrepreneurs through its own branch network across India.",
+            "MUDRA classifies its loan products into three categories — Shishu (up to ₹50,000), Kishor (₹50,001 to ₹5 lakh), and Tarun (₹5 lakh to ₹10 lakh) — targeting different stages of enterprise growth.",
+            "MUDRA loans are backed by a mandatory government guarantee, making them risk-free for lending institutions.",
+            "MUDRA was established as a subsidiary of the Reserve Bank of India under the RBI Act, 1934."
+        ],
+        ans: 1,
+        exp: "MUDRA's three loan products — Shishu (up to ₹50,000), Kishor (₹50,001 to ₹5 lakh), and Tarun (₹5 lakh to ₹10 lakh) — correspond to the early, growing, and developed stages of a micro-enterprise's lifecycle. MUDRA does not lend directly; it refinances banks, MFIs, and NBFCs that on-lend to micro-entrepreneurs. MUDRA loans do not carry a mandatory government guarantee, and MUDRA was set up under the SIDBI Act as a subsidiary of SIDBI, not directly under the RBI."
+    },
+    {
+        q: "In the context of factors of production, which of the following statements best explains the declining share of wages in national income in many developing economies including India?",
+        opts: [
+            "Labour as a factor of production is being substituted by capital due to technological advancement and automation, reducing the relative demand for unskilled labour.",
+            "The concept of diminishing marginal returns to labour ensures that wages must always fall as the economy grows.",
+            "Land, being a fixed factor, absorbs an increasing share of national income as rent, leaving less for wages.",
+            "The decline in wages share is a natural consequence of transitioning from an agrarian to an industrial economy, after which wages always recover fully."
         ],
         ans: 0,
-        exp: "The GQ connects Delhi, Mumbai, Chennai, and Kolkata (the four metro cities) forming a quadrilateral of about 5,846 km, and is part of NHDP Phase I implemented by NHAI — Statements 1 and 2 are correct. Statement 3 reflects a widely noted criticism that while the GQ boosted industrial corridors and urban connectivity, rural areas away from the highway saw limited direct benefit. Statement 4 is incorrect — the GQ project suffered significant delays and cost overruns, far exceeding its original deadline."
+        exp: "The declining labour share of income in many economies is primarily attributed to capital-biased technological change and automation, which raises the marginal productivity of capital relative to labour, especially unskilled labour. This is a key concern in development economics. Diminishing marginal returns to labour do not guarantee falling wages — wages depend on marginal productivity and labour market conditions. The relationship between structural transformation and wage share is not as deterministic as option D suggests."
+    },
+    {
+        q: "Which of the following best explains why land is sometimes described as a 'passive' factor of production compared to labour, capital, and enterprise?",
+        opts: [
+            "Land does not earn any return in a modern market economy as rent has been eliminated by competition.",
+            "Land is a gift of nature that requires no human effort to create, is fixed in total supply nationally, and is geographically immobile, making its supply perfectly inelastic.",
+            "Land can be created through reclamation, making it the most elastic factor of production in the long run.",
+            "Land earns profit rather than rent as its return, unlike labour which earns wages and capital which earns interest."
+        ],
+        ans: 1,
+        exp: "Land is described as 'passive' because it is a free gift of nature — not produced by human effort — is fixed in aggregate supply (perfectly inelastic at the national level), and cannot be moved geographically, unlike capital or labour. The return to land is rent, not profit. Land reclamation can marginally increase usable land but does not fundamentally alter its supply inelasticity. These characteristics distinguish it from the other factors of production."
+    },
+    {
+        q: "Consider the following statements about inflation and its measurement in India:<br>1. Core inflation excludes food and fuel prices from the CPI basket to measure underlying demand-driven price pressures.<br>2. Cost-push inflation is caused by a rise in aggregate demand, while demand-pull inflation results from supply-side shocks.<br>3. The RBI's Monetary Policy Committee (MPC) uses CPI-based inflation (headline) as its nominal anchor with a target of 4% with a tolerance band of +/- 2%.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1 and 3 only",
+            "2 and 3 only",
+            "1 and 2 only",
+            "1, 2 and 3"
+        ],
+        ans: 0,
+        exp: "Statements 1 and 3 are correct. Core inflation excludes volatile food and fuel components to capture underlying inflationary momentum. The RBI's MPC, established under the amended RBI Act, uses CPI headline inflation with a target of 4% (+/- 2%) as its flexible inflation targeting framework. Statement 2 is incorrect — it reverses the definitions. Demand-pull inflation is caused by excess aggregate demand; cost-push inflation results from supply-side shocks (rising input costs like oil prices)."
+    },
+    {
+        q: "With reference to the significance of poverty measurement in India, which of the following statements is most accurate about the Multidimensional Poverty Index (MPI)?",
+        opts: [
+            "The MPI is India's official measure of poverty and has replaced the consumption expenditure-based poverty line for all government planning purposes.",
+            "The MPI captures deprivations across health, education, and living standards using ten indicators, providing a richer picture of poverty than income or consumption-based lines alone.",
+            "A household is classified as multidimensionally poor only if it is simultaneously deprived on all ten indicators of the MPI.",
+            "The global MPI was developed jointly by the Planning Commission of India and the World Bank to assess poverty in South Asian countries."
+        ],
+        ans: 1,
+        exp: "The MPI, developed by UNDP and Oxford Poverty and Human Development Initiative (OPHI), measures poverty across three dimensions — health, education, and living standards — using ten indicators (nutrition, child mortality, years of schooling, school attendance, cooking fuel, sanitation, drinking water, electricity, housing, assets). A household is considered MPI-poor if deprived in at least one-third of the weighted indicators, not all ten. India has not officially replaced consumption-based poverty lines with MPI for all planning purposes."
+    },
+    {
+        q: "India's ranking on the Human Development Index (HDI) has often been lower than what its per capita income ranking would suggest. Which of the following best explains this divergence?",
+        opts: [
+            "India's HDI rank suffers primarily because the UNDP uses Purchasing Power Parity adjustments that systematically undervalue the Indian rupee.",
+            "High income inequality within India means that per capita income does not reflect actual living standards, combined with persistent gaps in health outcomes and educational attainment, particularly for women and marginalised groups.",
+            "India's HDI rank is lowered solely because of low life expectancy, which is the most heavily weighted component of the HDI.",
+            "The HDI penalises countries with large populations regardless of their actual development outcomes, placing India at a disadvantage compared to smaller nations."
+        ],
+        ans: 1,
+        exp: "India's divergence between income rank and HDI rank is best explained by: (a) high income inequality — average per capita income masks extreme poverty for a large segment of the population; (b) gaps in health outcomes (maternal mortality, child malnutrition); and (c) low educational attainment especially for women and marginalised groups (SC/ST). The HDI components are equally weighted in the geometric mean formula, and HDI does not penalise for population size. PPP adjustments are standard across all countries."
+    },
+    {
+        q: "With reference to the Sustainable Development Goals (SDGs), consider the following statements:<br>1. The SDGs were adopted by all United Nations member states in 2015 as part of the 2030 Agenda for Sustainable Development, replacing the Millennium Development Goals (MDGs).<br>2. Unlike the MDGs which focused primarily on developing countries, the SDGs are universal in application and apply to all nations including developed ones.<br>3. India's NITI Aayog has been designated as the nodal agency for coordinating SDG implementation and monitoring in India.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only",
+            "1, 2 and 3"
+        ],
+        ans: 3,
+        exp: "All three statements are correct. The 17 SDGs and 169 targets were adopted unanimously by UN member states in September 2015, succeeding the 8 MDGs (2000–2015). A defining feature of the SDGs over the MDGs is their universality — they apply to developed and developing nations alike, covering issues like climate action, inequality, and sustainable consumption that are relevant globally. NITI Aayog serves as the nodal agency for SDG implementation in India and publishes the SDG India Index annually to track progress."
     }
 ];
+
 const CORRECT_MARKS = 2;
 const NEGATIVE_MARKS = 2 / 3;
 
@@ -1273,7 +1249,7 @@ function doSubmit(){
       correct: correct,
       incorrect: incorrect,
       unattempted: unattempted,
-      testCode: "Geography Test CODE-2027-3"
+      testCode: "Economy Test CODE-2027-5"
     })
   }); 
   submitBtn.style.display = 'none';
