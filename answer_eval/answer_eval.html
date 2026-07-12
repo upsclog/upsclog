@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Answer Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<style>
+  :root{
+    --paper: #FBF8F1;
+    --paper-line: #D8CFC0;
+    --margin-red: #B84A3E;
+    --ink: #2A2A28;
+    --ink-soft: #6B6459;
+    --pencil: #4E6E8E;
+    --stamp-green: #4B7A54;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      repeating-linear-gradient(var(--paper) 0 31px, var(--paper-line) 31px 32px),
+      var(--paper);
+    background-position: 0 60px;
+    font-family:'Source Sans 3', sans-serif;
+    color:var(--ink);
+    min-height:100vh;
+    position:relative;
+  }
+  body::before{
+    content:"";
+    position:fixed;
+    top:0; bottom:0; left:56px;
+    width:2px;
+    background:var(--margin-red);
+    opacity:.35;
+    z-index:0;
+  }
+  @media (max-width:640px){
+    body::before{ left:28px; }
+  }
+  .wrap{
+    max-width:720px;
+    margin:0 auto;
+    padding:40px 32px 80px 76px;
+    position:relative;
+    z-index:1;
+  }
+  @media (max-width:640px){
+    .wrap{ padding:28px 20px 60px 44px; }
+  }
+  header{
+    margin-bottom:36px;
+  }
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:2.1rem;
+    margin:0 0 4px;
+    letter-spacing:-0.01em;
+  }
+  .sub{
+    color:var(--ink-soft);
+    font-size:.95rem;
+    font-family:'JetBrains Mono', monospace;
+  }
+  .card{
+    background:rgba(255,255,255,.55);
+    border:1px solid var(--paper-line);
+    border-radius:2px;
+    padding:20px 22px;
+    margin-bottom:20px;
+  }
+  .new-q textarea{
+    width:100%;
+    font-family:'Fraunces', serif;
+    font-size:1.05rem;
+    border:none;
+    background:transparent;
+    resize:vertical;
+    min-height:52px;
+    outline:none;
+    color:var(--ink);
+  }
+  .new-q textarea::placeholder{ color:var(--ink-soft); font-style:italic; }
+  button{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.82rem;
+    letter-spacing:.03em;
+    text-transform:uppercase;
+    background:var(--ink);
+    color:var(--paper);
+    border:none;
+    padding:10px 18px;
+    border-radius:2px;
+    cursor:pointer;
+    transition:opacity .15s ease;
+  }
+  button:hover{ opacity:.82; }
+  button:disabled{ opacity:.4; cursor:not-allowed; }
+  button.ghost{
+    background:transparent;
+    color:var(--ink);
+    border:1px solid var(--ink);
+  }
+  .row-end{ display:flex; justify-content:flex-end; margin-top:10px; }
+
+  .q-item{
+    display:block;
+    text-decoration:none;
+    color:inherit;
+    cursor:pointer;
+  }
+  .q-item .num{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.75rem;
+    color:var(--pencil);
+    display:block;
+    margin-bottom:6px;
+  }
+  .q-item .text{
+    font-family:'Fraunces', serif;
+    font-size:1.15rem;
+    line-height:1.4;
+  }
+  .q-item .meta{
+    color:var(--ink-soft);
+    font-size:.82rem;
+    margin-top:8px;
+  }
+  .q-item .cta{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.78rem;
+    color:var(--pencil);
+    margin-top:12px;
+  }
+  .q-item:hover .cta{ text-decoration:underline; }
+  .q-item:hover{ background:rgba(255,255,255,.85); }
+  .q-item{ position:relative; display:block; }
+  .q-item .q-body{ display:block; text-decoration:none; color:inherit; cursor:pointer; }
+  .icon-btn{
+    position:absolute;
+    top:14px; right:14px;
+    background:transparent;
+    border:none;
+    color:var(--ink-soft);
+    font-family:'JetBrains Mono', monospace;
+    font-size:.72rem;
+    text-transform:none;
+    padding:4px 8px;
+    cursor:pointer;
+    border-radius:2px;
+    z-index:2;
+  }
+  .icon-btn:hover{
+    color:var(--margin-red);
+    background:rgba(184,74,62,.08);
+    opacity:1;
+  }
+  .paper-photo .icon-btn{
+    top:4px; right:4px;
+    background:rgba(255,255,255,.85);
+  }
+
+  .back{
+    display:inline-block;
+    margin-bottom:20px;
+    color:var(--pencil);
+    font-family:'JetBrains Mono', monospace;
+    font-size:.85rem;
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .back:hover{ text-decoration:underline; }
+
+  .question-full{
+    font-family:'Fraunces', serif;
+    font-size:1.5rem;
+    line-height:1.4;
+    margin-bottom:28px;
+  }
+
+  .dropzone{
+    border:2px dashed var(--paper-line);
+    border-radius:4px;
+    padding:36px 20px;
+    text-align:center;
+    background:rgba(255,255,255,.4);
+    transition:border-color .15s ease, background .15s ease;
+    cursor:pointer;
+  }
+  .dropzone.drag{
+    border-color:var(--pencil);
+    background:rgba(78,110,142,.08);
+  }
+  .dropzone .icon{
+    font-size:1.8rem;
+    margin-bottom:8px;
+  }
+  .dropzone .main-txt{
+    font-family:'Fraunces', serif;
+    font-size:1.05rem;
+    margin-bottom:4px;
+  }
+  .dropzone .sub-txt{
+    color:var(--ink-soft);
+    font-size:.85rem;
+  }
+  input[type=file]{ display:none; }
+  input[type=text]{
+    width:100%;
+    font-family:'Source Sans 3', sans-serif;
+    font-size:.95rem;
+    border:none;
+    border-bottom:1px solid var(--paper-line);
+    background:transparent;
+    padding:8px 2px;
+    outline:none;
+    color:var(--ink);
+  }
+  .field-label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.72rem;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    color:var(--ink-soft);
+    display:block;
+    margin-bottom:6px;
+  }
+  .preview-strip{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:14px;
+  }
+  .preview-strip img{
+    width:72px; height:72px;
+    object-fit:cover;
+    border-radius:3px;
+    border:1px solid var(--paper-line);
+    transform:rotate(-1.2deg);
+  }
+  .pdf-thumb{
+    width:72px; height:72px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    border:1px solid var(--paper-line);
+    border-radius:3px;
+    background:#fff;
+    font-size:1.5rem;
+    transform:rotate(-1.2deg);
+  }
+  .pdf-thumb span{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.6rem;
+    color:var(--ink-soft);
+    margin-top:2px;
+  }
+  .preview-strip div:nth-child(even) img{ transform:rotate(1.4deg); }
+
+  .gallery-title{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.78rem;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    color:var(--ink-soft);
+    margin:36px 0 14px;
+  }
+  .gallery{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(150px,1fr));
+    gap:16px;
+  }
+  .paper-photo{
+    background:#fff;
+    padding:8px 8px 34px;
+    border:1px solid var(--paper-line);
+    box-shadow:0 3px 8px rgba(0,0,0,.08);
+    border-radius:1px;
+    transform:rotate(var(--r,0deg));
+    position:relative;
+  }
+  .paper-photo:nth-child(3n){ --r:-1.4deg; }
+  .paper-photo:nth-child(3n+1){ --r:1deg; }
+  .paper-photo:nth-child(3n+2){ --r:-0.6deg; }
+  .paper-photo img{
+    width:100%;
+    display:block;
+    border-radius:1px;
+    cursor:pointer;
+  }
+  .pdf-card{
+    width:100%;
+    aspect-ratio:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    font-size:2.2rem;
+    background:var(--paper);
+    border:1px solid var(--paper-line);
+    border-radius:1px;
+    cursor:pointer;
+  }
+  .pdf-card span{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.72rem;
+    color:var(--pencil);
+  }
+  .paper-photo .name{
+    position:absolute;
+    bottom:8px; left:8px; right:8px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:.72rem;
+    color:var(--ink-soft);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .empty{
+    color:var(--ink-soft);
+    font-style:italic;
+    font-family:'Fraunces', serif;
+    padding:20px 0;
+  }
+  .toast{
+    position:fixed;
+    bottom:24px; left:50%;
+    transform:translateX(-50%);
+    background:var(--stamp-green);
+    color:#fff;
+    padding:10px 18px;
+    border-radius:3px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:.82rem;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .25s ease, transform .25s ease;
+    z-index:50;
+  }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(-6px); }
+  .setup-warning{
+    background:#fff3f0;
+    border:1px solid var(--margin-red);
+    color:var(--margin-red);
+    padding:16px 18px;
+    border-radius:3px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:.82rem;
+    margin-bottom:24px;
+    line-height:1.6;
+  }
+  .lightbox{
+    position:fixed; inset:0;
+    background:rgba(20,18,15,.9);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:100;
+    padding:24px;
+  }
+  .lightbox.open{ display:flex; }
+  .lightbox img{
+    max-width:100%;
+    max-height:100%;
+    border-radius:2px;
+  }
+  .header-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:16px;
+  }
+  .schedule-bar{
+    margin-bottom:20px;
+  }
+  .schedule-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:var(--margin-red);
+    color:#fff;
+    font-family:'JetBrains Mono', monospace;
+    font-size:.82rem;
+    letter-spacing:.02em;
+    text-decoration:none;
+    padding:11px 18px;
+    border-radius:3px;
+    box-shadow:0 2px 6px rgba(184,74,62,.25);
+    transition:opacity .15s ease, transform .15s ease;
+    width:100%;
+    justify-content:center;
+    box-sizing:border-box;
+  }
+  .schedule-btn:hover{ opacity:.88; }
+  .schedule-btn:active{ transform:scale(.98); }
+  @media (min-width:520px){
+    .schedule-btn{ width:auto; justify-content:flex-start; }
+  }
+  #auth-box{
+    flex-shrink:0;
+  }
+  .auth-link{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.78rem;
+    color:var(--pencil);
+    cursor:pointer;
+    background:none;
+    border:none;
+    text-decoration:underline;
+    padding:0;
+  }
+  .auth-status{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.75rem;
+    color:var(--ink-soft);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .login-panel{
+    position:absolute;
+    right:0;
+    top:36px;
+    background:#fff;
+    border:1px solid var(--paper-line);
+    box-shadow:0 6px 20px rgba(0,0,0,.12);
+    border-radius:4px;
+    padding:16px;
+    width:230px;
+    z-index:20;
+  }
+  .login-panel input{
+    margin-bottom:10px;
+  }
+  .login-panel .row-end{ margin-top:6px; }
+  .auth-wrap{ position:relative; }
+  .login-error{
+    color:var(--margin-red);
+    font-family:'JetBrains Mono', monospace;
+    font-size:.72rem;
+    margin-top:6px;
+  }
+  .locked-note{
+    color:var(--ink-soft);
+    font-style:italic;
+    font-family:'Fraunces', serif;
+    font-size:.95rem;
+    padding:14px 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap" id="app">
+  <header>
+    <div class="schedule-bar">
+      <a class="schedule-btn" href="DPQ_Schedule.pdf" target="_blank" rel="noopener">
+        📅 UPSC LoG DPQs Schedule
+      </a>
+    </div>
+    <div class="header-top">
+      <div>
+        <h1>Answer Sheet</h1>
+        <div class="sub">post a question — collect handwritten answers</div>
+      </div>
+      <div id="auth-box"></div>
+    </div>
+  </header>
+  <div id="view"></div>
+</div>
+
+
+
+<div class="toast" id="toast"></div>
+<div class="lightbox" id="lightbox"><img id="lightbox-img" src=""></div>
+
+<script>
+/* ====== CONFIGURE THESE TWO LINES ====== */
+const SUPABASE_URL = "https://krdrdhhlbdsnvihwhvfo.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtyZHJkaGhsYmRzbnZpaHdodmZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM4NDU5MzksImV4cCI6MjA5OTQyMTkzOX0.5DOX7VQ0PQ0xSsuclyEb0J5DYrjoOu4bnQfwLXxHeoU";
+/* ======================================= */
+
+const configured = !SUPABASE_URL.startsWith("YOUR_") && !SUPABASE_ANON_KEY.startsWith("YOUR_");
+const sb = configured ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
+const view = document.getElementById('view');
+const toastEl = document.getElementById('toast');
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+
+function toast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  setTimeout(()=>toastEl.classList.remove('show'), 2200);
+}
+function openLightbox(src){
+  lightboxImg.src = src;
+  lightbox.classList.add('open');
+}
+lightbox.addEventListener('click', ()=> lightbox.classList.remove('open'));
+
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+function timeAgo(dateStr){
+  const s = Math.floor((Date.now() - new Date(dateStr).getTime())/1000);
+  if(s<60) return 'just now';
+  if(s<3600) return Math.floor(s/60)+'m ago';
+  if(s<86400) return Math.floor(s/3600)+'h ago';
+  return Math.floor(s/86400)+'d ago';
+}
+
+function setupWarning(){
+  return `<div class="setup-warning">
+    Not connected yet. Open this file and set <b>SUPABASE_URL</b> and
+    <b>SUPABASE_ANON_KEY</b> at the top of the &lt;script&gt; tag with the
+    values from your Supabase project (Settings → API).
+  </div>`;
+}
+
+/* ---------- AUTH ---------- */
+let currentUser = null;
+const authBox = document.getElementById('auth-box');
+
+function renderAuthBox(){
+  if(!configured){ authBox.innerHTML = ''; return; }
+  if(currentUser){
+    authBox.innerHTML = `
+      <div class="auth-status">
+        <span>${escapeHtml(currentUser.email)}</span>
+        <button class="auth-link" id="logout-btn">sign out</button>
+      </div>`;
+    document.getElementById('logout-btn').onclick = async () => {
+      await sb.auth.signOut();
+    };
+  } else {
+    authBox.innerHTML = `<div class="auth-wrap">
+      <button class="auth-link" id="show-login-btn">admin sign in</button>
+    </div>`;
+    document.getElementById('show-login-btn').onclick = showLoginPanel;
+  }
+}
+
+function showLoginPanel(){
+  const wrap = authBox.querySelector('.auth-wrap');
+  if(wrap.querySelector('.login-panel')) return;
+  const panel = document.createElement('div');
+  panel.className = 'login-panel';
+  panel.innerHTML = `
+    <span class="field-label">Email</span>
+    <input type="text" id="login-email" placeholder="you@example.com">
+    <span class="field-label">Password</span>
+    <input type="password" id="login-pass" placeholder="••••••••">
+    <div class="row-end"><button id="login-submit">Sign in</button></div>
+    <div class="login-error" id="login-error"></div>
+  `;
+  wrap.appendChild(panel);
+  document.getElementById('login-submit').onclick = async () => {
+    const email = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-pass').value;
+    const errEl = document.getElementById('login-error');
+    errEl.textContent = '';
+    const { error } = await sb.auth.signInWithPassword({ email, password });
+    if(error){ errEl.textContent = error.message; return; }
+    panel.remove();
+    toast('Signed in');
+  };
+  document.addEventListener('click', function outside(e){
+    if(!wrap.contains(e.target)){ panel.remove(); document.removeEventListener('click', outside); }
+  }, { capture:true });
+}
+
+async function router(){
+  const hash = location.hash.slice(1) || '/';
+  if(!configured){
+    view.innerHTML = setupWarning() + questionListSkeleton();
+    return;
+  }
+  if(hash.startsWith('/q/')){
+    renderQuestion(hash.slice(3));
+  } else {
+    renderList();
+  }
+}
+window.addEventListener('hashchange', router);
+
+function questionListSkeleton(){
+  return `<div class="card"><div class="empty">Connect Supabase to get started.</div></div>`;
+}
+
+/* ---------- LIST VIEW ---------- */
+async function renderList(){
+  const newQBlock = currentUser ? `
+    <div class="card new-q">
+      <span class="field-label">New question</span>
+      <textarea id="new-q-text" placeholder="Type the question here..."></textarea>
+      <div class="row-end"><button id="post-q-btn">Post question</button></div>
+    </div>
+  ` : `
+    <div class="card"><div class="locked-note">Sign in as admin to post a new question.</div></div>
+  `;
+
+  view.innerHTML = `
+    ${newQBlock}
+    <div id="q-list"><div class="empty">Loading...</div></div>
+  `;
+  if(currentUser) document.getElementById('post-q-btn').onclick = postQuestion;
+
+  const { data, error } = await sb.from('questions').select('*, answers(count)').order('created_at', { ascending:false });
+  const list = document.getElementById('q-list');
+  if(error){ list.innerHTML = `<div class="empty">Couldn't load questions: ${escapeHtml(error.message)}</div>`; return; }
+  if(!data.length){ list.innerHTML = `<div class="empty">No questions yet.</div>`; return; }
+
+  list.innerHTML = data.map((q, i) => `
+    <div class="card q-item">
+      ${currentUser ? `<button class="icon-btn" data-delete-q="${q.id}" title="Delete question">✕ delete</button>` : ''}
+      <a class="q-body" href="#/q/${q.id}">
+        <span class="num">Q${String(data.length - i).padStart(2,'0')}</span>
+        <div class="text">${escapeHtml(q.text)}</div>
+        <div class="meta">${q.answers?.[0]?.count || 0} answer(s) · ${timeAgo(q.created_at)}</div>
+        <div class="cta">Click here to add your answer &rarr;</div>
+      </a>
+    </div>
+  `).join('');
+
+  list.querySelectorAll('[data-delete-q]').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const id = btn.getAttribute('data-delete-q');
+      if(!confirm('Delete this question and all its answers? This can\'t be undone.')) return;
+      await deleteQuestion(id);
+    });
+  });
+}
+
+async function deleteQuestion(id){
+  // Remove answer images from storage first
+  const { data: answers } = await sb.from('answers').select('image_url').eq('question_id', id);
+  if(answers && answers.length){
+    const paths = answers.map(a => extractStoragePath(a.image_url)).filter(Boolean);
+    if(paths.length) await sb.storage.from('answers').remove(paths);
+  }
+  // answers rows are removed automatically via "on delete cascade"
+  const { error } = await sb.from('questions').delete().eq('id', id);
+  if(error){ toast('Error: ' + error.message); return; }
+  toast('Question deleted');
+  renderList();
+}
+
+function extractStoragePath(publicUrl){
+  const marker = '/answers/';
+  const idx = publicUrl.indexOf(marker);
+  if(idx === -1) return null;
+  return publicUrl.slice(idx + marker.length);
+}
+
+async function postQuestion(){
+  const el = document.getElementById('new-q-text');
+  const text = el.value.trim();
+  if(!text) return;
+  const btn = document.getElementById('post-q-btn');
+  btn.disabled = true;
+  const { error } = await sb.from('questions').insert({ text });
+  btn.disabled = false;
+  if(error){ toast('Error: ' + error.message); return; }
+  el.value = '';
+  toast('Question posted');
+  renderList();
+}
+
+/* ---------- QUESTION DETAIL VIEW ---------- */
+async function renderQuestion(id){
+  view.innerHTML = `<div class="empty">Loading...</div>`;
+
+  const { data: q, error: qErr } = await sb.from('questions').select('*').eq('id', id).single();
+  if(qErr || !q){ view.innerHTML = `<a class="back" href="#/">&larr; back</a><div class="empty">Question not found.</div>`; return; }
+
+  view.innerHTML = `
+    <a class="back" href="#/">&larr; all questions</a>
+    <div class="question-full">${escapeHtml(q.text)}</div>
+
+    <div class="card">
+      <span class="field-label">Your name</span>
+      <input type="text" id="submitter-name" placeholder="e.g. Priya">
+      <div style="height:16px"></div>
+      <span class="field-label">Photo or PDF of your answer</span>
+      <div class="dropzone" id="dropzone">
+        <div class="icon">📎</div>
+        <div class="main-txt">Drag & drop a photo or PDF, or tap to select</div>
+        <div class="sub-txt">JPG, PNG, or PDF</div>
+        <input type="file" id="file-input" accept="image/*,application/pdf" multiple>
+      </div>
+      <div class="preview-strip" id="preview-strip"></div>
+      <div class="row-end"><button id="submit-btn" disabled>Upload answer</button></div>
+    </div>
+
+    <div class="gallery-title">Submitted answers</div>
+    <div class="gallery" id="gallery"><div class="empty">Loading...</div></div>
+  `;
+
+  setupUploader(q.id);
+  loadAnswers(q.id);
+}
+
+let pendingFiles = [];
+
+function setupUploader(questionId){
+  const dz = document.getElementById('dropzone');
+  const input = document.getElementById('file-input');
+  const stripEl = document.getElementById('preview-strip');
+  const submitBtn = document.getElementById('submit-btn');
+
+  dz.addEventListener('click', ()=> input.click());
+  dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
+  dz.addEventListener('dragleave', ()=> dz.classList.remove('drag'));
+  dz.addEventListener('drop', e => {
+    e.preventDefault();
+    dz.classList.remove('drag');
+    handleFiles(e.dataTransfer.files);
+  });
+  input.addEventListener('change', e => handleFiles(e.target.files));
+
+  function isPdf(file){
+    return file.type === 'application/pdf' || /\.pdf$/i.test(file.name);
+  }
+
+  function handleFiles(fileList){
+    pendingFiles = Array.from(fileList).filter(f => f.type.startsWith('image/') || isPdf(f));
+    stripEl.innerHTML = '';
+    pendingFiles.forEach(f => {
+      const d = document.createElement('div');
+      if(isPdf(f)){
+        d.innerHTML = `<div class="pdf-thumb" title="${escapeHtml(f.name)}">📄<span>PDF</span></div>`;
+      } else {
+        const url = URL.createObjectURL(f);
+        d.innerHTML = `<img src="${url}">`;
+      }
+      stripEl.appendChild(d);
+    });
+    submitBtn.disabled = pendingFiles.length === 0;
+  }
+
+  submitBtn.onclick = async () => {
+    const name = document.getElementById('submitter-name').value.trim() || 'Anonymous';
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Uploading...';
+    try{
+      for(const file of pendingFiles){
+        const path = `${questionId}/${Date.now()}-${Math.random().toString(36).slice(2,8)}-${file.name}`;
+        const { error: upErr } = await sb.storage.from('answers').upload(path, file);
+        if(upErr) throw upErr;
+        const { data: pub } = sb.storage.from('answers').getPublicUrl(path);
+        const { error: insErr } = await sb.from('answers').insert({
+          question_id: questionId,
+          submitter_name: name,
+          image_url: pub.publicUrl
+        });
+        if(insErr) throw insErr;
+      }
+      toast('Answer uploaded');
+      pendingFiles = [];
+      document.getElementById('preview-strip').innerHTML = '';
+      document.getElementById('file-input').value = '';
+      loadAnswers(questionId);
+    } catch(err){
+      toast('Error: ' + err.message);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Upload answer';
+    }
+  };
+}
+
+async function loadAnswers(questionId){
+  const gallery = document.getElementById('gallery');
+  const { data, error } = await sb.from('answers').select('*').eq('question_id', questionId).order('created_at', { ascending:false });
+  if(error){ gallery.innerHTML = `<div class="empty">Couldn't load answers.</div>`; return; }
+  if(!data.length){ gallery.innerHTML = `<div class="empty">No answers yet.</div>`; return; }
+  gallery.innerHTML = data.map(a => {
+    const isPdfFile = /\.pdf(\?|$)/i.test(a.image_url);
+    const media = isPdfFile
+      ? `<div class="pdf-card" onclick="window.open('${a.image_url}', '_blank')">📄<span>Open PDF</span></div>`
+      : `<img src="${a.image_url}" onclick="openLightbox('${a.image_url}')">`;
+    return `
+    <div class="paper-photo">
+      ${currentUser ? `<button class="icon-btn" data-delete-a="${a.id}" data-url="${escapeHtml(a.image_url)}" title="Delete this answer">✕</button>` : ''}
+      ${media}
+      <div class="name">${escapeHtml(a.submitter_name)} · ${timeAgo(a.created_at)}</div>
+    </div>`;
+  }).join('');
+
+  gallery.querySelectorAll('[data-delete-a]').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      if(!confirm('Delete this answer?')) return;
+      const id = btn.getAttribute('data-delete-a');
+      const url = btn.getAttribute('data-url');
+      const path = extractStoragePath(url);
+      if(path) await sb.storage.from('answers').remove([path]);
+      const { error } = await sb.from('answers').delete().eq('id', id);
+      if(error){ toast('Error: ' + error.message); return; }
+      toast('Answer deleted');
+      loadAnswers(questionId);
+    });
+  });
+}
+
+if(configured){
+  sb.auth.getSession().then(({ data }) => {
+    currentUser = data.session?.user || null;
+    renderAuthBox();
+    router();
+  });
+  sb.auth.onAuthStateChange((_event, session) => {
+    currentUser = session?.user || null;
+    renderAuthBox();
+    router();
+  });
+} else {
+  router();
+}
+</script>
+</body>
+</html>
