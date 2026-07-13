@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitleTag">UPSC LoG — Test</title>
+<style>
+  :root{
+    --bg: #F3F4F1;
+    --paper: #FFFFFF;
+    --ink: #1D2A35;
+    --ink-soft: #5B6873;
+    --rule: #D8DCD6;
+    --navy: #1B3A5C;
+    --navy-deep: #12283F;
+    --gold: #B8862E;
+    --gold-soft: #EFDFB8;
+    --answered: #2F7D5A;
+    --answered-bg: #E4F3EC;
+    --skipped: #B8862E;
+    --skipped-bg: #FBF1DE;
+    --wrong: #B23A2E;
+    --wrong-bg: #FBEAE7;
+    --shadow: 0 1px 2px rgba(20,30,40,0.06), 0 6px 20px rgba(20,30,40,0.05);
+    --serif: Georgia, 'Times New Roman', 'Iowan Old Style', serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --mono: 'Courier New', ui-monospace, monospace;
+  }
+  [data-theme="dark"]{
+    --bg: #0F1A24;
+    --paper: #17232E;
+    --ink: #E7ECEF;
+    --ink-soft: #97A5AF;
+    --rule: #2A3846;
+    --navy: #3E6E9E;
+    --navy-deep: #2A4E70;
+    --gold: #D9A441;
+    --gold-soft: #3A3220;
+    --answered: #4CAF7D;
+    --answered-bg: #163227;
+    --skipped: #D9A441;
+    --skipped-bg: #332A16;
+    --wrong: #E07A6C;
+    --wrong-bg: #3A1E1A;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0; overflow-x:hidden; width:100%;}
+  body{
+    background:var(--bg); color:var(--ink); font-family:var(--sans);
+    min-height:100vh; transition:background .3s ease, color .3s ease;
+  }
+  .hidden{display:none !important;}
+
+  header.topbar{
+    background:linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color:#F4F1EA; box-shadow:var(--shadow); position:sticky; top:0; z-index:50;
+  }
+  .topbar-inner{
+    max-width:1280px; margin:0 auto; display:flex; align-items:center; gap:20px; padding:14px 28px;
+  }
+  .logo-slot{
+    width:44px; height:44px; border-radius:8px; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; background:rgba(244,241,234,0.1); font-size:22px;
+  }
+  .title-block{flex:1; min-width:0;}
+  .eyebrow{
+    font-family:var(--mono); font-size:11px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--gold-soft, #D9A441); opacity:0.85;
+  }
+  .title-block h1{ font-family:var(--serif); font-size:20px; font-weight:400; margin:2px 0 0 0; }
+  .topbar-right{ display:flex; align-items:center; gap:16px; flex-shrink:0; }
+  .timer{
+    font-family:var(--mono); font-size:13px; color:#F4F1EA; border:1px solid rgba(244,241,234,0.3);
+    padding:6px 12px; border-radius:6px; background:rgba(0,0,0,0.12);
+  }
+  .timer.urgent{background:var(--wrong); border-color:var(--wrong);}
+  .mode-switch{ display:flex; align-items:center; gap:8px; font-size:12px; color:rgba(244,241,234,0.85); }
+  .switch{
+    position:relative; width:44px; height:24px; background:rgba(244,241,234,0.2);
+    border-radius:20px; cursor:pointer; border:1px solid rgba(244,241,234,0.35); flex-shrink:0;
+  }
+  .switch .knob{
+    position:absolute; top:2px; left:2px; width:18px; height:18px; border-radius:50%;
+    background:#F4F1EA; transition:transform .25s ease; box-shadow:0 1px 3px rgba(0,0,0,0.3);
+  }
+  [data-theme="dark"] .switch .knob{ transform:translateX(20px); background:var(--gold); }
+
+  .name-bar{
+    max-width:1280px; margin:20px auto 0; padding:0 28px; display:flex; align-items:center; gap:12px;
+  }
+  .name-bar label{ font-family:var(--mono); font-size:14px; color:var(--ink-soft); white-space:nowrap; }
+  .name-bar input{
+    flex:1; max-width:320px; font-family:var(--sans); font-size:14px; padding:9px 14px;
+    border:1px solid var(--rule); border-radius:7px; background:var(--paper); color:var(--ink);
+  }
+  .name-bar input:focus{ outline:none; border-color:var(--navy); }
+  [data-theme="dark"] .name-bar input:focus{ border-color:var(--gold); }
+
+  /* ---------- Intro / loading screen ---------- */
+  .intro-wrap{ max-width:520px; margin:70px auto; padding:0 20px; }
+  .intro-card{
+    background:var(--paper); border:1px solid var(--rule); border-radius:10px;
+    box-shadow:var(--shadow); padding:36px; text-align:center;
+  }
+  .intro-card h2{ font-family:var(--serif); font-weight:400; margin:0 0 10px 0; font-size:24px; }
+  .intro-meta{ font-family:var(--mono); font-size:13px; color:var(--ink-soft); margin-bottom:26px; }
+  .intro-meta b{ color:var(--navy); }
+  [data-theme="dark"] .intro-meta b{ color:var(--gold); }
+  .intro-error{ color:var(--wrong); font-size:13px; margin-top:16px; }
+  .spinner{
+    width:28px; height:28px; border:3px solid var(--rule); border-top-color:var(--navy);
+    border-radius:50%; margin:0 auto 18px; animation:spin 0.8s linear infinite;
+  }
+  [data-theme="dark"] .spinner{ border-top-color:var(--gold); }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  .btn-primary, .btn-ghost, .btn-submit{
+    font-family:var(--sans); font-size:14px; font-weight:600; padding:11px 22px;
+    border-radius:8px; cursor:pointer; border:1px solid transparent; transition:all .15s ease;
+  }
+  .btn-primary{ background:var(--navy); color:#F4F1EA; }
+  .btn-primary:hover{ background:var(--navy-deep); }
+  .btn-primary:disabled{ background:var(--rule); color:var(--ink-soft); cursor:not-allowed; }
+  .btn-ghost{ background:transparent; color:var(--ink); border-color:var(--rule); }
+  .btn-ghost:hover{ border-color:var(--navy); }
+  .btn-ghost:disabled{ opacity:0.4; cursor:not-allowed; }
+  .btn-submit{ background:var(--gold); color:#2A1F0E; width:100%; }
+  .btn-submit:hover{ filter:brightness(1.06); }
+
+  .layout{
+    max-width:1280px; margin:0 auto; display:flex; gap:24px; padding:24px 28px 60px; align-items:flex-start;
+  }
+  .main-col{ flex:1 1 640px; min-width:0; display:flex; flex-direction:column; gap:16px; }
+  .side-col{ flex:0 0 340px; display:flex; flex-direction:column; gap:16px; }
+  @media (max-width: 860px){
+    .layout{ flex-direction:column; padding:14px 6px 40px; gap:16px; }
+    .side-col{ flex:1 1 auto; width:100%; padding:0 8px; }
+  }
+  @media (max-width: 600px){
+    .layout{ padding:8px 2px 32px; gap:6px !important; }
+    .main-col{ gap:6px !important; margin:0 !important; }
+    .side-col{ gap:6px !important; margin:0 !important; }
+    .paper{ margin-bottom:0 !important; }
+  }
+
+  .paper{
+    background:var(--paper); border:1px solid var(--rule); border-radius:10px;
+    box-shadow:var(--shadow); padding:20px; display:flex; flex-direction:column;
+  }
+  @media (max-width: 600px){
+    .paper{ padding:6px; border-radius:6px; }
+  }
+  .paper-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    border-bottom:1px solid var(--rule); padding-bottom:12px; margin-bottom:16px;
+    font-family:var(--mono); font-size:13px; color:var(--ink-soft);
+  }
+  .paper-head b{ color:var(--navy); font-size:15px; }
+  [data-theme="dark"] .paper-head b{ color:var(--gold); }
+  .pdf-wrap{
+    width:100%; overflow:auto; display:flex; justify-content:center;
+    background:var(--bg); border-radius:6px; padding:10px;
+  }
+  .pdf-wrap canvas{ max-width:100%; height:auto; box-shadow:0 2px 10px rgba(0,0,0,0.15); }
+  @media (max-width: 600px){
+    .pdf-wrap{ padding:2px; border-radius:3px; }
+    .paper-head{ font-size:11px; padding-bottom:8px; margin-bottom:8px; }
+  }
+  .nav-buttons{ display:flex; justify-content:space-between; gap:12px; }
+  .nav-buttons button{ flex:1; }
+
+  .panel{
+    background:var(--paper); border:1px solid var(--rule); border-radius:10px;
+    box-shadow:var(--shadow); padding:18px 20px;
+  }
+  .panel-title{
+    font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:0.08em;
+    color:var(--ink-soft); margin-bottom:14px;
+  }
+  .mini-q{ margin-bottom:16px; }
+  .mini-q:last-child{ margin-bottom:0; }
+  .mini-q-head{
+    display:flex; justify-content:space-between; align-items:center;
+    font-family:var(--serif); font-size:15px; margin-bottom:8px;
+  }
+  .clear-link{
+    font-family:var(--mono); font-size:11px; color:var(--ink-soft); background:none; border:none;
+    cursor:pointer; text-decoration:underline; padding:0;
+  }
+  .mini-q-result{
+    font-family:var(--mono); font-size:12px; color:var(--ink-soft); margin-top:8px;
+  }
+  .mini-q-result b{ color:var(--ink); }
+  .mini-opts{ display:flex; gap:8px; flex-wrap:wrap; }
+  .opt-btn{
+    width:40px; height:40px; border-radius:8px; border:1px solid var(--rule); background:transparent;
+    color:var(--ink); font-family:var(--mono); font-weight:700; font-size:14px; cursor:pointer;
+    transition:all .15s ease;
+  }
+  .opt-btn:hover{ border-color:var(--navy); }
+  [data-theme="dark"] .opt-btn:hover{ border-color:var(--gold); }
+  .opt-btn.selected{ border-color:var(--navy); background:rgba(27,58,92,0.1); color:var(--navy); }
+  [data-theme="dark"] .opt-btn.selected{ border-color:var(--gold); background:rgba(217,164,65,0.14); color:var(--gold); }
+  .opt-btn.correct-mark{ border-color:var(--answered); background:var(--answered-bg); color:var(--answered); }
+  .opt-btn.wrong-mark{ border-color:var(--wrong); background:var(--wrong-bg); color:var(--wrong); }
+  .opt-btn.locked{ cursor:default; }
+
+  .palette-grid{ display:grid; grid-template-columns:repeat(6, 1fr); gap:8px; margin-bottom:12px; }
+  .cell{
+    aspect-ratio:1; display:flex; align-items:center; justify-content:center; border-radius:6px;
+    border:1px solid var(--rule); font-family:var(--mono); font-size:12px; cursor:pointer;
+    color:var(--ink-soft); transition:all .15s ease;
+  }
+  .cell.answered{ background:var(--answered-bg); color:var(--answered); border-color:var(--answered); }
+  .cell.wrong-mark{ background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong); }
+  .cell.current{ outline:2px solid var(--navy); outline-offset:1px; }
+  [data-theme="dark"] .cell.current{ outline-color:var(--gold); }
+  .legend{ display:flex; gap:14px; font-size:11px; color:var(--ink-soft); flex-wrap:wrap; }
+  .legend span{ display:flex; align-items:center; gap:5px; }
+  .dot{ width:9px; height:9px; border-radius:3px; display:inline-block; }
+  .dot.d-answered{ background:var(--answered); }
+  .dot.d-skip{ background:var(--rule); }
+
+  .progress-line{ font-family:var(--mono); font-size:13px; color:var(--ink-soft); margin-bottom:12px; }
+  .progress-line b{ color:var(--navy); }
+  [data-theme="dark"] .progress-line b{ color:var(--gold); }
+
+  .result-wrap{ max-width:560px; margin:60px auto; padding:0 20px; }
+  .result-card{
+    background:var(--paper); border:1px solid var(--rule); border-radius:10px;
+    box-shadow:var(--shadow); padding:36px; text-align:center;
+  }
+  .result-card h2{ font-family:var(--serif); font-weight:400; margin:0 0 18px 0; }
+  .score-big{ font-family:var(--serif); font-size:42px; color:var(--navy); }
+  [data-theme="dark"] .score-big{ color:var(--gold); }
+  .score-percent{ font-family:var(--mono); color:var(--ink-soft); margin-bottom:24px; }
+  .tally-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:28px; }
+  .tally-grid div{ font-family:var(--mono); font-size:12px; color:var(--ink-soft); }
+  .tally-grid b{ display:block; font-size:22px; font-family:var(--sans); }
+  .stat-correct{ color:var(--answered); } .stat-incorrect{ color:var(--wrong); } .stat-unattempted{ color:var(--skipped); }
+  .result-actions{ display:flex; gap:12px; justify-content:center; }
+
+  .modal{
+    position:fixed; inset:0; background:rgba(10,15,20,0.5); display:flex;
+    align-items:center; justify-content:center; z-index:100; padding:20px;
+  }
+  .modal-card{
+    background:var(--paper); border-radius:10px; box-shadow:var(--shadow); padding:28px;
+    max-width:380px; text-align:center;
+  }
+  .modal-icon{ font-size:32px; margin-bottom:12px; }
+  .modal-actions{ display:flex; gap:12px; justify-content:center; margin-top:20px; }
+
+  @media (max-width: 430px){
+    .name-bar{ padding:0 12px; margin-top:14px; flex-wrap:wrap; }
+    .name-bar input{ max-width:100%; }
+    .topbar-inner{ padding:12px 16px; }
+    .title-block h1{ font-size:17px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="logo-slot">📘</div>
+    <div class="title-block">
+      <div class="eyebrow">UPSC LoG</div>
+      <h1 id="headerTitle">Test</h1>
+    </div>
+    <div class="topbar-right">
+      <div class="timer" id="timer">--:--</div>
+      <div class="mode-switch">
+        <span>Light</span>
+        <div class="switch" id="themeSwitch"><div class="knob"></div></div>
+        <span>Dark</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="name-bar hidden" id="nameBar">
+  <label for="userName">Name</label>
+  <input type="text" id="userName" placeholder="Your name (FOR LIVE RANKING)">
+</div>
+
+<!-- ============ INTRO / LOADING ============ -->
+<div class="intro-wrap" id="introView">
+  <div class="intro-card">
+    <div class="spinner" id="introSpinner"></div>
+    <h2 id="introTitle">Loading test…</h2>
+    <div class="intro-meta hidden" id="introMeta"></div>
+    <button id="startBtn" class="btn-primary hidden">Start Test</button>
+    <p class="intro-error hidden" id="introError"></p>
+  </div>
+</div>
+
+<!-- ============ TEST VIEW ============ -->
+<div class="hidden" id="testView">
+  <div class="layout">
+    <div class="main-col">
+      <div class="paper">
+        <div class="paper-head">
+          <span>Page <b id="pageNum">1</b> / <span id="pageTotal">1</span></span>
+          <span id="pageQRange">Questions 1–4</span>
+        </div>
+        <div class="pdf-wrap"><canvas id="pdfCanvas"></canvas></div>
+      </div>
+    </div>
+
+    <div class="side-col">
+      <div class="panel" id="questionPanel"></div>
+
+      <div class="nav-buttons">
+        <button id="prevPageBtn" class="btn-ghost">← Previous</button>
+        <button id="nextPageBtn" class="btn-primary">Next →</button>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Overview</div>
+        <div class="palette-grid" id="paletteGrid"></div>
+        <div class="legend">
+          <span><span class="dot d-answered"></span>Answered</span>
+          <span><span class="dot d-skip"></span>Not answered</span>
+        </div>
+      </div>
+
+      <div class="panel" id="submitPanel">
+        <div class="progress-line">Answered <b id="answeredCount">0</b> / <span id="totalQCount">0</span></div>
+        <button id="submitBtn" class="btn-submit">Submit Test</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ RESULT VIEW ============ -->
+<div class="hidden result-wrap" id="resultView">
+  <div class="result-card">
+    <h2>Test Complete</h2>
+    <div class="score-big" id="scoreText">0 / 0</div>
+    <div class="score-percent" id="scorePercent">0%</div>
+    <div class="tally-grid" id="tallyGrid"></div>
+    <div class="result-actions">
+      <button id="reviewBtn" class="btn-ghost">Review Answers</button>
+      <button id="retakeBtn" class="btn-primary">Retake Test</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ CONFIRM MODAL ============ -->
+<div class="modal hidden" id="confirmModal">
+  <div class="modal-card">
+    <div class="modal-icon" id="modalIcon">📝</div>
+    <div id="modalMessage"></div>
+    <div class="modal-actions">
+      <button id="modalGoBack" class="btn-ghost">Go Back</button>
+      <button id="modalConfirm" class="btn-primary">Submit</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+// =====================================================
+// CONFIG — edit these per test / per website
+// =====================================================
+const TEST_TITLE       = "2025 GS1";
+const PDF_FILE         = "2025gs1.pdf";       // must sit next to this HTML file (or give a relative/absolute path)
+const ANSWER_KEY_FILE  = "2025gs1ans.txt";    // same folder
+const FIRST_Q_PAGE     = 1;      // which PDF page number line 1 of the answer key corresponds to
+const DURATION_MIN     = 120;     // test duration in minutes
+const CORRECT_MARKS    = 2;
+const NEGATIVE_MARKS   = 0.66;
+const SHEET_ENDPOINT   = "https://script.google.com/macros/s/AKfycbyamXySn2AagAN935BcpYuf6oTJNuIkLMuAby7CqWJ20rgdNgdWypVNTjMyWJBxW9OObw/exec";     // optional: Google Apps Script URL to log results, leave blank to skip
+// =====================================================
+
+document.title = "UPSC LoG — " + TEST_TITLE;
+document.getElementById('headerTitle').textContent = TEST_TITLE +" ---  See Your Rank From The Website";
+document.getElementById('introTitle').textContent = "Loading " + TEST_TITLE + "…";
+
+// ------------- STATE -------------
+let pdfDoc = null;
+let pageQuestions = [];
+let answerKey = {};
+let responses = {};
+let totalQuestions = 0;
+let currentIndex = 0;
+let reviewMode = false;
+let timerInterval = null;
+let secondsLeft = 0;
+
+// ------------- DOM -------------
+const introView = document.getElementById('introView');
+const introSpinner = document.getElementById('introSpinner');
+const introTitle = document.getElementById('introTitle');
+const introMeta = document.getElementById('introMeta');
+const introError = document.getElementById('introError');
+const startBtn = document.getElementById('startBtn');
+
+const testView = document.getElementById('testView');
+const resultView = document.getElementById('resultView');
+const nameBar = document.getElementById('nameBar');
+
+const pageNumEl = document.getElementById('pageNum');
+const pageTotalEl = document.getElementById('pageTotal');
+const pageQRangeEl = document.getElementById('pageQRange');
+const canvas = document.getElementById('pdfCanvas');
+const ctx = canvas.getContext('2d');
+const prevPageBtn = document.getElementById('prevPageBtn');
+const nextPageBtn = document.getElementById('nextPageBtn');
+const questionPanel = document.getElementById('questionPanel');
+const paletteGrid = document.getElementById('paletteGrid');
+const answeredCountEl = document.getElementById('answeredCount');
+const totalQCountEl = document.getElementById('totalQCount');
+const submitBtn = document.getElementById('submitBtn');
+const timerEl = document.getElementById('timer');
+
+const scoreText = document.getElementById('scoreText');
+const scorePercent = document.getElementById('scorePercent');
+const tallyGrid = document.getElementById('tallyGrid');
+const reviewBtn = document.getElementById('reviewBtn');
+const retakeBtn = document.getElementById('retakeBtn');
+
+const confirmModal = document.getElementById('confirmModal');
+const modalMessage = document.getElementById('modalMessage');
+const modalIcon = document.getElementById('modalIcon');
+const modalGoBack = document.getElementById('modalGoBack');
+const modalConfirm = document.getElementById('modalConfirm');
+
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+// ------------- PARSE ANSWER KEY -------------
+function parseAnswerKey(text){
+  const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
+  const pq = [];
+  const key = {};
+  lines.forEach(line => {
+    const matches = [...line.matchAll(/q\s*(\d+)\s*=\s*(\d+)/gi)];
+    const qnums = [];
+    matches.forEach(m => {
+      const qn = parseInt(m[1], 10);
+      const ans = parseInt(m[2], 10);
+      key[qn] = ans;
+      qnums.push(qn);
+    });
+    if (qnums.length) pq.push(qnums);
+  });
+  return { pageQuestions: pq, answerKey: key };
+}
+
+// ------------- AUTO LOAD ON PAGE OPEN -------------
+async function loadTest(){
+  try {
+    const [pdfResp, keyResp] = await Promise.all([
+      fetch(PDF_FILE),
+      fetch(ANSWER_KEY_FILE)
+    ]);
+    if (!pdfResp.ok) throw new Error(`Could not fetch "${PDF_FILE}" (${pdfResp.status})`);
+    if (!keyResp.ok) throw new Error(`Could not fetch "${ANSWER_KEY_FILE}" (${keyResp.status})`);
+
+    const arrayBuffer = await pdfResp.arrayBuffer();
+    pdfDoc = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+
+    const keyText = await keyResp.text();
+    const parsed = parseAnswerKey(keyText);
+    if (parsed.pageQuestions.length === 0) throw new Error('No questions found in answer key file.');
+    pageQuestions = parsed.pageQuestions;
+    answerKey = parsed.answerKey;
+    totalQuestions = Object.keys(answerKey).length;
+
+    responses = {};
+    Object.keys(answerKey).forEach(k => responses[k] = null);
+
+    introSpinner.classList.add('hidden');
+    introTitle.textContent = TEST_TITLE;
+    introMeta.classList.remove('hidden');
+    introMeta.innerHTML = `<b>${totalQuestions}</b> questions across <b>${pageQuestions.length}</b> pages · <b>${DURATION_MIN}</b> min · +${CORRECT_MARKS} / -${NEGATIVE_MARKS} marking`;
+    startBtn.classList.remove('hidden');
+  } catch (err) {
+    introSpinner.classList.add('hidden');
+    introTitle.textContent = 'Could not load test';
+    introError.textContent = err.message;
+    introError.classList.remove('hidden');
+  }
+}
+loadTest();
+
+// ------------- START TEST -------------
+startBtn.addEventListener('click', () => {
+  currentIndex = 0;
+  reviewMode = false;
+
+  totalQCountEl.textContent = totalQuestions;
+  pageTotalEl.textContent = pageQuestions.length;
+
+  buildPaletteGrid();
+  introView.classList.add('hidden');
+  resultView.classList.add('hidden');
+  testView.classList.remove('hidden');
+  nameBar.classList.remove('hidden');
+
+  startTimer(DURATION_MIN * 60);
+  renderCurrentPage();
+});
+
+// ------------- PDF PAGE RENDER -------------
+async function renderPdfPage(pageNum){
+  const page = await pdfDoc.getPage(pageNum);
+  const wrap = canvas.parentElement;
+  const wrapStyle = getComputedStyle(wrap);
+  const hPad = parseFloat(wrapStyle.paddingLeft) + parseFloat(wrapStyle.paddingRight);
+  const containerWidth = Math.min(wrap.clientWidth - hPad, 900);
+  const unscaled = page.getViewport({ scale: 1 });
+  const scale = containerWidth / unscaled.width;
+  const viewport = page.getViewport({ scale });
+  canvas.width = viewport.width;
+  canvas.height = viewport.height;
+  await page.render({ canvasContext: ctx, viewport }).promise;
+}
+
+async function renderCurrentPage(){
+  const qnums = pageQuestions[currentIndex];
+  pageNumEl.textContent = currentIndex + 1;
+  pageQRangeEl.textContent = qnums.length === 1
+    ? `Question ${qnums[0]}`
+    : `Questions ${qnums[0]}–${qnums[qnums.length - 1]}`;
+
+  await renderPdfPage(FIRST_Q_PAGE + currentIndex);
+  renderQuestionPanel();
+  updatePaletteHighlight();
+  updateAnsweredCount();
+
+  prevPageBtn.disabled = currentIndex === 0;
+  const isLast = currentIndex === pageQuestions.length - 1;
+  nextPageBtn.textContent = isLast ? (reviewMode ? 'Back to Result' : 'Finish') : 'Next →';
+  document.getElementById('submitPanel').classList.toggle('hidden', reviewMode);
+}
+
+// ------------- QUESTION PANEL -------------
+function renderQuestionPanel(){
+  const qnums = pageQuestions[currentIndex];
+  const letters = ['A', 'B', 'C', 'D'];
+  let html = `<div class="panel-title">${reviewMode ? 'Review' : 'Your Answers'} — This Page</div>`;
+  qnums.forEach(qn => {
+    html += `<div class="mini-q" data-q="${qn}">
+      <div class="mini-q-head">Q${qn} ${reviewMode ? '' : `<button class="clear-link" data-clear="${qn}">clear</button>`}</div>
+      <div class="mini-opts">`;
+    letters.forEach((L, idx) => {
+      let cls = 'opt-btn';
+      if (reviewMode) {
+        cls += ' locked';
+        if (idx === answerKey[qn]) cls += ' correct-mark';
+        else if (idx === responses[qn]) cls += ' wrong-mark';
+      } else if (responses[qn] === idx) {
+        cls += ' selected';
+      }
+      html += `<button class="${cls}" data-q="${qn}" data-idx="${idx}" ${reviewMode ? 'disabled' : ''}>${L}</button>`;
+    });
+    html += `</div>`;
+    if (reviewMode) {
+      const userIdx = responses[qn];
+      const correctIdx = answerKey[qn];
+      let resultLine;
+      if (userIdx === null || userIdx === undefined) {
+        resultLine = `Not answered · Correct: <b>${letters[correctIdx]}</b>`;
+      } else if (userIdx === correctIdx) {
+        resultLine = `Your answer: <b>${letters[userIdx]}</b> — ✓ Correct`;
+      } else {
+        resultLine = `Your answer: <b>${letters[userIdx]}</b> — ✗ · Correct: <b>${letters[correctIdx]}</b>`;
+      }
+      html += `<div class="mini-q-result">${resultLine}</div>`;
+    }
+    html += `</div>`;
+  });
+  questionPanel.innerHTML = html;
+
+  if (!reviewMode) {
+    questionPanel.querySelectorAll('.opt-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const qn = btn.dataset.q;
+        responses[qn] = parseInt(btn.dataset.idx, 10);
+        renderQuestionPanel();
+        updatePaletteHighlight();
+        updateAnsweredCount();
+      });
+    });
+    questionPanel.querySelectorAll('.clear-link').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const qn = btn.dataset.clear;
+        responses[qn] = null;
+        renderQuestionPanel();
+        updatePaletteHighlight();
+        updateAnsweredCount();
+      });
+    });
+  }
+}
+
+function updateAnsweredCount(){
+  const answered = Object.values(responses).filter(v => v !== null).length;
+  answeredCountEl.textContent = answered;
+}
+
+// ------------- OVERVIEW PALETTE -------------
+function buildPaletteGrid(){
+  paletteGrid.innerHTML = '';
+  const qnums = Object.keys(answerKey).map(Number).sort((a, b) => a - b);
+  qnums.forEach(qn => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.textContent = qn;
+    cell.dataset.q = qn;
+    cell.addEventListener('click', () => {
+      const idx = pageQuestions.findIndex(arr => arr.includes(qn));
+      if (idx !== -1) { currentIndex = idx; renderCurrentPage(); }
+    });
+    paletteGrid.appendChild(cell);
+  });
+}
+
+function updatePaletteHighlight(){
+  const currentQnums = pageQuestions[currentIndex];
+  Array.from(paletteGrid.children).forEach(cell => {
+    const qn = parseInt(cell.dataset.q, 10);
+    cell.classList.toggle('current', currentQnums.includes(qn));
+    cell.classList.toggle('answered', responses[qn] !== null && responses[qn] !== undefined);
+    if (reviewMode) {
+      const wrong = responses[qn] !== null && responses[qn] !== answerKey[qn];
+      cell.classList.toggle('wrong-mark', wrong);
+    } else {
+      cell.classList.remove('wrong-mark');
+    }
+  });
+}
+
+// ------------- NAVIGATION -------------
+prevPageBtn.addEventListener('click', () => {
+  if (currentIndex > 0) { currentIndex--; renderCurrentPage(); }
+});
+nextPageBtn.addEventListener('click', () => {
+  if (currentIndex < pageQuestions.length - 1) {
+    currentIndex++; renderCurrentPage();
+  } else if (reviewMode) {
+    testView.classList.add('hidden');
+    resultView.classList.remove('hidden');
+  } else {
+    openConfirmModal();
+  }
+});
+submitBtn.addEventListener('click', openConfirmModal);
+
+// ------------- CONFIRM MODAL -------------
+function openConfirmModal(){
+  const nameVal = document.getElementById('userName').value.trim();
+  const answered = Object.values(responses).filter(v => v !== null).length;
+  const unanswered = totalQuestions - answered;
+  if (nameVal) {
+    modalIcon.textContent = '📝';
+    modalMessage.innerHTML = `Submit test as <b>${escapeHtml(nameVal)}</b>?<br><br>${unanswered > 0 ? `${unanswered} question(s) not answered.` : 'All questions answered.'}`;
+  } else {
+    modalIcon.textContent = '⚠️';
+    modalMessage.innerHTML = `You have not set your name — your result will be logged as <b>Anonymous</b>.<br><br>${unanswered > 0 ? `${unanswered} question(s) not answered.` : ''}`;
+  }
+  confirmModal.classList.remove('hidden');
+}
+function closeConfirmModal(){ confirmModal.classList.add('hidden'); }
+modalGoBack.addEventListener('click', closeConfirmModal);
+modalConfirm.addEventListener('click', () => { closeConfirmModal(); doSubmit(); });
+confirmModal.addEventListener('click', (e) => { if (e.target === confirmModal) closeConfirmModal(); });
+
+// ------------- SUBMIT / SCORE -------------
+function doSubmit(){
+  clearInterval(timerInterval);
+  let correct = 0, incorrect = 0;
+  Object.keys(answerKey).forEach(qn => {
+    const r = responses[qn];
+    if (r === null || r === undefined) return;
+    if (r === answerKey[qn]) correct++; else incorrect++;
+  });
+  const unattempted = totalQuestions - (correct + incorrect);
+  const maxMarks = totalQuestions * CORRECT_MARKS;
+  const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+  const percentage = maxMarks > 0 ? (marks / maxMarks) * 100 : 0;
+
+  scoreText.textContent = marks.toFixed(2) + ' / ' + maxMarks.toFixed(2);
+  scorePercent.textContent = percentage.toFixed(2) + '%';
+  tallyGrid.innerHTML = `
+    <div><b class="stat-correct">${correct}</b>Correct</div>
+    <div><b class="stat-incorrect">${incorrect}</b>Incorrect</div>
+    <div><b class="stat-unattempted">${unattempted}</b>Unattempted</div>
+  `;
+
+  const userName = document.getElementById('userName').value.trim() || 'Anonymous';
+  if (SHEET_ENDPOINT) {
+    fetch(SHEET_ENDPOINT, {
+      method: 'POST', mode: 'no-cors',
+      body: JSON.stringify({ name: userName, marks: marks.toFixed(2), correct, incorrect, unattempted, testCode: TEST_TITLE })
+    });
+  }
+
+  testView.classList.add('hidden');
+  resultView.classList.remove('hidden');
+}
+
+// ------------- REVIEW / RETAKE -------------
+reviewBtn.addEventListener('click', () => {
+  reviewMode = true;
+  resultView.classList.add('hidden');
+  testView.classList.remove('hidden');
+  currentIndex = 0;
+  renderCurrentPage();
+});
+retakeBtn.addEventListener('click', () => { location.reload(); });
+
+// ------------- TIMER -------------
+function startTimer(totalSeconds){
+  secondsLeft = totalSeconds;
+  updateTimerDisplay();
+  timerInterval = setInterval(() => {
+    secondsLeft--;
+    updateTimerDisplay();
+    if (secondsLeft <= 0) {
+      clearInterval(timerInterval);
+      timerEl.textContent = 'Time Up!';
+      doSubmit();
+    }
+  }, 1000);
+}
+function updateTimerDisplay(){
+  const m = String(Math.floor(secondsLeft / 60)).padStart(2, '0');
+  const s = String(secondsLeft % 60).padStart(2, '0');
+  timerEl.textContent = `${m}:${s}`;
+  timerEl.classList.toggle('urgent', secondsLeft <= 60);
+}
+
+// ------------- THEME -------------
+document.getElementById('themeSwitch').addEventListener('click', () => {
+  const body = document.body;
+  const isDark = body.getAttribute('data-theme') === 'dark';
+  body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+});
+
+// ------------- RESIZE -------------
+let resizeTimeout;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    if (pdfDoc && !testView.classList.contains('hidden')) {
+      renderPdfPage(FIRST_Q_PAGE + currentIndex);
+    }
+  }, 250);
+});
+
+// ------------- WARN ON LEAVE -------------
+window.addEventListener('beforeunload', function(e){
+  const hasProgress = !testView.classList.contains('hidden') && !reviewMode &&
+    Object.values(responses).some(r => r !== null);
+  if (hasProgress) {
+    e.preventDefault();
+    e.returnValue = 'Your answers have not been submitted. If you leave or refresh this page, all marked answers will be lost.';
+    return e.returnValue;
+  }
+});
+</script>
+</body>
+</html>
