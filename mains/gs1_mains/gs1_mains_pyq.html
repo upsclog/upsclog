@@ -370,17 +370,66 @@
      ======================================================================= */
   const years = ["2025", "2024", "2023", "2022", "2021", "2020", "2019"];
 
-const cardsPerYear = 5;
-const yearData = {};
-years.forEach(year => {
-  const yy = year.slice(-2); // "2025" -> "25", "2024" -> "24"
-  yearData[year] = Array.from({ length: cardsPerYear }, (_, i) => ({
-    videoId: "AkzdwzyOHQE",
-    title: `GS I — LoG_S${yy}P${String(i + 1).padStart(2, '0')}`,
-    watchUrl: "waiting_page.html",
-    pdfUrl: "waiting_page.html"
-  }));
-});
+  /* ----------------------------------------------------------------------
+     FRAMEWORK — 2025 to 2021
+     Each year has 5 question entries. Fill in the real values:
+       videoId  -> the YouTube video ID only (e.g. from youtu.be/XXXXXXXXXXX
+                   or youtube.com/watch?v=XXXXXXXXXXX, XXXXXXXXXXX is the id)
+       title    -> label shown under the thumbnail
+       watchUrl -> full URL the thumbnail links to (usually the YouTube video)
+       pdfUrl   -> full URL / path to that question's PDF
+     Every entry below is a distinct placeholder so you can find-and-replace
+     them one by one without mixing questions up.
+     ---------------------------------------------------------------------- */
+  const yearData = {
+    "2025": [
+      { videoId: "tEnmqIai554", title: "GS I — LoG_S25P01", watchUrl: "https://youtu.be/tEnmqIai554", pdfUrl: "pdfs/GS1-S25P01.pdf" },
+      { videoId: "VIDEO_ID_25_Q2", title: "GS I — LoG_S25P02", watchUrl: "https://youtu.be/AkzdwzyOHQE", pdfUrl: "pdfs/waiting_page.html" },
+      { videoId: "VIDEO_ID_25_Q3", title: "GS I — LoG_S25P03", watchUrl: "https://youtu.be/AkzdwzyOHQE", pdfUrl: "pdfs/waiting_page.html" },
+      { videoId: "VIDEO_ID_25_Q4", title: "GS I — LoG_S25P04", watchUrl: "https://youtu.be/AkzdwzyOHQE", pdfUrl: "pdfs/waiting_page.html" },
+      { videoId: "VIDEO_ID_25_Q5", title: "GS I — LoG_S25P05", watchUrl: "https://youtu.be/AkzdwzyOHQE", pdfUrl: "pdfs/waiting_page.html" }
+    ],
+    "2024": [
+      { videoId: "VIDEO_ID_24_Q1", title: "GS I — LoG_S24P01", watchUrl: "https://youtu.be/AkzdwzyOHQE", pdfUrl: "pdfs/waiting_page.html" },
+      { videoId: "VIDEO_ID_24_Q2", title: "GS I — LoG_S24P02", watchUrl: "https://youtu.be/AkzdwzyOHQE", pdfUrl: "pdfs/waiting_page.html" },
+      { videoId: "VIDEO_ID_24_Q3", title: "GS I — LoG_S24P03", watchUrl: "https://youtu.be/AkzdwzyOHQE", pdfUrl: "pdfs/waiting_page.html" },
+      { videoId: "VIDEO_ID_24_Q4", title: "GS I — LoG_S24P04", watchUrl: "https://youtu.be/AkzdwzyOHQE", pdfUrl: "pdfs/waiting_page.html" },
+      { videoId: "VIDEO_ID_24_Q5", title: "GS I — LoG_S24P05", watchUrl: "https://youtu.be/AkzdwzyOHQE", pdfUrl: "pdfs/waiting_page.html" }
+    ],
+    "2023": [
+      { videoId: "VIDEO_ID_23_Q1", title: "GS I — LoG_S23P01", watchUrl: "https://youtu.be/AkzdwzyOHQE", pdfUrl: "pdfs/waiting_page.html" },
+      { videoId: "VIDEO_ID_23_Q2", title: "GS I — LoG_S23P02", watchUrl: "https://youtu.be/AkzdwzyOHQE", pdfUrl: "pdfs/waiting_page.html" },
+      { videoId: "VIDEO_ID_23_Q3", title: "GS I — LoG_S23P03", watchUrl: "https://youtu.be/AkzdwzyOHQE", pdfUrl: "pdfs/waiting_page.html" },
+      { videoId: "VIDEO_ID_23_Q4", title: "GS I — LoG_S23P04", watchUrl: "https://youtu.be/AkzdwzyOHQE", pdfUrl: "pdfs/waiting_page.html" },
+      { videoId: "VIDEO_ID_23_Q5", title: "GS I — LoG_S23P05", watchUrl: "https://youtu.be/AkzdwzyOHQE", pdfUrl: "pdfs/waiting_page.html" }
+    ],
+    "2022": [
+      { videoId: "VIDEO_ID_22_Q1", title: "GS I — LoG_S22P01", watchUrl: "https://youtu.be/AkzdwzyOHQE", pdfUrl: "pdfs/waiting_page.html" },
+      { videoId: "VIDEO_ID_22_Q2", title: "GS I — LoG_S22P02", watchUrl: "https://youtu.be/AkzdwzyOHQE", pdfUrl: "pdfs/waiting_page.html" },
+      { videoId: "VIDEO_ID_22_Q3", title: "GS I — LoG_S22P03", watchUrl: "https://youtu.be/AkzdwzyOHQE", pdfUrl: "pdfs/waiting_page.html" },
+      { videoId: "VIDEO_ID_22_Q4", title: "GS I — LoG_S22P04", watchUrl: "https://youtu.be/AkzdwzyOHQE", pdfUrl: "pdfs/waiting_page.html" },
+      { videoId: "VIDEO_ID_22_Q5", title: "GS I — LoG_S22P05", watchUrl: "https://youtu.be/AkzdwzyOHQE", pdfUrl: "pdfs/waiting_page.html" }
+    ],
+    "2021": [
+      { videoId: "VIDEO_ID_21_Q1", title: "GS I — LoG_S21P01", watchUrl: "https://youtu.be/AkzdwzyOHQE", pdfUrl: "pdfs/waiting_page.html" },
+      { videoId: "VIDEO_ID_21_Q2", title: "GS I — LoG_S21P02", watchUrl: "https://youtu.be/AkzdwzyOHQE", pdfUrl: "pdfs/waiting_page.html" },
+      { videoId: "VIDEO_ID_21_Q3", title: "GS I — LoG_S21P03", watchUrl: "https://youtu.be/AkzdwzyOHQE", pdfUrl: "pdfs/waiting_page.html" },
+      { videoId: "VIDEO_ID_21_Q4", title: "GS I — LoG_S21P04", watchUrl: "https://youtu.be/AkzdwzyOHQE", pdfUrl: "pdfs/waiting_page.html" },
+      { videoId: "VIDEO_ID_21_Q5", title: "GS I — LoG_S21P05", watchUrl: "https://youtu.be/AkzdwzyOHQE", pdfUrl: "pdfs/waiting_page.html" }
+    ]
+  };
+
+  // 2020 and 2019 still auto-fill with placeholders until their data is ready
+  const cardsPerYear = 5;
+  ["2020", "2019"].forEach(year => {
+    const yy = year.slice(-2);
+    yearData[year] = Array.from({ length: cardsPerYear }, (_, i) => ({
+      videoId: "AkzdwzyOHQE",
+      title: `GS I — LoG_S${yy}P${String(i + 1).padStart(2, '0')}`,
+      watchUrl: "waiting_page.html",
+      pdfUrl: "waiting_page.html"
+    }));
+  });
 
   const navEl = document.getElementById('yearNav');
   const sectionsEl = document.getElementById('yearSections');
