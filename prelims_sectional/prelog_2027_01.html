@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC LoG — Prelims Booster</title>
+<style>
+  :root{
+    --bg: #F3F4F1;
+    --paper: #FFFFFF;
+    --ink: #1D2A35;
+    --ink-soft: #5B6873;
+    --rule: #D8DCD6;
+    --navy: #1B3A5C;
+    --navy-deep: #12283F;
+    --gold: #B8862E;
+    --gold-soft: #EFDFB8;
+    --answered: #2F7D5A;
+    --answered-bg: #E4F3EC;
+    --skipped: #B8862E;
+    --skipped-bg: #FBF1DE;
+    --current-ring: #1B3A5C;
+    --wrong: #B23A2E;
+    --wrong-bg: #FBEAE7;
+    --shadow: 0 1px 2px rgba(20,30,40,0.06), 0 6px 20px rgba(20,30,40,0.05);
+    --serif: Georgia, 'Times New Roman', 'Iowan Old Style', serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --mono: 'Courier New', ui-monospace, monospace;
+  }
+  [data-theme="dark"]{
+    --bg: #0F1A24;
+    --paper: #17232E;
+    --ink: #E7ECEF;
+    --ink-soft: #97A5AF;
+    --rule: #2A3846;
+    --navy: #3E6E9E;
+    --navy-deep: #2A4E70;
+    --gold: #D9A441;
+    --gold-soft: #3A3220;
+    --answered: #4CAF7D;
+    --answered-bg: #163227;
+    --skipped: #D9A441;
+    --skipped-bg: #332A16;
+    --current-ring: #D9A441;
+    --wrong: #E07A6C;
+    --wrong-bg: #3A1E1A;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+    html, body{
+    overflow-x: hidden;
+    width: 100%;
+  }
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    min-height:100vh;
+    transition:background .3s ease, color .3s ease;
+  }
+
+  /* ---------- Header ---------- */
+  header.topbar{
+    background:linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color:#F4F1EA;
+    padding:0;
+    box-shadow:var(--shadow);
+    position:sticky; top:0; z-index:50;
+  }
+  .topbar-inner{
+    max-width:1280px; margin:0 auto;
+    display:flex; align-items:center; gap:20px;
+    padding:14px 28px;
+  }
+  .logo-slot{
+    width:52px; height:52px;
+    border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    overflow:hidden;
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .logo-slot img{
+    width:100%; height:100%;
+    object-fit:contain;
+  }
+  .logo-slot:hover{border-color:rgba(244,241,234,0.75); color:#F4F1EA;}
+  .title-block{flex:1; min-width:0;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gold-soft, #D9A441);
+    opacity:0.85;
+  }
+  .title-block h1{
+    font-family:var(--serif);
+    font-size:22px;
+    font-weight:400;
+    margin:2px 0 0 0;
+    letter-spacing:0.01em;
+  }
+  .subnote{
+    font-family:var(--mono);
+    font-size:11px;
+    color:rgba(244,241,234,0.65);
+    margin-top:6px;
+    letter-spacing:0.02em;
+  }
+  .subnote a{color:var(--gold-soft); text-decoration:none;}
+  .subnote a:hover{text-decoration:underline;}
+  .topbar-right{
+    display:flex; align-items:center; gap:18px; flex-shrink:0;
+  }
+  .timer{
+    font-family:var(--mono);
+    font-size:13px;
+    color:#F4F1EA;
+    border:1px solid rgba(244,241,234,0.3);
+    padding:6px 12px;
+    border-radius:6px;
+    background:rgba(0,0,0,0.12);
+    transition:background .2s ease;
+  }
+  .timer.urgent{background:var(--wrong); border-color:var(--wrong);}
+
+  /* dark mode switch */
+  .mode-switch{
+    display:flex; align-items:center; gap:8px;
+    font-size:12px; color:rgba(244,241,234,0.85);
+  }
+  .switch{
+    position:relative; width:44px; height:24px;
+    background:rgba(244,241,234,0.2);
+    border-radius:20px; cursor:pointer;
+    border:1px solid rgba(244,241,234,0.35);
+    flex-shrink:0;
+  }
+  .switch .knob{
+    position:absolute; top:2px; left:2px;
+    width:18px; height:18px; border-radius:50%;
+    background:#F4F1EA;
+    transition:transform .25s ease;
+    box-shadow:0 1px 3px rgba(0,0,0,0.3);
+  }
+  [data-theme="dark"] .switch .knob{
+    transform:translateX(20px);
+    background:var(--gold);
+  }
+
+  /* ---------- Layout ---------- */
+  .name-bar{
+  max-width:1280px; margin:20px auto 0;
+  padding:0 28px;
+  display:flex; align-items:center; gap:12px;
+}
+.name-bar label{
+  font-family:var(--mono); font-size:20px;
+  color:var(--ink-soft); white-space:nowrap;
+}
+.name-bar input{
+  flex:1; max-width:320px;
+  font-family:var(--sans); font-size:14px;
+  padding:9px 14px;
+  border:1px solid var(--rule); border-radius:7px;
+  background:var(--paper); color:var(--ink);
+}
+.name-bar input:focus{ outline:none; border-color:var(--navy); }
+[data-theme="dark"] .name-bar input:focus{ border-color:var(--gold); }
+
+@media (max-width: 430px){
+  .name-bar{ padding:0 12px; margin-top:14px; flex-wrap:wrap; }
+  .name-bar input{ max-width:100%; }
+}
+  .layout{
+    max-width:1280px; margin:0 auto;
+    display:grid;
+    grid-template-columns:1fr 320px;
+    gap:23px;
+    padding:32px 28px 60px;
+    align-items:start;
+  }
+
+  /* ---------- Question paper ---------- */
+  .paper{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:36px 44px 32px;
+    min-height:520px;
+    display:flex;
+    flex-direction:column;
+  }
+  .paper-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    border-bottom:1px solid var(--rule);
+    padding-bottom:14px; margin-bottom:28px;
+  }
+  .q-index{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--ink-soft);
+    letter-spacing:0.04em;
+  }
+  .q-index b{color:var(--navy); font-size:15px;}
+  [data-theme="dark"] .q-index b{color:var(--gold);}
+  .q-status-tag{
+    font-family:var(--mono);
+    font-size:13.5px;
+    font-weight:800;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    padding:7px 16px;
+    border-radius:20px;
+    border:2px solid transparent;
+  }
+  .q-status-tag.answered{background:var(--answered-bg); color:var(--answered); border-color:var(--answered);}
+  .q-status-tag.unanswered{background:var(--skipped-bg); color:var(--skipped); border-color:var(--skipped);}
+
+  .q-text{
+    font-family:var(--serif);
+    font-size:19px;
+    line-height:1.5;
+    color:var(--ink);
+    margin:0 0 32px 0;
+  }
+
+  .options{
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .option{
+    display:flex; align-items:flex-start; gap:14px;
+    padding:18px 18px;
+    border:1px solid var(--rule);
+    border-radius:8px;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+    background:transparent;
+  }
+  .option:hover{border-color:var(--navy); background:rgba(27,58,92,0.04);}
+  [data-theme="dark"] .option:hover{background:rgba(217,164,65,0.06); border-color:var(--gold);}
+  .option.selected{
+    border-color:var(--navy);
+    background:rgba(27,58,92,0.07);
+  }
+  [data-theme="dark"] .option.selected{
+    border-color:var(--gold);
+    background:rgba(217,164,65,0.1);
+  }
+  .option .tag{
+    font-family:var(--mono);
+    font-size:13px;
+    font-weight:bold;
+    width:24px; height:24px;
+    border-radius:50%;
+    border:1.5px solid var(--rule);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    color:var(--ink-soft);
+  }
+  .option.selected .tag{
+    border-color:var(--navy);
+    background:var(--navy);
+    color:#fff;
+  }
+  [data-theme="dark"] .option.selected .tag{
+    border-color:var(--gold);
+    background:var(--gold);
+    color:#17232E;
+  }
+  .option .opt-text{
+    font-size:15.5px; line-height:1.5; padding-top:1px;
+  }
+  .option.locked{cursor:default;}
+  .option.correct{
+    border-color:var(--answered);
+    background:var(--answered-bg);
+  }
+  .option.correct .tag{
+    border-color:var(--answered);
+    background:var(--answered);
+    color:#fff;
+  }
+  .option.incorrect{
+    border-color:var(--wrong);
+    background:var(--wrong-bg);
+  }
+  .option.incorrect .tag{
+    border-color:var(--wrong);
+    background:var(--wrong);
+    color:#fff;
+  }
+  .option.locked:hover{background:inherit; border-color:inherit;}
+  .q-status-tag.correct{background:var(--answered-bg); color:var(--answered); border-color:var(--answered); box-shadow:0 0 0 1px var(--answered) inset;}
+  .q-status-tag.incorrect{background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong); box-shadow:0 0 0 1px var(--wrong) inset;}
+  .q-status-tag.review-unanswered{
+    background:var(--wrong-bg);
+    color:var(--wrong);
+    border-color:var(--wrong);
+    box-shadow:0 0 0 1px var(--wrong) inset;
+  }
+
+  /* ---------- Explanation (review mode) ---------- */
+  .explain-box{
+    margin-top:26px;
+    background:var(--gold-soft);
+    border:1px solid var(--gold);
+    border-radius:8px;
+    padding:16px 20px;
+    font-size:14px;
+    line-height:1.65;
+    color:var(--ink);
+  }
+  [data-theme="dark"] .explain-box{background:rgba(217,164,65,0.08);}
+  .explain-box b{color:var(--navy);}
+  [data-theme="dark"] .explain-box b{color:var(--gold);}
+  .explain-box .exp-label{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-bottom:8px;
+  }
+
+  .paper-foot{
+    display:flex; justify-content:space-between;
+    margin-top:32px; padding-top:20px;
+    border-top:1px solid var(--rule);
+  }
+  button{
+    font-family:var(--sans);
+    font-size:14px;
+    font-weight:600;
+    padding:11px 22px;
+    border-radius:7px;
+    border:1px solid var(--rule);
+    background:var(--paper);
+    color:var(--ink);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  button:hover:not(:disabled){border-color:var(--navy); color:var(--navy);}
+  [data-theme="dark"] button:hover:not(:disabled){border-color:var(--gold); color:var(--gold);}
+  button:disabled{opacity:0.35; cursor:not-allowed;}
+  button.primary{
+    background:var(--navy); color:#F4F1EA; border-color:var(--navy);
+  }
+  button.primary:hover{filter:brightness(1.1); color:#F4F1EA;}
+  button.clear{background:transparent; border-color:transparent; color:var(--ink-soft); font-weight:500;}
+  .nav-group{display:flex; gap:10px;}
+
+  /* ---------- Sidebar palette ---------- */
+  .sidebar{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:24px;
+    position:sticky;
+    top:96px;
+  }
+  .sidebar h2{
+    font-family:var(--serif);
+    font-size:16px;
+    font-weight:400;
+    margin:0 0 4px 0;
+    color:var(--ink);
+  }
+  .sidebar .sub{
+    font-size:12px; color:var(--ink-soft); margin-bottom:18px;
+  }
+  .legend{
+    display:flex; flex-direction:column; gap:8px;
+    margin-bottom:20px;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  .legend span{display:flex; align-items:center; gap:8px;}
+  .dot{width:10px; height:10px; border-radius:3px; flex-shrink:0;}
+  .dot.answered{background:var(--answered);}
+  .dot.unanswered{background:var(--rule); border:1px solid var(--ink-soft);}
+  .dot.current{background:transparent; border:2px solid var(--current-ring);}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:8px;
+    margin-bottom:22px;
+  }
+  .cell{
+    aspect-ratio:1;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono);
+    font-size:13px;
+    border-radius:6px;
+    border:1px solid var(--rule);
+    background:transparent;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .cell:hover{border-color:var(--navy);}
+  [data-theme="dark"] .cell:hover{border-color:var(--gold);}
+  .cell.answered{
+    background:var(--answered-bg); color:var(--answered); border-color:var(--answered);
+    font-weight:bold;
+  }
+  .cell.incorrect{
+    background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong);
+    font-weight:bold;
+  }
+  .cell.current{
+    outline:2px solid var(--current-ring); outline-offset:2px;
+  }
+
+  .tally{
+    padding-top:16px; border-top:1px solid var(--rule);
+    color:var(--ink-soft);
+  }
+  .tally-plain{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-plain > div{flex:1; text-align:left;}
+  .tally b{color:var(--ink); font-size:16px; display:block; font-family:var(--sans);}
+  .tally b.stat-correct{color:var(--answered);}
+  .tally b.stat-incorrect{color:var(--wrong);}
+  .tally b.stat-unattempted{color:var(--skipped);}
+
+  .marks-line{
+    text-align:center;
+    background:var(--gold-soft);
+    border:1.5px solid var(--gold);
+    border-radius:8px;
+    padding:12px 10px;
+    margin-bottom:14px;
+  }
+  [data-theme="dark"] .marks-line{background:rgba(217,164,65,0.12);}
+  .marks-line b{
+    font-size:26px; color:var(--navy); font-family:var(--serif); font-weight:700;
+  }
+  [data-theme="dark"] .marks-line b{color:var(--gold);}
+  .marks-line span{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-top:2px;
+  }
+  .tally-grid{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-grid > div{flex:1; text-align:left;}
+
+  .score-breakdown{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+    max-width:420px;
+    margin:24px auto 0;
+  }
+  .score-breakdown .stat{
+    border:1.5px solid var(--rule);
+    border-radius:10px;
+    padding:14px 10px;
+  }
+  .score-breakdown .stat b{
+    display:block; font-size:24px; font-family:var(--sans); margin-bottom:4px;
+  }
+  .score-breakdown .stat span{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft);
+  }
+  .score-breakdown .stat.correct{border-color:var(--answered); background:var(--answered-bg);}
+  .score-breakdown .stat.correct b{color:var(--answered);}
+  .score-breakdown .stat.incorrect{border-color:var(--wrong); background:var(--wrong-bg);}
+  .score-breakdown .stat.incorrect b{color:var(--wrong);}
+  .score-breakdown .stat.unattempted{border-color:var(--skipped); background:var(--skipped-bg);}
+  .score-breakdown .stat.unattempted b{color:var(--skipped);}
+
+  #submitBtn{width:100%; margin-top:20px;}
+
+  /* ---------- Result overlay ---------- */
+  .result-card{
+    background:var(--paper); border:1px solid var(--rule); border-radius:10px;
+    box-shadow:var(--shadow); padding:44px; text-align:center;
+  }
+  .result-card .score{
+    font-family:var(--serif); font-size:52px; color:var(--navy); margin:8px 0;
+  }
+  [data-theme="dark"] .result-card .score{color:var(--gold);}
+  .result-card .percent{
+    font-family:var(--mono); font-size:13px; color:var(--ink-soft);
+    letter-spacing:0.04em; margin-top:-4px;
+  }
+  .hidden{display:none !important;}
+  :root{
+    --desktop-width: 1440;
+}
+
+@media (max-width: 1024px){
+  .layout{
+    grid-template-columns: 1fr;
+  }
+  .sidebar{
+    position: static;      /* was sticky at top:96px — no longer needed once stacked */
+    top: auto;
+  }
+}
+@media (max-width: 600px){
+  .topbar-inner{
+    flex-wrap: wrap;
+    padding: 14px 16px;
+    gap: 10px;
+  }
+  .topbar-right{
+    flex-shrink: 1;        /* was 0 before — this is what caused the overflow */
+    flex-basis: 100%;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+  .subnote{
+    white-space: normal;
+  }
+}
+@media (max-width: 430px){
+  .layout{
+    padding: 20px 12px 40px;
+  }
+  .paper{
+    padding: 24px 18px 22px;
+  }
+  .sidebar{
+    padding: 18px;
+  }
+  .paper-head{
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .q-status-tag{
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+@media (max-width: 600px){
+  .title-block h1{
+    font-size: 17px;
+  }
+  .eyebrow{
+    font-size: 9.5px;
+  }
+  .subnote{
+    font-size: 10px;
+  }
+  .timer{
+    font-size: 11px;
+    padding: 5px 9px;
+  }
+  .mode-switch{
+    font-size: 11px;
+  }
+}
+@media (max-width: 430px){
+  .result-card{
+    padding: 24px 18px;
+  }
+  .score-breakdown{
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    max-width: 100%;
+  }
+  .score-breakdown .stat{
+    padding: 10px 6px;
+  }
+  .score-breakdown .stat b{
+    font-size: 19px;
+  }
+  .result-card .score{
+    font-size: 38px;
+  }
+}
+
+
+}
+</style>
+</head>
+<body data-theme="light">
+
+<header class="topbar">
+  <div class="topbar-inner">
+
+    <!-- <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">UPSC<br>LOGO</a> -->
+    <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">
+  <img src="../logo.png" alt="UPSC LoG" style="width:100%; height:100%; object-fit:contain; border-radius:6px;">
+</a>
+    <div class="title-block">
+      <div class="eyebrow">UPSC LoG · Prelims Sectional 2027</div>
+      <h1>Modern History PreLog-2027-01</h1>
+      <div class="subnote" style="font-size: 12px;">
+        <span id="qTotalNote">7</span> Questions · +2 Correct / −0.67 Incorrect ·
+        <a href="https://t.me/upsclog" target="_blank" rel="noopener"> Join UPSC-LoG Telegram ↗</a>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="timer" id="timer">60:00</div>
+      <div class="mode-switch">
+        <span>Light</span>
+        <div class="switch" id="themeSwitch" role="button" aria-label="Toggle dark mode">
+          <div class="knob"></div>
+        </div>
+        <span>Dark</span>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="name-bar">
+  <label for="userName">Add name for rank</label>
+  <input type="text" id="userName" placeholder="Enter your name" maxlength="40">
+</div>
+
+<div class="layout">
+
+  <div class="paper" id="paperView">
+    <div class="paper-head">
+      <div class="q-index">Question <b id="qNum">1</b> of <span id="qTotal">7</span></div>
+      <div class="q-status-tag unanswered" id="qStatusTag">Not Answered</div>
+    </div>
+
+    <p class="q-text" id="qText">Loading question…</p>
+
+    <div class="options" id="optionsList"></div>
+
+    <div class="explain-box hidden" id="explainBox">
+      <span class="exp-label">Explanation</span>
+      <div id="explainText"></div>
+    </div>
+
+    <div class="paper-foot">
+      <div class="nav-group">
+        <button id="prevBtn">← Previous</button>
+        <button class="clear" id="clearBtn">Clear response</button>
+      </div>
+      <button id="nextBtn" class="primary">Next →</button>
+    </div>
+  </div>
+
+  <div class="result-card hidden" id="resultView">
+    <div class="eyebrow" style="color:var(--ink-soft); letter-spacing:0.14em; font-family:var(--mono); font-size:11px; text-transform:uppercase;">Marks Sent for rank PDF</div>
+    <div class="score" id="scoreText">0.00 / 14.00</div>
+    <div class="percent" id="scorePercent">0.00%</div>
+    <div class="score-breakdown" id="scoreBreakdown"></div>
+    <p style="color:var(--ink-soft); font-size:14px; margin:20px 0 24px;">You can review your answers and explanations using the palette on the right.</p>
+    <h2>Check <a href="https://t.me/upsclog" target="_blank">UPSC LoG</a> - Telegram for Daily Rankings [PDF]</h2>
+    <button class="primary" id="reviewBtn">Review Answers</button>
+  </div>
+
+  <aside class="sidebar">
+    <h2>* Explanations attached for each question after you submit the test<br><br></h2>
+    <h2>* Auto-Submission in 30 minutes</h2>
+    <h2>* Dark <-> Bright modes for ease</h2>
+    <div class="sub"></div>
+
+    <div class="legend">
+      <span><span class="dot answered"></span> Answered / Correct</span>
+      <span><span class="dot" style="background:var(--wrong);"></span> Incorrect</span>
+      <span><span class="dot unanswered"></span> Not answered</span>
+      <span><span class="dot current"></span> Currently viewing</span>
+    </div>
+
+    <div class="grid" id="paletteGrid"></div>
+
+    <div class="tally" id="tallyRow">
+      <div class="tally-plain">
+        <div><b id="answeredCount">0</b>Answered</div>
+        <div><b id="skippedCount">7</b>Remaining</div>
+      </div>
+    </div>
+
+    <button class="primary" id="submitBtn">Submit Test</button>
+  </aside>
+
+</div>
+
+<script>
+const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyamXySn2AagAN935BcpYuf6oTJNuIkLMuAby7CqWJ20rgdNgdWypVNTjMyWJBxW9OObw/exec";
+const QUESTIONS = [
+{
+q: "With reference to the circumstances leading to the enactment of the Regulating Act of 1773, consider the following statements:<br>1. The East India Company approached the British Parliament for a loan due to financial difficulties.<br>2. The Act was passed to bring the activities of the East India Company under the control of the British Parliament.<br>3. It was enacted immediately after the Battle of Plassey.<br>Which of the statements given above is/are correct?",
+opts: [
+"2 and 3 only",
+"1 and 2 only",
+"1, 2 and 3",
+"1 only"
+],
+ans: 1,
+exp: "The Company's severe financial crisis in the early 1770s led it to seek a loan from the British Government, which used the opportunity to pass the Regulating Act of 1773 to control Company affairs. The Battle of Plassey occurred in 1757, sixteen years before the Act, so statement 3 is incorrect."
+},
+{
+q: "The Government of India Act of 1858 was enacted primarily in the aftermath of which of the following events?",
+opts: [
+"Battle of Buxar",
+"Third Anglo-Maratha War",
+"Revolt of 1857",
+"Vellore Mutiny"
+],
+ans: 2,
+exp: "The Government of India Act, 1858 was passed following the Revolt of 1857, transferring the powers of the East India Company to the British Crown and abolishing the Company's rule. The other events had no direct connection to this Act."
+},
+{
+q: "With reference to constitutional provisions concerning Civil Services in India, consider the following statements:<br>1. Article 311 provides safeguards to civil servants against arbitrary dismissal.<br>2. All India Services can be created only by a constitutional amendment.<br>3. Article 312 empowers Parliament to create new All India Services.<br>Which of the statements given above is/are correct?",
+opts: [
+"1 and 2 only",
+"2 and 3 only",
+"1 and 3 only",
+"1, 2 and 3"
+],
+ans: 2,
+exp: "Article 311 protects civil servants from arbitrary dismissal, and Article 312 allows Parliament to create new All India Services through an ordinary law if the Rajya Sabha passes a resolution to that effect. Hence, a constitutional amendment is not required, making statement 2 incorrect."
+},
+{
+q: "The Permanent Settlement of Bengal, introduced by Lord Cornwallis in 1793, is associated with which of the following features?<br>1. Zamindars were recognised as owners of land.<br>2. Land revenue was fixed in perpetuity.<br>3. It was implemented uniformly across all provinces of British India.<br>Which of the statements given above is/are correct?",
+opts: [
+"1, 2 and 3",
+"2 and 3 only",
+"1 only",
+"1 and 2 only"
+],
+ans: 3,
+exp: "The Permanent Settlement made zamindars the owners of land and fixed the revenue demand permanently. However, it was confined mainly to Bengal, Bihar, and parts of Odisha and was not implemented uniformly across British India, as other regions adopted the Ryotwari or Mahalwari systems."
+},
+{
+q: "With reference to the Charter Act of 1833, which of the following statements is/are correct?<br>1. It made the Governor-General of Bengal the Governor-General of India.<br>2. It ended the East India Company's trading activities completely, making it purely an administrative body.<br>3. It established a Law Commission to codify Indian laws.<br>Which of the statements given above is/are correct?",
+opts: [
+"1 and 2 only",
+"1, 2 and 3",
+"2 and 3 only",
+"1 only"
+],
+ans: 1,
+exp: "The Charter Act of 1833 designated the Governor-General of Bengal as the Governor-General of India, stripped the Company of all its remaining commercial functions, and set up a Law Commission under Lord Macaulay for codification of laws. All three statements are correct."
+},
+{
+q: "Which of the following provisions were part of the Regulating Act of 1773?<br>1. Establishment of a Governor-General of Bengal with an Executive Council of four members.<br>2. Establishment of a Supreme Court at Calcutta.<br>3. Provision for direct election of members to the Governor-General's Council.<br>Which of the statements given above is/are correct?",
+opts: [
+"1 and 3 only",
+"2 and 3 only",
+"1 and 2 only",
+"1, 2 and 3"
+],
+ans: 2,
+exp: "The Regulating Act, 1773 created the office of Governor-General of Bengal with a council of four members and established a Supreme Court at Calcutta. There was no provision for election; council members were appointed by the Crown/Company, making statement 3 incorrect."
+},
+{
+q: "With reference to the Government of India Act of 1935, consider the following statements:<br>1. It provided for a federation of British India provinces and Princely States.<br>2. It abolished dyarchy at the provincial level and introduced it at the centre.<br>3. The federal part of the Act came into force immediately after its enactment.<br>Which of the statements given above is/are correct?",
+opts: [
+"1, 2 and 3",
+"1 and 2 only",
+"2 and 3 only",
+"1 only"
+],
+ans: 1,
+exp: "The Act of 1935 proposed an All-India Federation and shifted dyarchy from provinces to the centre while introducing provincial autonomy. The federal scheme never actually came into force since the required number of Princely States did not join, making statement 3 incorrect."
+},
+{
+q: "Which of the following committees/commissions is associated with reforms in the recruitment process of Civil Services Examination in India?",
+opts: [
+"Sarkaria Commission",
+"Malimath Committee",
+"First Administrative Reforms Commission",
+"Satish Chandra Committee"
+],
+ans: 3,
+exp: "The Satish Chandra Committee was constituted to review and recommend changes to the Civil Services Examination pattern, including age and attempt limits. The Sarkaria Commission dealt with Centre-State relations, the Malimath Committee with criminal justice reforms, and the First ARC with general administrative reforms."
+},
+{
+q: "With reference to the Ryotwari System of land revenue introduced by the British, consider the following statements:<br>1. The revenue settlement was made directly between the government and the individual cultivator.<br>2. It was first introduced in the Bombay and Madras Presidencies.<br>3. Under this system, the land revenue rate remained fixed permanently.<br>Which of the statements given above is/are correct?",
+opts: [
+"1 and 2 only",
+"1, 2 and 3",
+"2 and 3 only",
+"1 only"
+],
+ans: 0,
+exp: "Under the Ryotwari System, the government settled revenue directly with individual cultivators (ryots), and it was pioneered in the Madras and Bombay Presidencies. Unlike the Permanent Settlement, the revenue rate was periodically revised, not fixed forever, making statement 3 incorrect."
+},
+{
+q: "Pitt's India Act of 1784 was enacted primarily to address which of the following issues?",
+opts: [
+"To end the East India Company's monopoly over trade",
+"To rectify the defects of the Regulating Act of 1773",
+"To establish direct Crown rule over India",
+"To introduce local self-government in India"
+],
+ans: 1,
+exp: "Pitt's India Act, 1784 was passed to address the shortcomings of the Regulating Act of 1773, particularly by establishing a Board of Control for better supervision of Company affairs. Direct Crown rule came only in 1858, and trade monopoly ended through later Charter Acts."
+},
+{
+q: "With reference to Pitt's India Act, 1784, consider the following statements:<br>1. It established a Board of Control to supervise the civil, military and revenue affairs of the Company.<br>2. It made the Company subordinate to the British Government in political matters while retaining its commercial functions under the Court of Directors.<br>3. It gave the Board of Control complete control over the Company's commercial affairs too.<br>Which of the statements given above is/are correct?",
+opts: [
+"1, 2 and 3",
+"2 and 3 only",
+"1 and 2 only",
+"1 only"
+],
+ans: 2,
+exp: "Pitt's India Act created a dual system of control: the Board of Control oversaw political affairs while the Court of Directors retained charge of commercial affairs. The Board did not have complete control over commercial matters, making statement 3 incorrect."
+},
+{
+q: "Consider the following pairs:<br>Act : Feature<br>1. Government of India Act, 1919 : Introduction of Dyarchy in provinces<br>2. Government of India Act, 1935 : Provincial Autonomy<br>3. Indian Councils Act, 1909 : Separate electorates for Muslims<br>Which of the pairs given above is/are correctly matched?",
+opts: [
+"1 and 2 only",
+"2 and 3 only",
+"1 and 3 only",
+"1, 2 and 3"
+],
+ans: 3,
+exp: "The Government of India Act, 1919 introduced dyarchy in provinces; the Act of 1935 introduced provincial autonomy; and the Indian Councils Act, 1909 (Morley-Minto Reforms) introduced separate electorates for Muslims. All three pairs are correctly matched."
+},
+{
+q: "With reference to the structure of the judiciary in India, consider the following statements:<br>1. The Supreme Court of India has original, appellate and advisory jurisdiction.<br>2. High Courts are constitutional bodies and can only be established by a constitutional amendment.<br>3. Subordinate courts function under the control of the concerned High Court.<br>Which of the statements given above is/are correct?",
+opts: [
+"1 and 2 only",
+"1 and 3 only",
+"2 and 3 only",
+"1, 2 and 3"
+],
+ans: 1,
+exp: "The Supreme Court exercises original, appellate and advisory jurisdiction, and subordinate courts function under the supervision and control of the respective High Court under Article 235. However, new High Courts can be established by Parliament through an ordinary law, not necessarily a constitutional amendment, making statement 2 incorrect."
+},
+{
+q: "With reference to the 73rd Constitutional Amendment Act, 1992, consider the following statements:<br>1. It made the establishment of Panchayats at village, intermediate and district levels mandatory.<br>2. It provided for reservation of seats for Scheduled Castes and Scheduled Tribes in Panchayats.<br>3. It made the constitution of District Planning Committees mandatory in all States.<br>Which of the statements given above is/are correct?",
+opts: [
+"1, 2 and 3",
+"1 and 3 only",
+"1 and 2 only",
+"2 and 3 only"
+],
+ans: 2,
+exp: "The 73rd Amendment established a mandatory three-tier Panchayati Raj structure and provided for reservation of seats for SCs and STs. The provision for District Planning Committees (Article 243ZD) was introduced through the 74th Amendment Act, not the 73rd, making statement 3 incorrect."
+},
+{
+q: "Under the Regulating Act of 1773, which of the following powers were vested in the Governor-General-in-Council of Bengal?<br>1. Superintendence over the Presidencies of Bombay and Madras in matters of war and peace.<br>2. Complete control over the Supreme Court of Calcutta.<br>3. Power to make laws for the Presidency of Bengal alone.<br>Which of the statements given above is/are correct?",
+opts: [
+"1 and 2 only",
+"1 and 3 only",
+"2 and 3 only",
+"1, 2 and 3"
+],
+ans: 1,
+exp: "The Regulating Act gave the Governor-General-in-Council of Bengal superintending power over Bombay and Madras in matters of war, peace, and diplomacy, and law-making power confined to Bengal. The Supreme Court at Calcutta functioned independently of the Council, so statement 2 is incorrect."
+},
+{
+q: "Which of the following statements about the Board of Control established under Pitt's India Act, 1784 is/are correct?<br>1. It consisted of members appointed by the British Crown.<br>2. It had the power to control the civil, military and revenue affairs of the Company in India.<br>3. It replaced the Court of Directors entirely.<br>Which of the statements given above is/are correct?",
+opts: [
+"1, 2 and 3",
+"2 and 3 only",
+"1 only",
+"1 and 2 only"
+],
+ans: 3,
+exp: "The Board of Control, comprising members appointed by the Crown, was empowered to oversee the civil, military, and revenue affairs of the Company in India. It did not replace the Court of Directors, which continued to handle commercial matters, making statement 3 incorrect."
+},
+{
+q: "With reference to the Indian Councils Act of 1861, consider the following statements:<br>1. It restored the legislative powers of the Bombay and Madras Presidencies.<br>2. It introduced the portfolio system in the Governor-General's Council.<br>3. It provided for the association of Indians with the law-making process for the first time.<br>Which of the statements given above is/are correct?",
+opts: [
+"1 and 2 only",
+"1, 2 and 3",
+"2 and 3 only",
+"1 only"
+],
+ans: 1,
+exp: "The Indian Councils Act of 1861 restored legislative powers to Bombay and Madras, introduced the portfolio system, and for the first time provided for the nomination of Indians as non-official members to the Viceroy's legislative council. All three statements are correct."
+},
+{
+q: "Which of the following is/are recognized as major challenges facing the judiciary in India?<br>1. Huge pendency of cases at various levels<br>2. Inadequate judge-population ratio<br>3. Lack of constitutional provision for judicial review<br>Which of the statements given above is/are correct?",
+opts: [
+"1, 2 and 3",
+"1 and 2 only",
+"2 and 3 only",
+"1 only"
+],
+ans: 1,
+exp: "Huge case pendency and a low judge-population ratio compared to international standards are widely recognized challenges for the Indian judiciary. Judicial review is a well-established constitutional power under Articles 13, 32, and 226, so its absence is not a valid challenge, making statement 3 incorrect."
+},
+{
+q: "With reference to the three-tier structure of Panchayati Raj institutions in India, consider the following statements:<br>1. Gram Sabha is a body consisting of all adult members registered as voters in a village.<br>2. The intermediate level (Panchayat Samiti) is mandatory only in States with a population above 20 lakh.<br>3. The District Planning Committee assists in consolidating plans of Panchayats and Municipalities.<br>Which of the statements given above is/are correct?",
+opts: [
+"1 and 2 only",
+"2 and 3 only",
+"1 and 3 only",
+"1, 2 and 3"
+],
+ans: 2,
+exp: "The Gram Sabha consists of all registered voters of a village, and the District Planning Committee consolidates plans prepared by Panchayats and Municipalities. As per Article 243B, the intermediate level may be exempted only in States with a population NOT exceeding 20 lakh, making statement 2 incorrect."
+},
+{
+q: "The modern police system in India traces its organizational origin to which of the following?",
+opts: [
+"Indian Police Act, 1902",
+"Criminal Procedure Code, 1898",
+"Police Commission, 1902",
+"Police Act of 1861"
+],
+ans: 3,
+exp: "The Police Act of 1861, enacted in the aftermath of the Revolt of 1857, laid the organizational foundation of the modern police system in India and continues to influence police administration in many states even today."
+},
+{
+q: "With reference to the Charter Act of 1813, consider the following statements:<br>1. It ended the trade monopoly of the East India Company in India except in tea and trade with China.<br>2. It allowed Christian missionaries to preach in India.<br>3. It earmarked a fixed sum of money for the promotion of education in India.<br>Which of the statements given above is/are correct?",
+opts: [
+"1 and 2 only",
+"1, 2 and 3",
+"2 and 3 only",
+"1 only"
+],
+ans: 1,
+exp: "The Charter Act of 1813 ended the Company's trade monopoly in India (retaining it only for tea and China trade), permitted Christian missionaries to operate in India, and allocated one lakh rupees annually for education. All three statements are correct."
+},
+{
+q: "Which of the following features is/are associated with the Charter Act of 1853?<br>1. It separated the legislative and executive functions of the Governor-General's Council for the first time.<br>2. It introduced the open competition system for the recruitment of civil servants.<br>3. It extended the Company's rule in India for a fixed period of 20 years.<br>Which of the statements given above is/are correct?",
+opts: [
+"1, 2 and 3",
+"1 and 2 only",
+"2 and 3 only",
+"1 only"
+],
+ans: 1,
+exp: "The Charter Act of 1853 separated the legislative and executive functions of the Governor-General's Council and introduced open competition for civil service recruitment. Unlike earlier Charter Acts, it did not fix a definite term for Company rule, allowing it to continue as long as Parliament desired, making statement 3 incorrect."
+},
+{
+q: "The Indian Councils Act of 1909 (Morley-Minto Reforms) is associated with which of the following?<br>1. Introduction of separate electorates for Muslims<br>2. Association of Indians with the executive councils of the Governor-General and Governors for the first time<br>3. Grant of dyarchy in provinces<br>Which of the statements given above is/are correct?",
+opts: [
+"1 and 2 only",
+"1, 2 and 3",
+"2 and 3 only",
+"1 only"
+],
+ans: 0,
+exp: "The Indian Councils Act, 1909 introduced separate communal electorates for Muslims and, for the first time, allowed Indians to be appointed to the Viceroy's and Governors' Executive Councils. Dyarchy in provinces was introduced later by the Government of India Act, 1919, making statement 3 incorrect."
+},
+{
+q: "The concept of merit-based recruitment to Civil Services in India, replacing the earlier system of patronage, was first introduced through which of the following?",
+opts: [
+"Regulating Act of 1773",
+"Pitt's India Act of 1784",
+"Charter Act of 1853",
+"Government of India Act, 1858"
+],
+ans: 2,
+exp: "The Charter Act of 1853 ended the system of patronage-based appointments and introduced an open competitive examination system for the recruitment of civil servants, laying the foundation for merit-based civil services in India."
+},
+{
+q: "With reference to police reforms in India, consider the following statements:<br>1. The Supreme Court in Prakash Singh vs Union of India (2006) issued directives for police reforms.<br>2. The National Police Commission was constituted in the 1970s to suggest reforms.<br>3. The directives given in the Prakash Singh case have been fully implemented by all States.<br>Which of the statements given above is/are correct?",
+opts: [
+"1, 2 and 3",
+"1 and 2 only",
+"2 and 3 only",
+"1 only"
+],
+ans: 1,
+exp: "The Supreme Court's 2006 judgment in Prakash Singh vs Union of India laid down binding directives for police reforms, building on earlier recommendations of the National Police Commission set up in the 1970s. However, implementation across States has remained partial and uneven, making statement 3 incorrect."
+},
+{
+q: "With reference to recommendations for judicial reforms in India, consider the following statements:<br>1. The Law Commission of India has recommended increasing the judge-population ratio.<br>2. The 230th Law Commission Report recommended setting up an All India Judicial Service.<br>3. The National Judicial Appointments Commission Act was upheld as constitutionally valid by the Supreme Court.<br>Which of the statements given above is/are correct?",
+opts: [
+"1 and 2 only",
+"1, 2 and 3",
+"2 and 3 only",
+"1 only"
+],
+ans: 0,
+exp: "The Law Commission has recommended raising the judge-population ratio and establishing an All India Judicial Service for uniform recruitment of subordinate judiciary. The NJAC Act was struck down as unconstitutional by the Supreme Court in 2015 for violating judicial independence, making statement 3 incorrect."
+},
+{
+q: "With reference to the structure created under the Charter Act of 1833, consider the following statements:<br>1. A fourth member was added to the Governor-General's Executive Council, restricted mainly to legislative matters.<br>2. This fourth member had full voting rights in all matters including executive decisions.<br>3. Lord Macaulay was appointed as the first Law Member under this provision.<br>Which of the statements given above is/are correct?",
+opts: [
+"1 and 3 only",
+"1, 2 and 3",
+"2 and 3 only",
+"1 only"
+],
+ans: 0,
+exp: "The Charter Act of 1833 added a Law Member to the Governor-General's Council, but this member could sit and vote only on legislative matters, not executive ones, making statement 2 incorrect. Lord Macaulay was indeed appointed as the first Law Member."
+},
+{
+q: "Which of the following functions are statutorily entrusted to the police under the Police Act, 1861 and the Code of Criminal Procedure?<br>1. Prevention and detection of crime<br>2. Maintenance of public order<br>3. Adjudication of criminal cases and awarding punishment<br>Which of the statements given above is/are correct?",
+opts: [
+"1, 2 and 3",
+"1 and 2 only",
+"2 and 3 only",
+"1 only"
+],
+ans: 1,
+exp: "The police are responsible for the prevention and detection of crime and maintenance of public order. Adjudication and awarding of punishment fall within the domain of the judiciary, not the police, making statement 3 incorrect."
+},
+{
+q: "With reference to the 74th Constitutional Amendment Act, 1992, consider the following statements:<br>1. It provides constitutional status to Urban Local Bodies through Part IXA of the Constitution.<br>2. It mandates the constitution of a Metropolitan Planning Committee in every metropolitan area.<br>3. It reserves seats for women in Municipalities.<br>Which of the statements given above is/are correct?",
+opts: [
+"1 and 3 only",
+"2 and 3 only",
+"1, 2 and 3",
+"1 only"
+],
+ans: 2,
+exp: "The 74th Amendment inserted Part IXA dealing with Municipalities, mandated Metropolitan Planning Committees for areas with a population of one million or more, and provided for reservation of seats for women. All three statements are correct."
+},
+{
+q: "The system of 'double government' established under Pitt's India Act, 1784 is most associated with which of the following challenges?",
+opts: [
+"Frequent conflict between the Governor-General and the Supreme Court",
+"Overlapping jurisdiction between the Board of Control and the Court of Directors",
+"Lack of any centralised authority over the Presidencies",
+"Absence of parliamentary oversight over Company affairs"
+],
+ans: 1,
+exp: "Pitt's India Act created a dual system where the Board of Control handled political affairs and the Court of Directors handled commercial affairs, leading to friction and overlapping jurisdiction between the two bodies, which remained a persistent administrative challenge."
+},
+{
+q: "With reference to Article 320 of the Constitution of India dealing with the functions of the Union Public Service Commission, consider the following statements:<br>1. It shall be consulted on all matters relating to methods of recruitment to civil services.<br>2. It shall be consulted on disciplinary matters affecting a person serving under the Government of India.<br>3. Its advice is binding on the government in all matters referred to it.<br>Which of the statements given above is/are correct?",
+opts: [
+"1 and 2 only",
+"1, 2 and 3",
+"2 and 3 only",
+"1 only"
+],
+ans: 0,
+exp: "Article 320 requires the UPSC to be consulted on recruitment methods and disciplinary matters concerning civil servants. However, the advice tendered by the UPSC is only recommendatory in nature and not binding on the government, making statement 3 incorrect."
+},
+{
+q: "The Mahalwari system of land revenue in colonial India was first introduced in which of the following regions, and under whose initiative?",
+opts: [
+"Bengal Presidency, under Lord Cornwallis",
+"North-Western Provinces, under Holt Mackenzie",
+"Madras Presidency, under Thomas Munro",
+"Bombay Presidency, under Mountstuart Elphinstone"
+],
+ans: 1,
+exp: "The Mahalwari system was introduced by Holt Mackenzie primarily in the North-Western Provinces (parts of present-day Uttar Pradesh) and Punjab, wherein revenue settlement was made with the village community (mahal) rather than individual cultivators or zamindars."
+},
+{
+q: "With reference to the Indian Councils Act of 1892, consider the following statements:<br>1. It increased the number of additional (non-official) members in the Central and Provincial Legislative Councils.<br>2. It introduced the principle of election, though in an indirect form, for the first time.<br>3. It gave legislative councils the power to discuss the budget and ask questions to the executive.<br>Which of the statements given above is/are correct?",
+opts: [
+"1 and 2 only",
+"2 and 3 only",
+"1, 2 and 3",
+"1 only"
+],
+ans: 2,
+exp: "The Indian Councils Act of 1892 increased the number of additional members, introduced indirect elections for the first time, and empowered legislative councils to discuss the budget and pose questions to the executive, though supplementary questions were not allowed. All three statements are correct."
+},
+{
+q: "Under the Regulating Act of 1773, which of the following functions were assigned to the Governor-General-in-Council of Bengal?<br>1. Superintendence over war, peace and diplomatic relations of the Bombay and Madras Presidencies<br>2. Sole authority to appoint judges of the Supreme Court at Calcutta<br>3. Submission of regular reports on revenue, civil and military affairs to the Company's Court of Directors in England<br>Which of the statements given above is/are correct?",
+opts: [
+"1 and 3 only",
+"1, 2 and 3",
+"2 and 3 only",
+"1 only"
+],
+ans: 0,
+exp: "The Governor-General-in-Council was empowered to superintend the war and diplomatic functions of Bombay and Madras and was required to send regular reports to the Court of Directors. The judges of the Supreme Court were appointed by the Crown, not the Governor-General-in-Council, making statement 2 incorrect."
+},
+{
+q: "Which of the following was/were features of the Government of India Act, 1919?<br>1. Introduction of a bicameral legislature at the Centre for the first time<br>2. Establishment of dyarchy in the provinces<br>3. Extension of the principle of communal representation to Sikhs and other communities<br>Which of the statements given above is/are correct?",
+opts: [
+"1, 2 and 3",
+"1 and 2 only",
+"2 and 3 only",
+"1 only"
+],
+ans: 0,
+exp: "The Government of India Act, 1919 introduced a bicameral central legislature (Council of State and Legislative Assembly), established dyarchy in the provinces, and extended separate communal representation beyond Muslims to Sikhs and other communities. All three statements are correct."
+},
+{
+q: "With reference to the National Judicial Appointments Commission (NJAC), consider the following statements:<br>1. It was proposed to comprise the Chief Justice of India, two senior-most judges of the Supreme Court, the Union Law Minister, and two eminent persons.<br>2. It was established through the 99th Constitutional Amendment Act.<br>3. It replaced the Collegium system permanently as it was never challenged in court.<br>Which of the statements given above is/are correct?",
+opts: [
+"1 and 2 only",
+"1, 2 and 3",
+"2 and 3 only",
+"1 only"
+],
+ans: 0,
+exp: "The NJAC, established through the 99th Constitutional Amendment Act, was proposed to consist of the CJI, two senior Supreme Court judges, the Law Minister, and two eminent persons. It was struck down by the Supreme Court in 2015 in the Fourth Judges Case, restoring the Collegium system, making statement 3 incorrect."
+},
+{
+q: "The Balwant Rai Mehta Committee (1957), which laid the foundation for the Panchayati Raj system in India, recommended which of the following?<br>1. A three-tier structure of local self-government from village to district level<br>2. Direct election of members only at the village level, with indirect election at higher tiers<br>3. Transfer of all state subjects to Panchayats without exception<br>Which of the statements given above is/are correct?",
+opts: [
+"1 and 2 only",
+"1, 2 and 3",
+"2 and 3 only",
+"1 only"
+],
+ans: 0,
+exp: "The Balwant Rai Mehta Committee recommended a three-tier Panchayati Raj system with direct elections at the village level and indirect elections at the intermediate and district levels through a system of indirect election. It did not recommend transferring all state subjects, making statement 3 incorrect."
+},
+{
+q: "The Charter Act of 1833 is significant in the constitutional history of India primarily because it:",
+opts: [
+"Ended the East India Company's trade monopoly with China",
+"Centralised legislative power in the Governor-General-in-Council of India for the first time",
+"Introduced separate electorates for religious minorities",
+"Established the office of Secretary of State for India"
+],
+ans: 1,
+exp: "The Charter Act of 1833 centralised all legislative powers in the Governor-General-in-Council of India, taking away the law-making powers of Bombay and Madras Presidencies. The Secretary of State's office was created later in 1858, and separate electorates came in 1909."
+},
+{
+q: "With reference to recommendations on police reforms in India, consider the following statements:<br>1. The Second Administrative Reforms Commission recommended separation of investigation from law and order functions.<br>2. The Padmanabhaiah Committee on Police Reforms was constituted in the early 2000s.<br>3. The Supreme Court's directives in Prakash Singh case recommended fixed tenure for the Director General of Police.<br>Which of the statements given above is/are correct?",
+opts: [
+"1 and 2 only",
+"2 and 3 only",
+"1 and 3 only",
+"1, 2 and 3"
+],
+ans: 3,
+exp: "The Second ARC recommended separating investigation from law and order duties; the Padmanabhaiah Committee (2000) examined police reforms; and the Supreme Court in Prakash Singh vs Union of India directed a minimum tenure for the DGP and other key police officials to insulate them from political interference. All three statements are correct."
+},
+{
+q: "With reference to constitutional provisions relating to the Union Public Service Commission, consider the following statements:<br>1. Members of the UPSC are appointed by the President of India.<br>2. A member of the UPSC can be removed only by an order of the President based on a Supreme Court inquiry.<br>3. The Chairman and members of the UPSC are eligible for reappointment to the same office.<br>Which of the statements given above is/are correct?",
+opts: [
+"1 and 2 only",
+"1, 2 and 3",
+"2 and 3 only",
+"1 only"
+],
+ans: 0,
+exp: "UPSC members are appointed by the President and can be removed only on grounds of misbehaviour after a Supreme Court inquiry under Article 317. However, as per Article 316, a person who has held office as Chairman or member of the UPSC is not eligible for reappointment to that office, making statement 3 incorrect."
+},
+{
+q: "With reference to the Board of Control established under Pitt's India Act of 1784, consider the following statements:<br>1. It consisted of six members, including two Cabinet Ministers.<br>2. Its President came to be regarded as a de facto Minister for Indian Affairs.<br>3. It was abolished by the Charter Act of 1813.<br>Which of the statements given above is/are correct?",
+opts: [
+"1 and 2 only",
+"1, 2 and 3",
+"2 and 3 only",
+"1 only"
+],
+ans: 0,
+exp: "The Board of Control consisted of six members including two Cabinet Ministers, and its President gradually came to function as a de facto Minister for Indian Affairs. It continued to exist until 1858, when it was replaced by the Secretary of State for India, not abolished by the Charter Act of 1813, making statement 3 incorrect."
+},
+{
+q: "Which of the following were common challenges associated with colonial land revenue systems in India?<br>1. Frequent famines due to excessive revenue demands even during crop failure<br>2. Growth of absentee landlordism under the Permanent Settlement<br>3. Complete absence of any intermediary between the state and the cultivator in all systems<br>Which of the statements given above is/are correct?",
+opts: [
+"1 and 2 only",
+"1, 2 and 3",
+"2 and 3 only",
+"1 only"
+],
+ans: 0,
+exp: "High and inflexible revenue demands often triggered famines, and the Permanent Settlement encouraged absentee landlordism as zamindars often did not reside on or manage their estates directly. Intermediaries did exist in systems like the Permanent Settlement, making statement 3 incorrect."
+},
+{
+q: "With reference to the Legislative Council established under the Indian Councils Act, 1861, consider the following statements:<br>1. It could not discuss any measure without the previous sanction of the Governor-General.<br>2. Non-official members nominated to the Council included Indians for the first time.<br>3. It had the power to make laws without the assent of the Governor-General.<br>Which of the statements given above is/are correct?",
+opts: [
+"1 and 2 only",
+"1, 2 and 3",
+"2 and 3 only",
+"1 only"
+],
+ans: 0,
+exp: "Under the Indian Councils Act, 1861, the Legislative Council needed prior sanction of the Governor-General for certain matters and, for the first time, included nominated Indian non-official members. However, the Governor-General retained veto power over all legislation, so statement 3 is incorrect."
+},
+{
+q: "The Regulating Act of 1773 is often described as the 'first attempt' by the British Parliament to regulate the affairs of the East India Company in India, primarily because it:",
+opts: [
+"Transferred all administrative powers to the British Crown",
+"Subjected the working of the Company to parliamentary control for the first time",
+"Abolished the system of dual government in Bengal",
+"Established universal adult franchise for legislative councils"
+],
+ans: 1,
+exp: "The Regulating Act, 1773 marked the first formal intervention of the British Parliament in the affairs of the East India Company, subjecting its administration to parliamentary oversight, though the Company continued to govern India until 1858 when the Crown took over directly."
+},
+{
+q: "With reference to the Government of India Act, 1935, which of the following subjects/lists were introduced for the first time?<br>1. Federal List<br>2. Provincial List<br>3. Concurrent List<br>Which of the statements given above is/are correct?",
+opts: [
+"1 and 2 only",
+"1, 2 and 3",
+"2 and 3 only",
+"1 only"
+],
+ans: 1,
+exp: "The Government of India Act, 1935 divided legislative powers between the Centre and provinces through three lists — Federal, Provincial and Concurrent — a scheme later adopted, with modifications, by the Indian Constitution as the Union, State and Concurrent Lists."
+},
+{
+q: "The Eleventh Schedule of the Indian Constitution, inserted by the 73rd Amendment Act, deals with which of the following?",
+opts: [
+"Subjects that may be transferred to Municipalities",
+"Subjects that may be transferred to Panchayats",
+"Languages recognised by the Constitution",
+"Anti-defection provisions for legislators"
+],
+ans: 1,
+exp: "The Eleventh Schedule, added by the 73rd Amendment Act, lists 29 subjects that may be transferred to Panchayats for effective implementation of local self-governance. The Twelfth Schedule, added by the 74th Amendment, deals with subjects for Municipalities."
+},
+{
+q: "With reference to the appointment of judges to the higher judiciary in India, consider the following statements:<br>1. The Collegium system evolved through judicial pronouncements rather than through a specific constitutional provision.<br>2. The Second Judges Case (1993) established the primacy of the Chief Justice of India's opinion in judicial appointments.<br>3. The Collegium system was codified through the 99th Constitutional Amendment Act.<br>Which of the statements given above is/are correct?",
+opts: [
+"1 and 2 only",
+"1, 2 and 3",
+"2 and 3 only",
+"1 only"
+],
+ans: 0,
+exp: "The Collegium system emerged through the Supreme Court's judgments in the Second and Third Judges Cases rather than being explicitly provided for in the Constitution. The 99th Amendment sought to replace, not codify, the Collegium with the NJAC, but was struck down, making statement 3 incorrect."
+},
+{
+q: "Which of the following is/are recognized as a challenge associated with the Civil Services system in India?",
+opts: [
+"Excessive judicial interference in recruitment matters",
+"Lack of any constitutional body to conduct civil services examinations",
+"Rigid generalist orientation with limited domain specialization",
+"Complete absence of probationary training for recruited officers"
+],
+ans: 2,
+exp: "A commonly cited challenge in India's civil services is the rigid generalist orientation of officers, which can limit domain expertise needed for specialized policy roles. The UPSC, a constitutional body, conducts recruitment, and probationary training is a well-established part of civil service induction."
+},
+{
+q: "Post-independence land reform measures in India included which of the following?<br>1. Abolition of the Zamindari system<br>2. Imposition of ceilings on agricultural landholdings<br>3. Universal implementation of land consolidation across all states without exception<br>Which of the statements given above is/are correct?",
+opts: [
+"1 and 2 only",
+"1, 2 and 3",
+"2 and 3 only",
+"1 only"
+],
+ans: 0,
+exp: "Post-independence land reforms included abolition of intermediaries like Zamindars and the imposition of land ceilings to reduce concentration of landholding. However, land consolidation was implemented unevenly across states and was not universally achieved, making statement 3 incorrect."
+},
+{
+q: "With reference to the organisational structure of police in Indian states, consider the following statements:<br>1. The Director General of Police (DGP) is the head of the state police force.<br>2. Police is listed under the State List in the Seventh Schedule of the Constitution.<br>3. The Inspector General of Police (IGP) is a rank senior to the DGP in the state police hierarchy.<br>Which of the statements given above is/are correct?",
+opts: [
+"1 and 2 only",
+"1, 2 and 3",
+"2 and 3 only",
+"1 only"
+],
+ans: 0,
+exp: "The DGP heads the state police force, and 'Police' is a State List subject under the Seventh Schedule, allowing states to organise their police forces. The IGP rank is subordinate to the DGP in the hierarchy, not senior to it, making statement 3 incorrect."
+}
+];
+
+const CORRECT_MARKS = 2;
+const NEGATIVE_MARKS = 2 / 3;
+
+let current = 0;
+const responses = new Array(QUESTIONS.length).fill(null);
+let submitted = false;
+
+const qNumEl = document.getElementById('qNum');
+const qTotalEl = document.getElementById('qTotal');
+const qTotalNoteEl = document.getElementById('qTotalNote');
+const qTextEl = document.getElementById('qText');
+const optionsListEl = document.getElementById('optionsList');
+const qStatusTag = document.getElementById('qStatusTag');
+const explainBox = document.getElementById('explainBox');
+const explainText = document.getElementById('explainText');
+const paletteGrid = document.getElementById('paletteGrid');
+const answeredCountEl = document.getElementById('answeredCount');
+const skippedCountEl = document.getElementById('skippedCount');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const clearBtn = document.getElementById('clearBtn');
+const submitBtn = document.getElementById('submitBtn');
+const paperView = document.getElementById('paperView');
+const resultView = document.getElementById('resultView');
+const reviewBtn = document.getElementById('reviewBtn');
+const scoreText = document.getElementById('scoreText');
+const scorePercent = document.getElementById('scorePercent');
+
+qTotalEl.textContent = QUESTIONS.length;
+qTotalNoteEl.textContent = QUESTIONS.length;
+skippedCountEl.textContent = QUESTIONS.length;
+
+function buildPalette(){
+  paletteGrid.innerHTML = '';
+  QUESTIONS.forEach((_, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.textContent = i + 1;
+    cell.addEventListener('click', () => { current = i; render(); });
+    paletteGrid.appendChild(cell);
+  });
+}
+
+function render(){
+  const item = QUESTIONS[current];
+  qNumEl.textContent = current + 1;
+  qTextEl.innerHTML = item.q;
+
+  optionsListEl.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  const userChoice = responses[current];
+  item.opts.forEach((opt, idx) => {
+    const div = document.createElement('div');
+    let cls = 'option';
+    if (submitted){
+      cls += ' locked';
+      if (idx === item.ans) cls += ' correct';
+      else if (idx === userChoice) cls += ' incorrect';
+    } else if (userChoice === idx){
+      cls += ' selected';
+    }
+    div.className = cls;
+    div.innerHTML = `<span class="tag">${letters[idx]}</span><span class="opt-text"></span>`;
+    div.querySelector('.opt-text').textContent = opt;
+    div.addEventListener('click', () => {
+      if (submitted) return;
+      responses[current] = idx;
+      render();
+    });
+    optionsListEl.appendChild(div);
+  });
+
+  if (submitted){
+    if (userChoice === null){
+      qStatusTag.textContent = '⚠ Not Answered · Correct answer shown';
+      qStatusTag.className = 'q-status-tag review-unanswered';
+    } else if (userChoice === item.ans){
+      qStatusTag.textContent = '✓ Correct';
+      qStatusTag.className = 'q-status-tag correct';
+    } else {
+      qStatusTag.textContent = '✗ Incorrect';
+      qStatusTag.className = 'q-status-tag incorrect';
+    }
+    explainBox.classList.remove('hidden');
+    explainText.innerHTML = '<b>Correct Answer:</b> ' + letters[item.ans] + '. ' + item.opts[item.ans] + '<br><br>' + item.exp;
+  } else {
+    const answered = userChoice !== null;
+    qStatusTag.textContent = answered ? 'Answered' : 'Not Answered';
+    qStatusTag.className = 'q-status-tag ' + (answered ? 'answered' : 'unanswered');
+    explainBox.classList.add('hidden');
+  }
+
+  prevBtn.disabled = current === 0;
+  if (submitted){
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Back to Result' : 'Next →';
+    clearBtn.style.visibility = 'hidden';
+  } else {
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Finish' : 'Next →';
+    clearBtn.style.visibility = 'visible';
+  }
+
+  // palette
+  const cells = paletteGrid.children;
+  for (let i = 0; i < cells.length; i++){
+    cells[i].classList.toggle('current', i === current);
+    if (submitted){
+      const isIncorrect = responses[i] !== null && responses[i] !== QUESTIONS[i].ans;
+      const isCorrect = responses[i] === QUESTIONS[i].ans;
+      cells[i].classList.toggle('incorrect', isIncorrect);
+      cells[i].classList.toggle('answered', isCorrect);
+    } else {
+      cells[i].classList.toggle('answered', responses[i] !== null);
+      cells[i].classList.remove('incorrect');
+    }
+  }
+
+  const answeredTotal = responses.filter(r => r !== null).length;
+  if (submitted){
+    let correct = 0, incorrect = 0;
+    QUESTIONS.forEach((q, i) => {
+      if (responses[i] === null) return;
+      if (responses[i] === q.ans) correct++; else incorrect++;
+    });
+    const unattempted = QUESTIONS.length - answeredTotal;
+    const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+    document.getElementById('tallyRow').innerHTML = `
+      <div class="marks-line"><b>${marks.toFixed(2)}</b><span>Marks Scored</span></div>
+      <div class="tally-grid">
+        <div><b class="stat-correct">${correct}</b>Correct</div>
+        <div><b class="stat-incorrect">${incorrect}</b>Incorrect</div>
+        <div><b class="stat-unattempted">${unattempted}</b>Unattempted</div>
+      </div>
+    `;
+  } else {
+    answeredCountEl.textContent = answeredTotal;
+    skippedCountEl.textContent = QUESTIONS.length - answeredTotal;
+  }
+}
+
+prevBtn.addEventListener('click', () => { if (current > 0){ current--; render(); }});
+nextBtn.addEventListener('click', () => {
+  if (current < QUESTIONS.length - 1){ current++; render(); }
+  else if (submitted){
+    paperView.classList.add('hidden');
+    resultView.classList.remove('hidden');
+  } else {
+    doSubmit();
+  }
+});
+clearBtn.addEventListener('click', () => { responses[current] = null; render(); });
+
+submitBtn.addEventListener('click', doSubmit);
+
+function doSubmit(){
+  submitted = true;
+  clearInterval(countdown);
+  let correct = 0, incorrect = 0;
+  QUESTIONS.forEach((q, i) => {
+    if (responses[i] === null) return;
+    if (responses[i] === q.ans) correct++; else incorrect++;
+  });
+  const unattempted = QUESTIONS.length - (correct + incorrect);
+  const maxMarks = QUESTIONS.length * CORRECT_MARKS;
+  const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+  const percentage = (marks / maxMarks) * 100;
+
+  scoreText.textContent = marks.toFixed(2) + ' / ' + maxMarks.toFixed(2);
+  scorePercent.textContent = percentage.toFixed(2) + '%';
+  document.getElementById('scoreBreakdown').innerHTML = `
+    <div class="stat correct"><b>${correct}</b><span>Correct</span></div>
+    <div class="stat incorrect"><b>${incorrect}</b><span>Incorrect</span></div>
+    <div class="stat unattempted"><b>${unattempted}</b><span>Unattempted</span></div>
+  `;
+  const userName = document.getElementById('userName').value.trim() || "Anonymous"; 
+  fetch(SHEET_ENDPOINT, {
+    method: "POST",
+    mode: "no-cors",
+    body: JSON.stringify({
+      name: userName,
+      marks: marks.toFixed(2),
+      correct: correct,
+      incorrect: incorrect,
+      unattempted: unattempted,
+      testCode: "Modern History PreLog-2027-01"
+    })
+  }); 
+  submitBtn.style.display = 'none';
+  paperView.classList.add('hidden');
+  resultView.classList.remove('hidden');
+  render();
+}
+
+reviewBtn.addEventListener('click', () => {
+  resultView.classList.add('hidden');
+  paperView.classList.remove('hidden');
+  current = 0;
+  render();
+});
+
+// theme toggle
+const themeSwitch = document.getElementById('themeSwitch');
+themeSwitch.addEventListener('click', () => {
+  const body = document.body;
+  const isDark = body.getAttribute('data-theme') === 'dark';
+  body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+});
+
+// countdown timer
+let seconds = 60 * 60;
+const timerEl = document.getElementById('timer');
+const countdown = setInterval(() => {
+  if (seconds <= 0 || submitted) return;
+  seconds--;
+  const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+  const s = String(seconds % 60).padStart(2, '0');
+  timerEl.textContent = `${m}:${s}`;
+  timerEl.classList.toggle('urgent', seconds <= 60);
+  if (seconds === 0){
+    timerEl.textContent = 'Time Up!';
+    doSubmit();
+  }
+}, 1000);
+
+buildPalette();
+render();
+
+window.addEventListener('beforeunload', function(e){
+  const hasProgress = !submitted && responses.some(r => r !== null);
+  if (hasProgress){
+    e.preventDefault();
+    e.returnValue = 'Your answers have not been submitted. If you leave or refresh this page, all marked answers will be lost.';
+    return e.returnValue;
+  }
+});
+
+</script>
+
+</body>
+</html>
