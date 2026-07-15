@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC LoG — Prelims Booster</title>
+<style>
+  :root{
+    --bg: #F3F4F1;
+    --paper: #FFFFFF;
+    --ink: #1D2A35;
+    --ink-soft: #5B6873;
+    --rule: #D8DCD6;
+    --navy: #1B3A5C;
+    --navy-deep: #12283F;
+    --gold: #B8862E;
+    --gold-soft: #EFDFB8;
+    --answered: #2F7D5A;
+    --answered-bg: #E4F3EC;
+    --skipped: #B8862E;
+    --skipped-bg: #FBF1DE;
+    --current-ring: #1B3A5C;
+    --wrong: #B23A2E;
+    --wrong-bg: #FBEAE7;
+    --shadow: 0 1px 2px rgba(20,30,40,0.06), 0 6px 20px rgba(20,30,40,0.05);
+    --serif: Georgia, 'Times New Roman', 'Iowan Old Style', serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --mono: 'Courier New', ui-monospace, monospace;
+  }
+  [data-theme="dark"]{
+    --bg: #0F1A24;
+    --paper: #17232E;
+    --ink: #E7ECEF;
+    --ink-soft: #97A5AF;
+    --rule: #2A3846;
+    --navy: #3E6E9E;
+    --navy-deep: #2A4E70;
+    --gold: #D9A441;
+    --gold-soft: #3A3220;
+    --answered: #4CAF7D;
+    --answered-bg: #163227;
+    --skipped: #D9A441;
+    --skipped-bg: #332A16;
+    --current-ring: #D9A441;
+    --wrong: #E07A6C;
+    --wrong-bg: #3A1E1A;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+    html, body{
+    overflow-x: hidden;
+    width: 100%;
+  }
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    min-height:100vh;
+    transition:background .3s ease, color .3s ease;
+  }
+
+  /* ---------- Header ---------- */
+  header.topbar{
+    background:linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color:#F4F1EA;
+    padding:0;
+    box-shadow:var(--shadow);
+    position:sticky; top:0; z-index:50;
+  }
+  .topbar-inner{
+    max-width:1280px; margin:0 auto;
+    display:flex; align-items:center; gap:20px;
+    padding:14px 28px;
+  }
+  .logo-slot{
+    width:52px; height:52px;
+    border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    overflow:hidden;
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .logo-slot img{
+    width:100%; height:100%;
+    object-fit:contain;
+  }
+  .logo-slot:hover{border-color:rgba(244,241,234,0.75); color:#F4F1EA;}
+  .title-block{flex:1; min-width:0;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gold-soft, #D9A441);
+    opacity:0.85;
+  }
+  .title-block h1{
+    font-family:var(--serif);
+    font-size:22px;
+    font-weight:400;
+    margin:2px 0 0 0;
+    letter-spacing:0.01em;
+  }
+  .subnote{
+    font-family:var(--mono);
+    font-size:11px;
+    color:rgba(244,241,234,0.65);
+    margin-top:6px;
+    letter-spacing:0.02em;
+  }
+  .subnote a{color:var(--gold-soft); text-decoration:none;}
+  .subnote a:hover{text-decoration:underline;}
+  .topbar-right{
+    display:flex; align-items:center; gap:18px; flex-shrink:0;
+  }
+  .timer{
+    font-family:var(--mono);
+    font-size:13px;
+    color:#F4F1EA;
+    border:1px solid rgba(244,241,234,0.3);
+    padding:6px 12px;
+    border-radius:6px;
+    background:rgba(0,0,0,0.12);
+    transition:background .2s ease;
+  }
+  .timer.urgent{background:var(--wrong); border-color:var(--wrong);}
+
+  /* dark mode switch */
+  .mode-switch{
+    display:flex; align-items:center; gap:8px;
+    font-size:12px; color:rgba(244,241,234,0.85);
+  }
+  .switch{
+    position:relative; width:44px; height:24px;
+    background:rgba(244,241,234,0.2);
+    border-radius:20px; cursor:pointer;
+    border:1px solid rgba(244,241,234,0.35);
+    flex-shrink:0;
+  }
+  .switch .knob{
+    position:absolute; top:2px; left:2px;
+    width:18px; height:18px; border-radius:50%;
+    background:#F4F1EA;
+    transition:transform .25s ease;
+    box-shadow:0 1px 3px rgba(0,0,0,0.3);
+  }
+  [data-theme="dark"] .switch .knob{
+    transform:translateX(20px);
+    background:var(--gold);
+  }
+
+  /* ---------- Layout ---------- */
+  .name-bar{
+  max-width:1280px; margin:20px auto 0;
+  padding:0 28px;
+  display:flex; align-items:center; gap:12px;
+}
+.name-bar label{
+  font-family:var(--mono); font-size:20px;
+  color:var(--ink-soft); white-space:nowrap;
+}
+.name-bar input{
+  flex:1; max-width:320px;
+  font-family:var(--sans); font-size:14px;
+  padding:9px 14px;
+  border:1px solid var(--rule); border-radius:7px;
+  background:var(--paper); color:var(--ink);
+}
+.name-bar input:focus{ outline:none; border-color:var(--navy); }
+[data-theme="dark"] .name-bar input:focus{ border-color:var(--gold); }
+
+@media (max-width: 430px){
+  .name-bar{ padding:0 12px; margin-top:14px; flex-wrap:wrap; }
+  .name-bar input{ max-width:100%; }
+}
+  .layout{
+    max-width:1280px; margin:0 auto;
+    display:grid;
+    grid-template-columns:1fr 320px;
+    gap:23px;
+    padding:32px 28px 60px;
+    align-items:start;
+  }
+
+  /* ---------- Question paper ---------- */
+  .paper{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:36px 44px 32px;
+    min-height:520px;
+    display:flex;
+    flex-direction:column;
+  }
+  .paper-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    border-bottom:1px solid var(--rule);
+    padding-bottom:14px; margin-bottom:28px;
+  }
+  .q-index{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--ink-soft);
+    letter-spacing:0.04em;
+  }
+  .q-index b{color:var(--navy); font-size:15px;}
+  [data-theme="dark"] .q-index b{color:var(--gold);}
+  .q-status-tag{
+    font-family:var(--mono);
+    font-size:13.5px;
+    font-weight:800;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    padding:7px 16px;
+    border-radius:20px;
+    border:2px solid transparent;
+  }
+  .q-status-tag.answered{background:var(--answered-bg); color:var(--answered); border-color:var(--answered);}
+  .q-status-tag.unanswered{background:var(--skipped-bg); color:var(--skipped); border-color:var(--skipped);}
+
+  .q-text{
+    font-family:var(--serif);
+    font-size:19px;
+    line-height:1.5;
+    color:var(--ink);
+    margin:0 0 32px 0;
+  }
+
+  .options{
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .option{
+    display:flex; align-items:flex-start; gap:14px;
+    padding:18px 18px;
+    border:1px solid var(--rule);
+    border-radius:8px;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+    background:transparent;
+  }
+  .option:hover{border-color:var(--navy); background:rgba(27,58,92,0.04);}
+  [data-theme="dark"] .option:hover{background:rgba(217,164,65,0.06); border-color:var(--gold);}
+  .option.selected{
+    border-color:var(--navy);
+    background:rgba(27,58,92,0.07);
+  }
+  [data-theme="dark"] .option.selected{
+    border-color:var(--gold);
+    background:rgba(217,164,65,0.1);
+  }
+  .option .tag{
+    font-family:var(--mono);
+    font-size:13px;
+    font-weight:bold;
+    width:24px; height:24px;
+    border-radius:50%;
+    border:1.5px solid var(--rule);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    color:var(--ink-soft);
+  }
+  .option.selected .tag{
+    border-color:var(--navy);
+    background:var(--navy);
+    color:#fff;
+  }
+  [data-theme="dark"] .option.selected .tag{
+    border-color:var(--gold);
+    background:var(--gold);
+    color:#17232E;
+  }
+  .option .opt-text{
+    font-size:15.5px; line-height:1.5; padding-top:1px;
+  }
+  .option.locked{cursor:default;}
+  .option.correct{
+    border-color:var(--answered);
+    background:var(--answered-bg);
+  }
+  .option.correct .tag{
+    border-color:var(--answered);
+    background:var(--answered);
+    color:#fff;
+  }
+  .option.incorrect{
+    border-color:var(--wrong);
+    background:var(--wrong-bg);
+  }
+  .option.incorrect .tag{
+    border-color:var(--wrong);
+    background:var(--wrong);
+    color:#fff;
+  }
+  .option.locked:hover{background:inherit; border-color:inherit;}
+  .q-status-tag.correct{background:var(--answered-bg); color:var(--answered); border-color:var(--answered); box-shadow:0 0 0 1px var(--answered) inset;}
+  .q-status-tag.incorrect{background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong); box-shadow:0 0 0 1px var(--wrong) inset;}
+  .q-status-tag.review-unanswered{
+    background:var(--wrong-bg);
+    color:var(--wrong);
+    border-color:var(--wrong);
+    box-shadow:0 0 0 1px var(--wrong) inset;
+  }
+
+  /* ---------- Explanation (review mode) ---------- */
+  .explain-box{
+    margin-top:26px;
+    background:var(--gold-soft);
+    border:1px solid var(--gold);
+    border-radius:8px;
+    padding:16px 20px;
+    font-size:14px;
+    line-height:1.65;
+    color:var(--ink);
+  }
+  [data-theme="dark"] .explain-box{background:rgba(217,164,65,0.08);}
+  .explain-box b{color:var(--navy);}
+  [data-theme="dark"] .explain-box b{color:var(--gold);}
+  .explain-box .exp-label{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-bottom:8px;
+  }
+
+  .paper-foot{
+    display:flex; justify-content:space-between;
+    margin-top:32px; padding-top:20px;
+    border-top:1px solid var(--rule);
+  }
+  button{
+    font-family:var(--sans);
+    font-size:14px;
+    font-weight:600;
+    padding:11px 22px;
+    border-radius:7px;
+    border:1px solid var(--rule);
+    background:var(--paper);
+    color:var(--ink);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  button:hover:not(:disabled){border-color:var(--navy); color:var(--navy);}
+  [data-theme="dark"] button:hover:not(:disabled){border-color:var(--gold); color:var(--gold);}
+  button:disabled{opacity:0.35; cursor:not-allowed;}
+  button.primary{
+    background:var(--navy); color:#F4F1EA; border-color:var(--navy);
+  }
+  button.primary:hover{filter:brightness(1.1); color:#F4F1EA;}
+  button.clear{background:transparent; border-color:transparent; color:var(--ink-soft); font-weight:500;}
+  .nav-group{display:flex; gap:10px;}
+
+  /* ---------- Sidebar palette ---------- */
+  .sidebar{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:24px;
+    position:sticky;
+    top:96px;
+  }
+  .sidebar h2{
+    font-family:var(--serif);
+    font-size:16px;
+    font-weight:400;
+    margin:0 0 4px 0;
+    color:var(--ink);
+  }
+  .sidebar .sub{
+    font-size:12px; color:var(--ink-soft); margin-bottom:18px;
+  }
+  .legend{
+    display:flex; flex-direction:column; gap:8px;
+    margin-bottom:20px;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  .legend span{display:flex; align-items:center; gap:8px;}
+  .dot{width:10px; height:10px; border-radius:3px; flex-shrink:0;}
+  .dot.answered{background:var(--answered);}
+  .dot.unanswered{background:var(--rule); border:1px solid var(--ink-soft);}
+  .dot.current{background:transparent; border:2px solid var(--current-ring);}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:8px;
+    margin-bottom:22px;
+  }
+  .cell{
+    aspect-ratio:1;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono);
+    font-size:13px;
+    border-radius:6px;
+    border:1px solid var(--rule);
+    background:transparent;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .cell:hover{border-color:var(--navy);}
+  [data-theme="dark"] .cell:hover{border-color:var(--gold);}
+  .cell.answered{
+    background:var(--answered-bg); color:var(--answered); border-color:var(--answered);
+    font-weight:bold;
+  }
+  .cell.incorrect{
+    background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong);
+    font-weight:bold;
+  }
+  .cell.current{
+    outline:2px solid var(--current-ring); outline-offset:2px;
+  }
+
+  .tally{
+    padding-top:16px; border-top:1px solid var(--rule);
+    color:var(--ink-soft);
+  }
+  .tally-plain{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-plain > div{flex:1; text-align:left;}
+  .tally b{color:var(--ink); font-size:16px; display:block; font-family:var(--sans);}
+  .tally b.stat-correct{color:var(--answered);}
+  .tally b.stat-incorrect{color:var(--wrong);}
+  .tally b.stat-unattempted{color:var(--skipped);}
+
+  .marks-line{
+    text-align:center;
+    background:var(--gold-soft);
+    border:1.5px solid var(--gold);
+    border-radius:8px;
+    padding:12px 10px;
+    margin-bottom:14px;
+  }
+  [data-theme="dark"] .marks-line{background:rgba(217,164,65,0.12);}
+  .marks-line b{
+    font-size:26px; color:var(--navy); font-family:var(--serif); font-weight:700;
+  }
+  [data-theme="dark"] .marks-line b{color:var(--gold);}
+  .marks-line span{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-top:2px;
+  }
+  .tally-grid{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-grid > div{flex:1; text-align:left;}
+
+  .score-breakdown{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+    max-width:420px;
+    margin:24px auto 0;
+  }
+  .score-breakdown .stat{
+    border:1.5px solid var(--rule);
+    border-radius:10px;
+    padding:14px 10px;
+  }
+  .score-breakdown .stat b{
+    display:block; font-size:24px; font-family:var(--sans); margin-bottom:4px;
+  }
+  .score-breakdown .stat span{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft);
+  }
+  .score-breakdown .stat.correct{border-color:var(--answered); background:var(--answered-bg);}
+  .score-breakdown .stat.correct b{color:var(--answered);}
+  .score-breakdown .stat.incorrect{border-color:var(--wrong); background:var(--wrong-bg);}
+  .score-breakdown .stat.incorrect b{color:var(--wrong);}
+  .score-breakdown .stat.unattempted{border-color:var(--skipped); background:var(--skipped-bg);}
+  .score-breakdown .stat.unattempted b{color:var(--skipped);}
+
+  #submitBtn{width:100%; margin-top:20px;}
+
+  /* ---------- Result overlay ---------- */
+  .result-card{
+    background:var(--paper); border:1px solid var(--rule); border-radius:10px;
+    box-shadow:var(--shadow); padding:44px; text-align:center;
+  }
+  .result-card .score{
+    font-family:var(--serif); font-size:52px; color:var(--navy); margin:8px 0;
+  }
+  [data-theme="dark"] .result-card .score{color:var(--gold);}
+  .result-card .percent{
+    font-family:var(--mono); font-size:13px; color:var(--ink-soft);
+    letter-spacing:0.04em; margin-top:-4px;
+  }
+  .hidden{display:none !important;}
+
+  /* ---------- Confirm submit modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background:rgba(15,20,25,0.55);
+    display:flex; align-items:center; justify-content:center;
+    z-index:200;
+    padding:20px;
+  }
+  .modal-box{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:12px;
+    box-shadow:var(--shadow);
+    padding:30px 30px 24px;
+    max-width:380px;
+    width:100%;
+    text-align:center;
+  }
+  .modal-box .modal-icon{
+    font-size:26px;
+    margin-bottom:6px;
+  }
+  .modal-box p{
+    font-family:var(--sans);
+    font-size:15px;
+    line-height:1.55;
+    color:var(--ink);
+    margin:10px 0 22px;
+  }
+  .modal-box p b{color:var(--navy);}
+  [data-theme="dark"] .modal-box p b{color:var(--gold);}
+  .modal-box .modal-warn{
+    font-family:var(--mono);
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--skipped);
+    background:var(--skipped-bg);
+    border:1px solid var(--skipped);
+    border-radius:6px;
+    padding:8px 10px;
+    margin:0 0 18px;
+    text-align:left;
+    line-height:1.5;
+  }
+  .modal-actions{
+    display:flex; gap:12px;
+  }
+  .modal-actions button{
+    flex:1;
+    padding:12px 10px;
+  }
+  #modalGoBack{color:var(--ink);}
+  #modalConfirm{background:var(--navy); color:#F4F1EA; border-color:var(--navy);}
+  #modalConfirm:hover{filter:brightness(1.1); color:#F4F1EA;}
+
+  :root{
+    --desktop-width: 1440;
+}
+
+@media (max-width: 1024px){
+  .layout{
+    grid-template-columns: 1fr;
+  }
+  .sidebar{
+    position: static;      /* was sticky at top:96px — no longer needed once stacked */
+    top: auto;
+  }
+}
+@media (max-width: 600px){
+  .topbar-inner{
+    flex-wrap: wrap;
+    padding: 14px 16px;
+    gap: 10px;
+  }
+  .topbar-right{
+    flex-shrink: 1;        /* was 0 before — this is what caused the overflow */
+    flex-basis: 100%;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+  .subnote{
+    white-space: normal;
+  }
+}
+@media (max-width: 430px){
+  .layout{
+    padding: 20px 12px 40px;
+  }
+  .paper{
+    padding: 24px 18px 22px;
+  }
+  .sidebar{
+    padding: 18px;
+  }
+  .paper-head{
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .q-status-tag{
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+@media (max-width: 600px){
+  .title-block h1{
+    font-size: 17px;
+  }
+  .eyebrow{
+    font-size: 9.5px;
+  }
+  .subnote{
+    font-size: 10px;
+  }
+  .timer{
+    font-size: 11px;
+    padding: 5px 9px;
+  }
+  .mode-switch{
+    font-size: 11px;
+  }
+}
+@media (max-width: 430px){
+  .result-card{
+    padding: 24px 18px;
+  }
+  .score-breakdown{
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    max-width: 100%;
+  }
+  .score-breakdown .stat{
+    padding: 10px 6px;
+  }
+  .score-breakdown .stat b{
+    font-size: 19px;
+  }
+  .result-card .score{
+    font-size: 38px;
+  }
+}
+
+</style>
+</head>
+<body data-theme="light">
+
+<header class="topbar">
+  <div class="topbar-inner">
+
+    <!-- <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">UPSC<br>LOGO</a> -->
+    <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">
+  <img src="../logo.png" alt="UPSC LoG" style="width:100%; height:100%; object-fit:contain; border-radius:6px;">
+</a>
+    <div class="title-block">
+      <div class="eyebrow">UPSC LoG · Prelims Booster 2027</div>
+      <h1>PreLoG-2027-02</h1>
+      <div class="subnote" style="font-size: 12px;">
+        <span id="qTotalNote">7</span> Questions · +2 Correct / −0.67 Incorrect ·
+        <a href="https://t.me/upsclog" target="_blank" rel="noopener"> Join UPSC-LoG Telegram ↗</a>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="timer" id="timer">30:00</div>
+      <div class="mode-switch">
+        <span>Light</span>
+        <div class="switch" id="themeSwitch" role="button" aria-label="Toggle dark mode">
+          <div class="knob"></div>
+        </div>
+        <span>Dark</span>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="name-bar">
+  <label for="userName">Add name for rank</label>
+  <input type="text" id="userName" placeholder="Enter your name" maxlength="40">
+</div>
+
+<div class="layout">
+
+  <div class="paper" id="paperView">
+    <div class="paper-head">
+      <div class="q-index">Question <b id="qNum">1</b> of <span id="qTotal">7</span></div>
+      <div class="q-status-tag unanswered" id="qStatusTag">Not Answered</div>
+    </div>
+
+    <p class="q-text" id="qText">Loading question…</p>
+
+    <div class="options" id="optionsList"></div>
+
+    <div class="explain-box hidden" id="explainBox">
+      <span class="exp-label">Explanation</span>
+      <div id="explainText"></div>
+    </div>
+
+    <div class="paper-foot">
+      <div class="nav-group">
+        <button id="prevBtn">← Previous</button>
+        <button class="clear" id="clearBtn">Clear response</button>
+      </div>
+      <button id="nextBtn" class="primary">Next →</button>
+    </div>
+  </div>
+
+  <div class="result-card hidden" id="resultView">
+    <div class="eyebrow" style="color:var(--ink-soft); letter-spacing:0.14em; font-family:var(--mono); font-size:11px; text-transform:uppercase;">Marks Sent for rank PDF</div>
+    <div class="score" id="scoreText">0.00 / 14.00</div>
+    <div class="percent" id="scorePercent">0.00%</div>
+    <div class="score-breakdown" id="scoreBreakdown"></div>
+    <p style="color:var(--ink-soft); font-size:14px; margin:20px 0 24px;">You can review your answers and explanations using the palette on the right.</p>
+    <h2>Check <a href="https://upsclog.github.io/upsclog/ranks_tests/daily_rankings.html" target="_blank">[RANKINGS]</a> - for Daily Rankings [PDF]</h2>
+    <button class="primary" id="reviewBtn">Review Answers</button>
+  </div>
+
+  <aside class="sidebar">
+    <h2>* Explanations attached for each question after you submit the test<br><br></h2>
+    <h2>* Auto-Submission in 30 minutes</h2>
+    <h2>* Dark <-> Bright modes for ease</h2>
+    <div class="sub"></div>
+
+    <div class="legend">
+      <span><span class="dot answered"></span> Answered / Correct</span>
+      <span><span class="dot" style="background:var(--wrong);"></span> Incorrect</span>
+      <span><span class="dot unanswered"></span> Not answered</span>
+      <span><span class="dot current"></span> Currently viewing</span>
+    </div>
+
+    <div class="grid" id="paletteGrid"></div>
+
+    <div class="tally" id="tallyRow">
+      <div class="tally-plain">
+        <div><b id="answeredCount">0</b>Answered</div>
+        <div><b id="skippedCount">7</b>Remaining</div>
+      </div>
+    </div>
+
+    <button class="primary" id="submitBtn">Submit Test</button>
+  </aside>
+
+</div>
+
+<div class="modal-overlay hidden" id="confirmModal">
+  <div class="modal-box">
+    <div class="modal-icon" id="modalIcon">📝</div>
+    <p id="modalMessage">Submit test?</p>
+    <div class="modal-actions">
+      <button id="modalGoBack">Go Back</button>
+      <button id="modalConfirm" class="primary">Yes, Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyamXySn2AagAN935BcpYuf6oTJNuIkLMuAby7CqWJ20rgdNgdWypVNTjMyWJBxW9OObw/exec";
+const QUESTIONS = [
+{
+    q: "With reference to important sites of the Indus Valley Civilization, consider the following pairs:<br>1. Lothal – Dockyard<br>2. Kalibangan – Evidence of a ploughed field<br>3. Dholavira – Multi-tiered water storage system<br>4. Banawali – Best-preserved network of covered underground drains<br>How many of the above pairs are correctly matched?",
+    opts: [
+        "Only one pair",
+        "Only two pairs",
+        "Only three pairs",
+        "All four pairs"
+    ],
+    ans: 2,
+    exp: "Lothal is renowned for its dockyard, Kalibangan for a ploughed field, and Dholavira for its sophisticated multi-tiered water conservation system. The best-preserved network of covered drains is associated with Mohenjo-daro, not Banawali, making pair 4 incorrect."
+},
+{
+    q: "With reference to the decline of the Indus Valley Civilization, consider the following statements:<br>1. A 2025 scientific study attributed the decline primarily to a single catastrophic earthquake in the Indus basin.<br>2. Recent research indicates that prolonged and recurring droughts, rather than an abrupt collapse, were a major contributory factor in the civilization's decline.<br>3. The Aryan invasion theory is now widely accepted by archaeologists as the primary cause of the civilization's decline.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "A 2025 study published in Communications Earth & Environment found that recurring, prolonged droughts, rather than a single catastrophic event, drove the gradual deurbanization of the Indus Valley Civilization. The Aryan invasion theory has largely been discarded by mainstream archaeology in favour of climatic and ecological explanations."
+},
+{
+    q: "Consider the following statements regarding trade and commerce in the Indus Valley Civilization:<br>1. The Harappans used a largely binary system of weights, with ratios such as 1:2:4:8:16.<br>2. Lapis lazuli used in Harappan trade was primarily sourced from Badakhshan in present-day Afghanistan.<br>3. Mesopotamian texts refer to trade contacts with a region believed to be the Indus Valley, called 'Meluhha'.<br>4. Gold and silver coins served as the primary medium of exchange in Harappan trade.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1, 2 and 3 only",
+        "1, 3 and 4 only",
+        "2, 3 and 4 only",
+        "1, 2, 3 and 4"
+    ],
+    ans: 0,
+    exp: "Harappan weights followed a largely binary system, and evidence confirms trade links with Badakhshan for lapis lazuli and with Mesopotamia, where the Indus region was likely referred to as 'Meluhha'. No evidence of coinage has been found; Harappan trade was largely conducted through barter."
+},
+{
+    q: "Consider the following statements regarding the economic organisation of the Indus Valley Civilization:<br>1. The uniform brick size (ratio 4:2:1) found across widely separated Harappan sites indicates a high degree of standardization and centralized planning.<br>2. Unlike contemporary Mesopotamia, no clear evidence of palaces or temples has been found at Harappan sites.<br>3. The Harappan economy was based exclusively on agriculture, with no evidence of craft specialization.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The standardized brick ratio across sites and the absence of grand palatial or temple structures point to a distinct, well-regulated urban economy. However, extensive evidence of craft specialization such as bead-making, seal-carving and metallurgy shows the economy was not confined to agriculture alone, making statement 3 incorrect."
+},
+{
+    q: "Consider the following statements regarding agriculture in the Indus Valley Civilization:<br>1. Wheat and barley were the staple food crops of the Harappans.<br>2. Rice cultivation has been attested at sites such as Lothal and Rangpur.<br>3. The Harappans were unaware of the use of the plough for agriculture.<br>4. Cotton was first cultivated by the Harappans, referred to by the Greeks as 'Sindon'.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1, 3 and 4 only",
+        "1, 2 and 4 only",
+        "2, 3 and 4 only",
+        "1, 2, 3 and 4"
+    ],
+    ans: 1,
+    exp: "Wheat and barley were the principal food crops, and rice husks have been found at Lothal and Rangpur. A terracotta ploughed field discovered at Kalibangan shows the Harappans did use the plough, making statement 3 incorrect. Harappans were also among the earliest cultivators of cotton, called 'Sindon' by the Greeks."
+},
+{
+    q: "Consider the following statements regarding town planning of the Indus Valley Civilization:<br>1. Fresh excavations and radiocarbon dating (2025–2026) at Mohenjo-daro have revealed Kot Dijian-style pottery beneath the city's earliest wall, indicating that the site was occupied well before the Mature Harappan phase and evolved gradually rather than emerging suddenly.<br>2. Harappan cities were typically divided into a raised 'Citadel' and a 'Lower Town', laid out on a grid pattern with streets intersecting at right angles.<br>3. At Mohenjo-daro, the Great Bath was located within the Lower Town, away from the Citadel.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "Recent 2025–26 excavations found earlier Kot Dijian occupation beneath Mohenjo-daro's perimeter wall, showing gradual urban evolution rather than a sudden rise. Harappan cities did follow a grid-patterned layout divided into a Citadel and a Lower Town. However, the Great Bath was located within the Citadel mound, not the Lower Town, making statement 3 incorrect."
+},
+{
+    q: "Consider the following statements regarding the structure of the Indus Valley economy:<br>1. The Harappan economy was primarily agrarian, supplemented by craft production and long-distance trade.<br>2. Evidence of large granaries at sites like Harappa and Mohenjo-daro suggests a system of surplus storage and possible centralized redistribution.<br>3. Copper and bronze were the primary metals used by the Harappans, while iron was also widely used for tools and weapons.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "The Harappan economy combined agricultural surplus with craft specialization and trade, and granaries indicate organized storage systems. However, the Indus Valley Civilization belonged to the Bronze Age; iron was unknown to the Harappans and came into use in the subcontinent only much later, making statement 3 incorrect."
+},
+{
+    q: "With reference to recent (2025–2026) developments concerning Harappan art and craft, consider the following statements:<br>1. In January 2025, the Tamil Nadu government announced a monetary prize for successfully deciphering the Indus script.<br>2. As of 2025, close to 5,000 inscribed objects bearing the Indus script have been documented since its first identification in 1924.<br>3. The Indus script has been officially deciphered and conclusively shown to belong to the Dravidian language family.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 only",
+        "1 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The Tamil Nadu government announced a prize in January 2025 to encourage decipherment of the Indus script, and cumulative discoveries have brought the total inscribed objects to nearly 5,000. However, the script remains undeciphered; the Dravidian origin is only one of several competing hypotheses, not a confirmed conclusion, making statement 3 incorrect."
+},
+{
+    q: "Consider the following statements regarding religious beliefs and practices in the Indus Valley Civilization:<br>1. The 'Pashupati Seal' found at Mohenjo-daro depicts a figure seated in a yogic posture surrounded by animals, interpreted by some scholars as a proto-Shiva figure.<br>2. Terracotta figurines found at various sites suggest worship of a Mother Goddess associated with fertility.<br>3. Fire altars, suggestive of ritual practices, have been found at sites such as Kalibangan and Lothal.<br>4. Large temple complexes dedicated to specific deities have been excavated at Harappa and Mohenjo-daro, indicating institutionalized organized religion.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1, 2 and 4 only",
+        "1, 3 and 4 only",
+        "1, 2 and 3 only"
+    ],
+    ans: 3,
+    exp: "The Pashupati Seal, Mother Goddess figurines, and fire altars at Kalibangan and Lothal all point to distinct religious practices among the Harappans. However, unlike contemporary Mesopotamia or Egypt, no clear temple structures dedicated to specific deities have been found at Harappan sites, making statement 4 incorrect."
+},
+{
+    q: "Consider the following statements regarding trade and commerce in the Indus Valley Civilization:<br>1. The Harappans established maritime trade routes connecting Lothal with regions of the Persian Gulf, evidenced by the discovery of a 'Persian Gulf' type seal at Lothal.<br>2. Standardized cubical weights, largely following a binary system, indicate a regulated system of trade and measurement across the civilization.<br>3. Copper ingots found at Lothal are believed to have been imported from a region called 'Magan', possibly located in present-day Oman.<br>4. Pearls and cotton textiles were among the principal goods imported by the Harappans from Mesopotamia, as these materials were unavailable within the Indus region.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3 only",
+        "1, 2, 3 and 4"
+    ],
+    ans: 2,
+    exp: "Lothal's seals, standardized cubical weights, and copper ingots from Magan (Oman) all point to an organized and extensive trade network. However, pearls, carnelian beads, and cotton textiles were goods exported by the Harappans to Mesopotamia, not imported, since cotton was cultivated within the Indus region itself, making statement 4 incorrect."
+},
+{
+    q: "Consider the following statements regarding religious authority in the Indus Valley Civilization:<br>1. Unlike contemporary Mesopotamia and Egypt, no evidence of a priest-king ruling through explicit religious authority has been conclusively established for the Indus Valley Civilization.<br>2. The absence of grand temple structures suggests that religious authority was not institutionalized through a centralized priestly class in the same manner as in contemporary civilizations.<br>3. The 'Priest-King' sculpture found at Mohenjo-daro carries an inscription that epigraphically confirms Harappan society was ruled by a religious monarch.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The absence of monumental temples or palace complexes suggests religious authority in Harappan society was not centralized the way it was in Mesopotamia or Egypt. However, the term 'Priest-King' for the Mohenjo-daro sculpture is merely a conventional name based on its dress and bearing; since the Indus script remains undeciphered, there is no epigraphic confirmation of any religious monarchy, making statement 3 incorrect."
+},
+{
+    q: "Consider the following statements regarding the decline of the Indus Valley Civilization:<br>1. During the decline phase, the size of settlements shrank, and cities were increasingly replaced by smaller, rural-based communities.<br>2. The quality of craftsmanship, including seal-making and standardized weights, declined markedly during the Late Harappan phase.<br>3. Long-distance trade with Mesopotamia continued to flourish unaffected even after 1900 BCE.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "Archaeological evidence shows shrinking settlement sizes, ruralization, and a marked decline in craft standardization during the Late Harappan phase. Long-distance trade with Mesopotamia, however, declined sharply and virtually disappeared after around 1900 BCE, making statement 3 incorrect."
+},
+{
+    q: "Consider the following statements regarding the Indus script and seals:<br>1. The Indus script is generally written from right to left, though evidence of boustrophedon (alternating direction) writing has also been found.<br>2. No bilingual inscription analogous to the Rosetta Stone has been discovered, which is one of the key reasons the Indus script remains undeciphered.<br>3. Seals were primarily used as formal legal instruments to record land ownership, comparable to property deeds of later Indian history.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The Indus script is predominantly written right to left, with some evidence of boustrophedon writing, and the lack of a bilingual inscription remains a major obstacle to its decipherment. Seals are believed to have functioned mainly as markers of ownership and authentication in trade and administration; there is no evidence they served as formal land-ownership deeds, making statement 3 incorrect."
+},
+{
+    q: "Consider the following statements regarding the features of Harappan town planning:<br>1. Harappan cities followed a grid pattern, with streets running north–south and east–west, intersecting roughly at right angles.<br>2. Standardized burnt bricks with a uniform ratio of 4:2:1 (length:breadth:height) were used across widely separated Harappan sites.<br>3. Dholavira is unique among major Harappan sites for its three-part division of the city and its sophisticated system of water reservoirs.<br>4. Every house excavated at Mohenjo-daro contained a private well, making individual wells a universal feature of Harappan domestic architecture.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2, 3 and 4 only",
+        "1 and 2 only",
+        "1, 2 and 3 only",
+        "1, 2, 3 and 4"
+    ],
+    ans: 2,
+    exp: "Grid-patterned streets, standardized brick ratios, and Dholavira's distinctive three-part division with advanced water reservoirs are all well-documented features of Harappan town planning. However, wells were a common but not universal feature; not every house at Mohenjo-daro had one, making statement 4 an overstatement."
+},
+{
+    q: "Consider the following statements regarding the changing structure and composition of Harappan culture during its decline:<br>1. The uniform, standardized material culture of the Mature Harappan phase gave way to regionally diverse 'Late Harappan' cultures, such as Cemetery H in Punjab and Jhukar in Sindh.<br>2. The decline was marked by a shift from a predominantly urban, craft-and-trade-based economy to a more rural, agriculture-based subsistence pattern.<br>3. The use of the Indus script continued to flourish and became more widespread during the Late Harappan phase.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 only",
+        "2 only",
+        "1, 2 and 3",
+        "1 and 2 only"
+    ],
+    ans: 3,
+    exp: "The Mature Harappan phase's standardized material culture fragmented into regionally distinct Late Harappan cultures like Cemetery H and Jhukar, accompanied by a shift toward ruralization and agrarian subsistence. Use of the Indus script, however, declined and largely disappeared during this phase rather than flourishing, making statement 3 incorrect."
+},
+{
+    q: "Consider the following statements regarding agriculture in the Indus Valley Civilization:<br>1. The Harappans practiced flood-plain agriculture, relying on the annual flooding of the Indus and its tributaries to deposit fertile silt.<br>2. Evidence of a ploughed field with furrows crossing at right angles has been found at Kalibangan.<br>3. There is no archaeological evidence to suggest that the Harappans practiced animal husbandry alongside agriculture.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The Harappans relied on the annual flooding of the Indus system for fertile soil, and the famous ploughed field at Kalibangan, with furrows at right angles, is well-documented evidence of early ploughing technique. However, faunal remains and terracotta figurines clearly indicate the Harappans reared cattle, sheep, and goats alongside farming, making statement 3 incorrect."
+},
+{
+    q: "With reference to the discovery and geographical extent of the Indus Valley Civilization, consider the following statements:<br>1. Manda in Jammu & Kashmir marks the northernmost known extent of Harappan sites.<br>2. Daimabad in Maharashtra represents the southernmost extent of the civilization discovered so far.<br>3. Alamgirpur in Uttar Pradesh marks the easternmost limit, while Sutkagendor in Balochistan marks the westernmost limit.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1, 2, 3 and 4",
+        "1, 2 and 3 only",
+        "2 and 3 only"
+    ],
+    ans: 2,
+    exp: "These four sites, Manda, Daimabad, Alamgirpur, and Sutkagendor, are the standard boundary markers cited for the extent of the Indus Valley Civilization, making the northernmost, southernmost, easternmost, and westernmost points respectively. This is a frequently tested factual cluster in UPSC Prelims."
+},
+{
+    q: "Consider the following statements regarding water management practices supporting Harappan agriculture:<br>1. Dholavira's elaborate system of reservoirs and stepwells represents a sophisticated ancient water conservation system, likely developed to support both domestic use and agriculture in a semi-arid region.<br>2. There is clear archaeological evidence of large-scale canal irrigation networks, comparable to those of Mesopotamia, at every major Harappan site.<br>3. Wells were widely used both for domestic water supply and possibly for irrigation at many Harappan sites.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "Dholavira's reservoirs and widespread use of wells demonstrate advanced water management adapted to a dry climate. However, unlike Mesopotamia, there is no clear evidence of extensive canal-based irrigation networks at every major Harappan site; irrigation methods for most sites remain a matter of inference rather than direct proof, making statement 2 incorrect."
+},
+{
+    q: "Consider the following statements regarding the regulation of trade in the Indus Valley Civilization:<br>1. The remarkable uniformity of weights and measures across distant Harappan sites suggests some form of common regulatory oversight of trade practices.<br>2. Seals bearing unique motifs are believed to have functioned as a form of authentication or quality-control device in commercial transactions.<br>3. Harappan trade was regulated through written legal codes, fragments of which resembling the Mesopotamian Code of Hammurabi have been found at Lothal.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1, 2 and 3",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only"
+    ],
+    ans: 3,
+    exp: "Standardized weights and distinctively carved seals point to some form of regulated trade and authentication mechanism. However, since the Indus script remains undeciphered, no legal codes or texts comparable to the Code of Hammurabi have been found at Lothal or any other site, making statement 3 incorrect."
+},
+{
+    q: "Consider the following statements regarding the background and evolution of Harappan art and craft:<br>1. Harappan art evolved from earlier Chalcolithic traditions seen at pre-Harappan sites such as Kot Diji and Amri, particularly visible in pottery styles.<br>2. The bronze 'Dancing Girl' figurine from Mohenjo-daro was created using the lost-wax casting technique, indicating advanced metallurgical knowledge.<br>3. Harappan art shows negligible continuity with, or influence on, later art forms of the Indian subcontinent.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "Harappan pottery and craft traditions show clear roots in earlier Kot Dijian and Amri cultures, and the bronze 'Dancing Girl' demonstrates the lost-wax casting technique. However, several scholars argue there is some continuity of motifs and techniques into later Indian art traditions, making the claim of 'negligible continuity' in statement 3 an overstatement."
+},
+{
+    q: "With reference to recent (2025–2026) excavations at Mohenjo-daro, consider the following statements:<br>1. The excavations re-examined a massive mudbrick perimeter wall first discovered by Sir Mortimer Wheeler in 1950, who had originally identified it as a flood-protection embankment.<br>2. The recent study concluded that the structure was, in fact, a multi-phase city wall constructed and expanded over several centuries.<br>3. The 2025–2026 excavation was carried out solely by Pakistani archaeologists without any international collaboration.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "1, 2 and 3",
+        "1 and 2 only",
+        "2 and 3 only"
+    ],
+    ans: 2,
+    exp: "Recent radiocarbon dating and stratigraphic review of the mudbrick structure that Wheeler had misidentified as a flood embankment confirmed it was actually a city wall built and expanded in multiple phases. The 2025–2026 excavation, however, was a joint mission involving Pakistani archaeologists alongside Dr. Jonathan Mark Kenoyer of the University of Wisconsin and an international team, making statement 3 incorrect."
+},
+{
+    q: "Consider the following statements regarding Harappan agricultural crops:<br>1. Wheat and barley were the principal food crops cultivated by the Harappans.<br>2. Archaeological evidence of rice cultivation has been found at the Harappan sites of Lothal and Rangpur.<br>3. Millets were entirely unknown to Harappan agriculture in the Gujarat region.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 2 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "Wheat and barley formed the staple diet, and rice husks discovered at Lothal and Rangpur attest to rice cultivation. Millets, however, were cultivated at several Harappan sites, including in Gujarat, making statement 3 incorrect."
+},
+{
+    q: "Consider the following statements regarding the Harappan economy:<br>1. No evidence of metallic coinage has been found at any Harappan site, suggesting that trade was conducted through barter.<br>2. Cubical weights used by the Harappans were generally made of chert and largely followed a binary system of ratios.<br>3. There is clear evidence of a centralized taxation system enforced by a bureaucratic administration, similar to that of the Mauryan period.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1, 2 and 3",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only"
+    ],
+    ans: 3,
+    exp: "The absence of coinage supports the barter-based trade theory, and chert cubical weights following a binary system are well-documented. However, unlike the later Mauryan period, there is no archaeological or textual evidence of a centralized bureaucratic taxation system in the Harappan economy, making statement 3 incorrect."
+},
+{
+    q: "Consider the following statements regarding the features of religion in the Indus Valley Civilization:<br>1. The worship of trees, such as the pipal, and animals like the bull, is suggested by depictions on several Harappan seals.<br>2. The presence of amulets and terracotta figurines suggests a belief in magic and superstition among the Harappan people.<br>3. Unlike other contemporary civilizations, religion in the Indus Valley appears to have been highly centralized, dominating all aspects of political and economic life.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "Seal depictions of trees and animals point to nature worship, while amulets and figurines suggest beliefs in magic. However, most scholars characterize the Harappan civilization as relatively secular, with religion present but not dominating political and economic life, unlike contemporary Egypt or Mesopotamia, making statement 3 incorrect."
+},
+{
+    q: "Consider the following statements regarding the conservation status of important Indus Valley sites:<br>1. Mohenjo-daro was inscribed as a UNESCO World Heritage Site in 1980.<br>2. Dholavira was inscribed as a UNESCO World Heritage Site in 2021, becoming the first Harappan site in India to receive this recognition.<br>3. Rakhigarhi, despite being one of the largest known Harappan sites, has not yet been declared a UNESCO World Heritage Site.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "Mohenjo-daro was inscribed as a UNESCO World Heritage Site in 1980, and Dholavira became India's first Harappan site to receive this status in 2021. Rakhigarhi, though one of the largest Harappan sites, has not yet been granted UNESCO World Heritage status, making all three statements correct."
+}
+];
+
+
+
+const CORRECT_MARKS = 2;
+const NEGATIVE_MARKS = 2 / 3;
+
+let current = 0;
+const responses = new Array(QUESTIONS.length).fill(null);
+let submitted = false;
+
+const qNumEl = document.getElementById('qNum');
+const qTotalEl = document.getElementById('qTotal');
+const qTotalNoteEl = document.getElementById('qTotalNote');
+const qTextEl = document.getElementById('qText');
+const optionsListEl = document.getElementById('optionsList');
+const qStatusTag = document.getElementById('qStatusTag');
+const explainBox = document.getElementById('explainBox');
+const explainText = document.getElementById('explainText');
+const paletteGrid = document.getElementById('paletteGrid');
+const answeredCountEl = document.getElementById('answeredCount');
+const skippedCountEl = document.getElementById('skippedCount');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const clearBtn = document.getElementById('clearBtn');
+const submitBtn = document.getElementById('submitBtn');
+const paperView = document.getElementById('paperView');
+const resultView = document.getElementById('resultView');
+const reviewBtn = document.getElementById('reviewBtn');
+const scoreText = document.getElementById('scoreText');
+const scorePercent = document.getElementById('scorePercent');
+
+const confirmModal = document.getElementById('confirmModal');
+const modalMessage = document.getElementById('modalMessage');
+const modalIcon = document.getElementById('modalIcon');
+const modalGoBack = document.getElementById('modalGoBack');
+const modalConfirm = document.getElementById('modalConfirm');
+
+qTotalEl.textContent = QUESTIONS.length;
+qTotalNoteEl.textContent = QUESTIONS.length;
+skippedCountEl.textContent = QUESTIONS.length;
+
+function buildPalette(){
+  paletteGrid.innerHTML = '';
+  QUESTIONS.forEach((_, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.textContent = i + 1;
+    cell.addEventListener('click', () => { current = i; render(); });
+    paletteGrid.appendChild(cell);
+  });
+}
+
+function render(){
+  const item = QUESTIONS[current];
+  qNumEl.textContent = current + 1;
+  qTextEl.innerHTML = item.q;
+
+  optionsListEl.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  const userChoice = responses[current];
+  item.opts.forEach((opt, idx) => {
+    const div = document.createElement('div');
+    let cls = 'option';
+    if (submitted){
+      cls += ' locked';
+      if (idx === item.ans) cls += ' correct';
+      else if (idx === userChoice) cls += ' incorrect';
+    } else if (userChoice === idx){
+      cls += ' selected';
+    }
+    div.className = cls;
+    div.innerHTML = `<span class="tag">${letters[idx]}</span><span class="opt-text"></span>`;
+    div.querySelector('.opt-text').textContent = opt;
+    div.addEventListener('click', () => {
+      if (submitted) return;
+      responses[current] = idx;
+      render();
+    });
+    optionsListEl.appendChild(div);
+  });
+
+  if (submitted){
+    if (userChoice === null){
+      qStatusTag.textContent = '⚠ Not Answered · Correct answer shown';
+      qStatusTag.className = 'q-status-tag review-unanswered';
+    } else if (userChoice === item.ans){
+      qStatusTag.textContent = '✓ Correct';
+      qStatusTag.className = 'q-status-tag correct';
+    } else {
+      qStatusTag.textContent = '✗ Incorrect';
+      qStatusTag.className = 'q-status-tag incorrect';
+    }
+    explainBox.classList.remove('hidden');
+    explainText.innerHTML = '<b>Correct Answer:</b> ' + letters[item.ans] + '. ' + item.opts[item.ans] + '<br><br>' + item.exp;
+  } else {
+    const answered = userChoice !== null;
+    qStatusTag.textContent = answered ? 'Answered' : 'Not Answered';
+    qStatusTag.className = 'q-status-tag ' + (answered ? 'answered' : 'unanswered');
+    explainBox.classList.add('hidden');
+  }
+
+  prevBtn.disabled = current === 0;
+  if (submitted){
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Back to Result' : 'Next →';
+    clearBtn.style.visibility = 'hidden';
+  } else {
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Finish' : 'Next →';
+    clearBtn.style.visibility = 'visible';
+  }
+
+  // palette
+  const cells = paletteGrid.children;
+  for (let i = 0; i < cells.length; i++){
+    cells[i].classList.toggle('current', i === current);
+    if (submitted){
+      const isIncorrect = responses[i] !== null && responses[i] !== QUESTIONS[i].ans;
+      const isCorrect = responses[i] === QUESTIONS[i].ans;
+      cells[i].classList.toggle('incorrect', isIncorrect);
+      cells[i].classList.toggle('answered', isCorrect);
+    } else {
+      cells[i].classList.toggle('answered', responses[i] !== null);
+      cells[i].classList.remove('incorrect');
+    }
+  }
+
+  const answeredTotal = responses.filter(r => r !== null).length;
+  if (submitted){
+    let correct = 0, incorrect = 0;
+    QUESTIONS.forEach((q, i) => {
+      if (responses[i] === null) return;
+      if (responses[i] === q.ans) correct++; else incorrect++;
+    });
+    const unattempted = QUESTIONS.length - answeredTotal;
+    const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+    document.getElementById('tallyRow').innerHTML = `
+      <div class="marks-line"><b>${marks.toFixed(2)}</b><span>Marks Scored</span></div>
+      <div class="tally-grid">
+        <div><b class="stat-correct">${correct}</b>Correct</div>
+        <div><b class="stat-incorrect">${incorrect}</b>Incorrect</div>
+        <div><b class="stat-unattempted">${unattempted}</b>Unattempted</div>
+      </div>
+    `;
+  } else {
+    answeredCountEl.textContent = answeredTotal;
+    skippedCountEl.textContent = QUESTIONS.length - answeredTotal;
+  }
+}
+
+prevBtn.addEventListener('click', () => { if (current > 0){ current--; render(); }});
+nextBtn.addEventListener('click', () => {
+  if (current < QUESTIONS.length - 1){ current++; render(); }
+  else if (submitted){
+    paperView.classList.add('hidden');
+    resultView.classList.remove('hidden');
+  } else {
+    openConfirmModal();
+  }
+});
+clearBtn.addEventListener('click', () => { responses[current] = null; render(); });
+
+submitBtn.addEventListener('click', openConfirmModal);
+
+/* ---------- Confirmation modal logic ---------- */
+function openConfirmModal(){
+  const nameVal = document.getElementById('userName').value.trim();
+  if (nameVal){
+    modalIcon.textContent = '📝';
+    modalMessage.innerHTML = `Submit test : <b>${escapeHtml(nameVal)}</b> ?`;
+  } else {
+    modalIcon.textContent = '⚠️';
+    modalMessage.innerHTML = `You have not set your name, your rank will be set as: <b>Anonymous</b>`;
+  }
+  confirmModal.classList.remove('hidden');
+}
+
+function closeConfirmModal(){
+  confirmModal.classList.add('hidden');
+}
+
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+modalGoBack.addEventListener('click', closeConfirmModal);
+modalConfirm.addEventListener('click', () => {
+  closeConfirmModal();
+  doSubmit();
+});
+confirmModal.addEventListener('click', (e) => {
+  if (e.target === confirmModal) closeConfirmModal();
+});
+
+function doSubmit(){
+  submitted = true;
+  clearInterval(countdown);
+  let correct = 0, incorrect = 0;
+  QUESTIONS.forEach((q, i) => {
+    if (responses[i] === null) return;
+    if (responses[i] === q.ans) correct++; else incorrect++;
+  });
+  const unattempted = QUESTIONS.length - (correct + incorrect);
+  const maxMarks = QUESTIONS.length * CORRECT_MARKS;
+  const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+  const percentage = (marks / maxMarks) * 100;
+
+  scoreText.textContent = marks.toFixed(2) + ' / ' + maxMarks.toFixed(2);
+  scorePercent.textContent = percentage.toFixed(2) + '%';
+  document.getElementById('scoreBreakdown').innerHTML = `
+    <div class="stat correct"><b>${correct}</b><span>Correct</span></div>
+    <div class="stat incorrect"><b>${incorrect}</b><span>Incorrect</span></div>
+    <div class="stat unattempted"><b>${unattempted}</b><span>Unattempted</span></div>
+  `;
+  const userName = document.getElementById('userName').value.trim() || "Anonymous"; 
+  fetch(SHEET_ENDPOINT, {
+    method: "POST",
+    mode: "no-cors",
+    body: JSON.stringify({
+      name: userName,
+      marks: marks.toFixed(2),
+      correct: correct,
+      incorrect: incorrect,
+      unattempted: unattempted,
+      testCode: "PreLoG-2027-02"
+    })
+  }); 
+  submitBtn.style.display = 'none';
+  paperView.classList.add('hidden');
+  resultView.classList.remove('hidden');
+  render();
+}
+
+reviewBtn.addEventListener('click', () => {
+  resultView.classList.add('hidden');
+  paperView.classList.remove('hidden');
+  current = 0;
+  render();
+});
+
+// theme toggle
+const themeSwitch = document.getElementById('themeSwitch');
+themeSwitch.addEventListener('click', () => {
+  const body = document.body;
+  const isDark = body.getAttribute('data-theme') === 'dark';
+  body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+});
+
+// countdown timer
+let seconds = 30 * 60;
+const timerEl = document.getElementById('timer');
+const countdown = setInterval(() => {
+  if (seconds <= 0 || submitted) return;
+  seconds--;
+  const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+  const s = String(seconds % 60).padStart(2, '0');
+  timerEl.textContent = `${m}:${s}`;
+  timerEl.classList.toggle('urgent', seconds <= 60);
+  if (seconds === 0){
+    timerEl.textContent = 'Time Up!';
+    doSubmit();
+  }
+}, 1000);
+
+buildPalette();
+render();
+
+window.addEventListener('beforeunload', function(e){
+  const hasProgress = !submitted && responses.some(r => r !== null);
+  if (hasProgress){
+    e.preventDefault();
+    e.returnValue = 'Your answers have not been submitted. If you leave or refresh this page, all marked answers will be lost.';
+    return e.returnValue;
+  }
+});
+
+</script>
+
+</body>
+</html>
