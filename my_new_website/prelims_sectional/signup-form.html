@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+<title>UPSC LoG — Payments Page</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; background: #EFE9DA;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #1F2A44; -webkit-text-size-adjust: 100%;
+  }
+  .page {
+    min-height: 100vh; display: flex; align-items: flex-start; justify-content: center;
+    padding: 24px 14px 48px;
+  }
+  .card {
+    width: 100%; max-width: 440px; background: #FAF6EF;
+    border-radius: 14px; border: 1px solid #E4DCC8;
+    box-shadow: 0 1px 3px rgba(31,42,68,0.06), 0 8px 24px rgba(31,42,68,0.06);
+    overflow: hidden;
+  }
+  .header {
+    background: #1F2A44; padding: 30px 24px 26px; text-align: center;
+    border-bottom: 3px solid #C9A227;
+  }
+  .brand-eyebrow {
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: #C9A227; margin: 0 0 8px;
+  }
+  .brand-title {
+    font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
+    color: #FAF6EF; margin: 0; line-height: 1.15;
+    font-size: clamp(28px, 8vw, 34px);
+  }
+  .brand-sub {
+    font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: #B9C0D1; margin: 6px 0 0;
+  }
+  .body { padding: 26px 22px 28px; }
+  .intro {
+    font-size: 14px; color: #6B6252; line-height: 1.55; margin: 0 0 24px;
+  }
+  .field { margin-bottom: 18px; }
+  label {
+    display: block; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase;
+    color: #8B7F68; margin-bottom: 6px; font-weight: 600;
+  }
+  .input-wrap { position: relative; }
+  input[type="text"], input[type="tel"], input[type="password"] {
+    width: 100%; padding: 13px 14px; font-size: 16px; font-family: inherit;
+    border: 1.5px solid #D8D0BE; border-radius: 8px; background: #FFFDF8; color: #1F2A44;
+    min-height: 48px;
+  }
+  input:focus {
+    outline: none; border-color: #B4432A; box-shadow: 0 0 0 3px rgba(180,67,42,0.12);
+  }
+  input.has-toggle { padding-right: 46px; }
+  .eye-btn {
+    position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+    width: 38px; height: 38px; border: none; background: transparent; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; color: #8B7F68; border-radius: 6px;
+  }
+  .eye-btn:hover { background: #EFE9DA; }
+  .hint { font-size: 12px; color: #8B7F68; margin-top: 6px; }
+  .err { font-size: 12.5px; color: #B4432A; margin-top: 6px; display: none; }
+
+  .upload-box {
+    border: 2px dashed #C9BFA6; border-radius: 10px; padding: 22px 16px;
+    text-align: center; cursor: pointer; background: #FFFDF8; transition: border-color 0.15s;
+    display: block;
+  }
+  .upload-box:hover, .upload-box.dragover { border-color: #B4432A; background: #FBF3EC; }
+  .upload-box input[type="file"] { display: none; }
+  .upload-icon { color: #B4432A; margin-bottom: 8px; }
+  .upload-text { font-size: 14px; color: #1F2A44; font-weight: 600; margin: 0 0 4px; }
+  .upload-subtext { font-size: 12.5px; color: #8B7F68; margin: 0; }
+  .preview-wrap {
+    display: none; align-items: center; gap: 12px; margin-top: 12px;
+    padding: 10px 12px; background: #FFFDF8; border: 1px solid #E4DCC8; border-radius: 8px;
+  }
+  .preview-wrap.show { display: flex; }
+  .preview-thumb { width: 48px; height: 48px; object-fit: cover; border-radius: 6px; border: 1px solid #E4DCC8; flex-shrink: 0; }
+  .preview-info { flex: 1; min-width: 0; }
+  .preview-name { font-size: 13px; font-weight: 600; color: #1F2A44; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .preview-remove { font-size: 12px; color: #B4432A; background: none; border: none; cursor: pointer; padding: 4px 0; text-decoration: underline; }
+
+  .btn-primary {
+    width: 100%; min-height: 52px; background: #B4432A; color: #FAF6EF;
+    border: none; border-radius: 9px; font-size: 16px; font-weight: 700;
+    font-family: inherit; cursor: pointer; margin-top: 6px; letter-spacing: 0.01em;
+  }
+  .btn-primary:active { background: #9A3620; }
+  .btn-primary:disabled { background: #D9BBAD; cursor: not-allowed; }
+
+  .state-panel { display: none; text-align: center; padding: 10px 4px 4px; }
+  .state-panel.show { display: block; }
+  .state-icon { width: 56px; height: 56px; margin: 0 auto 16px; }
+  .state-title {
+    font-family: Georgia, serif; font-size: 21px; font-weight: 400; margin: 0 0 10px; color: #1F2A44;
+  }
+  .state-body { font-size: 14.5px; color: #4F4A3E; line-height: 1.6; margin: 0 0 20px; }
+  .admin-btn {
+    display: inline-flex; align-items: center; gap: 8px; min-height: 48px;
+    padding: 0 22px; background: #1F2A44; color: #FAF6EF; text-decoration: none;
+    border-radius: 8px; font-size: 14.5px; font-weight: 600;
+  }
+  .retry-btn {
+    display: inline-block; min-height: 48px; line-height: 46px; padding: 0 22px;
+    background: transparent; border: 1.5px solid #1F2A44; color: #1F2A44;
+    border-radius: 8px; font-size: 14.5px; font-weight: 600; cursor: pointer; font-family: inherit;
+    margin-right: 10px;
+  }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+
+  .footer-note {
+    text-align: center; font-size: 12px; color: #A39D8B; padding: 16px 22px 24px;
+  }
+
+  @media (min-width: 480px) {
+    .body { padding: 32px 32px 34px; }
+    .header { padding: 36px 32px 30px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="card">
+    <div class="header">
+      <p class="brand-eyebrow">Verification required</p>
+      <h1 class="brand-title">UPSC LoG<br />Prelims Sectional<br>@99/year</h1>
+      <p class="brand-sub">Submit your details</p>
+    </div>
+
+    <div class="body">
+      <form id="signup-form">
+        <p class="intro">Fill in your details and upload your payment screenshot. Login details are sent to your phone once your submission is verified.</p>
+
+        <div class="field">
+          <label for="s-name">Full name</label>
+          <input id="s-name" type="text" placeholder="Jordan Lee" autocomplete="name" required />
+          <div class="err" id="err-name">Name is required.</div>
+        </div>
+
+        <div class="field">
+          <label for="s-phone">Phone number</label>
+          <div class="input-wrap">
+            <input id="s-phone" class="has-toggle" type="password" inputmode="numeric" maxlength="10" placeholder="10-digit number" autocomplete="off" required />
+            <button type="button" class="eye-btn" id="toggle-phone" aria-label="Show phone number">
+              <svg id="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <div class="hint">10 digits, no spaces or country code.</div>
+          <div class="err" id="err-phone">Enter a valid 10-digit phone number.</div>
+        </div>
+
+        <div class="field">
+          <label for="s-phone2">Confirm phone number</label>
+          <input id="s-phone2" type="tel" inputmode="numeric" maxlength="10" placeholder="Re-enter your number" autocomplete="off" required />
+          <div class="err" id="err-phone2">Phone numbers don't match.</div>
+        </div>
+
+        <div class="field">
+          <label>Payment screenshot</label>
+          <label class="upload-box" id="upload-box" for="s-file">
+            <div class="upload-icon">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </div>
+            <p class="upload-text">Tap to upload screenshot</p>
+            <p class="upload-subtext">PNG or JPG, payment confirmation</p>
+            <input id="s-file" type="file" accept="image/*" required />
+          </label>
+          <div class="preview-wrap" id="preview-wrap">
+            <img id="preview-thumb" class="preview-thumb" alt="" />
+            <div class="preview-info">
+              <p class="preview-name" id="preview-name"></p>
+              <button type="button" class="preview-remove" id="preview-remove">Remove</button>
+            </div>
+          </div>
+          <div class="err" id="err-file">Upload a screenshot of your payment.</div>
+        </div>
+
+        <button type="submit" class="btn-primary" id="submit-btn">Submit</button>
+      </form>
+
+      <div class="state-panel" id="state-success">
+        <div class="state-icon">
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#EAF3DE"/><path d="M8 12.5l2.5 2.5L16 9" stroke="#3B6D11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h2 class="state-title">Submission received</h2>
+        <p class="state-body">You will be verified shortly. If you don't hear back soon, or have any questions, reach out to admin directly.</p>
+        <div class="btn-row">
+          <a class="admin-btn" href="https://t.me/upsclogger" target="_blank" rel="noopener">Contact @upsclogger</a>
+        </div>
+      </div>
+
+      <div class="state-panel" id="state-error">
+        <div class="state-icon">
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#FCEBEB"/><line x1="9" y1="9" x2="15" y2="15" stroke="#A32D2D" stroke-width="2" stroke-linecap="round"/><line x1="15" y1="9" x2="9" y2="15" stroke="#A32D2D" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <h2 class="state-title">Upload didn't go through</h2>
+        <p class="state-body">Something interrupted your submission. Try again, or message admin directly if it keeps happening.</p>
+        <div class="btn-row">
+          <button class="retry-btn" id="retry-btn">Try again</button>
+          <a class="admin-btn" href="https://t.me/upsclogger" target="_blank" rel="noopener">Message @upsclogger</a>
+        </div>
+      </div>
+    </div>
+
+    <p class="footer-note">Your details are sent directly and privately for verification.</p>
+  </div>
+</div>
+
+<script>
+(function() {
+  var ENDPOINT_URL = 'https://script.google.com/macros/s/AKfycbzdRUvqyORCCVjG92VM2pZ9KcmjX8L2Ux-DT8ZyXZKdcqIqPHsgOsoqsREFhxs6EKwi/exec';
+
+  var form = document.getElementById('signup-form');
+  var submitBtn = document.getElementById('submit-btn');
+  var stateSuccess = document.getElementById('state-success');
+  var stateError = document.getElementById('state-error');
+  var fileInput = document.getElementById('s-file');
+  var uploadBox = document.getElementById('upload-box');
+  var previewWrap = document.getElementById('preview-wrap');
+  var previewThumb = document.getElementById('preview-thumb');
+  var previewName = document.getElementById('preview-name');
+  var previewRemove = document.getElementById('preview-remove');
+  var phoneInput = document.getElementById('s-phone');
+  var togglePhoneBtn = document.getElementById('toggle-phone');
+  var eyeIcon = document.getElementById('eye-icon');
+
+  var EYE_OPEN = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+  var EYE_CLOSED = '<path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a19.4 19.4 0 0 1 4.22-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a19.5 19.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+
+  togglePhoneBtn.addEventListener('click', function() {
+    var isPassword = phoneInput.type === 'password';
+    phoneInput.type = isPassword ? 'text' : 'password';
+    eyeIcon.innerHTML = isPassword ? EYE_CLOSED : EYE_OPEN;
+    togglePhoneBtn.setAttribute('aria-label', isPassword ? 'Hide phone number' : 'Show phone number');
+  });
+
+  phoneInput.addEventListener('input', function() {
+    phoneInput.value = phoneInput.value.replace(/[^0-9]/g, '').slice(0, 10);
+  });
+  document.getElementById('s-phone2').addEventListener('input', function() {
+    this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);
+  });
+
+  function setPreview(file) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      previewThumb.src = e.target.result;
+      previewName.textContent = file.name;
+      previewWrap.classList.add('show');
+      uploadBox.querySelector('.upload-text').textContent = 'Screenshot selected';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  fileInput.addEventListener('change', function() {
+    var f = fileInput.files[0];
+    if (f) setPreview(f);
+  });
+
+  previewRemove.addEventListener('click', function(e) {
+    e.preventDefault();
+    fileInput.value = '';
+    previewWrap.classList.remove('show');
+    uploadBox.querySelector('.upload-text').textContent = 'Tap to upload screenshot';
+  });
+
+  function showErr(id, show) { document.getElementById(id).style.display = show ? 'block' : 'none'; }
+
+  function fileToBase64(file) {
+    return new Promise(function(resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function() { resolve(reader.result.split(',')[1]); };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  document.getElementById('retry-btn').addEventListener('click', function() {
+    stateError.classList.remove('show');
+    form.style.display = 'block';
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Submit';
+  });
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    var name = document.getElementById('s-name').value.trim();
+    var phone = phoneInput.value.trim();
+    var phone2 = document.getElementById('s-phone2').value.trim();
+    var file = fileInput.files[0];
+
+    var ok = true;
+    showErr('err-name', !name); if (!name) ok = false;
+    showErr('err-phone', phone.length !== 10); if (phone.length !== 10) ok = false;
+    showErr('err-phone2', phone !== phone2 || phone2.length !== 10); if (phone !== phone2 || phone2.length !== 10) ok = false;
+    showErr('err-file', !file); if (!file) ok = false;
+    if (!ok) return;
+
+    if (ENDPOINT_URL.indexOf('PASTE_YOUR') === 0) {
+      form.style.display = 'none';
+      stateError.classList.add('show');
+      stateError.querySelector('.state-body').textContent = 'Form is not connected to a backend yet.';
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+
+    try {
+      var base64 = await fileToBase64(file);
+      await fetch(ENDPOINT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          name: name, phone: phone, phoneConfirm: phone2,
+          image: base64, imageMime: file.type, imageName: file.name
+        })
+      });
+      form.style.display = 'none';
+      stateSuccess.classList.add('show');
+    } catch (err) {
+      form.style.display = 'none';
+      stateError.classList.add('show');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit';
+    }
+  });
+})();
+</script>
+</body>
+</html>

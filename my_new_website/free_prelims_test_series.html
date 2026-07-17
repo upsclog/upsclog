@@ -202,6 +202,42 @@
     margin:0;
   }
 
+  /* ===== Featured (faded image) box — first box only ===== */
+  .pyq-box.featured{
+    position:relative;
+    min-height:120px;
+    background:
+      linear-gradient(rgba(11,13,18,0.68), rgba(11,13,18,0.72)),
+      var(--featured-img) center/cover no-repeat,
+      var(--card);
+  }
+  .pyq-box.featured .pyq-seal,
+  .pyq-box.featured .pyq-divider{ display:none; }
+  .pyq-box.featured .pyq-title{
+    font-size:16px;
+    letter-spacing:0.02em;
+    text-transform:uppercase;
+    text-shadow:0 2px 10px rgba(0,0,0,0.6);
+  }
+  .pyq-box.featured .pyq-sub{
+    color:var(--paper-faint);
+    text-shadow:0 2px 8px rgba(0,0,0,0.6);
+  }
+  .pyq-box.featured .pdf-tag{
+    position:absolute;
+    top:10px;
+    right:12px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.08em;
+    padding:3px 8px;
+    border-radius:100px;
+    border:1px solid rgba(233,231,222,0.25);
+    background:rgba(11,13,18,0.55);
+    color:var(--paper-faint);
+  }
+  .pyq-row.end .pyq-box.featured .pdf-tag{ right:auto; left:12px; }
+
   .pyq-arrow{
     flex:0 0 auto;
     width:15px; height:15px;
@@ -246,6 +282,35 @@
   .back-btn:active{ transform:scale(0.96); }
   .back-btn:focus-visible{ outline:2px solid var(--paper); outline-offset:2px; }
   .back-btn svg{ width:15px; height:15px; flex:0 0 auto; }
+
+  @media (min-width:641px){
+    .pyq-list{
+      display:grid;
+      grid-template-columns:repeat(2, 1fr);
+      max-width:980px;
+    }
+    .pyq-spine{ display:none; }
+    .pyq-row.start, .pyq-row.end{
+      display:block;
+      justify-content:unset;
+    }
+    .pyq-row.end .pyq-box{ flex-direction:row; text-align:left; }
+    .pyq-row.end .pyq-main{ flex-direction:row; }
+    .pyq-row.end .pyq-arrow{ transform:none; }
+    .pyq-row.end .pyq-box:hover .pyq-arrow{ transform:translateX(3px); }
+    .pyq-box{
+      width:100%;
+      max-width:none;
+    }
+  }
+
+  @media (min-width:900px){
+    .pyq-list{ grid-template-columns:repeat(3, 1fr); max-width:1300px; }
+  }
+
+  @media (min-width:1240px){
+    .pyq-list{ grid-template-columns:repeat(4, 1fr); max-width:1400px; }
+  }
 
   @media (max-width:640px){
     header{ padding-top:20px; padding-bottom:0px; }
@@ -307,15 +372,17 @@
 
 <script>
 const BOXES = [
-  { seal:"I", tint:"ph",  title:"MISCELLANEOUS", sub:"Test your knowledge of <b><u>Miscellaneous Subjects</u></b><br>Let's see how well you do <br>among your peers.", href:"miscellaneous/miscellaneous_test_page.html" },
+  // { seal:"O", tint:"gs2",  title:"UPSC PRELIMS PYQs", sub:"Sit for CSE PYQs and see where do you stand", href:"prelims_pyq/pyq_navigator.html" },
 
-  { seal:"II",  tint:"gs1", title:"HISTORY", sub:"Test your knowledge of <b><u>History</u></b><br>Let's see how well you do <br>among your peers.", href:"history/history_test_page.html" },
+  { seal:"PDF", tint:"ph",  title:"PreLoG Schedule 2027<br>[CLICK ME]", sub:"", href:"UPSC_LoG_Prelims_Booster_Schedule.pdf", img:"pdf_img.png" },
 
-  { seal:"III", tint:"gs2", title:"GEOGRAPHY", sub:"Test your knowledge of <b><u>Geography</u></b><br>Let's see how well you do <br>among your peers.", href: "geography/geography_test_page.html", },
-  { seal:"IV",tint:"gs3", title:"INDIAN ECONOMY", sub:"Test your knowledge of <b><u>Indian Economy</u></b><br>Let's see how well you do <br>among your peers.", href:"economics/economics_test_page.html" },
-  { seal:"V", tint:"gs4", title:"POLITY", sub:"Test your knowledge of <b><u>Polity</u></b><br>Let's see how well you do <br>among your peers.", href:"polity/polity_test_page.html" },
 
-  { seal:"VI", tint:"ph",  title:"ENVIRONMENT", sub:"Test your knowledge of <b><u>Environment</u></b><br>Let's see how well you do <br>among your peers.", href:"environment/environment_test_page.html" },
+  { seal:"2",  tint:"gs2", title:"PreLoG-2027-02", sub:"<b><u>Ancient Medieval<br>Art  Culture</u></b><br>TEST-2 : Q-25",   href:"prelims_sectional/PreLoG-2027-02.html" },
+  { seal:"3",  tint:"gs3", title:"PreLoG-2027-03", sub:"<b><u>Current Affairs<br>[Miscellaneous]</u></b><br>TEST-3 : Q-25", href:"prelims_sectional/signup-form.html" },
+  { seal:"4",  tint:"gs4", title:"PreLoG-2027-04", sub:"<b><u>Current Affairs<br>[Miscellaneous]</u></b><br>TEST-4 : Q-25", href:"prelims_sectional/signup-form.html" },
+  { seal:"5",  tint:"gs3", title:"PreLoG-2027-05", sub:"<b><u>Indian Economy</u></b><br><br>TEST-6 : Q-25",                 href:"prelims_sectional/signup-form.html" },
+  { seal:"6",  tint:"gs2", title:"PreLoG-2027-06", sub:"<b><u>Indian Economy</u></b><br><br>TEST-7 : Q-25",                 href:"prelims_sectional/signup-form.html" },
+  { seal:"7",  tint:"gs1", title:"PreLoG-2027-07", sub:"<b><u>Environment</u></b><br><br>TEST-8 : Q-25",                    href:"prelims_sectional/signup-form.html" },
 ];
 
 const list = document.getElementById('pyqList');
@@ -325,12 +392,13 @@ BOXES.forEach((b, i) => {
   row.className = 'pyq-row ' + (i % 2 === 0 ? 'start' : 'end');
 
   const a = document.createElement('a');
-  a.className = 'pyq-box';
+  a.className = 'pyq-box' + (b.img ? ' featured' : '');
   a.href = b.href;
   a.target = '_blank';
   a.rel = 'noopener noreferrer';
   a.style.setProperty('--tint', `var(--${b.tint})`);
   a.style.setProperty('--tint-soft', `var(--${b.tint}-soft)`);
+  if (b.img) a.style.setProperty('--featured-img', `url('${b.img}')`);
   a.innerHTML = `
     <span class="pyq-main">
       <span class="pyq-seal">${b.seal}</span>
@@ -340,6 +408,7 @@ BOXES.forEach((b, i) => {
         <p class="pyq-sub">${b.sub}</p>
       </span>
     </span>
+    ${b.img ? '<span class="pdf-tag">PDF</span>' : ''}
     <svg class="pyq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
   `;
 
