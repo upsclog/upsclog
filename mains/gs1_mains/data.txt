@@ -3,3 +3,7 @@
 https://acrobat.adobe.com/id/urn:aaid:sc:AP:abfefe36-5b74-4713-936c-d4798f75aa19 = DPQ_LoG_2
 https://acrobat.adobe.com/id/urn:aaid:sc:AP:4554ac30-ac4b-46ca-aed7-80c2bb22f0e9 = DPQ_LoG_3
 https://acrobat.adobe.com/id/urn:aaid:sc:AP:2419025c-2beb-42bd-aa72-722f14315f7f = DPQ_LoG_4
+https://acrobat.adobe.com/id/urn:aaid:sc:AP:6356826c-b997-4bed-bc71-117bc0054d2f = DPQ_LoG_5
+https://acrobat.adobe.com/id/urn:aaid:sc:AP:3cb6d216-b61c-4147-884d-c09d43837820 = DPQ_LoG_6
+https://acrobat.adobe.com/id/urn:aaid:sc:AP:806a88a6-4c26-4a17-ad38-3690c58b1471 = DPQ_LoG_7
+
