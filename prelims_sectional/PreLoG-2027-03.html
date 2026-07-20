@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC LoG — Prelims Booster</title>
+<style>
+  :root{
+    --bg: #F3F4F1;
+    --paper: #FFFFFF;
+    --ink: #1D2A35;
+    --ink-soft: #5B6873;
+    --rule: #D8DCD6;
+    --navy: #1B3A5C;
+    --navy-deep: #12283F;
+    --gold: #B8862E;
+    --gold-soft: #EFDFB8;
+    --answered: #2F7D5A;
+    --answered-bg: #E4F3EC;
+    --skipped: #B8862E;
+    --skipped-bg: #FBF1DE;
+    --current-ring: #1B3A5C;
+    --wrong: #B23A2E;
+    --wrong-bg: #FBEAE7;
+    --shadow: 0 1px 2px rgba(20,30,40,0.06), 0 6px 20px rgba(20,30,40,0.05);
+    --serif: Georgia, 'Times New Roman', 'Iowan Old Style', serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --mono: 'Courier New', ui-monospace, monospace;
+  }
+  [data-theme="dark"]{
+    --bg: #0F1A24;
+    --paper: #17232E;
+    --ink: #E7ECEF;
+    --ink-soft: #97A5AF;
+    --rule: #2A3846;
+    --navy: #3E6E9E;
+    --navy-deep: #2A4E70;
+    --gold: #D9A441;
+    --gold-soft: #3A3220;
+    --answered: #4CAF7D;
+    --answered-bg: #163227;
+    --skipped: #D9A441;
+    --skipped-bg: #332A16;
+    --current-ring: #D9A441;
+    --wrong: #E07A6C;
+    --wrong-bg: #3A1E1A;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+    html, body{
+    overflow-x: hidden;
+    width: 100%;
+  }
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    min-height:100vh;
+    transition:background .3s ease, color .3s ease;
+  }
+
+  /* ---------- Header ---------- */
+  header.topbar{
+    background:linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color:#F4F1EA;
+    padding:0;
+    box-shadow:var(--shadow);
+    position:sticky; top:0; z-index:50;
+  }
+  .topbar-inner{
+    max-width:1280px; margin:0 auto;
+    display:flex; align-items:center; gap:20px;
+    padding:14px 28px;
+  }
+  .logo-slot{
+    width:52px; height:52px;
+    border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    overflow:hidden;
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .logo-slot img{
+    width:100%; height:100%;
+    object-fit:contain;
+  }
+  .logo-slot:hover{border-color:rgba(244,241,234,0.75); color:#F4F1EA;}
+  .title-block{flex:1; min-width:0;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gold-soft, #D9A441);
+    opacity:0.85;
+  }
+  .title-block h1{
+    font-family:var(--serif);
+    font-size:22px;
+    font-weight:400;
+    margin:2px 0 0 0;
+    letter-spacing:0.01em;
+  }
+  .subnote{
+    font-family:var(--mono);
+    font-size:11px;
+    color:rgba(244,241,234,0.65);
+    margin-top:6px;
+    letter-spacing:0.02em;
+  }
+  .subnote a{color:var(--gold-soft); text-decoration:none;}
+  .subnote a:hover{text-decoration:underline;}
+  .topbar-right{
+    display:flex; align-items:center; gap:18px; flex-shrink:0;
+  }
+  .timer{
+    font-family:var(--mono);
+    font-size:13px;
+    color:#F4F1EA;
+    border:1px solid rgba(244,241,234,0.3);
+    padding:6px 12px;
+    border-radius:6px;
+    background:rgba(0,0,0,0.12);
+    transition:background .2s ease;
+  }
+  .timer.urgent{background:var(--wrong); border-color:var(--wrong);}
+
+  /* dark mode switch */
+  .mode-switch{
+    display:flex; align-items:center; gap:8px;
+    font-size:12px; color:rgba(244,241,234,0.85);
+  }
+  .switch{
+    position:relative; width:44px; height:24px;
+    background:rgba(244,241,234,0.2);
+    border-radius:20px; cursor:pointer;
+    border:1px solid rgba(244,241,234,0.35);
+    flex-shrink:0;
+  }
+  .switch .knob{
+    position:absolute; top:2px; left:2px;
+    width:18px; height:18px; border-radius:50%;
+    background:#F4F1EA;
+    transition:transform .25s ease;
+    box-shadow:0 1px 3px rgba(0,0,0,0.3);
+  }
+  [data-theme="dark"] .switch .knob{
+    transform:translateX(20px);
+    background:var(--gold);
+  }
+
+  /* ---------- Layout ---------- */
+  .name-bar{
+  max-width:1280px; margin:20px auto 0;
+  padding:0 28px;
+  display:flex; align-items:center; gap:12px;
+}
+.name-bar label{
+  font-family:var(--mono); font-size:20px;
+  color:var(--ink-soft); white-space:nowrap;
+}
+.name-bar input{
+  flex:1; max-width:320px;
+  font-family:var(--sans); font-size:14px;
+  padding:9px 14px;
+  border:1px solid var(--rule); border-radius:7px;
+  background:var(--paper); color:var(--ink);
+}
+.name-bar input:focus{ outline:none; border-color:var(--navy); }
+[data-theme="dark"] .name-bar input:focus{ border-color:var(--gold); }
+
+@media (max-width: 430px){
+  .name-bar{ padding:0 12px; margin-top:14px; flex-wrap:wrap; }
+  .name-bar input{ max-width:100%; }
+}
+  .layout{
+    max-width:1280px; margin:0 auto;
+    display:grid;
+    grid-template-columns:1fr 320px;
+    gap:23px;
+    padding:32px 28px 60px;
+    align-items:start;
+  }
+
+  /* ---------- Question paper ---------- */
+  .paper{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:36px 44px 32px;
+    min-height:520px;
+    display:flex;
+    flex-direction:column;
+  }
+  .paper-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    border-bottom:1px solid var(--rule);
+    padding-bottom:14px; margin-bottom:28px;
+  }
+  .q-index{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--ink-soft);
+    letter-spacing:0.04em;
+  }
+  .q-index b{color:var(--navy); font-size:15px;}
+  [data-theme="dark"] .q-index b{color:var(--gold);}
+  .q-status-tag{
+    font-family:var(--mono);
+    font-size:13.5px;
+    font-weight:800;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    padding:7px 16px;
+    border-radius:20px;
+    border:2px solid transparent;
+  }
+  .q-status-tag.answered{background:var(--answered-bg); color:var(--answered); border-color:var(--answered);}
+  .q-status-tag.unanswered{background:var(--skipped-bg); color:var(--skipped); border-color:var(--skipped);}
+
+  .q-text{
+    font-family:var(--serif);
+    font-size:19px;
+    line-height:1.5;
+    color:var(--ink);
+    margin:0 0 32px 0;
+  }
+
+  .options{
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .option{
+    display:flex; align-items:flex-start; gap:14px;
+    padding:18px 18px;
+    border:1px solid var(--rule);
+    border-radius:8px;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+    background:transparent;
+  }
+  .option:hover{border-color:var(--navy); background:rgba(27,58,92,0.04);}
+  [data-theme="dark"] .option:hover{background:rgba(217,164,65,0.06); border-color:var(--gold);}
+  .option.selected{
+    border-color:var(--navy);
+    background:rgba(27,58,92,0.07);
+  }
+  [data-theme="dark"] .option.selected{
+    border-color:var(--gold);
+    background:rgba(217,164,65,0.1);
+  }
+  .option .tag{
+    font-family:var(--mono);
+    font-size:13px;
+    font-weight:bold;
+    width:24px; height:24px;
+    border-radius:50%;
+    border:1.5px solid var(--rule);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    color:var(--ink-soft);
+  }
+  .option.selected .tag{
+    border-color:var(--navy);
+    background:var(--navy);
+    color:#fff;
+  }
+  [data-theme="dark"] .option.selected .tag{
+    border-color:var(--gold);
+    background:var(--gold);
+    color:#17232E;
+  }
+  .option .opt-text{
+    font-size:15.5px; line-height:1.5; padding-top:1px;
+  }
+  .option.locked{cursor:default;}
+  .option.correct{
+    border-color:var(--answered);
+    background:var(--answered-bg);
+  }
+  .option.correct .tag{
+    border-color:var(--answered);
+    background:var(--answered);
+    color:#fff;
+  }
+  .option.incorrect{
+    border-color:var(--wrong);
+    background:var(--wrong-bg);
+  }
+  .option.incorrect .tag{
+    border-color:var(--wrong);
+    background:var(--wrong);
+    color:#fff;
+  }
+  .option.locked:hover{background:inherit; border-color:inherit;}
+  .q-status-tag.correct{background:var(--answered-bg); color:var(--answered); border-color:var(--answered); box-shadow:0 0 0 1px var(--answered) inset;}
+  .q-status-tag.incorrect{background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong); box-shadow:0 0 0 1px var(--wrong) inset;}
+  .q-status-tag.review-unanswered{
+    background:var(--wrong-bg);
+    color:var(--wrong);
+    border-color:var(--wrong);
+    box-shadow:0 0 0 1px var(--wrong) inset;
+  }
+
+  /* ---------- Explanation (review mode) ---------- */
+  .explain-box{
+    margin-top:26px;
+    background:var(--gold-soft);
+    border:1px solid var(--gold);
+    border-radius:8px;
+    padding:16px 20px;
+    font-size:14px;
+    line-height:1.65;
+    color:var(--ink);
+  }
+  [data-theme="dark"] .explain-box{background:rgba(217,164,65,0.08);}
+  .explain-box b{color:var(--navy);}
+  [data-theme="dark"] .explain-box b{color:var(--gold);}
+  .explain-box .exp-label{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-bottom:8px;
+  }
+
+  .paper-foot{
+    display:flex; justify-content:space-between;
+    margin-top:32px; padding-top:20px;
+    border-top:1px solid var(--rule);
+  }
+  button{
+    font-family:var(--sans);
+    font-size:14px;
+    font-weight:600;
+    padding:11px 22px;
+    border-radius:7px;
+    border:1px solid var(--rule);
+    background:var(--paper);
+    color:var(--ink);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  button:hover:not(:disabled){border-color:var(--navy); color:var(--navy);}
+  [data-theme="dark"] button:hover:not(:disabled){border-color:var(--gold); color:var(--gold);}
+  button:disabled{opacity:0.35; cursor:not-allowed;}
+  button.primary{
+    background:var(--navy); color:#F4F1EA; border-color:var(--navy);
+  }
+  button.primary:hover{filter:brightness(1.1); color:#F4F1EA;}
+  button.clear{background:transparent; border-color:transparent; color:var(--ink-soft); font-weight:500;}
+  .nav-group{display:flex; gap:10px;}
+
+  /* ---------- Sidebar palette ---------- */
+  .sidebar{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:24px;
+    position:sticky;
+    top:96px;
+  }
+  .sidebar h2{
+    font-family:var(--serif);
+    font-size:16px;
+    font-weight:400;
+    margin:0 0 4px 0;
+    color:var(--ink);
+  }
+  .sidebar .sub{
+    font-size:12px; color:var(--ink-soft); margin-bottom:18px;
+  }
+  .legend{
+    display:flex; flex-direction:column; gap:8px;
+    margin-bottom:20px;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  .legend span{display:flex; align-items:center; gap:8px;}
+  .dot{width:10px; height:10px; border-radius:3px; flex-shrink:0;}
+  .dot.answered{background:var(--answered);}
+  .dot.unanswered{background:var(--rule); border:1px solid var(--ink-soft);}
+  .dot.current{background:transparent; border:2px solid var(--current-ring);}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:8px;
+    margin-bottom:22px;
+  }
+  .cell{
+    aspect-ratio:1;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono);
+    font-size:13px;
+    border-radius:6px;
+    border:1px solid var(--rule);
+    background:transparent;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .cell:hover{border-color:var(--navy);}
+  [data-theme="dark"] .cell:hover{border-color:var(--gold);}
+  .cell.answered{
+    background:var(--answered-bg); color:var(--answered); border-color:var(--answered);
+    font-weight:bold;
+  }
+  .cell.incorrect{
+    background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong);
+    font-weight:bold;
+  }
+  .cell.current{
+    outline:2px solid var(--current-ring); outline-offset:2px;
+  }
+
+  .tally{
+    padding-top:16px; border-top:1px solid var(--rule);
+    color:var(--ink-soft);
+  }
+  .tally-plain{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-plain > div{flex:1; text-align:left;}
+  .tally b{color:var(--ink); font-size:16px; display:block; font-family:var(--sans);}
+  .tally b.stat-correct{color:var(--answered);}
+  .tally b.stat-incorrect{color:var(--wrong);}
+  .tally b.stat-unattempted{color:var(--skipped);}
+
+  .marks-line{
+    text-align:center;
+    background:var(--gold-soft);
+    border:1.5px solid var(--gold);
+    border-radius:8px;
+    padding:12px 10px;
+    margin-bottom:14px;
+  }
+  [data-theme="dark"] .marks-line{background:rgba(217,164,65,0.12);}
+  .marks-line b{
+    font-size:26px; color:var(--navy); font-family:var(--serif); font-weight:700;
+  }
+  [data-theme="dark"] .marks-line b{color:var(--gold);}
+  .marks-line span{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-top:2px;
+  }
+  .tally-grid{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-grid > div{flex:1; text-align:left;}
+
+  .score-breakdown{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+    max-width:420px;
+    margin:24px auto 0;
+  }
+  .score-breakdown .stat{
+    border:1.5px solid var(--rule);
+    border-radius:10px;
+    padding:14px 10px;
+  }
+  .score-breakdown .stat b{
+    display:block; font-size:24px; font-family:var(--sans); margin-bottom:4px;
+  }
+  .score-breakdown .stat span{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft);
+  }
+  .score-breakdown .stat.correct{border-color:var(--answered); background:var(--answered-bg);}
+  .score-breakdown .stat.correct b{color:var(--answered);}
+  .score-breakdown .stat.incorrect{border-color:var(--wrong); background:var(--wrong-bg);}
+  .score-breakdown .stat.incorrect b{color:var(--wrong);}
+  .score-breakdown .stat.unattempted{border-color:var(--skipped); background:var(--skipped-bg);}
+  .score-breakdown .stat.unattempted b{color:var(--skipped);}
+
+  #submitBtn{width:100%; margin-top:20px;}
+
+  /* ---------- Result overlay ---------- */
+  .result-card{
+    background:var(--paper); border:1px solid var(--rule); border-radius:10px;
+    box-shadow:var(--shadow); padding:44px; text-align:center;
+  }
+  .result-card .score{
+    font-family:var(--serif); font-size:52px; color:var(--navy); margin:8px 0;
+  }
+  [data-theme="dark"] .result-card .score{color:var(--gold);}
+  .result-card .percent{
+    font-family:var(--mono); font-size:13px; color:var(--ink-soft);
+    letter-spacing:0.04em; margin-top:-4px;
+  }
+  .hidden{display:none !important;}
+
+  /* ---------- Confirm submit modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background:rgba(15,20,25,0.55);
+    display:flex; align-items:center; justify-content:center;
+    z-index:200;
+    padding:20px;
+  }
+  .modal-box{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:12px;
+    box-shadow:var(--shadow);
+    padding:30px 30px 24px;
+    max-width:380px;
+    width:100%;
+    text-align:center;
+  }
+  .modal-box .modal-icon{
+    font-size:26px;
+    margin-bottom:6px;
+  }
+  .modal-box p{
+    font-family:var(--sans);
+    font-size:15px;
+    line-height:1.55;
+    color:var(--ink);
+    margin:10px 0 22px;
+  }
+  .modal-box p b{color:var(--navy);}
+  [data-theme="dark"] .modal-box p b{color:var(--gold);}
+  .modal-box .modal-warn{
+    font-family:var(--mono);
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--skipped);
+    background:var(--skipped-bg);
+    border:1px solid var(--skipped);
+    border-radius:6px;
+    padding:8px 10px;
+    margin:0 0 18px;
+    text-align:left;
+    line-height:1.5;
+  }
+  .modal-actions{
+    display:flex; gap:12px;
+  }
+  .modal-actions button{
+    flex:1;
+    padding:12px 10px;
+  }
+  #modalGoBack{color:var(--ink);}
+  #modalConfirm{background:var(--navy); color:#F4F1EA; border-color:var(--navy);}
+  #modalConfirm:hover{filter:brightness(1.1); color:#F4F1EA;}
+
+  :root{
+    --desktop-width: 1440;
+}
+
+@media (max-width: 1024px){
+  .layout{
+    grid-template-columns: 1fr;
+  }
+  .sidebar{
+    position: static;      /* was sticky at top:96px — no longer needed once stacked */
+    top: auto;
+  }
+}
+@media (max-width: 600px){
+  .topbar-inner{
+    flex-wrap: wrap;
+    padding: 14px 16px;
+    gap: 10px;
+  }
+  .topbar-right{
+    flex-shrink: 1;        /* was 0 before — this is what caused the overflow */
+    flex-basis: 100%;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+  .subnote{
+    white-space: normal;
+  }
+}
+@media (max-width: 430px){
+  .layout{
+    padding: 20px 12px 40px;
+  }
+  .paper{
+    padding: 24px 18px 22px;
+  }
+  .sidebar{
+    padding: 18px;
+  }
+  .paper-head{
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .q-status-tag{
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+@media (max-width: 600px){
+  .title-block h1{
+    font-size: 17px;
+  }
+  .eyebrow{
+    font-size: 9.5px;
+  }
+  .subnote{
+    font-size: 10px;
+  }
+  .timer{
+    font-size: 11px;
+    padding: 5px 9px;
+  }
+  .mode-switch{
+    font-size: 11px;
+  }
+}
+@media (max-width: 430px){
+  .result-card{
+    padding: 24px 18px;
+  }
+  .score-breakdown{
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    max-width: 100%;
+  }
+  .score-breakdown .stat{
+    padding: 10px 6px;
+  }
+  .score-breakdown .stat b{
+    font-size: 19px;
+  }
+  .result-card .score{
+    font-size: 38px;
+  }
+}
+
+</style>
+</head>
+<body data-theme="light">
+
+<header class="topbar">
+  <div class="topbar-inner">
+
+    <!-- <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">UPSC<br>LOGO</a> -->
+    <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">
+  <img src="../logo.png" alt="UPSC LoG" style="width:100%; height:100%; object-fit:contain; border-radius:6px;">
+</a>
+    <div class="title-block">
+      <div class="eyebrow">UPSC LoG · Prelims Booster 2027</div>
+      <h1>PreLoG-2027-03</h1>
+      <div class="subnote" style="font-size: 12px;">
+        <span id="qTotalNote">7</span> Questions · +2 Correct / −0.67 Incorrect ·
+        <a href="https://t.me/upsclog" target="_blank" rel="noopener"> Join UPSC-LoG Telegram ↗</a>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="timer" id="timer">30:00</div>
+      <div class="mode-switch">
+        <span>Light</span>
+        <div class="switch" id="themeSwitch" role="button" aria-label="Toggle dark mode">
+          <div class="knob"></div>
+        </div>
+        <span>Dark</span>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="name-bar">
+  <label for="userName">Add name for rank</label>
+  <input type="text" id="userName" placeholder="Enter your name" maxlength="40">
+</div>
+
+<div class="layout">
+
+  <div class="paper" id="paperView">
+    <div class="paper-head">
+      <div class="q-index">Question <b id="qNum">1</b> of <span id="qTotal">7</span></div>
+      <div class="q-status-tag unanswered" id="qStatusTag">Not Answered</div>
+    </div>
+
+    <p class="q-text" id="qText">Loading question…</p>
+
+    <div class="options" id="optionsList"></div>
+
+    <div class="explain-box hidden" id="explainBox">
+      <span class="exp-label">Explanation</span>
+      <div id="explainText"></div>
+    </div>
+
+    <div class="paper-foot">
+      <div class="nav-group">
+        <button id="prevBtn">← Previous</button>
+        <button class="clear" id="clearBtn">Clear response</button>
+      </div>
+      <button id="nextBtn" class="primary">Next →</button>
+    </div>
+  </div>
+
+  <div class="result-card hidden" id="resultView">
+    <div class="eyebrow" style="color:var(--ink-soft); letter-spacing:0.14em; font-family:var(--mono); font-size:11px; text-transform:uppercase;">Marks Sent for rank PDF</div>
+    <div class="score" id="scoreText">0.00 / 14.00</div>
+    <div class="percent" id="scorePercent">0.00%</div>
+    <div class="score-breakdown" id="scoreBreakdown"></div>
+    <p style="color:var(--ink-soft); font-size:14px; margin:20px 0 24px;">You can review your answers and explanations using the palette on the right.</p>
+    <h2>Check <a href="https://upsclog.github.io/upsclog/ranks_tests/daily_rankings.html" target="_blank">[RANKINGS]</a> - for Daily Rankings [PDF]</h2>
+    <button class="primary" id="reviewBtn">Review Answers</button>
+  </div>
+
+  <aside class="sidebar">
+    <h2>* Explanations attached for each question after you submit the test<br><br></h2>
+    <h2>* Auto-Submission in 30 minutes</h2>
+    <h2>* Dark <-> Bright modes for ease</h2>
+    <div class="sub"></div>
+
+    <div class="legend">
+      <span><span class="dot answered"></span> Answered / Correct</span>
+      <span><span class="dot" style="background:var(--wrong);"></span> Incorrect</span>
+      <span><span class="dot unanswered"></span> Not answered</span>
+      <span><span class="dot current"></span> Currently viewing</span>
+    </div>
+
+    <div class="grid" id="paletteGrid"></div>
+
+    <div class="tally" id="tallyRow">
+      <div class="tally-plain">
+        <div><b id="answeredCount">0</b>Answered</div>
+        <div><b id="skippedCount">7</b>Remaining</div>
+      </div>
+    </div>
+
+    <button class="primary" id="submitBtn">Submit Test</button>
+  </aside>
+
+</div>
+
+<div class="modal-overlay hidden" id="confirmModal">
+  <div class="modal-box">
+    <div class="modal-icon" id="modalIcon">📝</div>
+    <p id="modalMessage">Submit test?</p>
+    <div class="modal-actions">
+      <button id="modalGoBack">Go Back</button>
+      <button id="modalConfirm" class="primary">Yes, Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyamXySn2AagAN935BcpYuf6oTJNuIkLMuAby7CqWJ20rgdNgdWypVNTjMyWJBxW9OObw/exec";
+const QUESTIONS = [
+{
+    q: "With reference to the Chief Election Commissioner and other Election Commissioners (Appointment, Conditions of Service and Term of Office) Act, 2023, consider the following statements:<br>1. It provides that the Selection Committee for appointing the CEC and ECs shall consist of the Prime Minister, the Leader of Opposition in the Lok Sabha, and a Union Cabinet Minister nominated by the Prime Minister.<br>2. The Act followed the Supreme Court's judgment in the Anoop Baranwal case, which had earlier included the Chief Justice of India in the interim selection panel.<br>3. The Act mandates that the CEC and ECs shall be selected only from among retired Supreme Court judges.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The 2023 Act constitutes a Selection Committee of the PM, the Leader of Opposition in the Lok Sabha, and a Union Cabinet Minister nominated by the PM, replacing the CJI who was part of the interim panel directed by the Supreme Court in Anoop Baranwal v. Union of India (2023). The Act does not restrict eligibility only to retired Supreme Court judges; it allows persons holding or having held a post equivalent to Secretary to the Government of India."
+},
+{
+    q: "The Special Intensive Revision (SIR) of electoral rolls, undertaken by the Election Commission of India in 2025-26, is best understood in light of which of the following?<br>1. The ECI's power to prepare and revise electoral rolls flows from Article 324 read with the Representation of the People Act, 1950.<br>2. Aadhaar is the only document accepted by the ECI as proof of identity during the SIR exercise.<br>3. The SIR exercise was first piloted in Bihar ahead of the 2025 Bihar Legislative Assembly election.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "The ECI's authority to superintend, direct and prepare electoral rolls stems from Article 324 of the Constitution and the Representation of the People Act, 1950. The SIR was first conducted in Bihar in 2025 before being extended to other states/UTs. Aadhaar is one among several documents (along with ration card, EPIC, etc.) accepted for verification, not the sole document, making statement 2 incorrect."
+},
+{
+    q: "With reference to the disqualification of legislators under the Representation of the People Act, 1951, consider the following statements, often highlighted in reports by bodies such as the Association for Democratic Reforms (ADR):<br>1. Section 8 of the Act disqualifies a person convicted of certain offences and sentenced to imprisonment of two years or more.<br>2. The Supreme Court in Lily Thomas v. Union of India (2013) struck down the provision that protected sitting MPs/MLAs from immediate disqualification upon conviction.<br>3. Disqualification under Section 8 applies only to Members of Parliament and not to Members of State Legislative Assemblies.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "Section 8 of the RPA, 1951 disqualifies a person convicted of specified offences and sentenced to two years or more imprisonment, and this applies to both MPs and MLAs, making statement 3 incorrect. In Lily Thomas v. Union of India (2013), the Supreme Court struck down Section 8(4), which had earlier allowed convicted legislators to continue in office pending appeal."
+},
+{
+    q: "With reference to the constitutional and legal provisions governing the removal of the Chief Election Commissioner (CEC) and other Election Commissioners (ECs) in India, which one of the following statements is correct?",
+    opts: [
+        "Both the CEC and other ECs can be removed by the President on a resolution passed by a simple majority of both Houses of Parliament",
+        "The CEC can be removed only in the manner of a Supreme Court judge, while other ECs can be removed by the President on the recommendation of the CEC",
+        "The President can remove the CEC and other ECs at his discretion without any parliamentary or judicial process",
+        "Removal of the CEC requires a resolution passed by a two-thirds majority of the Lok Sabha alone"
+    ],
+    ans: 1,
+    exp: "Article 324(5) provides that the CEC can be removed only through a process similar to the impeachment of a Supreme Court judge, ensuring security of tenure, whereas other Election Commissioners can be removed by the President on the recommendation of the CEC. This protection was retained even under the CEC and Other ECs Act, 2023."
+},
+{
+    q: "The Joint Parliamentary Committee (JPC) examining the Constitution (One Hundred and Twenty-Ninth Amendment) Bill, 2024 relates to the proposal for 'One Nation, One Election'. In this context, consider the following statements:<br>1. The Bill seeks to insert a new Article 82A and amend Articles 83 and 172 to synchronise the terms of the Lok Sabha and State Legislative Assemblies.<br>2. The idea of simultaneous elections was earlier examined by bodies such as the Law Commission of India and NITI Aayog.<br>3. The High-Level Committee that recommended a phased approach to simultaneous elections was headed by the incumbent President of India.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The 129th Amendment Bill proposes inserting Article 82A and amending Articles 83 and 172 to align the terms of the Lok Sabha and State Assemblies, and the concept was earlier studied by the Law Commission and NITI Aayog. The High-Level Committee on simultaneous elections was headed by former President Ram Nath Kovind, not the incumbent President, making statement 3 incorrect."
+},
+{
+    q: "With reference to the Democracy Index published annually by the Economist Intelligence Unit (EIU), consider the following statements:<br>1. It classifies countries into four categories: full democracy, flawed democracy, hybrid regime, and authoritarian regime.<br>2. It is based on five parameters, including electoral process and pluralism, functioning of government, and civil liberties.<br>3. India has consistently been classified as a 'full democracy' in every edition of the index.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The Democracy Index classifies 165+ countries into four categories based on five indicators, namely electoral process and pluralism, functioning of government, political participation, political culture, and civil liberties. India has typically been classified as a 'flawed democracy' in recent editions, not a 'full democracy', making statement 3 incorrect."
+},
+{
+    q: "With reference to the recommendations of the High-Level Committee on Simultaneous Elections, chaired by former President Ram Nath Kovind, consider the following statements:<br>1. It recommended a two-step approach, with Lok Sabha and State Assembly elections held together first, followed by local body elections within 100 days.<br>2. It recommended amending Article 325 to enable the ECI to prepare a single electoral roll and EPIC applicable to all tiers of government.<br>3. It recommended that the proposed constitutional amendments must be ratified by at least half of the State Legislatures.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The Kovind Committee recommended a phased approach — Lok Sabha and State Assembly elections first, followed by local body elections within 100 days — along with a single electoral roll and EPIC through amendment of Article 325. It explicitly held that the proposed amendments for the first phase would not require ratification by the states, making statement 3 incorrect."
+},
+{
+    q: "With reference to the Sixteenth Finance Commission of India, consider the following statements:<br>1. It was constituted under Article 280 of the Constitution to recommend tax devolution for the period 2026-27 to 2030-31.<br>2. Like every Finance Commission, it consists of a Chairman and four other members appointed by the President.<br>3. Its recommendations become effective only after ratification by the Rajya Sabha through a special majority.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The 16th Finance Commission, chaired by Arvind Panagariya, was constituted under Article 280 and submitted its report for 2026-31 to the President in November 2025. Finance Commission recommendations are advisory in nature and are laid before Parliament along with an action-taken report; they do not require ratification by special majority, making statement 3 incorrect."
+},
+{
+    q: "Various committees have recommended reforms regarding the appointment and tenure of Governors in India. In this context, consider the following statements:<br>1. The Sarkaria Commission recommended that persons appointed as Governor should be eminent individuals not belonging actively to politics and should be from outside the concerned state.<br>2. The Punchhi Commission recommended that a fixed tenure be provided to Governors, removable only through impeachment by the State Legislature.<br>3. The Governor of a State is appointed by the President and holds office during the pleasure of the President.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The Sarkaria and later Punchhi Commissions recommended that Governors be eminent persons from outside the state with no active political links, appointed in consultation with the state's Chief Minister, and that removal should only occur for valid reasons with an opportunity to be heard—not through impeachment by the State Legislature, which is not a constitutional process for removing Governors. The Governor holds office during the pleasure of the President under Article 156, confirming statement 3."
+},
+{
+    q: "With reference to the Supreme Court's rulings and advisory opinion on the powers of the Governor and the President concerning assent to State Bills (2025), consider the following statements:<br>1. In State of Tamil Nadu v. Governor of Tamil Nadu (2025), the Court held that a Governor cannot exercise an absolute or 'pocket' veto over a Bill passed by the State Legislature.<br>2. The advisory opinion delivered under Article 143, in response to the Presidential Reference, held that the Governor's actions under Article 200 are never subject to judicial review.<br>3. The 2025 Presidential Reference was made by the President under Article 143 of the Constitution.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "In the April 2025 judgment, the Supreme Court held that the Governor cannot indefinitely withhold assent through a 'pocket veto' and prescribed timelines for action under Article 200. The subsequent Presidential Reference was made under Article 143, but the November 2025 advisory opinion held that Governor's actions remain justiciable in principle, not immune from review, making statement 2 incorrect."
+},
+{
+    q: "With reference to the Supreme Court (Number of Judges) Amendment Bill, 2026, consider the following statements:<br>1. It seeks to increase the sanctioned strength of Supreme Court judges from 33 to 37, excluding the Chief Justice of India.<br>2. The sanctioned strength of the Supreme Court can be changed only through a Constitutional Amendment Act requiring ratification by the states.<br>3. Article 124(1) originally provided for a Chief Justice and seven other judges, empowering Parliament to prescribe a larger number by law.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "The 2026 Bill amends the ordinary Supreme Court (Number of Judges) Act, 1956, to raise the sanctioned strength from 33 to 37 judges (excluding the CJI), i.e., 34 to 38 including the CJI. Article 124(1) originally fixed the strength at a Chief Justice and seven other judges but empowered Parliament to increase it by an ordinary law, not a Constitutional Amendment requiring state ratification, making statement 2 incorrect."
+},
+{
+    q: "With reference to the Income-tax Act, 2025, which replaced the Income-tax Act, 1961, consider the following statements:<br>1. It introduces a single 'Tax Year' concept, replacing the earlier distinction between 'Previous Year' and 'Assessment Year'.<br>2. The Act reduces the number of sections compared to the 1961 Act while explicitly revising income tax slabs and rates.<br>3. It received Presidential assent in 2025 but was brought into force from 1 April 2026.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The Income-tax Act, 2025 introduces a unified 'Tax Year' concept and reduces the number of sections to 536 from over 800 earlier, but it was drafted on the principle of no major policy changes and no modification of tax rates, focusing purely on simplification, making statement 2 incorrect. It received Presidential assent on 21 August 2025 and came into force from 1 April 2026."
+},
+{
+    q: "With reference to the Law Commission of India, consider the following statements:<br>1. It is a statutory body constituted under an Act of Parliament with a fixed three-year term.<br>2. The 23rd Law Commission has recommended that the Bill on simultaneous elections can become law with Parliament's approval alone, without requiring ratification by state legislatures.<br>3. The Commission functions as an advisory body to the Ministry of Law and Justice.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "The Law Commission of India is not a statutory or constitutional body; it is an executive body constituted through a government order/notification for a fixed term, making statement 1 incorrect. It functions as an advisory body to the Ministry of Law and Justice, and the 23rd Law Commission has opined that the simultaneous elections Bill can be enacted through Parliament's approval alone, without state ratification."
+},
+{
+    q: "With reference to the World Press Freedom Index, consider the following statements:<br>1. It is published annually by Reporters Without Borders (Reporters Sans Frontières).<br>2. It evaluates countries based on indicators such as political context, legal framework, economic context, and safety of journalists.<br>3. The 2026 edition reported that global press freedom had improved to its best level in 25 years.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The World Press Freedom Index is published annually by Reporters Without Borders and assesses countries on indicators including political, legal, economic, socio-cultural context and safety of journalists. The 2026 edition reported that global press freedom had fallen to a 25-year low, not improved, making statement 3 incorrect."
+},
+{
+    q: "Government welfare schemes in India are often designed to give effect to the Directive Principles of State Policy (DPSP). In this context, which one of the following correctly matches a scheme/programme with the constitutional provision it primarily seeks to realise?",
+    opts: [
+        "Mid-Day Meal Scheme — Article 47 (raising the level of nutrition and public health)",
+        "MGNREGA — Article 44 (Uniform Civil Code)",
+        "Beti Bachao Beti Padhao — Article 39A (equal justice and free legal aid)",
+        "Ayushman Bharat — Article 48 (organisation of agriculture and animal husbandry)"
+    ],
+    ans: 0,
+    exp: "The Mid-Day Meal Scheme is aimed at improving child nutrition, aligning with Article 47, which directs the State to raise the level of nutrition and public health. MGNREGA relates to Article 41 (right to work), Beti Bachao Beti Padhao relates to Article 15(3) and 51A(e), and Ayushman Bharat relates to Article 47 (public health), not the provisions listed against them."
+},
+{
+    q: "With reference to the constitutional process for removal of a High Court or Supreme Court judge in India, as seen in the 2025 impeachment proceedings against a sitting High Court judge, consider the following statements:<br>1. A motion for removal must be admitted by the Presiding Officer only after being signed by at least 100 members in the Lok Sabha or 50 members in the Rajya Sabha.<br>2. Once admitted, a three-member committee is constituted under the Judges (Inquiry) Act, 1968 to investigate the charges.<br>3. If the motion is passed by the House in which it originated with the requisite majority, the judge stands removed without reference to the other House.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "A removal motion needs signatures of at least 100 Lok Sabha members or 50 Rajya Sabha members before admission, following which a three-member committee is constituted under the Judges (Inquiry) Act, 1968. However, the motion must be passed by both Houses of Parliament, each with a special majority, before the President can order removal, making statement 3 incorrect."
+},
+{
+    q: "With reference to the evolution and powers of the Election Commission of India (ECI), consider the following statements:<br>1. The ECI functioned as a single-member body from 1950 until it was made a multi-member body on a permanent basis in October 1993.<br>2. In May 2026, the Supreme Court held that the ECI lacked the constitutional and statutory power to conduct a Special Intensive Revision (SIR) of electoral rolls.<br>3. The ECI derives its rule-making and roll-revision powers from Article 324 read with the Representation of the People Act, 1950.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 2 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The ECI was a single-member body from 1950, briefly made multi-member in 1989-90, and became a permanent multi-member body from October 1993 onwards. In its judgment of 27 May 2026 in the Bihar SIR case, the Supreme Court upheld, rather than denied, the ECI's constitutional and statutory power to conduct the SIR, making statement 2 incorrect."
+},
+{
+    q: "With reference to the functions and powers of the Comptroller and Auditor General (CAG) of India, consider the following statements:<br>1. The CAG audits the accounts related to all expenditure from the Consolidated Fund of India, of each state, and of each Union Territory having a Legislative Assembly.<br>2. The CAG's reports are submitted directly to Parliament and are automatically binding on the executive without further legislative examination.<br>3. The Public Accounts Committee examines CAG reports after they are laid before Parliament by the President.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The CAG audits expenditure from the Consolidated Fund at the Union and State levels under Articles 149-151. CAG reports are submitted to the President/Governor, laid before Parliament/Legislature, and then examined by the Public Accounts Committee; they are not automatically binding, since the CAG only reports and does not enforce corrective action, making statement 2 incorrect."
+},
+{
+    q: "The Election Commission of India faced several challenges and controversies during 2025-2026. In this context, consider the following statements:<br>1. Allegations of 'vote chori' (vote theft), involving claims of duplicate and bogus entries in electoral rolls, were raised by opposition leaders in 2025.<br>2. Electronic Voting Machine (EVM) malfunctions were reported during the 2026 Maharashtra civic body elections.<br>3. The Special Intensive Revision (SIR) of electoral rolls has been criticised by some opposition parties for the risk of arbitrary disenfranchisement of genuine voters.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "In August 2025, opposition leaders alleged large-scale 'vote chori' involving duplicate and invalid voters, while the 2026 Maharashtra civic elections witnessed reported EVM malfunctions in some areas. The SIR exercise also drew criticism for risking disenfranchisement of genuine voters due to compressed timelines and documentation requirements, making all three statements correct."
+},
+{
+    q: "With reference to challenges in the appointment of judges to the higher judiciary in India, consider the following statements:<br>1. The Memorandum of Procedure (MoP) governing judicial appointments has been a persistent source of friction between the Collegium and the Union Government.<br>2. Delay by the Government in acting on names recommended by the Collegium has been a recurring criticism relating to judicial appointments.<br>3. Once the Collegium reiterates a name, the Constitution mandates its appointment within thirty days without exception.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "Disagreements over the Memorandum of Procedure and delays by the Government in clearing Collegium-recommended names have long been criticised as undermining judicial independence and causing vacancies. There is no explicit constitutional provision mandating appointment within thirty days of reiteration; this is only a judicially evolved convention, making statement 3 incorrect."
+},
+{
+    q: "With reference to the features and characteristics of the Election Commission of India, consider the following statements:<br>1. It is a permanent constitutional body established under Article 324 of the Constitution.<br>2. The Chief Election Commissioner has more power than the other Election Commissioners in matters of decision-making.<br>3. It performs administrative, advisory, and quasi-judicial functions in connection with elections.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The ECI is a permanent constitutional body under Article 324 that performs administrative, advisory, and quasi-judicial functions. In T.N. Seshan v. Union of India (1995), the Supreme Court held that the CEC and other Election Commissioners have equal powers in decision-making, and decisions are taken by majority, making statement 2 incorrect."
+},
+{
+    q: "With reference to the Delimitation Commission proposed under the Delimitation Bill, 2026, consider the following statements:<br>1. It is proposed to comprise a Chairperson who is or has been a Supreme Court Judge, the Chief Election Commissioner or an Election Commissioner, and the State Election Commissioner of the concerned state.<br>2. The upcoming delimitation exercise is proposed to be based on the 2011 Census rather than waiting for the first census after 2026.<br>3. Orders of the Delimitation Commission, once notified, cannot be challenged in any court of law.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "The Delimitation Bill, 2026 proposes a Commission comprising a Chairperson who is/has been a Supreme Court Judge, the CEC or a nominated EC, and the concerned State Election Commissioner, with delimitation proposed on the basis of the 2011 Census rather than a post-2026 census. As with earlier Delimitation Acts, the orders of the Commission are generally made immune from judicial challenge once notified, confirming statement 3."
+},
+{
+    q: "With reference to the Public Accounts Committee (PAC) of the Indian Parliament, consider the following statements:<br>1. It examines the appropriation accounts and the audit reports of the Comptroller and Auditor General.<br>2. By convention, the Chairperson of the PAC is a member of the ruling party nominated by the Speaker.<br>3. The PAC can question the wisdom or merits of government policy while scrutinising expenditure.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only"
+    ],
+    ans: 0,
+    exp: "The PAC examines appropriation accounts and CAG reports to ensure that expenditure was in accordance with Parliament's sanction. Since 1967, by convention the Chairperson has been from the principal opposition party, not the ruling party, making statement 2 incorrect. The Committee restricts itself to examining regularity and propriety of expenditure and does not question the merits of government policy, making statement 3 incorrect."
+},
+{
+    q: "With reference to appointments made by the President of India, consider the following functionaries:<br>1. Chief Justice of India<br>2. Comptroller and Auditor General of India<br>3. Attorney General for India<br>4. State Election Commissioner<br>How many of the above are appointed by the President of India?",
+    opts: [
+        "Only one",
+        "Only two",
+        "Only three",
+        "All four"
+    ],
+    ans: 2,
+    exp: "The Chief Justice of India, the Comptroller and Auditor General, and the Attorney General for India are all appointed by the President of India. The State Election Commissioner, however, is appointed by the Governor of the concerned state under Article 243K, not by the President, making the correct count three."
+},
+{
+    q: "With reference to the Ayushman Bharat - Pradhan Mantri Jan Arogya Yojana (AB-PMJAY), consider the following statements:<br>1. The National Health Authority (NHA) is the apex body responsible for implementing the scheme at the national level.<br>2. It provides a health cover on a fully premium-based individual insurance model where beneficiaries pay a subsidised premium.<br>3. Empanelled hospitals under the scheme include both public and private healthcare providers.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "The National Health Authority is the apex implementing body for AB-PMJAY, which empanels both public and private hospitals to provide cashless treatment. The scheme is entirely government-funded for eligible beneficiaries and does not require them to pay any premium, unlike a conventional insurance model, making statement 2 incorrect."
+}
+];
+
+
+
+const CORRECT_MARKS = 2;
+const NEGATIVE_MARKS = 2 / 3;
+
+let current = 0;
+const responses = new Array(QUESTIONS.length).fill(null);
+let submitted = false;
+
+const qNumEl = document.getElementById('qNum');
+const qTotalEl = document.getElementById('qTotal');
+const qTotalNoteEl = document.getElementById('qTotalNote');
+const qTextEl = document.getElementById('qText');
+const optionsListEl = document.getElementById('optionsList');
+const qStatusTag = document.getElementById('qStatusTag');
+const explainBox = document.getElementById('explainBox');
+const explainText = document.getElementById('explainText');
+const paletteGrid = document.getElementById('paletteGrid');
+const answeredCountEl = document.getElementById('answeredCount');
+const skippedCountEl = document.getElementById('skippedCount');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const clearBtn = document.getElementById('clearBtn');
+const submitBtn = document.getElementById('submitBtn');
+const paperView = document.getElementById('paperView');
+const resultView = document.getElementById('resultView');
+const reviewBtn = document.getElementById('reviewBtn');
+const scoreText = document.getElementById('scoreText');
+const scorePercent = document.getElementById('scorePercent');
+
+const confirmModal = document.getElementById('confirmModal');
+const modalMessage = document.getElementById('modalMessage');
+const modalIcon = document.getElementById('modalIcon');
+const modalGoBack = document.getElementById('modalGoBack');
+const modalConfirm = document.getElementById('modalConfirm');
+
+qTotalEl.textContent = QUESTIONS.length;
+qTotalNoteEl.textContent = QUESTIONS.length;
+skippedCountEl.textContent = QUESTIONS.length;
+
+function buildPalette(){
+  paletteGrid.innerHTML = '';
+  QUESTIONS.forEach((_, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.textContent = i + 1;
+    cell.addEventListener('click', () => { current = i; render(); });
+    paletteGrid.appendChild(cell);
+  });
+}
+
+function render(){
+  const item = QUESTIONS[current];
+  qNumEl.textContent = current + 1;
+  qTextEl.innerHTML = item.q;
+
+  optionsListEl.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  const userChoice = responses[current];
+  item.opts.forEach((opt, idx) => {
+    const div = document.createElement('div');
+    let cls = 'option';
+    if (submitted){
+      cls += ' locked';
+      if (idx === item.ans) cls += ' correct';
+      else if (idx === userChoice) cls += ' incorrect';
+    } else if (userChoice === idx){
+      cls += ' selected';
+    }
+    div.className = cls;
+    div.innerHTML = `<span class="tag">${letters[idx]}</span><span class="opt-text"></span>`;
+    div.querySelector('.opt-text').textContent = opt;
+    div.addEventListener('click', () => {
+      if (submitted) return;
+      responses[current] = idx;
+      render();
+    });
+    optionsListEl.appendChild(div);
+  });
+
+  if (submitted){
+    if (userChoice === null){
+      qStatusTag.textContent = '⚠ Not Answered · Correct answer shown';
+      qStatusTag.className = 'q-status-tag review-unanswered';
+    } else if (userChoice === item.ans){
+      qStatusTag.textContent = '✓ Correct';
+      qStatusTag.className = 'q-status-tag correct';
+    } else {
+      qStatusTag.textContent = '✗ Incorrect';
+      qStatusTag.className = 'q-status-tag incorrect';
+    }
+    explainBox.classList.remove('hidden');
+    explainText.innerHTML = '<b>Correct Answer:</b> ' + letters[item.ans] + '. ' + item.opts[item.ans] + '<br><br>' + item.exp;
+  } else {
+    const answered = userChoice !== null;
+    qStatusTag.textContent = answered ? 'Answered' : 'Not Answered';
+    qStatusTag.className = 'q-status-tag ' + (answered ? 'answered' : 'unanswered');
+    explainBox.classList.add('hidden');
+  }
+
+  prevBtn.disabled = current === 0;
+  if (submitted){
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Back to Result' : 'Next →';
+    clearBtn.style.visibility = 'hidden';
+  } else {
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Finish' : 'Next →';
+    clearBtn.style.visibility = 'visible';
+  }
+
+  // palette
+  const cells = paletteGrid.children;
+  for (let i = 0; i < cells.length; i++){
+    cells[i].classList.toggle('current', i === current);
+    if (submitted){
+      const isIncorrect = responses[i] !== null && responses[i] !== QUESTIONS[i].ans;
+      const isCorrect = responses[i] === QUESTIONS[i].ans;
+      cells[i].classList.toggle('incorrect', isIncorrect);
+      cells[i].classList.toggle('answered', isCorrect);
+    } else {
+      cells[i].classList.toggle('answered', responses[i] !== null);
+      cells[i].classList.remove('incorrect');
+    }
+  }
+
+  const answeredTotal = responses.filter(r => r !== null).length;
+  if (submitted){
+    let correct = 0, incorrect = 0;
+    QUESTIONS.forEach((q, i) => {
+      if (responses[i] === null) return;
+      if (responses[i] === q.ans) correct++; else incorrect++;
+    });
+    const unattempted = QUESTIONS.length - answeredTotal;
+    const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+    document.getElementById('tallyRow').innerHTML = `
+      <div class="marks-line"><b>${marks.toFixed(2)}</b><span>Marks Scored</span></div>
+      <div class="tally-grid">
+        <div><b class="stat-correct">${correct}</b>Correct</div>
+        <div><b class="stat-incorrect">${incorrect}</b>Incorrect</div>
+        <div><b class="stat-unattempted">${unattempted}</b>Unattempted</div>
+      </div>
+    `;
+  } else {
+    answeredCountEl.textContent = answeredTotal;
+    skippedCountEl.textContent = QUESTIONS.length - answeredTotal;
+  }
+}
+
+prevBtn.addEventListener('click', () => { if (current > 0){ current--; render(); }});
+nextBtn.addEventListener('click', () => {
+  if (current < QUESTIONS.length - 1){ current++; render(); }
+  else if (submitted){
+    paperView.classList.add('hidden');
+    resultView.classList.remove('hidden');
+  } else {
+    openConfirmModal();
+  }
+});
+clearBtn.addEventListener('click', () => { responses[current] = null; render(); });
+
+submitBtn.addEventListener('click', openConfirmModal);
+
+/* ---------- Confirmation modal logic ---------- */
+function openConfirmModal(){
+  const nameVal = document.getElementById('userName').value.trim();
+  if (nameVal){
+    modalIcon.textContent = '📝';
+    modalMessage.innerHTML = `Submit test : <b>${escapeHtml(nameVal)}</b> ?`;
+  } else {
+    modalIcon.textContent = '⚠️';
+    modalMessage.innerHTML = `You have not set your name, your rank will be set as: <b>Anonymous</b>`;
+  }
+  confirmModal.classList.remove('hidden');
+}
+
+function closeConfirmModal(){
+  confirmModal.classList.add('hidden');
+}
+
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+modalGoBack.addEventListener('click', closeConfirmModal);
+modalConfirm.addEventListener('click', () => {
+  closeConfirmModal();
+  doSubmit();
+});
+confirmModal.addEventListener('click', (e) => {
+  if (e.target === confirmModal) closeConfirmModal();
+});
+
+function doSubmit(){
+  submitted = true;
+  clearInterval(countdown);
+  let correct = 0, incorrect = 0;
+  QUESTIONS.forEach((q, i) => {
+    if (responses[i] === null) return;
+    if (responses[i] === q.ans) correct++; else incorrect++;
+  });
+  const unattempted = QUESTIONS.length - (correct + incorrect);
+  const maxMarks = QUESTIONS.length * CORRECT_MARKS;
+  const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+  const percentage = (marks / maxMarks) * 100;
+
+  scoreText.textContent = marks.toFixed(2) + ' / ' + maxMarks.toFixed(2);
+  scorePercent.textContent = percentage.toFixed(2) + '%';
+  document.getElementById('scoreBreakdown').innerHTML = `
+    <div class="stat correct"><b>${correct}</b><span>Correct</span></div>
+    <div class="stat incorrect"><b>${incorrect}</b><span>Incorrect</span></div>
+    <div class="stat unattempted"><b>${unattempted}</b><span>Unattempted</span></div>
+  `;
+  const userName = document.getElementById('userName').value.trim() || "Anonymous"; 
+  fetch(SHEET_ENDPOINT, {
+    method: "POST",
+    mode: "no-cors",
+    body: JSON.stringify({
+      name: userName,
+      marks: marks.toFixed(2),
+      correct: correct,
+      incorrect: incorrect,
+      unattempted: unattempted,
+      testCode: "PreLoG-2027-03"
+    })
+  }); 
+  submitBtn.style.display = 'none';
+  paperView.classList.add('hidden');
+  resultView.classList.remove('hidden');
+  render();
+}
+
+reviewBtn.addEventListener('click', () => {
+  resultView.classList.add('hidden');
+  paperView.classList.remove('hidden');
+  current = 0;
+  render();
+});
+
+// theme toggle
+const themeSwitch = document.getElementById('themeSwitch');
+themeSwitch.addEventListener('click', () => {
+  const body = document.body;
+  const isDark = body.getAttribute('data-theme') === 'dark';
+  body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+});
+
+// countdown timer
+let seconds = 30 * 60;
+const timerEl = document.getElementById('timer');
+const countdown = setInterval(() => {
+  if (seconds <= 0 || submitted) return;
+  seconds--;
+  const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+  const s = String(seconds % 60).padStart(2, '0');
+  timerEl.textContent = `${m}:${s}`;
+  timerEl.classList.toggle('urgent', seconds <= 60);
+  if (seconds === 0){
+    timerEl.textContent = 'Time Up!';
+    doSubmit();
+  }
+}, 1000);
+
+buildPalette();
+render();
+
+window.addEventListener('beforeunload', function(e){
+  const hasProgress = !submitted && responses.some(r => r !== null);
+  if (hasProgress){
+    e.preventDefault();
+    e.returnValue = 'Your answers have not been submitted. If you leave or refresh this page, all marked answers will be lost.';
+    return e.returnValue;
+  }
+});
+
+</script>
+
+</body>
+</html>
