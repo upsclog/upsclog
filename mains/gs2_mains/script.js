@@ -50,7 +50,7 @@ async function loadDocuments() {
     .map((line) => line.trim())
     .filter(Boolean)
     .map((line) => {
-      const [idPart, ...rest] = line.split(":");
+      const [idPart, ...rest] = line.split("=");
       return {
         id: idPart.trim(),
         title: rest.join(":").trim(),
@@ -218,7 +218,7 @@ function handleModalKeydown(e) {
 }
 
 modalYes.addEventListener("click", () => {
-  if (pendingDoc) window.open(`${PDF_FOLDER}/${pendingDoc.id}.pdf`, "_blank");
+  if (pendingDoc) window.open(`${pendingDoc.id}`, "_blank");
   closeConfirmModal();
 });
 
