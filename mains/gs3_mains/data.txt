@@ -1,6 +1,9 @@
 1 : ___PRESS A LETTER TO JUMP___
 https://acrobat.adobe.com/id/urn:aaid:sc:AP:b059e991-049c-4572-a718-b4151da4eb86 = DPQ_LoG_1
 https://acrobat.adobe.com/id/urn:aaid:sc:AP:636b2ed4-edb3-4798-be4a-aa2809f3795f = DPQ_LoG_12
+https://acrobat.adobe.com/id/urn:aaid:sc:AP:2ce112f7-b13f-4e0c-9873-416a6e853d42 = DPQ_LoG_13
+https://acrobat.adobe.com/id/urn:aaid:sc:AP:d4ecbc45-eb68-4721-b3cf-c1aa5df221e9 = DPQ_LoG_14
 https://acrobat.adobe.com/id/urn:aaid:sc:AP:48aa2b05-34b7-4158-b3af-e17afe1997bc = DPQ_LoG_15
+
 https://drive.google.com/file/d/1dRGSqti265zGk5fNsVfaFGj-oU9cCDt8/view?usp = onepager1_gs3_AP [G-Drive]
 https://drive.google.com/file/d/16hh_UDy6kBVhJpGLi-4oHaoJLobxH080/view?usp = onepager2_gs3_AP[G-Drive]
