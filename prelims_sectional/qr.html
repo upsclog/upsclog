@@ -146,6 +146,38 @@
     object-fit:contain;
     display:block;
   }
+  .qr-download-btn{
+    position:absolute;
+    left:10px;
+    bottom:10px;
+    width:34px;
+    height:34px;
+    background:var(--navy-deep);
+    border:1px solid var(--gold);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 4px 10px rgba(0,0,0,0.4);
+    transition:background 0.3s ease, transform 0.3s ease;
+    z-index:2;
+  }
+  .qr-download-btn:hover{
+    background:var(--gold);
+    transform:translateY(-2px);
+  }
+  .qr-download-btn svg{
+    width:16px;
+    height:16px;
+    stroke:var(--gold-bright);
+    fill:none;
+    stroke-width:2;
+    transition:stroke 0.3s ease;
+  }
+  .qr-download-btn:hover svg{
+    stroke:var(--navy-deep);
+  }
   .qr-placeholder{
     color:var(--navy);
     font-size:13px;
@@ -259,13 +291,13 @@
 </head>
 <body>
 
-<div class="topbar">
-  <a class="back-btn" href="prelims_sectional_test_page.html">
+<!-- <div class="topbar">
+  <a class="back-btn" href="../free_prelims_test_series.html">
     <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
     UPSC LoG Prelims Sectional Tests
   </a>
 </div>
-
+ -->
 <div class="wrap">
   <div class="eyebrow">Secure Payment</div>
   <h1>Scan &amp; Pay to Activate</h1>
@@ -275,7 +307,35 @@
     <div class="qr-panel">
       <div class="qr-image-box">
         <!-- Replace the placeholder below with your actual QR code image, e.g.: -->
-        <img src="my_qr.png" alt="Payment QR Code">
+        <img src="my_qr.png" alt="Payment QR Code" id="qrCodeImg">
+        <a class="qr-download-btn" id="qrDownloadBtn" href="my_qr.png" download="payment_qr_code.png" title="Download QR Code" aria-label="Download QR Code">
+          <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <script>
+          (function(){
+            var btn = document.getElementById('qrDownloadBtn');
+            var imgSrc = document.getElementById('qrCodeImg').getAttribute('src');
+            btn.addEventListener('click', function(e){
+              e.preventDefault();
+              fetch(imgSrc)
+                .then(function(res){ return res.blob(); })
+                .then(function(blob){
+                  var blobUrl = URL.createObjectURL(blob);
+                  var link = document.createElement('a');
+                  link.href = blobUrl;
+                  link.download = 'payment_qr_code.png';
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                  URL.revokeObjectURL(blobUrl);
+                })
+                .catch(function(){
+                  // Fallback: open the image directly if fetch fails (e.g. file:// protocol)
+                  window.open(imgSrc, '_blank');
+                });
+            });
+          })();
+        </script>
       </div>
       <div class="amount-tag"><span>Amount to Pay</span>₹99/year <br>100 sectional tests</div>
     </div>
@@ -300,8 +360,7 @@
     </ul>
   </div>
 
-  <button class="done-btn" onclick="window.close()">Done</button>
-  <div class="done-note">If this tab doesn't close automatically, you may close it manually and return to the test series page.</div>
+<button class="done-btn" onclick="window.location.href='payment/signup_form.html'">CONTINUE TO PAYMENT PAGE</button>
 </div>
 
 </body>
