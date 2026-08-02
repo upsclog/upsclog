@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+<title>The UPSC LoG Register</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #EEF1EE;
+    --paper-raised: #FFFFFF;
+    --ink: #1F2A24;
+    --ink-soft: #4B564E;
+    --line: #D7DED8;
+    --pine: #2F6F4E;
+    --pine-deep: #1F5138;
+    --brass: #B08B2E;
+    --brass-soft: #F1E6C8;
+    --danger: #B34B3C;
+    --radius: 14px;
+    --shadow: 0 1px 2px rgba(31,42,36,0.06), 0 8px 24px -12px rgba(31,42,36,0.18);
+  }
+
+  *{ box-sizing: border-box; }
+
+  html,body{
+    margin:0; padding:0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body{
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(31,42,36,0.05) 1px, transparent 0);
+    background-size: 22px 22px;
+  }
+
+  .wrap{
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 28px 18px 64px;
+  }
+
+  header.page-head{
+    margin-bottom: 22px;
+    text-align: left;
+  }
+
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--pine-deep);
+    display:flex; align-items:center; gap:8px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:7px; height:7px; border-radius:50%;
+    background: var(--pine);
+    display:inline-block;
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{ opacity:1; transform:scale(1); }
+    50%{ opacity:.45; transform:scale(1.3); }
+  }
+
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight: 700;
+    font-size: clamp(28px, 6vw, 38px);
+    line-height: 1.08;
+    margin: 6px 0 6px;
+    letter-spacing: -0.01em;
+  }
+
+  .sub{
+    color: var(--ink-soft);
+    font-size: 14.5px;
+    max-width: 46ch;
+    line-height: 1.5;
+  }
+
+  /* ---------- LEDGER (leaderboard) ---------- */
+
+  .ledger-card{
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+
+  .ledger-head{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 14px 18px 12px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .ledger-title{
+    font-family:'Fraunces', serif;
+    font-weight: 600;
+    font-size: 17px;
+  }
+
+  .ledger-meta{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    color: var(--ink-soft);
+  }
+
+  .ledger-scroll{
+    max-height: 320px;
+    overflow-y: auto;
+    overflow-x: auto;
+  }
+
+  table.ledger{
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 620px;
+    font-size: 13.5px;
+  }
+
+  table.ledger thead th{
+    position: sticky;
+    top: 0;
+    background: var(--paper-raised);
+    text-align: center;
+    font-family:'IBM Plex Mono', monospace;
+    font-weight: 600;
+    font-size: 10.5px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+    z-index: 2;
+  }
+
+  table.ledger thead th:first-child{
+    text-align:left;
+    left:0;
+    z-index:3;
+  }
+
+  table.ledger tbody td{
+    padding: 10px 8px;
+    text-align:center;
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+  }
+
+  table.ledger tbody tr:last-child td{ border-bottom:none; }
+
+  table.ledger tbody td:first-child{
+    text-align:left;
+    font-weight: 600;
+    background: var(--paper-raised);
+  }
+
+  .name-cell{
+    display:flex; align-items:center; gap:8px;
+  }
+  .name-dot{
+    width:7px; height:7px; border-radius:50%;
+    background: var(--brass);
+    flex-shrink:0;
+  }
+
+  .mark-yes{
+    color: var(--pine-deep);
+    font-weight: 700;
+    font-size: 15px;
+  }
+  .mark-no{
+    color: var(--line);
+    font-weight: 700;
+  }
+
+  .updated-cell{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+  }
+
+  .ledger-empty, .ledger-error{
+    padding: 30px 18px;
+    text-align:center;
+    color: var(--ink-soft);
+    font-size: 13.5px;
+  }
+  .ledger-error{ color: var(--danger); }
+
+  /* ---------- FORM CARD ---------- */
+
+  .form-card{
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 22px 20px 24px;
+  }
+
+  .form-card h2{
+    font-family:'Fraunces', serif;
+    font-size: 19px;
+    font-weight: 600;
+    margin: 0 0 4px;
+  }
+  .form-card p.hint{
+    margin: 0 0 18px;
+    color: var(--ink-soft);
+    font-size: 13.5px;
+  }
+
+  label.field-label{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+  }
+
+  input#nameInput, input#emailInput{
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    background: var(--paper);
+    color: var(--ink);
+    margin-bottom: 6px;
+    transition: border-color .15s ease, background .15s ease;
+  }
+  input#nameInput{ margin-bottom: 20px; }
+  input#nameInput:focus, input#emailInput:focus{
+    outline: none;
+    border-color: var(--pine);
+    background: #fff;
+  }
+  input#emailInput.field-invalid{
+    border-color: var(--danger);
+  }
+
+  .field-note{
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin: 0 0 20px;
+  }
+  .field-note.err{ color: var(--danger); }
+
+  .stamp-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+  @media (max-width: 460px){
+    .stamp-grid{ grid-template-columns: 1fr; }
+  }
+
+  .stamp{
+    display:flex;
+    align-items:center;
+    gap: 12px;
+    padding: 12px 12px;
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    cursor:pointer;
+    user-select:none;
+    background: var(--paper);
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .stamp:active{ transform: scale(0.99); }
+
+  .stamp input{ display:none; }
+
+  .stamp-circle{
+    width: 26px; height:26px;
+    border-radius:50%;
+    border: 2px solid var(--ink-soft);
+    flex-shrink:0;
+    position:relative;
+    transition: transform .18s cubic-bezier(.34,1.56,.64,1), border-color .15s ease, background .15s ease;
+  }
+  .stamp-circle::after{
+    content:"✓";
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    color:#fff;
+    font-size: 14px;
+    font-weight: 700;
+    opacity:0;
+    transform: scale(0.4);
+    transition: opacity .12s ease, transform .18s cubic-bezier(.34,1.56,.64,1);
+  }
+
+  .stamp span.stamp-text{
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .stamp input:checked ~ .stamp-circle{
+    background: var(--pine);
+    border-color: var(--pine-deep);
+    transform: rotate(-8deg) scale(1.05);
+  }
+  .stamp input:checked ~ .stamp-circle::after{
+    opacity:1;
+    transform: scale(1) rotate(8deg);
+  }
+  .stamp:has(input:checked){
+    border-color: var(--pine);
+    background: #F1F7F3;
+  }
+
+  button#submitBtn{
+    width:100%;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family:'Inter', sans-serif;
+    color: #fff;
+    background: var(--ink);
+    border: none;
+    border-radius: 10px;
+    cursor:pointer;
+    letter-spacing: 0.01em;
+    transition: background .15s ease, transform .1s ease;
+  }
+  button#submitBtn:hover{ background: var(--pine-deep); }
+  button#submitBtn:active{ transform: scale(0.985); }
+  button#submitBtn:disabled{
+    background: var(--ink-soft);
+    cursor: not-allowed;
+  }
+
+  .form-msg{
+    margin-top: 12px;
+    font-size: 13px;
+    text-align:center;
+    min-height: 18px;
+  }
+  .form-msg.ok{ color: var(--pine-deep); }
+  .form-msg.err{ color: var(--danger); }
+
+  /* ---------- MODAL ---------- */
+
+  .modal-backdrop{
+    position: fixed; inset:0;
+    background: rgba(20,26,22,0.45);
+    display:flex; align-items:flex-end; justify-content:center;
+    z-index: 50;
+    opacity:0;
+    pointer-events:none;
+    transition: opacity .2s ease;
+  }
+  .modal-backdrop.open{
+    opacity:1;
+    pointer-events:auto;
+  }
+  @media (min-width: 560px){
+    .modal-backdrop{ align-items:center; }
+  }
+
+  .modal-card{
+    background: var(--paper-raised);
+    width: 100%;
+    max-width: 400px;
+    border-radius: 18px 18px 0 0;
+    padding: 26px 22px 22px;
+    box-shadow: 0 -8px 30px rgba(0,0,0,0.18);
+    transform: translateY(16px);
+    transition: transform .22s cubic-bezier(.2,.8,.2,1);
+  }
+  @media (min-width: 560px){
+    .modal-card{ border-radius: 16px; margin: 0 16px; }
+  }
+  .modal-backdrop.open .modal-card{ transform: translateY(0); }
+
+  .modal-eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+
+  .modal-name{
+    font-family:'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 6px;
+    word-break: break-word;
+  }
+
+  .modal-email{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    margin: 0 0 14px;
+    word-break: break-word;
+  }
+
+  .modal-q{
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin: 0 0 20px;
+  }
+
+  .modal-summary{
+    display:flex; flex-wrap:wrap; gap:6px;
+    margin-bottom: 22px;
+  }
+  .chip{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px;
+    padding: 5px 9px;
+    border-radius: 20px;
+    background: var(--brass-soft);
+    color: #6B551E;
+    border: 1px solid #E4D3A0;
+  }
+  .chip.chip-none{
+    background: var(--paper);
+    color: var(--ink-soft);
+    border-color: var(--line);
+  }
+
+  .modal-actions{
+    display:flex; flex-direction:column; gap:10px;
+  }
+
+  .btn-yes{
+    padding: 13px;
+    border-radius: 10px;
+    border:none;
+    background: var(--pine);
+    color:#fff;
+    font-weight:600;
+    font-size:14.5px;
+    cursor:pointer;
+  }
+  .btn-yes:hover{ background: var(--pine-deep); }
+
+  .btn-back{
+    padding: 13px;
+    border-radius: 10px;
+    border: 1.5px solid var(--line);
+    background: transparent;
+    color: var(--ink);
+    font-weight:500;
+    font-size:14.5px;
+    cursor:pointer;
+  }
+  .btn-back:hover{ background: var(--paper); }
+
+  footer.setup-note{
+    margin-top: 30px;
+  }
+  footer.setup-note summary{
+    cursor:pointer;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    letter-spacing:0.04em;
+  }
+  footer.setup-note .box{
+    margin-top: 10px;
+    padding: 14px 16px;
+    background: var(--paper-raised);
+    border: 1px dashed var(--line);
+    border-radius: 10px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+  footer.setup-note code{
+    background: var(--paper);
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    color: var(--ink);
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="page-head">
+    <div class="eyebrow">Today's register</div>
+    <h1>UPSC LoG Register</h1>
+    <p class="sub">Dont enter duplicate email id's<br><large>For Monthly Consistency pdf - UPSC LoG Telegram</large></p>
+  </header>
+
+  <!-- LEADERBOARD / LEDGER -->
+  <section class="ledger-card">
+    <div class="ledger-head">
+      <div class="ledger-title">Today's entries</div>
+      <div class="ledger-meta" id="ledgerMeta">loading…</div>
+    </div>
+    <div class="ledger-scroll" id="ledgerScroll">
+      <div class="ledger-empty" id="ledgerLoading">Fetching today's entries…</div>
+    </div>
+  </section>
+
+  <!-- FORM -->
+  <section class="form-card">
+    <h2>Proper name & Email id</h2>
+    <p class="hint">"Remember, you can lie to anyone but God and yourself."</p>
+
+    <label class="field-label" for="nameInput">Name</label>
+    <input id="nameInput" type="text" placeholder="e.g. Ananya" autocomplete="name" />
+
+    <label class="field-label" for="emailInput">Email</label>
+    <input id="emailInput" type="email" placeholder="e.g. ananya@example.com" autocomplete="email" inputmode="email" />
+    <div class="field-note" id="emailNote">Used to identify you uniquely — required, and must contain @.</div>
+
+    <div class="stamp-grid" id="stampGrid">
+      <!-- generated by JS -->
+    </div>
+
+    <button id="submitBtn">Submit entry</button>
+    <div class="form-msg" id="formMsg"></div>
+  </section>
+
+  <footer class="setup-note">
+    <details>
+      <summary>by the UPSC LoG team</summary>
+      <div class="box">
+        This page needs a Google Apps Script Web App URL to store entries in a Google Sheet.
+        Open the accompanying <code>Code.gs</code> file's instructions, deploy it as a Web App
+        (Execute as: <b>Me</b>, Who has access: <b>Anyone</b>), copy the deployment URL, and paste it
+        into the <code>SCRIPT_URL</code> constant near the top of the <code>&lt;script&gt;</code> section
+        in this file. Until that's done, the ledger will show a connection message and submissions
+        won't be saved.
+      </div>
+    </details>
+  </footer>
+
+</div>
+
+<!-- CONFIRMATION MODAL -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal-card">
+    <div class="modal-eyebrow">Confirm entry</div>
+    <p class="modal-name" id="modalName"></p>
+    <p class="modal-email" id="modalEmail"></p>
+    <p class="modal-q">Do you want to continue with this name?</p>
+    <div class="modal-summary" id="modalSummary"></div>
+    <div class="modal-actions">
+      <button class="btn-yes" id="modalYes">Yes, submit</button>
+      <button class="btn-back" id="modalBack">Go back &amp; edit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+
+  // ============================================================
+  // 1. CONFIG — replace with your deployed Apps Script Web App URL
+  // ============================================================
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwPsTN-SYy2va1vxlNSI7cBr2IbrO1N-TmjJGGNz8U8YgF3GtShZUsv0vNmcHcDBb_3CQ/exec";
+
+  const TASKS = [
+    { key: "dca",              label: "DCA done",              short: "DCA" },
+    { key: "prelog",           label: "PreLog Test done",      short: "PreLog" },
+    { key: "answerWriting",    label: "Answer Writing",        short: "Ans. Writing" },
+    { key: "newspaper",        label: "Newspaper Read",        short: "Newspaper" },
+    { key: "gsRevision",       label: "GS revision",           short: "GS Rev" },
+    { key: "optionalRevision", label: "Optional Revision",     short: "Opt Rev" },
+  ];
+
+  // ============================================================
+  // 2. Build the checkbox "stamp" grid
+  // ============================================================
+  const stampGrid = document.getElementById('stampGrid');
+  TASKS.forEach(t => {
+    const label = document.createElement('label');
+    label.className = 'stamp';
+    label.innerHTML = `
+      <input type="checkbox" data-key="${t.key}" />
+      <span class="stamp-circle"></span>
+      <span class="stamp-text">${t.label}</span>
+    `;
+    stampGrid.appendChild(label);
+  });
+
+  const nameInput   = document.getElementById('nameInput');
+  const emailInput  = document.getElementById('emailInput');
+  const emailNote   = document.getElementById('emailNote');
+  const submitBtn   = document.getElementById('submitBtn');
+  const formMsg     = document.getElementById('formMsg');
+  const modal       = document.getElementById('modalBackdrop');
+  const modalName   = document.getElementById('modalName');
+  const modalEmail  = document.getElementById('modalEmail');
+  const modalSummary= document.getElementById('modalSummary');
+  const modalYes    = document.getElementById('modalYes');
+  const modalBack   = document.getElementById('modalBack');
+
+  function isValidEmail(v){
+    // must contain @ with something on both sides — deliberately simple, not a full RFC check
+    return /^[^\s@]+@[^\s@]+$/.test(v);
+  }
+
+  function getChecks(){
+    const boxes = stampGrid.querySelectorAll('input[type=checkbox]');
+    const result = {};
+    boxes.forEach(b => result[b.dataset.key] = b.checked);
+    return result;
+  }
+
+  function openModal(name, email, checks){
+    modalName.textContent = name;
+    modalEmail.textContent = email;
+    modalSummary.innerHTML = "";
+    const doneTasks = TASKS.filter(t => checks[t.key]);
+    if(doneTasks.length === 0){
+      const chip = document.createElement('span');
+      chip.className = 'chip chip-none';
+      chip.textContent = 'Nothing ticked yet';
+      modalSummary.appendChild(chip);
+    } else {
+      doneTasks.forEach(t => {
+        const chip = document.createElement('span');
+        chip.className = 'chip';
+        chip.textContent = t.short;
+        modalSummary.appendChild(chip);
+      });
+    }
+    modal.classList.add('open');
+  }
+  function closeModal(){
+    modal.classList.remove('open');
+  }
+
+  emailInput.addEventListener('input', () => {
+    emailInput.classList.remove('field-invalid');
+    emailNote.textContent = 'Used to identify you uniquely — required, and must contain @.';
+    emailNote.classList.remove('err');
+  });
+
+  modalBack.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => { if(e.target === modal) closeModal(); });
+
+  submitBtn.addEventListener('click', () => {
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    formMsg.textContent = '';
+    formMsg.className = 'form-msg';
+    emailInput.classList.remove('field-invalid');
+    emailNote.classList.remove('err');
+
+    if(!name){
+      formMsg.textContent = 'Please enter your name first.';
+      formMsg.className = 'form-msg err';
+      nameInput.focus();
+      return;
+    }
+    if(!email || !isValidEmail(email)){
+      emailInput.classList.add('field-invalid');
+      emailNote.textContent = 'A valid email (with @) is required — entries can\'t be made without one.';
+      emailNote.classList.add('err');
+      emailInput.focus();
+      return;
+    }
+    openModal(name, email, getChecks());
+  });
+
+  modalYes.addEventListener('click', async () => {
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    const checks = getChecks();
+    modalYes.disabled = true;
+    modalYes.textContent = 'Submitting…';
+
+    const payload = Object.assign({ name, email }, checks);
+
+    try{
+      if(SCRIPT_URL.indexOf('PASTE_YOUR') !== -1){
+        throw new Error('SCRIPT_URL not configured');
+      }
+      const res = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      });
+      if(!res.ok) throw new Error('Network error');
+      const result = await res.json();
+      if(result.status !== 'success') throw new Error(result.message || 'Server rejected the entry');
+
+      formMsg.textContent = `Saved — thanks, ${name}!`;
+      formMsg.className = 'form-msg ok';
+      closeModal();
+      loadLedger();
+    } catch(err){
+      formMsg.textContent = "Couldn't save your entry. Check the setup note below and try again.";
+      formMsg.className = 'form-msg err';
+      closeModal();
+    } finally {
+      modalYes.disabled = false;
+      modalYes.textContent = 'Yes, submit';
+    }
+  });
+
+  // ============================================================
+  // 3. Ledger (leaderboard) — fixed-size scrollable box, fed by GET
+  // ============================================================
+  const ledgerScroll = document.getElementById('ledgerScroll');
+  const ledgerMeta   = document.getElementById('ledgerMeta');
+
+  function timeAgo(dateStr){
+    const d = new Date(dateStr);
+    if(isNaN(d)) return '';
+    const diffMs = Date.now() - d.getTime();
+    const mins = Math.floor(diffMs / 60000);
+    if(mins < 1) return 'just now';
+    if(mins < 60) return mins + 'm ago';
+    const hrs = Math.floor(mins / 60);
+    if(hrs < 24) return hrs + 'h ago';
+    return d.toLocaleDateString(undefined, { day:'numeric', month:'short' });
+  }
+
+  function isSameDay(a, b){
+    return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate();
+  }
+
+  function truthy(v){
+    return v === true || v === 'TRUE' || v === 'true' || v === 1 || v === '1';
+  }
+
+  function renderLedger(rows){
+    // Keep only today's rows, then latest entry per person wins.
+    const today = new Date();
+    const latestByEmail = {};
+    rows.forEach(r => {
+      if(!r.Name || !r.Email) return;
+      const ts = new Date(r.Timestamp);
+      if(!isSameDay(ts, today)) return;
+      const key = String(r.Email).trim().toLowerCase();
+      const existing = latestByEmail[key];
+      if(!existing || new Date(existing.Timestamp) < ts){
+        latestByEmail[key] = r;
+      }
+    });
+
+    const people = Object.values(latestByEmail).sort((a,b) => {
+      const scoreA = TASKS.reduce((s,t) => s + (truthy(a[headerFor(t)]) ? 1 : 0), 0);
+      const scoreB = TASKS.reduce((s,t) => s + (truthy(b[headerFor(t)]) ? 1 : 0), 0);
+      return scoreB - scoreA || String(a.Name).localeCompare(String(b.Name));
+    });
+
+    ledgerMeta.textContent = people.length + (people.length === 1 ? ' entry today' : ' entries today');
+
+    if(people.length === 0){
+      ledgerScroll.innerHTML = '<div class="ledger-empty">No one has logged today yet — be the first.</div>';
+      return;
+    }
+
+    let html = '<table class="ledger"><thead><tr><th>Name</th>';
+    TASKS.forEach(t => html += `<th>${t.short}</th>`);
+    html += '<th>Updated</th></tr></thead><tbody>';
+
+    people.forEach(p => {
+      html += `<tr><td><span class="name-cell"><span class="name-dot"></span>${escapeHtml(p.Name)}</span></td>`;
+      TASKS.forEach(t => {
+        const done = truthy(p[headerFor(t)]);
+        html += `<td>${done ? '<span class="mark-yes">✓</span>' : '<span class="mark-no">–</span>'}</td>`;
+      });
+      html += `<td class="updated-cell">${timeAgo(p.Timestamp)}</td></tr>`;
+    });
+
+    html += '</tbody></table>';
+    ledgerScroll.innerHTML = html;
+  }
+
+  // Maps our task keys to the exact column headers written by Code.gs
+  const HEADER_MAP = {
+    dca: 'DCA',
+    prelog: 'PreLog Test',
+    answerWriting: 'Answer Writing',
+    newspaper: 'Newspaper',
+    gsRevision: 'GS Revision',
+    optionalRevision: 'Optional Revision'
+  };
+  function headerFor(t){ return HEADER_MAP[t.key]; }
+
+  function escapeHtml(str){
+    return String(str).replace(/[&<>"']/g, c => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+  }
+
+  async function loadLedger(){
+    if(SCRIPT_URL.indexOf('PASTE_YOUR') !== -1){
+      ledgerMeta.textContent = 'not connected';
+      ledgerScroll.innerHTML = '<div class="ledger-error">No data source configured yet. See the setup note below to connect your Google Sheet.</div>';
+      return;
+    }
+    try{
+      const res = await fetch(SCRIPT_URL, { method: 'GET' });
+      if(!res.ok) throw new Error('bad response');
+      const rows = await res.json();
+      renderLedger(Array.isArray(rows) ? rows : []);
+    } catch(err){
+      ledgerMeta.textContent = 'error';
+      ledgerScroll.innerHTML = '<div class="ledger-error">Could not load the ledger right now. Pull to refresh or check back shortly.</div>';
+    }
+  }
+
+  loadLedger();
+  setInterval(loadLedger, 30000); // keep the group ledger fresh
+
+})();
+</script>
+
+</body>
+</html>
