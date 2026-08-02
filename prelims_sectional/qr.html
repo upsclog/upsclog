@@ -1,367 +1,365 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UPSC LoG — Make Payment</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;1,9..144,450&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+<title>UPSC LoG — Payments Page</title>
 <style>
-  :root{
-    --navy:#0E1B2E;
-    --navy-deep:#081120;
-    --paper:#FBF8F1;
-    --gold:#C6A15B;
-    --gold-bright:#E7C482;
-    --maroon:#7B2D2D;
-    --text-light:#ECE5D4;
-    --text-dim:#9FA9BC;
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; background: #EFE9DA;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #1F2A44; -webkit-text-size-adjust: 100%;
   }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body{
-    background:
-      radial-gradient(circle at 85% 0%, rgba(198,161,91,0.10), transparent 45%),
-      radial-gradient(circle at 5% 100%, rgba(123,45,45,0.12), transparent 40%),
-      linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
-    color:var(--text-light);
-    font-family:'Inter',sans-serif;
-    min-height:100vh;
+  .page {
+    min-height: 100vh; display: flex; align-items: flex-start; justify-content: center;
+    padding: 24px 14px 48px;
   }
-  h1,h2{font-family:'Fraunces',serif;font-weight:450;}
-  a{text-decoration:none;color:inherit;}
+  .card {
+    width: 100%; max-width: 440px; background: #FAF6EF;
+    border-radius: 14px; border: 1px solid #E4DCC8;
+    box-shadow: 0 1px 3px rgba(31,42,68,0.06), 0 8px 24px rgba(31,42,68,0.06);
+    overflow: hidden;
+  }
+  .header {
+    background: #1F2A44; padding: 30px 24px 26px; text-align: center;
+    border-bottom: 3px solid #C9A227;
+  }
+  .brand-eyebrow {
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: #C9A227; margin: 0 0 8px;
+  }
+  .brand-title {
+    font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
+    color: #FAF6EF; margin: 0; line-height: 1.15;
+    font-size: clamp(28px, 8vw, 34px);
+  }
+  .brand-sub {
+    font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: #B9C0D1; margin: 6px 0 0;
+  }
+  .body { padding: 26px 22px 28px; }
+  .intro {
+    font-size: 14px; color: #6B6252; line-height: 1.55; margin: 0 0 24px;
+  }
+  .field { margin-bottom: 18px; }
+  label {
+    display: block; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase;
+    color: #8B7F68; margin-bottom: 6px; font-weight: 600;
+  }
+  .input-wrap { position: relative; }
+  input[type="text"], input[type="tel"], input[type="password"] {
+    width: 100%; padding: 13px 14px; font-size: 16px; font-family: inherit;
+    border: 1.5px solid #D8D0BE; border-radius: 8px; background: #FFFDF8; color: #1F2A44;
+    min-height: 48px;
+  }
+  input:focus {
+    outline: none; border-color: #B4432A; box-shadow: 0 0 0 3px rgba(180,67,42,0.12);
+  }
+  input.has-toggle { padding-right: 46px; }
+  .eye-btn {
+    position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+    width: 38px; height: 38px; border: none; background: transparent; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; color: #8B7F68; border-radius: 6px;
+  }
+  .eye-btn:hover { background: #EFE9DA; }
+  .hint { font-size: 12px; color: #8B7F68; margin-top: 6px; }
+  .err { font-size: 12.5px; color: #B4432A; margin-top: 6px; display: none; }
 
-  /* ---------- Top bar / back button ---------- */
-  .topbar{
-    display:flex;
-    align-items:center;
-    padding:34px 6vw 0 6vw;
+  .qr-block { margin-top: 16px; margin-bottom: 18px; text-align: center; }
+  .qr-frame {
+    position: relative; display: inline-block; border-radius: 10px;
+    overflow: hidden; border: 1px solid #E4DCC8; background: #FFFDF8;
+    line-height: 0;
   }
-  .back-btn{
-    display:inline-flex;
-    align-items:center;
-    gap:10px;
-    padding:10px 20px 10px 16px;
-    border:1px solid rgba(198,161,91,0.35);
-    border-radius:999px;
-    font-size:13px;
-    letter-spacing:0.5px;
-    color:var(--gold-bright);
-    transition:border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
-    background:none;
-    cursor:pointer;
-    font-family:'Inter',sans-serif;
+  .qr-frame img { display: block; width: 220px; height: auto; max-width: 100%; }
+  .qr-download {
+    position: absolute; bottom: 8px; right: 8px; width: 34px; height: 34px;
+    border-radius: 50%; background: #1F2A44; color: #FAF6EF; border: none;
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    box-shadow: 0 2px 6px rgba(31,42,68,0.35); text-decoration: none;
   }
-  .back-btn svg{width:16px;height:16px;stroke:var(--gold-bright);fill:none;stroke-width:2;}
-  .back-btn:hover{
-    border-color:var(--gold-bright);
-    background:rgba(198,161,91,0.08);
-    transform:translateX(-3px);
-  }
+  .qr-download:hover { background: #B4432A; }
+  .qr-caption { font-size: 12.5px; color: #8B7F68; margin: 8px 0 0; }
 
-  /* ---------- Page wrapper ---------- */
-  .wrap{
-    max-width:900px;
-    margin:0 auto;
-    padding:44px 6vw 90px 6vw;
-    text-align:center;
+  .upload-box {
+    border: 2px dashed #C9BFA6; border-radius: 10px; padding: 22px 16px;
+    text-align: center; cursor: pointer; background: #FFFDF8; transition: border-color 0.15s;
+    display: block;
   }
-  .eyebrow{
-    font-size:12px;
-    letter-spacing:4px;
-    text-transform:uppercase;
-    color:var(--gold);
+  .upload-box:hover, .upload-box.dragover { border-color: #B4432A; background: #FBF3EC; }
+  .upload-box input[type="file"] { display: none; }
+  .upload-icon { color: #B4432A; margin-bottom: 8px; }
+  .upload-text { font-size: 14px; color: #1F2A44; font-weight: 600; margin: 0 0 4px; }
+  .upload-subtext { font-size: 12.5px; color: #8B7F68; margin: 0; }
+  .preview-wrap {
+    display: none; align-items: center; gap: 12px; margin-top: 12px;
+    padding: 10px 12px; background: #FFFDF8; border: 1px solid #E4DCC8; border-radius: 8px;
   }
-  .eyebrow::before, .eyebrow::after{content:"—"; color:var(--maroon); margin:0 12px;}
-  .wrap h1{
-    font-size:clamp(1.6rem, 4vw, 2.2rem);
-    color:var(--paper);
-    margin-top:16px;
-  }
-  .wrap > p.sub{
-    margin-top:12px;
-    color:var(--text-dim);
-    font-weight:300;
-    line-height:1.7;
-    font-size:14px;
-  }
+  .preview-wrap.show { display: flex; }
+  .preview-thumb { width: 48px; height: 48px; object-fit: cover; border-radius: 6px; border: 1px solid #E4DCC8; flex-shrink: 0; }
+  .preview-info { flex: 1; min-width: 0; }
+  .preview-name { font-size: 13px; font-weight: 600; color: #1F2A44; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .preview-remove { font-size: 12px; color: #B4432A; background: none; border: none; cursor: pointer; padding: 4px 0; text-decoration: underline; }
 
-  /* ---------- Content row (QR + instructions side by side on desktop) ---------- */
-  .content-row{
-    display:flex;
-    align-items:stretch;
-    gap:28px;
-    margin-top:38px;
-    text-align:left;
+  .btn-primary {
+    width: 100%; min-height: 52px; background: #B4432A; color: #FAF6EF;
+    border: none; border-radius: 9px; font-size: 16px; font-weight: 700;
+    font-family: inherit; cursor: pointer; margin-top: 6px; letter-spacing: 0.01em;
   }
-  .content-row .qr-panel,
-  .content-row .rules{
-    margin-top:0;
-  }
-  .content-row .qr-panel{
-    flex:0 0 340px;
-    text-align:center;
-  }
-  .content-row .rules{
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-  }
+  .btn-primary:active { background: #9A3620; }
+  .btn-primary:disabled { background: #D9BBAD; cursor: not-allowed; }
 
-  /* ---------- QR panel ---------- */
-  .qr-panel{
-    margin:38px auto 0 auto;
-    background:linear-gradient(180deg, rgba(246,241,228,0.05), rgba(246,241,228,0.015));
-    border:1px solid rgba(198,161,91,0.25);
-    border-top:2px solid var(--gold);
-    border-radius:4px;
-    padding:34px 28px;
-    position:relative;
+  .state-panel { display: none; text-align: center; padding: 10px 4px 4px; }
+  .state-panel.show { display: block; }
+  .state-icon { width: 56px; height: 56px; margin: 0 auto 16px; }
+  .state-title {
+    font-family: Georgia, serif; font-size: 21px; font-weight: 400; margin: 0 0 10px; color: #1F2A44;
   }
-  .qr-panel::before{
-    content:"";
-    position:absolute;
-    top:8px; left:8px; right:8px; bottom:8px;
-    border:1px solid rgba(198,161,91,0.10);
-    pointer-events:none;
+  .state-body { font-size: 14.5px; color: #4F4A3E; line-height: 1.6; margin: 0 0 20px; }
+  .admin-btn {
+    display: inline-flex; align-items: center; gap: 8px; min-height: 48px;
+    padding: 0 22px; background: #1F2A44; color: #FAF6EF; text-decoration: none;
+    border-radius: 8px; font-size: 14.5px; font-weight: 600;
   }
-  .qr-image-box{
-    position:relative;
-    z-index:1;
-    width:min(320px, 100%);
-    aspect-ratio:1/1;
-    margin:0 auto;
-    background:var(--paper);
-    border-radius:4px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    overflow:hidden;
-    box-shadow:0 12px 30px rgba(0,0,0,0.35);
+  .retry-btn {
+    display: inline-block; min-height: 48px; line-height: 46px; padding: 0 22px;
+    background: transparent; border: 1.5px solid #1F2A44; color: #1F2A44;
+    border-radius: 8px; font-size: 14.5px; font-weight: 600; cursor: pointer; font-family: inherit;
+    margin-right: 10px;
   }
-  .qr-image-box img{
-    width:100%;
-    height:100%;
-    object-fit:contain;
-    display:block;
-  }
-  .qr-download-btn{
-    position:absolute;
-    left:10px;
-    bottom:10px;
-    width:34px;
-    height:34px;
-    background:var(--navy-deep);
-    border:1px solid var(--gold);
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    box-shadow:0 4px 10px rgba(0,0,0,0.4);
-    transition:background 0.3s ease, transform 0.3s ease;
-    z-index:2;
-  }
-  .qr-download-btn:hover{
-    background:var(--gold);
-    transform:translateY(-2px);
-  }
-  .qr-download-btn svg{
-    width:16px;
-    height:16px;
-    stroke:var(--gold-bright);
-    fill:none;
-    stroke-width:2;
-    transition:stroke 0.3s ease;
-  }
-  .qr-download-btn:hover svg{
-    stroke:var(--navy-deep);
-  }
-  .qr-placeholder{
-    color:var(--navy);
-    font-size:13px;
-    letter-spacing:1px;
-    text-transform:uppercase;
-    padding:20px;
-    line-height:1.6;
-  }
-  .amount-tag{
-    position:relative;
-    z-index:1;
-    margin-top:22px;
-    font-family:'Fraunces',serif;
-    color:var(--gold-bright);
-    font-size:1.9rem;
-  }
-  .amount-tag span{
-    display:block;
-    font-family:'Inter',sans-serif;
-    font-size:11px;
-    letter-spacing:2px;
-    text-transform:uppercase;
-    color:var(--text-dim);
-    margin-bottom:6px;
-    font-weight:300;
+  .btn-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+
+  .footer-note {
+    text-align: center; font-size: 12px; color: #A39D8B; padding: 16px 22px 24px;
   }
 
-  /* ---------- Instructions ---------- */
-  .rules{
-    text-align:left;
-    margin:32px auto 0 auto;
-    list-style:none;
-  }
-  .rules li{
-    display:flex;
-    align-items:flex-start;
-    gap:12px;
-    padding:14px 16px;
-    background:rgba(246,241,228,0.03);
-    border:1px solid rgba(198,161,91,0.14);
-    border-left:2px solid var(--maroon);
-    border-radius:2px;
-    margin-bottom:10px;
-    font-size:13.5px;
-    color:var(--text-light);
-    font-weight:300;
-    line-height:1.6;
-  }
-  .rules li strong{
-    color:var(--gold-bright);
-    font-weight:600;
-  }
-  .rules li svg{
-    flex-shrink:0;
-    width:16px;
-    height:16px;
-    stroke:var(--gold);
-    fill:none;
-    stroke-width:2;
-    margin-top:2px;
-  }
-
-  /* ---------- Done button ---------- */
-  .done-btn{
-    display:block;
-    width:100%;
-    margin-top:34px;
-    padding:18px 28px;
-    background:var(--gold);
-    color:var(--navy-deep);
-    border:none;
-    border-radius:999px;
-    font-size:14px;
-    letter-spacing:2px;
-    text-transform:uppercase;
-    font-weight:600;
-    font-family:'Inter',sans-serif;
-    cursor:pointer;
-    transition:background 0.3s ease, transform 0.3s ease;
-  }
-  .done-btn:hover{
-    background:var(--gold-bright);
-    transform:translateY(-2px);
-  }
-  .done-note{
-    margin-top:14px;
-    font-size:11.5px;
-    color:var(--text-dim);
-    font-weight:300;
-    letter-spacing:0.3px;
-  }
-
-  @media (max-width:760px){
-    .content-row{
-      flex-direction:column;
-      text-align:center;
-    }
-    .content-row .qr-panel{
-      flex:none;
-    }
-    .content-row .rules{
-      text-align:left;
-    }
-  }
-
-  @media (max-width:520px){
-    .topbar{padding:26px 6vw 0 6vw;}
-    .wrap{padding:36px 6vw 70px 6vw;}
+  @media (min-width: 480px) {
+    .body { padding: 32px 32px 34px; }
+    .header { padding: 36px 32px 30px; }
   }
 </style>
 </head>
 <body>
-
-<!-- <div class="topbar">
-  <a class="back-btn" href="../free_prelims_test_series.html">
-    <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    UPSC LoG Prelims Sectional Tests
-  </a>
-</div>
- -->
-<div class="wrap">
-  <div class="eyebrow">Secure Payment</div>
-  <h1>Scan &amp; Pay to Activate</h1>
-  <p class="sub">Read instructions before payment for PreLog Sectionals</p>
-
-  <div class="content-row">
-    <div class="qr-panel">
-      <div class="qr-image-box">
-        <!-- Replace the placeholder below with your actual QR code image, e.g.: -->
-        <img src="my_qr.jpg" alt="Payment QR Code" id="qrCodeImg">
-        <a class="qr-download-btn" id="qrDownloadBtn" href="my_qr.jpg" download="payment_qr_code.png" title="Download QR Code" aria-label="Download QR Code">
-          <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-        <script>
-          (function(){
-            var btn = document.getElementById('qrDownloadBtn');
-            var imgSrc = document.getElementById('qrCodeImg').getAttribute('src');
-            btn.addEventListener('click', function(e){
-              e.preventDefault();
-              fetch(imgSrc)
-                .then(function(res){ return res.blob(); })
-                .then(function(blob){
-                  var blobUrl = URL.createObjectURL(blob);
-                  var link = document.createElement('a');
-                  link.href = blobUrl;
-                  link.download = 'payment_qr_code.png';
-                  document.body.appendChild(link);
-                  link.click();
-                  document.body.removeChild(link);
-                  URL.revokeObjectURL(blobUrl);
-                })
-                .catch(function(){
-                  // Fallback: open the image directly if fetch fails (e.g. file:// protocol)
-                  window.open(imgSrc, '_blank');
-                });
-            });
-          })();
-        </script>
-      </div>
-      <div class="amount-tag"><span>Amount to Pay</span>₹99/year<br>100 sectional tests<br><span><br> scroll down</span></div>
+<div class="page">
+  <div class="card">
+    <div class="header">
+      <p class="brand-eyebrow">Verification required</p>
+      <h1 class="brand-title">UPSC LoG<br />Prelims Sectional<br>₹99/year</h1>
+      <p class="brand-sub">Submit your details</p>
     </div>
 
-    <ul class="rules">
-      <li>
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01" stroke-linecap="round"/></svg>
-        <span><strong>Pay only using this QR code.</strong> No other payment method is accepted for this subscription.</span>
-      </li>
-      <li>
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01" stroke-linecap="round"/></svg>
-        <span>After payment, take a <strong>screenshot of the successful transaction</strong> as proof.</span>
-      </li>
-      <li>
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01" stroke-linecap="round"/></svg>
-        <span>Send the screenshot to us on <strong>Telegram</strong> to get your access activated.</span>
-      </li>
-      <li>
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01" stroke-linecap="round"/></svg>
-        <span>Access is typically activated within <strong>a few hours</strong> of verification.</span>
-      </li>
-    </ul>
-  </div>
+    <div class="body">
+      <form id="signup-form">
+        <p class="intro">Fill in your details and upload your payment screenshot. Login details are sent to your phone once your submission is verified.</p>
 
-<button class="done-btn" onclick="window.location.href='payment/signup_form.html'">CONTINUE TO PAYMENT PAGE</button>
+        <div class="field">
+          <label for="s-name">Full name</label>
+          <input id="s-name" type="text" placeholder="e.g. Tina Dabi" autocomplete="name" required />
+          <div class="err" id="err-name">Name is required.</div>
+        </div>
+
+        <div class="field">
+          <label for="s-phone">Phone number</label>
+          <div class="input-wrap">
+            <input id="s-phone" class="has-toggle" type="password" inputmode="numeric" maxlength="10" placeholder="10-digit number" autocomplete="off" required />
+            <button type="button" class="eye-btn" id="toggle-phone" aria-label="Show phone number">
+              <svg id="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <div class="hint">10 digits, no spaces or country code.</div>
+          <div class="err" id="err-phone">Enter a valid 10-digit phone number.</div>
+        </div>
+
+        <div class="field">
+          <label for="s-phone2">Confirm phone number</label>
+          <input id="s-phone2" type="tel" inputmode="numeric" maxlength="10" placeholder="Re-enter your number" autocomplete="off" required />
+          <div class="err" id="err-phone2">Phone numbers don't match.</div>
+        </div>
+
+        <div class="field">
+          <label>Payment screenshot</label>
+          <label class="upload-box" id="upload-box" for="s-file">
+            <div class="upload-icon">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </div>
+            <p class="upload-text">Tap to upload screenshot</p>
+            <p class="upload-subtext">PNG or JPG, payment confirmation</p>
+            <input id="s-file" type="file" accept="image/*" required />
+          </label>
+          <div class="preview-wrap" id="preview-wrap">
+            <img id="preview-thumb" class="preview-thumb" alt="" />
+            <div class="preview-info">
+              <p class="preview-name" id="preview-name"></p>
+              <button type="button" class="preview-remove" id="preview-remove">Remove</button>
+            </div>
+          </div>
+          <div class="err" id="err-file">Upload a screenshot of your payment.</div>
+        </div>
+
+        <button type="submit" class="btn-primary" id="submit-btn">Submit</button>
+
+        <div class="qr-block">
+          <label>Scan to pay</label>
+          <div class="qr-frame">
+            <img id="qr-img" src="my_qr.jpg" alt="Payment QR code" />
+            <a class="qr-download" id="qr-download" href="my_qr.jpg" download="my_qr.jpg" aria-label="Download QR code">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            </a>
+          </div>
+          <p class="qr-caption">Tap the download icon to save the QR code, then pay via your UPI app.</p>
+        </div>
+      </form>
+
+      <div class="state-panel" id="state-success">
+        <div class="state-icon">
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#EAF3DE"/><path d="M8 12.5l2.5 2.5L16 9" stroke="#3B6D11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h2 class="state-title">Submission received</h2>
+        <p class="state-body">You will be verified shortly. If you don't hear back soon, or have any questions, reach out to admin directly.</p>
+        <div class="btn-row">
+          <a class="admin-btn" href="https://t.me/upsclogger" target="_blank" rel="noopener">Contact @upsclogger</a>
+        </div>
+      </div>
+
+      <div class="state-panel" id="state-error">
+        <div class="state-icon">
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#FCEBEB"/><line x1="9" y1="9" x2="15" y2="15" stroke="#A32D2D" stroke-width="2" stroke-linecap="round"/><line x1="15" y1="9" x2="9" y2="15" stroke="#A32D2D" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <h2 class="state-title">Upload didn't go through</h2>
+        <p class="state-body">Something interrupted your submission. Try again, or message admin directly if it keeps happening.</p>
+        <div class="btn-row">
+          <button class="retry-btn" id="retry-btn">Try again</button>
+          <a class="admin-btn" href="https://t.me/upsclogger" target="_blank" rel="noopener">Message @upsclogger</a>
+        </div>
+      </div>
+    </div>
+
+    <p class="footer-note">Your details are sent directly and privately for verification.</p>
+  </div>
 </div>
 
+<script>
+(function() {
+  var ENDPOINT_URL = 'https://script.google.com/macros/s/AKfycbzdRUvqyORCCVjG92VM2pZ9KcmjX8L2Ux-DT8ZyXZKdcqIqPHsgOsoqsREFhxs6EKwi/exec';
+
+  var form = document.getElementById('signup-form');
+  var submitBtn = document.getElementById('submit-btn');
+  var stateSuccess = document.getElementById('state-success');
+  var stateError = document.getElementById('state-error');
+  var fileInput = document.getElementById('s-file');
+  var uploadBox = document.getElementById('upload-box');
+  var previewWrap = document.getElementById('preview-wrap');
+  var previewThumb = document.getElementById('preview-thumb');
+  var previewName = document.getElementById('preview-name');
+  var previewRemove = document.getElementById('preview-remove');
+  var phoneInput = document.getElementById('s-phone');
+  var togglePhoneBtn = document.getElementById('toggle-phone');
+  var eyeIcon = document.getElementById('eye-icon');
+
+  var EYE_OPEN = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+  var EYE_CLOSED = '<path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a19.4 19.4 0 0 1 4.22-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a19.5 19.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+
+  togglePhoneBtn.addEventListener('click', function() {
+    var isPassword = phoneInput.type === 'password';
+    phoneInput.type = isPassword ? 'text' : 'password';
+    eyeIcon.innerHTML = isPassword ? EYE_CLOSED : EYE_OPEN;
+    togglePhoneBtn.setAttribute('aria-label', isPassword ? 'Hide phone number' : 'Show phone number');
+  });
+
+  phoneInput.addEventListener('input', function() {
+    phoneInput.value = phoneInput.value.replace(/[^0-9]/g, '').slice(0, 10);
+  });
+  document.getElementById('s-phone2').addEventListener('input', function() {
+    this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);
+  });
+
+  function setPreview(file) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      previewThumb.src = e.target.result;
+      previewName.textContent = file.name;
+      previewWrap.classList.add('show');
+      uploadBox.querySelector('.upload-text').textContent = 'Screenshot selected';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  fileInput.addEventListener('change', function() {
+    var f = fileInput.files[0];
+    if (f) setPreview(f);
+  });
+
+  previewRemove.addEventListener('click', function(e) {
+    e.preventDefault();
+    fileInput.value = '';
+    previewWrap.classList.remove('show');
+    uploadBox.querySelector('.upload-text').textContent = 'Tap to upload screenshot';
+  });
+
+  function showErr(id, show) { document.getElementById(id).style.display = show ? 'block' : 'none'; }
+
+  function fileToBase64(file) {
+    return new Promise(function(resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function() { resolve(reader.result.split(',')[1]); };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  document.getElementById('retry-btn').addEventListener('click', function() {
+    stateError.classList.remove('show');
+    form.style.display = 'block';
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Submit';
+  });
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    var name = document.getElementById('s-name').value.trim();
+    var phone = phoneInput.value.trim();
+    var phone2 = document.getElementById('s-phone2').value.trim();
+    var file = fileInput.files[0];
+
+    var ok = true;
+    showErr('err-name', !name); if (!name) ok = false;
+    showErr('err-phone', phone.length !== 10); if (phone.length !== 10) ok = false;
+    showErr('err-phone2', phone !== phone2 || phone2.length !== 10); if (phone !== phone2 || phone2.length !== 10) ok = false;
+    showErr('err-file', !file); if (!file) ok = false;
+    if (!ok) return;
+
+    if (ENDPOINT_URL.indexOf('PASTE_YOUR') === 0) {
+      form.style.display = 'none';
+      stateError.classList.add('show');
+      stateError.querySelector('.state-body').textContent = 'Form is not connected to a backend yet.';
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+
+    try {
+      var base64 = await fileToBase64(file);
+      await fetch(ENDPOINT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          name: name, phone: phone, phoneConfirm: phone2,
+          image: base64, imageMime: file.type, imageName: file.name
+        })
+      });
+      form.style.display = 'none';
+      stateSuccess.classList.add('show');
+    } catch (err) {
+      form.style.display = 'none';
+      stateError.classList.add('show');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit';
+    }
+  });
+})();
+</script>
 </body>
 </html>
