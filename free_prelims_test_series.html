@@ -238,6 +238,32 @@
   }
   .pyq-row.end .pyq-box.featured .pdf-tag{ right:auto; left:12px; }
 
+  /* ===== Upcoming card override — plain cream/white on black ===== */
+  .pyq-box.upcoming{
+    background: #0B0D12;
+  }
+  .pyq-box.upcoming .pyq-seal{
+    border-color: rgba(233,231,222,0.35);
+    background: rgba(233,231,222,0.08);
+    color: #E9E7DE;
+  }
+  .pyq-box.upcoming .pyq-divider{
+    background: linear-gradient(to bottom, transparent, rgba(233,231,222,0.35), transparent);
+  }
+  .pyq-box.upcoming .pyq-title{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:16px;
+    letter-spacing:0.02em;
+    color:#F3F1E7;
+  }
+  .pyq-box.upcoming .pyq-sub{
+    color: rgba(243,241,231,0.65);
+  }
+  .pyq-box.upcoming .pyq-arrow{
+    color:#F3F1E7;
+  }
+
   .pyq-arrow{
     flex:0 0 auto;
     width:15px; height:15px;
@@ -383,7 +409,11 @@ const BOXES = [
   { seal:"5",  tint:"gs4", title:"PreLoG-2027-05 [FREE]", sub:"<b><u>Economy<br>[BASIC ECONOMICS]</u></b><br><br>TEST-5     : Q-25", href:"prelims_sectional/PreLoG-2027-05.html" },
   { seal:"6",  tint:"gs4", title:"PreLoG-2027-06", sub:"<b><u>Economy<br>[BANKING SYSTEM]</u></b><br><br>TEST-6     : Q-25", href:"prelims_sectional/qr.html" },
   { seal:"7",  tint:"gs4", title:"PreLoG-2027-07", sub:"<b><u>Environment<br>[ECOLOGY BASICS]</u></b><br><br>TEST-7     : Q-25", href:"prelims_sectional/qr.html" },
-  { seal:"8",  tint:"gs4", title:"PreLoG-2027-08", sub:"<b><u>Environment<br>[BIODIVERSITY]</u></b><br><br>TEST-8     : Q-25", href:"prelims_sectional/qr.html" },
+  { seal:"8",  tint:"gs4", title:"PreLoG-2027-08", sub:"<b><u>Environment<br>[BIODIVERSITY]</u></b><br><br>TEST-8         : Q-25", href:"prelims_sectional/qr.html" },
+  { seal:"9",  tint:"gs4", title:"UPCOMING<br>[in two days]<br>Refer Syllabus", sub:"", href:"prelims_sectional/qr.html", upcoming:true },
+  { seal:"10",  tint:"gs4", title:"UPCOMING<br>[in four days]<br>Refer Syllabus", sub:"", href:"prelims_sectional/qr.html", upcoming:true },
+  { seal:"11",  tint:"gs4", title:"UPCOMING<br>[in six days]<br>Refer Syllabus", sub:"", href:"prelims_sectional/qr.html", upcoming:true },
+  { seal:"12",  tint:"gs4", title:"UPCOMING<br>[in eight days]<br>Refer Syllabus", sub:"", href:"prelims_sectional/qr.html", upcoming:true },
 
 ];
 
@@ -394,7 +424,7 @@ BOXES.forEach((b, i) => {
   row.className = 'pyq-row ' + (i % 2 === 0 ? 'start' : 'end');
 
   const a = document.createElement('a');
-  a.className = 'pyq-box' + (b.img ? ' featured' : '');
+  a.className = 'pyq-box' + (b.img ? ' featured' : '') + (b.upcoming ? ' upcoming' : '');
   a.href = b.href;
   a.target = '_blank';
   a.rel = 'noopener noreferrer';
