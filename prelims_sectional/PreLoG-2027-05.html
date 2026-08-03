@@ -658,7 +658,7 @@
       </div>
     </div>
     <div class="topbar-right">
-      <div class="timer" id="timer">30:00</div>
+      <div class="timer" id="timer">60:00</div>
       <div class="mode-switch">
         <span>Light</span>
         <div class="switch" id="themeSwitch" role="button" aria-label="Toggle dark mode">
@@ -1642,7 +1642,7 @@ themeSwitch.addEventListener('click', () => {
 });
 
 // countdown timer
-let seconds = 30 * 60;
+let seconds = 60 * 60;
 const timerEl = document.getElementById('timer');
 const countdown = setInterval(() => {
   if (seconds <= 0 || submitted) return;
