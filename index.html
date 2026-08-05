@@ -9,16 +9,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;1,9..144,450&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --navy:#0E1B2E;
-    --navy-deep:#081120;
+    --navy:#F6F1E4;        /* was dark navy → now light ivory (main bg) */
+    --navy-deep:#ECE3CC;   /* was darker navy → now slightly deeper cream (gradients/footer) */
     --ivory:#F6F1E4;
     --paper:#FBF8F1;
     --gold:#C6A15B;
-    --gold-bright:#E7C482;
+    --gold-bright:#A9803B; /* slightly darker gold so it stays readable on light bg */
     --maroon:#7B2D2D;
     --sage:#5F7A5C;
-    --text-light:#ECE5D4;
-    --text-dim:#9FA9BC;
+    --text-light:#2A2419;  /* was light cream → now dark ink (main text) */
+    --text-dim:#6B6558;    /* was light dim → now dark dim */
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -307,6 +307,7 @@
     font-size:clamp(2.6rem, 6vw, 5rem);
     line-height:1.08;
     color:var(--paper);
+    color:#2A2419;
     max-width:16ch;
     opacity:0;
     animation:riseIn 1s ease forwards 0.3s;
@@ -350,7 +351,8 @@
     position:relative;
     width:188px;
     padding:34px 18px 26px 18px;
-    background:linear-gradient(180deg, rgba(246,241,228,0.05), rgba(246,241,228,0.015));
+    background:linear-gradient(180deg, #FBF8F1, #F6F1E4);
+    box-shadow:0 1px 3px rgba(0,0,0,0.06);
     border:1px solid rgba(198,161,91,0.22);
     border-top:2px solid var(--gold);
     border-radius:2px;
@@ -364,7 +366,7 @@
     content:"";
     position:absolute;
     top:8px; left:8px; right:8px; bottom:8px;
-    border:1px solid rgba(198,161,91,0.12);
+    border:1px solid rgba(198,161,91,0.28);
     pointer-events:none;
   }
   .pillar-icon{
@@ -414,7 +416,7 @@
   /* ---------- Gallery section ---------- */
   .gallery-section{
     background:var(--paper);
-    color:var(--navy);
+    color:#2A2419;
     padding:120px 6vw 130px 6vw;
   }
   .gallery-head{
@@ -431,7 +433,7 @@
   .gallery-head h2{
     font-size:clamp(1.9rem, 3.6vw, 2.8rem);
     margin-top:16px;
-    color:var(--navy);
+    color:#2A2419;
   }
   .gallery-head p{
     margin-top:16px;
