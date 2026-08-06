@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC LoG — Prelims Booster</title>
+<style>
+  :root{
+    --bg: #F3F4F1;
+    --paper: #FFFFFF;
+    --ink: #1D2A35;
+    --ink-soft: #5B6873;
+    --rule: #D8DCD6;
+    --navy: #1B3A5C;
+    --navy-deep: #12283F;
+    --gold: #B8862E;
+    --gold-soft: #EFDFB8;
+    --answered: #2F7D5A;
+    --answered-bg: #E4F3EC;
+    --skipped: #B8862E;
+    --skipped-bg: #FBF1DE;
+    --current-ring: #1B3A5C;
+    --wrong: #B23A2E;
+    --wrong-bg: #FBEAE7;
+    --shadow: 0 1px 2px rgba(20,30,40,0.06), 0 6px 20px rgba(20,30,40,0.05);
+    --serif: Georgia, 'Times New Roman', 'Iowan Old Style', serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --mono: 'Courier New', ui-monospace, monospace;
+  }
+  [data-theme="dark"]{
+    --bg: #0F1A24;
+    --paper: #17232E;
+    --ink: #E7ECEF;
+    --ink-soft: #97A5AF;
+    --rule: #2A3846;
+    --navy: #3E6E9E;
+    --navy-deep: #2A4E70;
+    --gold: #D9A441;
+    --gold-soft: #3A3220;
+    --answered: #4CAF7D;
+    --answered-bg: #163227;
+    --skipped: #D9A441;
+    --skipped-bg: #332A16;
+    --current-ring: #D9A441;
+    --wrong: #E07A6C;
+    --wrong-bg: #3A1E1A;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+    html, body{
+    overflow-x: hidden;
+    width: 100%;
+  }
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    min-height:100vh;
+    transition:background .3s ease, color .3s ease;
+  }
+
+  /* ---------- Header ---------- */
+  header.topbar{
+    background:linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color:#F4F1EA;
+    padding:0;
+    box-shadow:var(--shadow);
+    position:sticky; top:0; z-index:50;
+  }
+  .topbar-inner{
+    max-width:1280px; margin:0 auto;
+    display:flex; align-items:center; gap:20px;
+    padding:14px 28px;
+  }
+  .logo-slot{
+    width:52px; height:52px;
+    border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    overflow:hidden;
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .logo-slot img{
+    width:100%; height:100%;
+    object-fit:contain;
+  }
+  .logo-slot:hover{border-color:rgba(244,241,234,0.75); color:#F4F1EA;}
+  .title-block{flex:1; min-width:0;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gold-soft, #D9A441);
+    opacity:0.85;
+  }
+  .title-block h1{
+    font-family:var(--serif);
+    font-size:22px;
+    font-weight:400;
+    margin:2px 0 0 0;
+    letter-spacing:0.01em;
+  }
+  .subnote{
+    font-family:var(--mono);
+    font-size:11px;
+    color:rgba(244,241,234,0.65);
+    margin-top:6px;
+    letter-spacing:0.02em;
+  }
+  .subnote a{color:var(--gold-soft); text-decoration:none;}
+  .subnote a:hover{text-decoration:underline;}
+  .topbar-right{
+    display:flex; align-items:center; gap:18px; flex-shrink:0;
+  }
+  .timer{
+    font-family:var(--mono);
+    font-size:13px;
+    color:#F4F1EA;
+    border:1px solid rgba(244,241,234,0.3);
+    padding:6px 12px;
+    border-radius:6px;
+    background:rgba(0,0,0,0.12);
+    transition:background .2s ease;
+  }
+  .timer.urgent{background:var(--wrong); border-color:var(--wrong);}
+
+  /* dark mode switch */
+  .mode-switch{
+    display:flex; align-items:center; gap:8px;
+    font-size:12px; color:rgba(244,241,234,0.85);
+  }
+  .switch{
+    position:relative; width:44px; height:24px;
+    background:rgba(244,241,234,0.2);
+    border-radius:20px; cursor:pointer;
+    border:1px solid rgba(244,241,234,0.35);
+    flex-shrink:0;
+  }
+  .switch .knob{
+    position:absolute; top:2px; left:2px;
+    width:18px; height:18px; border-radius:50%;
+    background:#F4F1EA;
+    transition:transform .25s ease;
+    box-shadow:0 1px 3px rgba(0,0,0,0.3);
+  }
+  [data-theme="dark"] .switch .knob{
+    transform:translateX(20px);
+    background:var(--gold);
+  }
+
+  /* ---------- Layout ---------- */
+  .layout{
+    max-width:1280px; margin:0 auto;
+    display:grid;
+    grid-template-columns:1fr 320px;
+    gap:23px;
+    padding:32px 28px 60px;
+    align-items:start;
+  }
+
+  /* ---------- Question paper ---------- */
+  .paper{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:36px 44px 32px;
+    min-height:520px;
+    display:flex;
+    flex-direction:column;
+  }
+  .paper-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    border-bottom:1px solid var(--rule);
+    padding-bottom:14px; margin-bottom:28px;
+  }
+  .q-index{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--ink-soft);
+    letter-spacing:0.04em;
+  }
+  .q-index b{color:var(--navy); font-size:15px;}
+  [data-theme="dark"] .q-index b{color:var(--gold);}
+  .q-status-tag{
+    font-family:var(--mono);
+    font-size:13.5px;
+    font-weight:800;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    padding:7px 16px;
+    border-radius:20px;
+    border:2px solid transparent;
+  }
+  .q-status-tag.answered{background:var(--answered-bg); color:var(--answered); border-color:var(--answered);}
+  .q-status-tag.unanswered{background:var(--skipped-bg); color:var(--skipped); border-color:var(--skipped);}
+
+  .q-text{
+    font-family:var(--serif);
+    font-size:19px;
+    line-height:1.5;
+    color:var(--ink);
+    margin:0 0 32px 0;
+  }
+
+  .options{
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .option{
+    display:flex; align-items:flex-start; gap:14px;
+    padding:18px 18px;
+    border:1px solid var(--rule);
+    border-radius:8px;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+    background:transparent;
+  }
+  .option:hover{border-color:var(--navy); background:rgba(27,58,92,0.04);}
+  [data-theme="dark"] .option:hover{background:rgba(217,164,65,0.06); border-color:var(--gold);}
+  .option.selected{
+    border-color:var(--navy);
+    background:rgba(27,58,92,0.07);
+  }
+  [data-theme="dark"] .option.selected{
+    border-color:var(--gold);
+    background:rgba(217,164,65,0.1);
+  }
+  .option .tag{
+    font-family:var(--mono);
+    font-size:13px;
+    font-weight:bold;
+    width:24px; height:24px;
+    border-radius:50%;
+    border:1.5px solid var(--rule);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    color:var(--ink-soft);
+  }
+  .option.selected .tag{
+    border-color:var(--navy);
+    background:var(--navy);
+    color:#fff;
+  }
+  [data-theme="dark"] .option.selected .tag{
+    border-color:var(--gold);
+    background:var(--gold);
+    color:#17232E;
+  }
+  .option .opt-text{
+    font-size:15.5px; line-height:1.5; padding-top:1px;
+  }
+  .option.locked{cursor:default;}
+  .option.correct{
+    border-color:var(--answered);
+    background:var(--answered-bg);
+  }
+  .option.correct .tag{
+    border-color:var(--answered);
+    background:var(--answered);
+    color:#fff;
+  }
+  .option.incorrect{
+    border-color:var(--wrong);
+    background:var(--wrong-bg);
+  }
+  .option.incorrect .tag{
+    border-color:var(--wrong);
+    background:var(--wrong);
+    color:#fff;
+  }
+  .option.locked:hover{background:inherit; border-color:inherit;}
+  .q-status-tag.correct{background:var(--answered-bg); color:var(--answered); border-color:var(--answered); box-shadow:0 0 0 1px var(--answered) inset;}
+  .q-status-tag.incorrect{background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong); box-shadow:0 0 0 1px var(--wrong) inset;}
+  .q-status-tag.review-unanswered{
+    background:var(--wrong-bg);
+    color:var(--wrong);
+    border-color:var(--wrong);
+    box-shadow:0 0 0 1px var(--wrong) inset;
+  }
+
+  /* ---------- Explanation (review mode) ---------- */
+  .explain-box{
+    margin-top:26px;
+    background:var(--gold-soft);
+    border:1px solid var(--gold);
+    border-radius:8px;
+    padding:16px 20px;
+    font-size:14px;
+    line-height:1.65;
+    color:var(--ink);
+  }
+  [data-theme="dark"] .explain-box{background:rgba(217,164,65,0.08);}
+  .explain-box b{color:var(--navy);}
+  [data-theme="dark"] .explain-box b{color:var(--gold);}
+  .explain-box .exp-label{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-bottom:8px;
+  }
+
+  .paper-foot{
+    display:flex; justify-content:space-between;
+    margin-top:32px; padding-top:20px;
+    border-top:1px solid var(--rule);
+  }
+  button{
+    font-family:var(--sans);
+    font-size:14px;
+    font-weight:600;
+    padding:11px 22px;
+    border-radius:7px;
+    border:1px solid var(--rule);
+    background:var(--paper);
+    color:var(--ink);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  button:hover:not(:disabled){border-color:var(--navy); color:var(--navy);}
+  [data-theme="dark"] button:hover:not(:disabled){border-color:var(--gold); color:var(--gold);}
+  button:disabled{opacity:0.35; cursor:not-allowed;}
+  button.primary{
+    background:var(--navy); color:#F4F1EA; border-color:var(--navy);
+  }
+  button.primary:hover{filter:brightness(1.1); color:#F4F1EA;}
+  button.clear{background:transparent; border-color:transparent; color:var(--ink-soft); font-weight:500;}
+  .nav-group{display:flex; gap:10px;}
+
+  /* ---------- Sidebar palette ---------- */
+  .sidebar{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:24px;
+    position:sticky;
+    top:96px;
+  }
+  .sidebar h2{
+    font-family:var(--serif);
+    font-size:16px;
+    font-weight:400;
+    margin:0 0 4px 0;
+    color:var(--ink);
+  }
+  .sidebar .sub{
+    font-size:12px; color:var(--ink-soft); margin-bottom:18px;
+  }
+  .legend{
+    display:flex; flex-direction:column; gap:8px;
+    margin-bottom:20px;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  .legend span{display:flex; align-items:center; gap:8px;}
+  .dot{width:10px; height:10px; border-radius:3px; flex-shrink:0;}
+  .dot.answered{background:var(--answered);}
+  .dot.unanswered{background:var(--rule); border:1px solid var(--ink-soft);}
+  .dot.current{background:transparent; border:2px solid var(--current-ring);}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:8px;
+    margin-bottom:22px;
+  }
+  .cell{
+    aspect-ratio:1;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono);
+    font-size:13px;
+    border-radius:6px;
+    border:1px solid var(--rule);
+    background:transparent;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .cell:hover{border-color:var(--navy);}
+  [data-theme="dark"] .cell:hover{border-color:var(--gold);}
+  .cell.answered{
+    background:var(--answered-bg); color:var(--answered); border-color:var(--answered);
+    font-weight:bold;
+  }
+  .cell.incorrect{
+    background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong);
+    font-weight:bold;
+  }
+  .cell.current{
+    outline:2px solid var(--current-ring); outline-offset:2px;
+  }
+
+  .tally{
+    padding-top:16px; border-top:1px solid var(--rule);
+    color:var(--ink-soft);
+  }
+  .tally-plain{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-plain > div{flex:1; text-align:left;}
+  .tally b{color:var(--ink); font-size:16px; display:block; font-family:var(--sans);}
+  .tally b.stat-correct{color:var(--answered);}
+  .tally b.stat-incorrect{color:var(--wrong);}
+  .tally b.stat-unattempted{color:var(--skipped);}
+
+  .marks-line{
+    text-align:center;
+    background:var(--gold-soft);
+    border:1.5px solid var(--gold);
+    border-radius:8px;
+    padding:12px 10px;
+    margin-bottom:14px;
+  }
+  [data-theme="dark"] .marks-line{background:rgba(217,164,65,0.12);}
+  .marks-line b{
+    font-size:26px; color:var(--navy); font-family:var(--serif); font-weight:700;
+  }
+  [data-theme="dark"] .marks-line b{color:var(--gold);}
+  .marks-line span{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-top:2px;
+  }
+  .tally-grid{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-grid > div{flex:1; text-align:left;}
+
+  .score-breakdown{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+    max-width:420px;
+    margin:24px auto 0;
+  }
+  .score-breakdown .stat{
+    border:1.5px solid var(--rule);
+    border-radius:10px;
+    padding:14px 10px;
+  }
+  .score-breakdown .stat b{
+    display:block; font-size:24px; font-family:var(--sans); margin-bottom:4px;
+  }
+  .score-breakdown .stat span{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft);
+  }
+  .score-breakdown .stat.correct{border-color:var(--answered); background:var(--answered-bg);}
+  .score-breakdown .stat.correct b{color:var(--answered);}
+  .score-breakdown .stat.incorrect{border-color:var(--wrong); background:var(--wrong-bg);}
+  .score-breakdown .stat.incorrect b{color:var(--wrong);}
+  .score-breakdown .stat.unattempted{border-color:var(--skipped); background:var(--skipped-bg);}
+  .score-breakdown .stat.unattempted b{color:var(--skipped);}
+
+  #submitBtn{width:100%; margin-top:20px;}
+
+  /* ---------- Result overlay ---------- */
+  .result-card{
+    background:var(--paper); border:1px solid var(--rule); border-radius:10px;
+    box-shadow:var(--shadow); padding:44px; text-align:center;
+  }
+  .result-card .score{
+    font-family:var(--serif); font-size:52px; color:var(--navy); margin:8px 0;
+  }
+  [data-theme="dark"] .result-card .score{color:var(--gold);}
+  .result-card .percent{
+    font-family:var(--mono); font-size:13px; color:var(--ink-soft);
+    letter-spacing:0.04em; margin-top:-4px;
+  }
+  .hidden{display:none !important;}
+
+  /* ---------- Confirm submit modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background:rgba(15,20,25,0.55);
+    display:flex; align-items:center; justify-content:center;
+    z-index:200;
+    padding:20px;
+  }
+  .modal-box{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:12px;
+    box-shadow:var(--shadow);
+    padding:30px 30px 24px;
+    max-width:380px;
+    width:100%;
+    text-align:center;
+  }
+  .modal-box .modal-icon{
+    font-size:26px;
+    margin-bottom:6px;
+  }
+  .modal-box p{
+    font-family:var(--sans);
+    font-size:15px;
+    line-height:1.55;
+    color:var(--ink);
+    margin:10px 0 22px;
+  }
+  .modal-box p b{color:var(--navy);}
+  [data-theme="dark"] .modal-box p b{color:var(--gold);}
+  .modal-box .modal-warn{
+    font-family:var(--mono);
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--skipped);
+    background:var(--skipped-bg);
+    border:1px solid var(--skipped);
+    border-radius:6px;
+    padding:8px 10px;
+    margin:0 0 18px;
+    text-align:left;
+    line-height:1.5;
+  }
+  .modal-actions{
+    display:flex; gap:12px;
+  }
+  .modal-actions button{
+    flex:1;
+    padding:12px 10px;
+  }
+  #modalGoBack{color:var(--ink);}
+  #modalConfirm{background:var(--navy); color:#F4F1EA; border-color:var(--navy);}
+  #modalConfirm:hover{filter:brightness(1.1); color:#F4F1EA;}
+
+  /* ---------- Start-test modal ---------- */
+  .start-box{
+    max-width:420px;
+    text-align:left;
+  }
+  .start-box .modal-icon{font-size:30px; margin-bottom:2px;}
+  .start-title{
+    font-family:var(--serif);
+    font-size:21px;
+    color:var(--ink);
+    text-align:center;
+    margin:2px 0 4px;
+  }
+  .start-sub{
+    font-family:var(--mono);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:var(--ink-soft);
+    text-align:center;
+    margin:0 0 20px;
+  }
+  .stat-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:20px;
+  }
+  .stat-grid .stat-box{
+    border:1px solid var(--rule);
+    border-radius:8px;
+    padding:11px 12px;
+    background:var(--bg);
+  }
+  .stat-grid .stat-box .k{
+    font-family:var(--mono); font-size:10px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft); display:block; margin-bottom:4px;
+  }
+  .stat-grid .stat-box .v{
+    font-family:var(--sans); font-size:16px; font-weight:700; color:var(--navy);
+  }
+  [data-theme="dark"] .stat-grid .stat-box .v{color:var(--gold);}
+  .start-rules{
+    list-style:none; margin:0 0 22px; padding:0;
+    display:flex; flex-direction:column; gap:7px;
+  }
+  .start-rules li{
+    font-size:13px; line-height:1.5; color:var(--ink-soft);
+    padding-left:18px; position:relative;
+  }
+  .start-rules li::before{
+    content:"—"; position:absolute; left:0; color:var(--gold);
+  }
+  .start-field label{
+    display:block;
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft); margin-bottom:6px;
+  }
+  .start-field input{
+    width:100%;
+    font-family:var(--sans); font-size:14.5px;
+    padding:11px 14px;
+    border:1px solid var(--rule); border-radius:7px;
+    background:var(--paper); color:var(--ink);
+    margin-bottom:20px;
+  }
+  .start-field input:focus{ outline:none; border-color:var(--navy); }
+  [data-theme="dark"] .start-field input:focus{ border-color:var(--gold); }
+  #startTestBtn{
+    width:100%; padding:13px 10px; font-size:15px;
+  }
+
+  @media (max-width: 430px){
+    .start-box{ padding:24px 20px 20px; max-width:100%; }
+    .stat-grid{ grid-template-columns:1fr 1fr; gap:8px; }
+    .start-title{ font-size:18px; }
+  }
+
+  /* small name field inside submit-confirm modal */
+  .modal-name-field{ text-align:left; margin:-6px 0 18px; }
+  .modal-name-field label{
+    display:block;
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft); margin-bottom:6px;
+  }
+  .modal-name-field input{
+    width:100%;
+    font-family:var(--sans); font-size:14px;
+    padding:10px 13px;
+    border:1px solid var(--rule); border-radius:7px;
+    background:var(--paper); color:var(--ink);
+  }
+  .modal-name-field input:focus{ outline:none; border-color:var(--navy); }
+  [data-theme="dark"] .modal-name-field input:focus{ border-color:var(--gold); }
+
+  :root{
+    --desktop-width: 1440;
+}
+
+@media (max-width: 1024px){
+  .layout{
+    grid-template-columns: 1fr;
+  }
+  .sidebar{
+    position: static;      /* was sticky at top:96px — no longer needed once stacked */
+    top: auto;
+  }
+}
+@media (max-width: 600px){
+  .topbar-inner{
+    flex-wrap: wrap;
+    padding: 14px 16px;
+    gap: 10px;
+  }
+  .topbar-right{
+    flex-shrink: 1;        /* was 0 before — this is what caused the overflow */
+    flex-basis: 100%;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+  .subnote{
+    white-space: normal;
+  }
+}
+@media (max-width: 430px){
+  .layout{
+    padding: 20px 12px 40px;
+  }
+  .paper{
+    padding: 24px 18px 22px;
+  }
+  .sidebar{
+    padding: 18px;
+  }
+  .paper-head{
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .q-status-tag{
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+@media (max-width: 600px){
+  .title-block h1{
+    font-size: 17px;
+  }
+  .eyebrow{
+    font-size: 9.5px;
+  }
+  .subnote{
+    font-size: 10px;
+  }
+  .timer{
+    font-size: 11px;
+    padding: 5px 9px;
+  }
+  .mode-switch{
+    font-size: 11px;
+  }
+}
+@media (max-width: 430px){
+  .result-card{
+    padding: 24px 18px;
+  }
+  .score-breakdown{
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    max-width: 100%;
+  }
+  .score-breakdown .stat{
+    padding: 10px 6px;
+  }
+  .score-breakdown .stat b{
+    font-size: 19px;
+  }
+  .result-card .score{
+    font-size: 38px;
+  }
+}
+
+</style>
+</head>
+<body data-theme="light">
+
+<header class="topbar">
+  <div class="topbar-inner">
+
+    <!-- <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">UPSC<br>LOGO</a> -->
+    <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">
+  <img src="https://raw.githubusercontent.com/upsclog/upsclog/refs/heads/main/logo.png" alt="UPSC LoG" style="width:100%; height:100%; object-fit:contain; border-radius:6px;">
+</a>
+    <div class="title-block">
+      <div class="eyebrow">UPSC LoG · Prelims Booster 2027</div>
+      <h1>PreLoG-2027-11-FREE TIER</h1>
+      <div class="subnote" style="font-size: 12px;">
+        <span id="qTotalNote">7</span> Questions · +2 Correct / −0.67 Incorrect ·
+        <a href="https://t.me/upsclog" target="_blank" rel="noopener"> Join UPSC-LoG Telegram ↗</a>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="timer" id="timer">60:00</div>
+      <div class="mode-switch">
+        <span>Light</span>
+        <div class="switch" id="themeSwitch" role="button" aria-label="Toggle dark mode">
+          <div class="knob"></div>
+        </div>
+        <span>Dark</span>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="layout">
+
+  <div class="paper" id="paperView">
+    <div class="paper-head">
+      <div class="q-index">Question <b id="qNum">1</b> of <span id="qTotal">7</span></div>
+      <div class="q-status-tag unanswered" id="qStatusTag">Not Answered</div>
+    </div>
+
+    <p class="q-text" id="qText">Loading question…</p>
+
+    <div class="options" id="optionsList"></div>
+
+    <div class="explain-box hidden" id="explainBox">
+      <span class="exp-label">Explanation</span>
+      <div id="explainText"></div>
+    </div>
+
+    <div class="paper-foot">
+      <div class="nav-group">
+        <button id="prevBtn">← Previous</button>
+        <button class="clear" id="clearBtn">Clear response</button>
+      </div>
+      <button id="nextBtn" class="primary">Next →</button>
+    </div>
+  </div>
+
+  <div class="result-card hidden" id="resultView">
+    <div class="eyebrow" style="color:var(--ink-soft); letter-spacing:0.14em; font-family:var(--mono); font-size:11px; text-transform:uppercase;">Marks Sent for rank PDF</div>
+    <div class="score" id="scoreText">0.00 / 14.00</div>
+    <div class="percent" id="scorePercent">0.00%</div>
+    <div class="score-breakdown" id="scoreBreakdown"></div>
+    <p style="color:var(--ink-soft); font-size:14px; margin:20px 0 24px;">You can review your answers and explanations using the palette on the right.</p>
+    <h2>Check <a href="https://upsclog.github.io/upsclog/ranks_tests/daily_rankings.html" target="_blank">[RANKINGS]</a> - for Daily Rankings [PDF]</h2>
+    <button class="primary" id="reviewBtn">Review Answers</button>
+  </div>
+
+  <aside class="sidebar">
+    <h2>* Explanations attached for each question after you submit the test<br><br></h2>
+    <h2>* Auto-Submission in 30 minutes</h2>
+    <h2>* Dark <-> Bright modes for ease</h2>
+    <div class="sub"></div>
+
+    <div class="legend">
+      <span><span class="dot answered"></span> Answered / Correct</span>
+      <span><span class="dot" style="background:var(--wrong);"></span> Incorrect</span>
+      <span><span class="dot unanswered"></span> Not answered</span>
+      <span><span class="dot current"></span> Currently viewing</span>
+    </div>
+
+    <div class="grid" id="paletteGrid"></div>
+
+    <div class="tally" id="tallyRow">
+      <div class="tally-plain">
+        <div><b id="answeredCount">0</b>Answered</div>
+        <div><b id="skippedCount">7</b>Remaining</div>
+      </div>
+    </div>
+
+    <button class="primary" id="submitBtn">Submit Test</button>
+  </aside>
+
+</div>
+
+<div class="modal-overlay hidden" id="confirmModal">
+  <div class="modal-box">
+    <div class="modal-icon" id="modalIcon">📝</div>
+    <p id="modalMessage">Submit test?</p>
+    <div class="modal-name-field">
+      <label for="modalUserName">Name for rank (optional)</label>
+      <input type="text" id="modalUserName" placeholder="Enter your name" maxlength="40">
+    </div>
+    <div class="modal-actions">
+      <button id="modalGoBack">Go Back</button>
+      <button id="modalConfirm" class="primary">Yes, Submit</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="startModal">
+  <div class="modal-box start-box">
+    <div class="modal-icon">🖋️</div>
+    <div class="start-title" id="startTitle">Loading…</div>
+    <div class="start-sub">UPSC LoG · Prelims Booster</div>
+
+    <div class="stat-grid">
+      <div class="stat-box"><span class="k">Questions</span><span class="v" id="startQCount">–</span></div>
+      <div class="stat-box"><span class="k">Max Marks</span><span class="v" id="startMaxMarks">–</span></div>
+      <div class="stat-box"><span class="k">Correct</span><span class="v" id="startCorrectMarks">–</span></div>
+      <div class="stat-box"><span class="k">Incorrect</span><span class="v" id="startIncorrectMarks">–</span></div>
+    </div>
+
+    <ul class="start-rules">
+      <li>Total duration: <span id="startDuration">60</span> minutes. The test auto-submits when time runs out.</li>
+      <li>Explanations for every question unlock after you submit.</li>
+      <li>Use the palette on the right to jump between questions anytime.</li>
+    </ul>
+
+    <div class="start-field">
+      <label for="userName">Your name (for the rankings)</label>
+      <input type="text" id="userName" placeholder="Enter your name" maxlength="40">
+    </div>
+
+    <button class="primary" id="startTestBtn">Start Test →</button>
+  </div>
+</div>
+
+<script>
+const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyamXySn2AagAN935BcpYuf6oTJNuIkLMuAby7CqWJ20rgdNgdWypVNTjMyWJBxW9OObw/exec";
+const QUESTIONS = [
+{
+    q: "With reference to the European trading companies that operated in India, consider the following statements: <br> 1. The English East India Company was a private joint-stock company chartered by the monarch, whereas the French East India Company was largely state-sponsored and state-controlled.<br>2. The Dutch East India Company (VOC) concentrated its primary commercial interests in the Indonesian archipelago rather than mainland India.<br>3. All European trading companies enjoyed an identical degree of commercial autonomy from their respective home governments.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The English Company was a private joint-stock enterprise operating under royal charter with considerable autonomy, while the French Company, founded under Colbert, was largely financed and controlled by the state, giving it less commercial flexibility. The Dutch VOC's core interests lay in the Spice Islands of present-day Indonesia rather than India. Statement 3 is incorrect because the degree of state control and autonomy varied significantly across companies."
+},
+{
+    q: "With reference to the background and evolution of the Carnatic Wars, consider the following statements: <br> 1. The First Carnatic War was essentially an extension of the War of Austrian Succession being fought in Europe.<br>2. The Second Carnatic War arose primarily out of succession disputes in the Carnatic and in Hyderabad.<br>3. The Battle of Wandiwash was fought during the First Carnatic War.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The First Carnatic War (1746-48) broke out because Britain and France were opposed in the Austrian War of Succession in Europe. The Second Carnatic War (1749-54) stemmed from rival claims to the Nawabship of the Carnatic and the Nizamate of Hyderabad, which the English and French exploited by backing opposing claimants. The Battle of Wandiwash was fought in 1760 during the Third, not the First, Carnatic War, making statement 3 incorrect."
+},
+{
+    q: "With reference to the challenges faced by European trading companies in India, consider the following statements: <br> 1. The French East India Company's dependence on state funding rather than private capital was a major reason for its recurring financial troubles.<br>2. Competition from private English merchants led to the formation of a rival 'New Company' in the late seventeenth century, which was later merged with the older East India Company.<br>3. The English East India Company never faced any opposition from private merchants in England.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3",
+        "1 and 2 only"
+    ],
+    ans: 3,
+    exp: "Being state-controlled and bureaucratic, the French Company lacked the commercial dynamism of its English rival, which repeatedly caused financial strain. Interloper merchants in England secured a charter in 1698 to form a rival East India Company, and the two were merged in 1708-09 into the United Company of Merchants of England Trading to the East Indies. Statement 3 is factually wrong since the English Company faced sustained opposition from private traders."
+},
+{
+    q: "With reference to the challenges in the Anglo-French rivalry in India, consider the following statements: <br> 1. Reliance on alliances with rival claimants to local thrones, such as the Nawabship of the Carnatic, drew both companies into local succession disputes.<br>2. The French, under Dupleix, pioneered the training and organisation of Indian soldiers (sepoys) on European lines, a practice later expanded by the British.<br>3. French naval superiority throughout the wars ensured continuous and unhindered reinforcement of French garrisons in India.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 2 only",
+        "1 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "Both companies backed rival claimants in the Carnatic and Hyderabad to expand their own influence, drawing them deep into local politics. Dupleix is credited with pioneering the systematic training of sepoys along European lines, a model later adopted and expanded by the British. Statement 3 is incorrect, as British naval squadrons under commanders like Pocock repeatedly checked French naval reinforcement, especially during the Third Carnatic War."
+},
+{
+    q: "With reference to the features and characteristics of the English East India Company, consider the following statements: <br> 1. The Company received its first royal charter in 1600 from Queen Elizabeth I, granting it a monopoly over English trade with the East.<br>2. Sir Thomas Roe, sent by King James I, secured trading concessions from the Mughal Emperor Jahangir.<br>3. The Company established its first factory in India at Madras.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The Company was chartered in 1600 under Elizabeth I with exclusive rights to English trade east of the Cape of Good Hope. Sir Thomas Roe's embassy to Jahangir's court in 1615, on behalf of James I, secured important trading privileges. Statement 3 is incorrect since the Company's first Indian factory was established at Surat in 1613; Madras (Fort St George) was founded later, in 1639."
+},
+{
+    q: "With reference to the background and evolution of European trading companies in India, consider the following statements: <br> 1. The Portuguese were the first Europeans to arrive in India by sea route, followed chronologically by the English, Dutch, French and Danish companies.<br>2. The Danish East India Company established a settlement at Tranquebar on the Coromandel Coast.<br>3. Goa, captured by the Portuguese under Afonso de Albuquerque, served as the headquarters of the Portuguese Estado da India.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1, 2 and 3",
+        "2 and 3 only",
+        "1 and 3 only"
+    ],
+    ans: 2,
+    exp: "The Portuguese arrived first (1498), but the correct chronological order of subsequent company formations was English (1600), Dutch (1602), Danish (1616) and then French (1664); statement 1's ordering is therefore incorrect. The Danish East India Company did set up a factory-settlement at Tranquebar on the Coromandel Coast. Goa, seized by Albuquerque in 1510, indeed became the administrative headquarters of Portuguese possessions in Asia."
+},
+{
+    q: "With reference to recent developments (2025-2026) linked to India's Anglo-French colonial past, consider the following statements: <br> 1. The Puducherry administration, in association with INTACH, has initiated efforts to secure UNESCO World Heritage status for the town's heritage precincts, including the French Quarter.<br>2. Puducherry continued under French administration after the Treaty of Paris (1763) and was de facto transferred to the Indian Union only in 1954.<br>3. Puducherry was granted the status of a full State of the Indian Union through a constitutional amendment.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1, 2 and 3",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only"
+    ],
+    ans: 3,
+    exp: "The Puducherry government, working with INTACH, has been pursuing UNESCO World Heritage recognition for its colonial-era heritage zones such as the French Quarter (White Town). The Treaty of Paris (1763) restricted the French to unfortified trading posts in India, and French possessions including Puducherry were only de facto merged with India in 1954, with formal cession completed later. Statement 3 is incorrect, as Puducherry remains a Union Territory (with its own legislature) and has never been constituted as a full State."
+},
+{
+    q: "With reference to the structure and composition of European settlements in India, consider the following statements: <br> 1. Most European factories followed a broadly common pattern - a fortified settlement housing warehouses, residences and a garrison, administered by a Chief or Governor assisted by a Council.<br>2. Settlements such as Madras and Pondicherry were typically divided into a 'White Town' inhabited mainly by Europeans and a 'Black Town' inhabited by Indian traders and artisans.<br>3. The administrative structure of the English factories was identical to that of the Portuguese Estado da India, both being ruled directly by their home governments without any intervening commercial company.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "European factories generally combined fortification, warehousing and residential quarters under a Chief/Governor-in-Council. Settlements like Madras and Pondicherry were characteristically divided into a European 'White Town' and an Indian 'Black Town'. Statement 3 is incorrect since English factories were run by a private joint-stock company, unlike the Estado da India, which was a direct arm of the Portuguese crown."
+},
+{
+    q: "With reference to recent developments (2025-2026) concerning Dutch colonial heritage in India, consider the following statements: <br> 1. The National Archives of the Netherlands and the Kerala State Archives have begun cooperating to preserve and digitise Dutch-era VOC records held in Kerala.<br>2. St Angelo Fort in Kannur is among the surviving structures associated with the former Dutch presence on the Malabar Coast.<br>3. The VOC's headquarters on the Malabar Coast at Cochin continued to function without interruption right up to India's independence in 1947.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1, 2 and 3",
+        "1 and 3 only",
+        "1 and 2 only"
+    ],
+    ans: 3,
+    exp: "The Dutch National Archives and Kerala's Regional Archives at Ernakulam have started a joint project to preserve and digitise VOC-era documents. St Angelo Fort in Kannur retains traces of the erstwhile Dutch presence on the Malabar Coast. Statement 3 is incorrect since Dutch power in Malabar effectively ended by 1795, when the British occupied their possessions, well before independence."
+},
+{
+    q: "With reference to the challenges and issues faced by the Danish East India Company in India, consider the following statements: <br> 1. The Company faced prolonged financial weakness, which led to its Asian trade being suspended for extended periods before being revived.<br>2. Strong competition from larger and better-resourced European trading companies was a major challenge to sustaining Danish commercial interests.<br>3. Persistent financial difficulties eventually compelled Denmark to sell all its Indian settlements, including Tranquebar and Serampore, to the British in 1845.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1, 2 and 3",
+        "2 and 3 only",
+        "1 and 3 only"
+    ],
+    ans: 1,
+    exp: "The Danish Company's Asian trade operated only intermittently, with periods of suspension due to weak finances before being reorganised. It struggled to compete commercially with the far larger English, Dutch and French companies. Ultimately, financial distress forced Denmark to sell its Indian possessions, including Tranquebar and Serampore, to the British in 1845, ending its colonial presence in India."
+},
+{
+    q: "With reference to the arrival of Europeans in India, consider the following statements: <br> 1. The Portuguese introduced the 'Cartaz' system, requiring other traders' ships in the Indian Ocean to carry a pass issued by them, thereby altering existing patterns of maritime trade.<br>2. Vasco da Gama's voyage of 1498 established a direct sea route between Europe and India via the Cape of Good Hope, bypassing traditional Arab and Venetian intermediaries.<br>3. The Portuguese Estado da India was headed by a Viceroy, with Goa as its administrative headquarters.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1, 2 and 3",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only"
+    ],
+    ans: 0,
+    exp: "The Portuguese enforced the Cartaz system to control and tax shipping in the Indian Ocean, marking a significant intervention in existing trade practices. Vasco da Gama's 1498 voyage opened a direct sea route to India, reducing dependence on Arab and Venetian middlemen. The Estado da India was governed by a Viceroy from Goa, which served as its administrative headquarters from 1530 onward, making all three statements correct."
+},
+{
+    q: "With reference to the features and characteristics of the Anglo-French rivalry in India, consider the following statements: <br> 1. Dupleix pioneered a policy of interfering in the succession disputes of Indian states to install rulers favourable to French interests, financed through revenue assignments from these rulers.<br>2. The wars were fought exclusively by European soldiers, without any significant participation of Indian troops on either side.<br>3. The greater financial resources and stronger private capital base of the English Company, compared to the state-funded French Company, was a key factor behind British ascendancy.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "Dupleix's strategy of backing rival claimants to Indian thrones in exchange for revenue and territorial concessions was a defining feature of French policy. Statement 2 is incorrect, as both sides extensively employed and trained Indian sepoys, a practice that became central to the conflict. The English Company's stronger private capital base, compared to the bureaucratic, state-funded French Company, was indeed a significant factor in eventual British success."
+},
+{
+    q: "With reference to the contributions associated with the Danish settlement of Serampore, consider the following statements: <br> 1. The 'Serampore Trio' - William Carey, Joshua Marshman and William Ward - operating from Danish Serampore, established the Serampore Mission Press, which printed the Bible and other works in several Indian languages.<br>2. William Carey's writings and advocacy from Serampore contributed to the public debate that eventually fed into the abolition of Sati in 1829.<br>3. Serampore College, founded in 1818, went on to become the first institution in Asia empowered to confer degrees.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3",
+        "1 and 2 only"
+    ],
+    ans: 2,
+    exp: "Operating under the relatively liberal Danish administration at Serampore, Carey, Marshman and Ward set up the Mission Press and translated scripture and other texts into numerous Indian languages. Carey's sustained writings against Sati fed into the wider reformist discourse that culminated in its abolition under Bentinck in 1829. Serampore College, founded in 1818 and later granted a royal charter, is credited as the first institution in Asia empowered to award degrees, making all three statements correct."
+},
+{
+    q: "With reference to the background and evolution of the French East India Company, consider the following statements: <br> 1. The French East India Company was established in 1664 under the patronage of Jean-Baptiste Colbert, chief minister of Louis XIV.<br>2. Francois Martin developed Pondicherry, acquired in 1673, into the principal French settlement in India.<br>3. The first French factory in India was established at Chandernagore.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The French East India Company was founded in 1664 under Colbert's patronage during the reign of Louis XIV. Francois Martin transformed Pondicherry, acquired in 1673, into the chief centre of French power in India. Statement 3 is incorrect since the first French factory was established at Surat in 1668, with Chandernagore in Bengal acquired only later, around 1690-92."
+},
+{
+    q: "With reference to the outcomes of the Carnatic Wars, consider the following statements: <br> 1. The Treaty of Paris (1763) restored French settlements like Pondicherry and Chandernagore but barred France from fortifying or garrisoning them, confining it to trade alone.<br>2. The wars established the model of maintaining trained, disciplined sepoy armies, which was subsequently adopted more widely by the English and regional Indian powers.<br>3. As an outcome of the wars, the Nawab of the Carnatic (Arcot) became increasingly dependent on the English East India Company for military support and legitimacy.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "The Treaty of Paris (1763) confined France to unfortified trading posts, ending its political-military ambitions in India. The wars popularised the practice of training and maintaining disciplined sepoy armies, a model later expanded by the English and emulated by regional powers. They also left the Nawab of Arcot heavily dependent on English military backing, making all three statements correct."
+},
+{
+    q: "With reference to the structure and composition of Dutch (VOC) possessions in India, consider the following statements: <br> 1. The VOC's overall management was vested in a board of directors known as the Heeren XVII ('Lords Seventeen'), based in the Netherlands.<br>2. In India, VOC possessions were organised into administrative units such as the Coromandel Governorate (headquartered first at Pulicat, later at Nagapattinam) and the Malabar Commandment (headquartered at Cochin).<br>3. Unlike other European companies, the VOC never issued its own coinage in India and relied entirely on Mughal currency for local transactions.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1, 2 and 3",
+        "1 and 3 only",
+        "1 and 2 only",
+        "2 and 3 only"
+    ],
+    ans: 2,
+    exp: "The VOC was governed overall by the Heeren XVII, a board of seventeen directors in the Netherlands. In India, its territories were organised into units such as the Coromandel Governorate (Pulicat, later Nagapattinam) and the Malabar Commandment (Cochin). Statement 3 is incorrect, as the Dutch did operate their own mints in India, including at Cochin, Masulipatnam, Nagapatam and Pulicat, issuing coinage modelled on local currency."
+},
+{
+    q: "With reference to reforms undertaken by the French in India, consider the following statements: <br> 1. Dupleix introduced military reforms by systematically training and arming Indian sepoys along European lines and integrating them into Company forces.<br>2. Faced with mounting financial losses from Dupleix's expansionist policies, the French government recalled him in 1754 and adopted a more conciliatory approach under his successor, Godeheu.<br>3. The Treaty of Pondicherry (1754), signed by Godeheu, expanded French territorial claims in the Carnatic beyond what Dupleix had achieved.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "Dupleix is credited with pioneering the disciplined training of sepoy forces, a model later adopted widely. Alarmed by the costs of Dupleix's policies, the French government recalled him and pursued peace under Godeheu. Statement 3 is incorrect since the Treaty of Pondicherry was a retreat from expansion - it recognised Muhammad Ali as Nawab and committed both companies to non-interference in local succession disputes."
+},
+{
+    q: "With reference to the structure and composition of the English East India Company, consider the following statements: <br> 1. In England, the Company was managed by a Court of Directors, elected by the Court of Proprietors (shareholders).<br>2. In India, Company possessions eventually came to be organised into three Presidencies - Bombay, Madras and Bengal - each headed by a Governor-in-Council.<br>3. Below Presidency level, individual trading posts were commonly termed 'factories', typically headed by an official called a 'Chief' or 'Agent'.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "The Company's home administration rested with a Court of Directors chosen by shareholders forming the Court of Proprietors. In India, its territories evolved into the three Presidencies of Bombay, Madras and Bengal, each under a Governor-in-Council. Individual trading posts below this level were called factories, generally headed by a Chief or Agent, making all three statements correct."
+},
+{
+    q: "With reference to a commonly tested UPSC Prelims theme on the East India Company's acquisition of power in Bengal, consider the following statements: <br> 1. The Battle of Plassey (1757) established the Company's political dominance in Bengal but did not immediately grant it the right to collect revenue (Diwani).<br>2. The Diwani of Bengal, Bihar and Odisha was granted to the Company by Mughal Emperor Shah Alam II under the Treaty of Allahabad (1765), following the Battle of Buxar.<br>3. The Regulating Act of 1773 was enacted prior to the Company's acquisition of Diwani rights.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3",
+        "1 and 3 only"
+    ],
+    ans: 1,
+    exp: "Plassey (1757) made Mir Jafar a Company puppet but did not confer revenue rights. It was only after Buxar (1764) that the Treaty of Allahabad (1765) saw Shah Alam II grant the Diwani of Bengal, Bihar and Odisha to the Company. Statement 3 is incorrect since the Regulating Act (1773) followed the Diwani grant (1765), enacted to address the administrative problems it created."
+},
+{
+    q: "With reference to administrative reforms introduced by the English East India Company in Bengal, consider the following statements: <br> 1. Robert Clive introduced the 'Dual System of Government' in Bengal in 1765, under which the Company held Diwani (revenue) rights while the Nawab retained the Nizamat (police and judicial administration).<br>2. Warren Hastings abolished the Dual System in 1772 and assumed direct responsibility for civil administration on the Company's behalf.<br>3. The Regulating Act of 1773 created the post of Governor-General of Bengal and established a Supreme Court at Calcutta.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1, 2 and 3",
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only"
+    ],
+    ans: 0,
+    exp: "Clive's Dual System (1765) separated revenue collection (with the Company) from civil and criminal administration (with the Nawab). Warren Hastings ended this arrangement in 1772, bringing civil administration directly under Company control. The Regulating Act of 1773 subsequently created the office of Governor-General of Bengal and set up a Supreme Court at Calcutta, making all three statements correct."
+},
+{
+    q: "With reference to the functions and powers of the French East India Company, consider the following statements: <br> 1. Like other European companies, it held an exclusive royal monopoly over French trade east of the Cape of Good Hope.<br>2. It was empowered to fortify its settlements, maintain armed forces and enter into political alliances with Indian rulers.<br>3. Dupleix, despite acting as the Company's Governor, held no formal recognition or title from any Indian ruling authority, and his political influence was purely informal.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1, 2 and 3",
+        "1 and 2 only",
+        "1 and 3 only"
+    ],
+    ans: 2,
+    exp: "The French Company, like its European counterparts, enjoyed a state-granted monopoly over trade in Asian waters and could fortify settlements, raise troops and ally with local powers. Statement 3 is incorrect, as Dupleix received formal honours and recognition from Indian rulers acknowledging his authority, lending a degree of legitimacy to his political interventions rather than these being purely informal."
+},
+{
+    q: "With reference to recent developments (2025-2026) concerning former European settlements in India, consider the following statements: <br> 1. The Archaeological Survey of India continues restoration and conservation work at Fort St George, Chennai, one of India's early fortified European settlements.<br>2. Conservation efforts at such colonial-era settlements typically include both structural restoration and the preservation of artefacts housed in their museums.<br>3. Fort St George was originally built by the Portuguese before being transferred to the English East India Company in the eighteenth century.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1, 2 and 3",
+        "1 and 3 only",
+        "1 and 2 only",
+        "2 and 3 only"
+    ],
+    ans: 2,
+    exp: "The ASI carries out ongoing structural restoration and artefact conservation at Fort St George, including in its museum collections. Statement 3 is incorrect, as Fort St George was built directly by the English East India Company between 1639 and 1644 and was never a Portuguese possession."
+},
+{
+    q: "With reference to the features and characteristics of the Carnatic Wars, consider the following statements: <br> 1. Although triggered by European conflicts, the wars were substantially fought using Indian resources, revenues and sepoy soldiers.<br>2. The wars were unique among eighteenth-century Indian conflicts in that no European power ever allied with an Indian ruler against another European power.<br>3. The Third Carnatic War, fought as part of the global Seven Years' War, proved decisive in establishing British supremacy over the French in India.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "The wars were financed and fought substantially through Indian revenues, sepoy soldiers, and alliances with local rulers, even though their origins lay in European rivalries. Statement 2 is incorrect, as alliances between European companies and rival Indian claimants were a defining feature of the wars. The Third Carnatic War, fought during the Seven Years' War, indeed proved decisive for British supremacy in India."
+},
+{
+    q: "With reference to the functions and powers exercised by European trading companies in India, consider the following statements: <br> 1. Under the Charter of 1661 granted by Charles II, the English East India Company was empowered to acquire territory, mint money, raise armed forces and exercise jurisdiction over English subjects in the East.<br>2. European trading companies typically combined commercial functions with quasi-sovereign powers, including the ability to wage war and conclude treaties with local rulers.<br>3. Minting coinage in India was a power exclusively exercised by the English Company, with no other European company issuing coins.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The 1661 Charter significantly expanded the English Company's powers, granting it territorial, military, monetary and judicial functions. Combining commerce with quasi-sovereign powers, including war-making and treaty-signing, was a general feature of European trading companies in India. Statement 3 is incorrect, as companies like the Dutch also operated their own mints at places such as Cochin and Pulicat."
+},
+{
+    q: "With reference to the background and evolution of European settlements in India, consider the following statements: <br> 1. Bombay was acquired by the English Crown as part of the dowry of Catherine of Braganza on her marriage to Charles II, and was later leased to the East India Company.<br>2. Calcutta, a key English settlement in Bengal, developed around a factory established by Job Charnock in 1690.<br>3. Portuguese Goa, captured in 1510, was established as a fortified European settlement well before any English or Dutch factory in India.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "Bombay passed to the English Crown as part of Catherine of Braganza's dowry and was subsequently leased to the East India Company for a nominal annual rent. Calcutta is traditionally traced to Job Charnock's factory of 1690. Goa, captured by the Portuguese in 1510, predated the establishment of English (1613) and Dutch (1605) factories in India, making all three statements correct."
+},
+{
+    q: "With reference to recent developments (2025-2026) concerning French colonial heritage in India, consider the following statements: <br> 1. The West Bengal government has renewed its commitment with the French Embassy in India to restore heritage structures in Chandannagar (formerly Chandernagore), a former French settlement.<br>2. The Registry Building (Chander Bari) in Chandannagar, built around 1875, is among the colonial-era structures identified for restoration under this initiative.<br>3. Chandannagar remained under uninterrupted French control from its founding in the seventeenth century right up to India's independence in 1947.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1, 2 and 3",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only"
+    ],
+    ans: 3,
+    exp: "The West Bengal government and the French Embassy, represented by Ambassador Emmanuel Lenain, have renewed efforts to restore Chandannagar's colonial heritage. The Registry Building or Chander Bari, India's first French courthouse (c.1875), is among the structures earmarked for restoration. Statement 3 is incorrect, as Chandannagar changed hands multiple times between the French and British during the Carnatic and Anglo-French wars and was only formally returned to India in 1950, after a referendum, not held continuously by France until 1947."
+},
+{
+    q: "With reference to important Portuguese-era policies still relevant in India, consider the following statements: <br> 1. The Portuguese Civil Code of 1867, extended to Goa around 1870, continues to apply there today by virtue of the Goa, Daman and Diu Administration Act.<br>2. The Goa Civil Code is often cited as an example of a Uniform Civil Code because it applies a broadly common set of family laws to residents of Goa regardless of religion.<br>3. The Goa Civil Code is completely free of religion-based exceptions and treats all communities in an entirely identical manner in matters of marriage and inheritance.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3",
+        "1 and 2 only"
+    ],
+    ans: 3,
+    exp: "The Portuguese Civil Code of 1867 was extended to Goa and continues to apply there through the Goa, Daman and Diu Administration Act, which permitted its continuance after Goa's merger with India. It is widely cited as an example of a Uniform Civil Code for governing personal matters across communities. Statement 3 is incorrect, as the code retains certain religion-based exceptions, such as a conditional right to bigamy for Hindu men under specific circumstances."
+},
+{
+    q: "With reference to the features and characteristics of Portuguese colonial enterprise in India, consider the following statements: <br> 1. Unlike the English and Dutch companies, Portuguese overseas trade was organised as a direct royal monopoly (Estado da India) rather than through a private joint-stock company.<br>2. Portuguese expansion in Asia was marked by a close association between trade and Catholic missionary activity, formalised through the Padroado system.<br>3. The Portuguese, alone among European powers in India, never used naval force to control regional trade routes.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "Portuguese trade was run directly by the Crown as the Estado da India, unlike the private joint-stock structure of the English and Dutch companies. Their expansion was closely tied to missionary activity under the Padroado arrangement with the Papacy. Statement 3 is incorrect, as the Portuguese enforced the Cartaz pass system through naval force to control shipping in the Indian Ocean."
+},
+{
+    q: "With reference to themes commonly tested in UPSC examinations on the French East India Company, consider the following statements: <br> 1. It has been a recurring UPSC theme that Dupleix was the first to demonstrate the technique of intervening in the succession disputes of Indian states to acquire political control, a method later perfected by the English East India Company.<br>2. A frequently cited UPSC theme holds that, compared to the English Company, the French Company enjoyed greater discretionary power and did not need to depend on decisions taken in Paris.<br>3. UPSC essay-type questions have compared Dupleix's focus on Madras/the Carnatic with Clive's focus on Bengal to explain the differing fortunes of the two companies.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "A UPSC Mains theme (2020) directly credits Dupleix with pioneering intervention in local succession disputes, later refined by the English. Another well-known theme (2013) contrasts Dupleix's focus on Madras with Clive's focus on Bengal to explain British success. Statement 2 reverses a genuine UPSC theme (2012), which actually holds that the French Company had less discretionary power than the English and had to depend heavily on Paris - this is cited as a reason for French failure, not success."
+},
+{
+    q: "With reference to important legislative measures concerning the East India Company, consider the following statements: <br> 1. The Charter Act of 1813 ended the Company's monopoly over trade with India, though its monopoly over trade with China and in tea continued.<br>2. The Charter Act of 1833 ended the Company's remaining commercial functions altogether, converting it into a purely administrative body, and created the office of Governor-General of India.<br>3. The Charter Act of 1853, for the first time, created a separate Governor-General for India distinct from the Governor-General of Bengal.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "1, 2 and 3",
+        "1 and 2 only",
+        "2 and 3 only"
+    ],
+    ans: 2,
+    exp: "The Charter Act of 1813 opened India's trade to other British subjects while retaining the Company's monopoly over the China trade and tea. The Charter Act of 1833 stripped the Company of all commercial functions and created the post of Governor-General of India (first held by William Bentinck). Statement 3 is incorrect, as the Charter Act of 1853 mainly separated the legislative and executive functions of the Governor-General's council and introduced open competition for the civil services, not a separate Governor-General for India."
+},
+{
+    q: "With reference to the background and evolution of the Danish East India Company, consider the following statements: <br> 1. The Company was established in 1616 under a charter granted by King Christian IV of Denmark-Norway.<br>2. The Danes secured a foothold at Tranquebar on the Coromandel Coast through a treaty signed in 1620 with Raghunatha Nayak, the ruler of Thanjavur.<br>3. The Company's Asian trade operated continuously and profitably throughout its existence, without any interruption.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1, 2 and 3",
+        "1 and 3 only",
+        "1 and 2 only"
+    ],
+    ans: 3,
+    exp: "The Danish East India Company was chartered in 1616 under Christian IV. It secured Tranquebar through the 1620 treaty with the Thanjavur Nayak ruler, Raghunatha Nayak. Statement 3 is incorrect, as the Company's Asian trade operated only intermittently, with periods of suspension due to weak finances before later revival and reorganisation."
+},
+{
+    q: "With reference to constitutional and legal provisions concerning former European settlements in India, consider the following statements: <br> 1. The 70th Constitutional Amendment Act, 1991 included the National Capital Territory of Delhi and the Union Territory of Puducherry in the Electoral College for the Presidential election.<br>2. Puducherry, a former French settlement, is administered as a Union Territory with its own Legislative Assembly, unlike most other Union Territories.<br>3. The merger of French settlements in India with the Indian Union was completed through a Treaty of Cession that was ratified only a few years after the de facto transfer had already taken effect.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1, 2 and 3",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only"
+    ],
+    ans: 0,
+    exp: "The 70th Constitutional Amendment Act (1991) added the NCT of Delhi and the UT of Puducherry to the Presidential Electoral College. Puducherry is among the few Union Territories with its own Legislative Assembly. The former French settlements were de facto transferred to India in 1954, but the Treaty of Cession was ratified by the French Parliament only in 1962, making all three statements correct."
+},
+{
+    q: "With reference to the background and evolution of the Anglo-French rivalry in India, consider the following statements: <br> 1. The rivalry had its roots in the broader eighteenth-century global contest between Britain and France for commercial and colonial supremacy.<br>2. Political fragmentation following the decline of Mughal central authority in the Deccan and the Carnatic created opportunities for both companies to intervene in local succession disputes.<br>3. The rivalry began only after 1756, with the outbreak of the Seven Years' War, and had no precedent in earlier Anglo-French conflicts in India.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The rivalry mirrored the wider global Anglo-French contest for colonial supremacy. The decline of central Mughal authority in the Deccan and Carnatic opened space for both companies to intervene in local politics. Statement 3 is incorrect, as the rivalry predates the Seven Years' War, having begun with the First Carnatic War (1746-48), triggered by the War of Austrian Succession."
+},
+{
+    q: "With reference to the powers exercised in the aftermath of the Carnatic Wars, consider the following statements: <br> 1. Victorious European companies exercised the de facto power of installing and deposing local Nawabs, even though formal sovereignty nominally rested with the Mughal emperor.<br>2. Following its victory in the Third Carnatic War, the English Company was formally granted the Diwani of the Carnatic region by the Mughal Emperor, similar to its rights in Bengal.<br>3. Puppet rulers installed after the wars were often required to grant financial concessions and revenue assignments to their European patrons in return for military support.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "Both companies effectively controlled Nawab-making in the Carnatic despite the Mughal emperor's nominal sovereignty. Statement 2 is incorrect, as the formal grant of Diwani rights applied specifically to Bengal, Bihar and Odisha in 1765; in the Carnatic, English influence rested on informal kingmaking rather than a formal Diwani grant. Puppet rulers did routinely grant revenue concessions to their European patrons in return for support."
+},
+{
+    q: "With reference to the challenges and issues faced by the English East India Company, consider the following statements: <br> 1. Rampant private trade and corruption by Company servants during the Dual Government period (1765-1772) contributed to administrative neglect that worsened the Bengal famine of 1770.<br>2. The tension between the Company's commercial character as a trading body and its growing political and administrative responsibilities after 1765 posed a persistent challenge for the British Parliament in regulating it.<br>3. The Company faced no domestic opposition or scrutiny from the British Parliament until the Charter Act of 1833.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3",
+        "1 and 2 only"
+    ],
+    ans: 3,
+    exp: "Corruption and private trade abuses by Company officials during the Dual Government period are widely cited as worsening the impact of the 1770 Bengal famine. The Company's dual commercial-administrative character created a persistent regulatory challenge that Parliament grappled with over decades. Statement 3 is incorrect, as parliamentary scrutiny began much earlier, notably with the Regulating Act of 1773."
+},
+{
+    q: "With reference to patterns commonly seen in UPSC Prelims questions on European settlements in India, consider the following statements: <br> 1. Match-the-following type questions on European settlements commonly pair Chinsura with the Dutch, Serampore with the Danish, and Pondicherry with the French.<br>2. UPSC Prelims has, in the past, tested candidates on identifying the correct chronological sequence of the arrival of European powers in India, starting with the Portuguese.<br>3. Questions on early European settlements also commonly test knowledge of local rulers who granted trading concessions, such as Jahangir's farman to the English.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "1, 2 and 3",
+        "2 and 3 only"
+    ],
+    ans: 2,
+    exp: "Prelims-style questions frequently test the pairing of settlements with their respective colonial powers, such as Chinsura (Dutch), Serampore (Danish) and Pondicherry (French). Questions on the chronological order of European arrival, beginning with the Portuguese, are also a recurring pattern. Similarly, the granting of concessions by Indian rulers, such as Jahangir's farman to Sir Thomas Roe, is a commonly tested detail, making all three statements correct."
+},
+{
+    q: "With reference to the background and evolution of the Dutch East India Company (VOC), consider the following statements: <br> 1. The VOC was formed in 1602 through the merger of several competing Dutch trading companies, chartered by the States-General of the Netherlands.<br>2. The Dutch defeat at the Battle of Bedara (1759) against the English marked a turning point that weakened Dutch influence in Bengal.<br>3. The Anglo-Dutch Treaty of 1824 led to the Dutch ceding their remaining Indian possessions to the British the following year.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 2 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "The VOC was created in 1602 by merging rival Dutch companies under a charter from the States-General. Its defeat at the Battle of Bedara in 1759 significantly weakened Dutch power in Bengal. The Anglo-Dutch Treaty of 1824 paved the way for the final cession of Dutch possessions in India to the British in 1825, making all three statements correct."
+},
+{
+    q: "With reference to recent developments (2025-2026) associated with the site of European arrival in India, consider the following statements: <br> 1. In 2025, Kappad Beach in Kozhikode district, Kerala, traditionally associated with Vasco da Gama's landing in 1498, received Blue Flag certification along with Chal Beach in Kannur.<br>2. The Blue Flag certification is awarded by the Foundation for Environmental Education, based in Denmark.<br>3. Historians have unanimously confirmed that Vasco da Gama's actual landing site in 1498 was Kappad, with no competing claims regarding the exact location.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1, 2 and 3",
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only"
+    ],
+    ans: 1,
+    exp: "Kappad Beach and Chal Beach were awarded Blue Flag certification in 2025, recognised by the Kerala government as a milestone for sustainable tourism. The Blue Flag certification is issued by the Denmark-based Foundation for Environmental Education. Statement 3 is incorrect, as some historians dispute the Kappad claim, arguing that Vasco da Gama actually anchored near Panthalayini Kollam (Koyilandy) rather than Kappad itself."
+},
+{
+    q: "With reference to the structure and composition of the process by which Europeans arrived and established themselves in India, consider the following statements: <br> 1. The general pattern of European entry involved securing trading concessions or a farman from local or Mughal authorities, followed by establishing an unfortified factory, and only later building fortifications.<br>2. The correct chronological order of establishment of the major European trading companies was: Portuguese Estado da India (from 1505), English Company (1600), Dutch VOC (1602), Danish Company (1616), and French Company (1664).<br>3. All European powers entered India exclusively through the west coast, with none establishing settlements on the east coast (Coromandel) in their initial phase.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3",
+        "1 and 2 only"
+    ],
+    ans: 3,
+    exp: "European powers typically first secured trading rights or a farman, then set up an unfortified factory before fortifying it as their position strengthened. The chronological order of company formation - Portuguese, English, Dutch, Danish and French - is correctly stated. Statement 3 is incorrect, as several powers, including the Dutch, English and French, established early settlements on the Coromandel (east) coast as well, such as at Masulipatnam."
+},
+{
+    q: "With reference to the functions and powers of the Dutch East India Company (VOC), consider the following statements: <br> 1. The VOC's 1602 charter granted it quasi-sovereign powers, including the right to wage war, negotiate treaties, and establish colonies on behalf of the Dutch Republic.<br>2. VOC operations in Asia, including India, were ultimately subordinate to the Governor-General stationed at Batavia (in present-day Indonesia).<br>3. The VOC also possessed the power to strike its own coinage and administer justice within its territories, reflecting its state-like character.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3",
+        "1 and 2 only"
+    ],
+    ans: 2,
+    exp: "The VOC's charter granted it extensive quasi-sovereign powers - the ability to wage war, sign treaties and found colonies - unusual for a commercial enterprise. Its Asian operations, including those in India, were coordinated under the authority of the Governor-General at Batavia. It also minted its own coinage at Indian mints and exercised judicial authority in its settlements, making all three statements correct."
+},
+{
+    q: "With reference to important policies concerning the French East India Company, consider the following statements: <br> 1. In 1719, the French East India Company was reorganised and merged with other French trading companies into the 'Compagnie des Indes' under John Law's financial system.<br>2. In 1769, the French crown dissolved the Company's trading privileges and took direct control of French possessions in India as crown colonies.<br>3. The Company's charter, from its inception in 1664, guaranteed it complete independence from state oversight in all administrative and military decisions.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The 1719 reorganisation under John Law merged several French trading ventures into the Compagnie des Indes. Financial troubles led the French crown to dissolve the Company's monopoly in 1769 and administer its Indian possessions directly. Statement 3 is incorrect, as the French Company was closely tied to and dependent on state oversight from its very inception, unlike the more autonomous English Company."
+},
+{
+    q: "With reference to constitutional and legal provisions concerning the English East India Company, consider the following statements: <br> 1. The Regulating Act of 1773 established a Governor-General of Bengal along with a Council and set up a Supreme Court at Calcutta.<br>2. Pitt's India Act of 1784 introduced a system of 'double government' by creating a Board of Control in London to supervise the Company's political affairs, while commercial matters remained largely with the Company's Court of Directors.<br>3. The Charter Act of 1793 ended the Company's trade monopoly with India for the first time.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1, 2 and 3",
+        "1 and 2 only",
+        "1 and 3 only"
+    ],
+    ans: 2,
+    exp: "The Regulating Act of 1773 created the office of Governor-General of Bengal with a Council and established a Supreme Court at Calcutta. Pitt's India Act (1784) introduced dual control - political oversight via a Board of Control, commercial matters retained by the Company. Statement 3 is incorrect, as the Charter Act of 1793 merely renewed the Company's charter; its monopoly over India trade was ended only by the Charter Act of 1813."
+},
+{
+    q: "With reference to patterns commonly seen in UPSC Prelims questions on the arrival of Europeans in India, consider the following statements: <br> 1. Such questions commonly test that Vasco da Gama reached Calicut in 1498 and was received by the Zamorin, the ruler of that region.<br>2. Such questions commonly test that the Portuguese established their earliest factory in India at Madras.<br>3. Such questions commonly test that the Portuguese were the first Europeans to arrive in India by sea route, prior to the Dutch, English and French.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "It is a frequently tested fact that Vasco da Gama arrived at Calicut in 1498 and was received by the Zamorin. Statement 2 is incorrect, as the Portuguese established their earliest Indian factory on the Malabar Coast at Cochin, not Madras. The fact that the Portuguese preceded the Dutch, English and French in arriving by sea is also a commonly tested point, making statements 1 and 3 correct."
+},
+{
+    q: "With reference to the general features and characteristics of the arrival of Europeans in India, consider the following statements: <br> 1. A key motivating factor was the desire to bypass Arab and Venetian intermediaries who controlled the traditional overland spice trade routes.<br>2. Superior naval technology and artillery gave the early European arrivals, particularly the Portuguese, a decisive advantage in controlling Indian Ocean trade routes.<br>3. From the outset, all European powers arrived in India with clearly declared intentions of establishing full territorial empires rather than trade.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1, 2 and 3",
+        "1 and 3 only",
+        "1 and 2 only",
+        "2 and 3 only"
+    ],
+    ans: 2,
+    exp: "European arrival was substantially driven by the desire to bypass Arab and Venetian middlemen controlling the traditional spice trade. Superior Portuguese naval technology and artillery gave them early control over Indian Ocean routes. Statement 3 is incorrect, as European powers initially arrived primarily seeking trade; territorial ambitions developed only gradually over subsequent decades."
+},
+{
+    q: "With reference to recurring UPSC Mains themes on the Anglo-French rivalry in India, consider the following statements: <br> 1. A widely referenced UPSC Mains question (2019) asks whether the Anglo-French tussle in the Carnatic reflected the internal decay of provincial chieftains in South India.<br>2. Another recurring UPSC theme (2006) reflects on why a base like Pondicherry, unlike one with control of Bengal and command of the sea, was inadequate for building an Indian empire.<br>3. UPSC has also asked Mains questions on Dupleix's technique of intervening in the succession disputes of Indian rulers to acquire political control (2020).<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "1, 2 and 3",
+        "2 and 3 only"
+    ],
+    ans: 2,
+    exp: "UPSC's 2019 question examined whether the Anglo-French tussle reflected the decay of provincial chieftains in South India. The 2006 theme reflects on why Pondicherry, lacking Bengal's resources and naval command, was an inadequate base for empire-building. The 2020 question specifically explored Dupleix's technique of intervening in succession disputes, making all three statements correct."
+},
+{
+    q: "With reference to constitutional provisions concerning former European settlements in India, consider the following statements: <br> 1. Goa attained full statehood in 1987 through the Goa, Daman and Diu Reorganisation Act, while Daman and Diu continued as a separate Union Territory.<br>2. Since 2020, Daman and Diu has been merged with Dadra and Nagar Haveli to form a single Union Territory.<br>3. Article 239A of the Constitution enables Parliament to create a body, wholly or partly elected, to function as a Legislature for certain Union Territories, including Puducherry.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "1, 2 and 3",
+        "2 and 3 only",
+        "1 and 2 only"
+    ],
+    ans: 1,
+    exp: "Goa became India's 25th state in 1987 under the Goa, Daman and Diu Reorganisation Act, while Daman and Diu remained a Union Territory. In 2020, Daman and Diu was merged with Dadra and Nagar Haveli into a single Union Territory. Article 239A specifically empowers Parliament to create a Legislature for certain Union Territories such as Puducherry, making all three statements correct."
+},
+{
+    q: "With reference to recent developments (2025-2026) concerning European trading companies in India, consider the following statements: <br> 1. The exhibition 'Painters, Ports, and Profits: Artists and the East India Company, 1750-1850' opened at the Yale Center for British Art in early 2026.<br>2. The exhibition explores artistic networks and exchanges among British, Chinese and Indian artists working in the orbit of the East India Company.<br>3. The exhibition focuses exclusively on the Company's military campaigns, containing no material related to art, portraiture, or natural history illustration.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1, 2 and 3",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1 and 3 only"
+    ],
+    ans: 2,
+    exp: "The exhibition opened at the Yale Center for British Art in January 2026, running through June 2026. It examines the artistic networks connecting British, Chinese and Indian artists who worked within the Company's global orbit. Statement 3 is incorrect, as the exhibition prominently features portraiture, watercolours and natural history illustrations rather than focusing on military campaigns."
+},
+{
+    q: "With reference to the functions and powers of the Danish East India Company, consider the following statements: <br> 1. The Company's charter granted it monopoly rights over Danish trade in Asia, along with the power to build forts such as Fort Dansborg at Tranquebar.<br>2. Serampore's relatively liberal Danish administration made it a haven for Christian missionaries, including those excluded from operating in English Company territories before 1813.<br>3. The Danish Company exercised full territorial sovereignty over the entire Coromandel Coast, to the exclusion of all other European powers.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The Danish charter granted monopoly trading rights and the authority to build fortifications, including Fort Dansborg at Tranquebar. Serampore's comparatively liberal administration allowed missionaries like the Serampore Trio to operate there when the English Company restricted such activity before 1813. Statement 3 is incorrect, as Danish holdings were limited to small enclaves like Tranquebar, Serampore and the Nicobar Islands, alongside other European powers' settlements on the Coromandel Coast."
+},
+{
+    q: "With reference to the features and characteristics of European settlements in India, consider the following statements: <br> 1. Pondicherry's urban layout, developed under French administration, was characterised by wide boulevards and a grid-pattern street plan.<br>2. European settlements typically had a church or similar religious institution as a prominent feature of the European residential quarter.<br>3. Many settlements, being coastal, functioned simultaneously as centres of trade, administration and naval defence.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "Pondicherry's White Town was noted for its planned grid layout and wide boulevards under French rule. Churches were a prominent feature of European quarters across settlements, from Fort St George's St Mary's Church to Pondicherry's Notre Dame. Their coastal location meant these settlements typically combined trade, administrative and naval-defence functions, making all three statements correct."
+},
+{
+    q: "With reference to the background and evolution of Portuguese power in India, consider the following statements: <br> 1. Francisco de Almeida, the first Portuguese Viceroy, pursued a 'Blue Water Policy' focused on naval dominance rather than territorial acquisition in India.<br>2. Afonso de Albuquerque, Almeida's successor, shifted towards territorial expansion, capturing Goa from the Sultanate of Bijapur in 1510 and making it the capital of the Estado da India.<br>3. Portuguese possessions in India, including Goa, Daman and Diu, were liberated from Portuguese rule following India's independence in 1947.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1, 2 and 3",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only"
+    ],
+    ans: 3,
+    exp: "Almeida's 'Blue Water Policy' emphasised naval supremacy over territorial conquest during his tenure as the first Viceroy. Albuquerque, his successor, pursued territorial expansion, capturing Goa from Bijapur in 1510 and establishing it as the seat of the Estado da India. Statement 3 is incorrect, as Goa, Daman and Diu remained under Portuguese rule well after 1947, being liberated only in 1961 through Operation Vijay."
+}
+];
+
+
+
+
+
+
+
+
+
+
+
+
+
+const CORRECT_MARKS = 2;
+const NEGATIVE_MARKS = 2 / 3;
+
+let current = 0;
+const responses = new Array(QUESTIONS.length).fill(null);
+let submitted = false;
+
+const qNumEl = document.getElementById('qNum');
+const qTotalEl = document.getElementById('qTotal');
+const qTotalNoteEl = document.getElementById('qTotalNote');
+const qTextEl = document.getElementById('qText');
+const optionsListEl = document.getElementById('optionsList');
+const qStatusTag = document.getElementById('qStatusTag');
+const explainBox = document.getElementById('explainBox');
+const explainText = document.getElementById('explainText');
+const paletteGrid = document.getElementById('paletteGrid');
+const answeredCountEl = document.getElementById('answeredCount');
+const skippedCountEl = document.getElementById('skippedCount');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const clearBtn = document.getElementById('clearBtn');
+const submitBtn = document.getElementById('submitBtn');
+const paperView = document.getElementById('paperView');
+const resultView = document.getElementById('resultView');
+const reviewBtn = document.getElementById('reviewBtn');
+const scoreText = document.getElementById('scoreText');
+const scorePercent = document.getElementById('scorePercent');
+
+const confirmModal = document.getElementById('confirmModal');
+const modalMessage = document.getElementById('modalMessage');
+const modalIcon = document.getElementById('modalIcon');
+const modalGoBack = document.getElementById('modalGoBack');
+const modalConfirm = document.getElementById('modalConfirm');
+
+qTotalEl.textContent = QUESTIONS.length;
+qTotalNoteEl.textContent = QUESTIONS.length;
+skippedCountEl.textContent = QUESTIONS.length;
+
+function buildPalette(){
+  paletteGrid.innerHTML = '';
+  QUESTIONS.forEach((_, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.textContent = i + 1;
+    cell.addEventListener('click', () => { current = i; render(); });
+    paletteGrid.appendChild(cell);
+  });
+}
+
+function render(){
+  const item = QUESTIONS[current];
+  qNumEl.textContent = current + 1;
+  qTextEl.innerHTML = item.q;
+
+  optionsListEl.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  const userChoice = responses[current];
+  item.opts.forEach((opt, idx) => {
+    const div = document.createElement('div');
+    let cls = 'option';
+    if (submitted){
+      cls += ' locked';
+      if (idx === item.ans) cls += ' correct';
+      else if (idx === userChoice) cls += ' incorrect';
+    } else if (userChoice === idx){
+      cls += ' selected';
+    }
+    div.className = cls;
+    div.innerHTML = `<span class="tag">${letters[idx]}</span><span class="opt-text"></span>`;
+    div.querySelector('.opt-text').textContent = opt;
+    div.addEventListener('click', () => {
+      if (submitted) return;
+      responses[current] = idx;
+      render();
+    });
+    optionsListEl.appendChild(div);
+  });
+
+  if (submitted){
+    if (userChoice === null){
+      qStatusTag.textContent = '⚠ Not Answered · Correct answer shown';
+      qStatusTag.className = 'q-status-tag review-unanswered';
+    } else if (userChoice === item.ans){
+      qStatusTag.textContent = '✓ Correct';
+      qStatusTag.className = 'q-status-tag correct';
+    } else {
+      qStatusTag.textContent = '✗ Incorrect';
+      qStatusTag.className = 'q-status-tag incorrect';
+    }
+    explainBox.classList.remove('hidden');
+    explainText.innerHTML = '<b>Correct Answer:</b> ' + letters[item.ans] + '. ' + item.opts[item.ans] + '<br><br>' + item.exp;
+  } else {
+    const answered = userChoice !== null;
+    qStatusTag.textContent = answered ? 'Answered' : 'Not Answered';
+    qStatusTag.className = 'q-status-tag ' + (answered ? 'answered' : 'unanswered');
+    explainBox.classList.add('hidden');
+  }
+
+  prevBtn.disabled = current === 0;
+  if (submitted){
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Back to Result' : 'Next →';
+    clearBtn.style.visibility = 'hidden';
+  } else {
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Finish' : 'Next →';
+    clearBtn.style.visibility = 'visible';
+  }
+
+  // palette
+  const cells = paletteGrid.children;
+  for (let i = 0; i < cells.length; i++){
+    cells[i].classList.toggle('current', i === current);
+    if (submitted){
+      const isIncorrect = responses[i] !== null && responses[i] !== QUESTIONS[i].ans;
+      const isCorrect = responses[i] === QUESTIONS[i].ans;
+      cells[i].classList.toggle('incorrect', isIncorrect);
+      cells[i].classList.toggle('answered', isCorrect);
+    } else {
+      cells[i].classList.toggle('answered', responses[i] !== null);
+      cells[i].classList.remove('incorrect');
+    }
+  }
+
+  const answeredTotal = responses.filter(r => r !== null).length;
+  if (submitted){
+    let correct = 0, incorrect = 0;
+    QUESTIONS.forEach((q, i) => {
+      if (responses[i] === null) return;
+      if (responses[i] === q.ans) correct++; else incorrect++;
+    });
+    const unattempted = QUESTIONS.length - answeredTotal;
+    const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+    document.getElementById('tallyRow').innerHTML = `
+      <div class="marks-line"><b>${marks.toFixed(2)}</b><span>Marks Scored</span></div>
+      <div class="tally-grid">
+        <div><b class="stat-correct">${correct}</b>Correct</div>
+        <div><b class="stat-incorrect">${incorrect}</b>Incorrect</div>
+        <div><b class="stat-unattempted">${unattempted}</b>Unattempted</div>
+      </div>
+    `;
+  } else {
+    answeredCountEl.textContent = answeredTotal;
+    skippedCountEl.textContent = QUESTIONS.length - answeredTotal;
+  }
+}
+
+prevBtn.addEventListener('click', () => { if (current > 0){ current--; render(); }});
+nextBtn.addEventListener('click', () => {
+  if (current < QUESTIONS.length - 1){ current++; render(); }
+  else if (submitted){
+    paperView.classList.add('hidden');
+    resultView.classList.remove('hidden');
+  } else {
+    openConfirmModal();
+  }
+});
+clearBtn.addEventListener('click', () => { responses[current] = null; render(); });
+
+submitBtn.addEventListener('click', openConfirmModal);
+
+/* ---------- Confirmation modal logic ---------- */
+function openConfirmModal(){
+  const nameVal = document.getElementById('userName').value.trim();
+  document.getElementById('modalUserName').value = nameVal;
+  refreshConfirmModalText();
+  confirmModal.classList.remove('hidden');
+}
+
+function refreshConfirmModalText(){
+  const nameVal = document.getElementById('modalUserName').value.trim();
+  if (nameVal){
+    modalIcon.textContent = '📝';
+    modalMessage.innerHTML = `Submit test : <b>${escapeHtml(nameVal)}</b> ?`;
+  } else {
+    modalIcon.textContent = '⚠️';
+    modalMessage.innerHTML = `You have not set your name, your rank will be set as: <b>Anonymous</b>`;
+  }
+}
+
+document.getElementById('modalUserName').addEventListener('input', refreshConfirmModalText);
+
+function closeConfirmModal(){
+  confirmModal.classList.add('hidden');
+}
+
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+modalGoBack.addEventListener('click', closeConfirmModal);
+modalConfirm.addEventListener('click', () => {
+  closeConfirmModal();
+  doSubmit();
+});
+confirmModal.addEventListener('click', (e) => {
+  if (e.target === confirmModal) closeConfirmModal();
+});
+
+function doSubmit(){
+  submitted = true;
+  clearInterval(countdown);
+  let correct = 0, incorrect = 0;
+  QUESTIONS.forEach((q, i) => {
+    if (responses[i] === null) return;
+    if (responses[i] === q.ans) correct++; else incorrect++;
+  });
+  const unattempted = QUESTIONS.length - (correct + incorrect);
+  const maxMarks = QUESTIONS.length * CORRECT_MARKS;
+  const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+  const percentage = (marks / maxMarks) * 100;
+
+  scoreText.textContent = marks.toFixed(2) + ' / ' + maxMarks.toFixed(2);
+  scorePercent.textContent = percentage.toFixed(2) + '%';
+  document.getElementById('scoreBreakdown').innerHTML = `
+    <div class="stat correct"><b>${correct}</b><span>Correct</span></div>
+    <div class="stat incorrect"><b>${incorrect}</b><span>Incorrect</span></div>
+    <div class="stat unattempted"><b>${unattempted}</b><span>Unattempted</span></div>
+  `;
+  const userName = document.getElementById('modalUserName').value.trim() || "Anonymous"; 
+  fetch(SHEET_ENDPOINT, {
+    method: "POST",
+    mode: "no-cors",
+    body: JSON.stringify({
+      name: userName,
+      marks: marks.toFixed(2),
+      correct: correct,
+      incorrect: incorrect,
+      unattempted: unattempted,
+      testCode: "PreLoG-2027-11-FREE TIER"
+    })
+  }); 
+  submitBtn.style.display = 'none';
+  paperView.classList.add('hidden');
+  resultView.classList.remove('hidden');
+  render();
+}
+
+reviewBtn.addEventListener('click', () => {
+  resultView.classList.add('hidden');
+  paperView.classList.remove('hidden');
+  current = 0;
+  render();
+});
+
+// theme toggle
+const themeSwitch = document.getElementById('themeSwitch');
+themeSwitch.addEventListener('click', () => {
+  const body = document.body;
+  const isDark = body.getAttribute('data-theme') === 'dark';
+  body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+});
+
+// countdown timer — only ticks once the test has been started
+let seconds = 60 * 60;
+let testStarted = false;
+const timerEl = document.getElementById('timer');
+const countdown = setInterval(() => {
+  if (!testStarted || seconds <= 0 || submitted) return;
+  seconds--;
+  const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+  const s = String(seconds % 60).padStart(2, '0');
+  timerEl.textContent = `${m}:${s}`;
+  timerEl.classList.toggle('urgent', seconds <= 60);
+  if (seconds === 0){
+    timerEl.textContent = 'Time Up!';
+    doSubmit();
+  }
+}, 1000);
+
+/* ---------- Start-test modal logic ---------- */
+const startModal = document.getElementById('startModal');
+const startTestBtn = document.getElementById('startTestBtn');
+const startNameInput = document.getElementById('userName');
+
+// populate the start screen dynamically so this same code works
+// no matter how many questions / what marking scheme this file has
+document.getElementById('startTitle').textContent =
+  document.querySelector('.title-block h1').textContent;
+document.getElementById('startQCount').textContent = QUESTIONS.length;
+document.getElementById('startMaxMarks').textContent = (QUESTIONS.length * CORRECT_MARKS).toFixed(0);
+document.getElementById('startCorrectMarks').textContent = '+' + CORRECT_MARKS.toFixed(2);
+document.getElementById('startIncorrectMarks').textContent = '−' + NEGATIVE_MARKS.toFixed(2);
+document.getElementById('startDuration').textContent = Math.round(seconds / 60);
+
+startTestBtn.addEventListener('click', () => {
+  testStarted = true;
+  startModal.classList.add('hidden');
+});
+
+// pressing Enter in the name field on the start screen also starts the test
+startNameInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') startTestBtn.click();
+});
+
+buildPalette();
+render();
+
+window.addEventListener('beforeunload', function(e){
+  const hasProgress = !submitted && responses.some(r => r !== null);
+  if (hasProgress){
+    e.preventDefault();
+    e.returnValue = 'Your answers have not been submitted. If you leave or refresh this page, all marked answers will be lost.';
+    return e.returnValue;
+  }
+});
+
+</script>
+
+</body>
+</html>

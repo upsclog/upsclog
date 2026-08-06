@@ -1,0 +1,1722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC LoG — Prelims Booster</title>
+<style>
+  :root{
+    --bg: #F3F4F1;
+    --paper: #FFFFFF;
+    --ink: #1D2A35;
+    --ink-soft: #5B6873;
+    --rule: #D8DCD6;
+    --navy: #1B3A5C;
+    --navy-deep: #12283F;
+    --gold: #B8862E;
+    --gold-soft: #EFDFB8;
+    --answered: #2F7D5A;
+    --answered-bg: #E4F3EC;
+    --skipped: #B8862E;
+    --skipped-bg: #FBF1DE;
+    --current-ring: #1B3A5C;
+    --wrong: #B23A2E;
+    --wrong-bg: #FBEAE7;
+    --shadow: 0 1px 2px rgba(20,30,40,0.06), 0 6px 20px rgba(20,30,40,0.05);
+    --serif: Georgia, 'Times New Roman', 'Iowan Old Style', serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --mono: 'Courier New', ui-monospace, monospace;
+  }
+  [data-theme="dark"]{
+    --bg: #0F1A24;
+    --paper: #17232E;
+    --ink: #E7ECEF;
+    --ink-soft: #97A5AF;
+    --rule: #2A3846;
+    --navy: #3E6E9E;
+    --navy-deep: #2A4E70;
+    --gold: #D9A441;
+    --gold-soft: #3A3220;
+    --answered: #4CAF7D;
+    --answered-bg: #163227;
+    --skipped: #D9A441;
+    --skipped-bg: #332A16;
+    --current-ring: #D9A441;
+    --wrong: #E07A6C;
+    --wrong-bg: #3A1E1A;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+    html, body{
+    overflow-x: hidden;
+    width: 100%;
+  }
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    min-height:100vh;
+    transition:background .3s ease, color .3s ease;
+  }
+
+  /* ---------- Header ---------- */
+  header.topbar{
+    background:linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color:#F4F1EA;
+    padding:0;
+    box-shadow:var(--shadow);
+    position:sticky; top:0; z-index:50;
+  }
+  .topbar-inner{
+    max-width:1280px; margin:0 auto;
+    display:flex; align-items:center; gap:20px;
+    padding:14px 28px;
+  }
+  .logo-slot{
+    width:52px; height:52px;
+    border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    overflow:hidden;
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .logo-slot img{
+    width:100%; height:100%;
+    object-fit:contain;
+  }
+  .logo-slot:hover{border-color:rgba(244,241,234,0.75); color:#F4F1EA;}
+  .title-block{flex:1; min-width:0;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gold-soft, #D9A441);
+    opacity:0.85;
+  }
+  .title-block h1{
+    font-family:var(--serif);
+    font-size:22px;
+    font-weight:400;
+    margin:2px 0 0 0;
+    letter-spacing:0.01em;
+  }
+  .subnote{
+    font-family:var(--mono);
+    font-size:11px;
+    color:rgba(244,241,234,0.65);
+    margin-top:6px;
+    letter-spacing:0.02em;
+  }
+  .subnote a{color:var(--gold-soft); text-decoration:none;}
+  .subnote a:hover{text-decoration:underline;}
+  .topbar-right{
+    display:flex; align-items:center; gap:18px; flex-shrink:0;
+  }
+  .timer{
+    font-family:var(--mono);
+    font-size:13px;
+    color:#F4F1EA;
+    border:1px solid rgba(244,241,234,0.3);
+    padding:6px 12px;
+    border-radius:6px;
+    background:rgba(0,0,0,0.12);
+    transition:background .2s ease;
+  }
+  .timer.urgent{background:var(--wrong); border-color:var(--wrong);}
+
+  /* dark mode switch */
+  .mode-switch{
+    display:flex; align-items:center; gap:8px;
+    font-size:12px; color:rgba(244,241,234,0.85);
+  }
+  .switch{
+    position:relative; width:44px; height:24px;
+    background:rgba(244,241,234,0.2);
+    border-radius:20px; cursor:pointer;
+    border:1px solid rgba(244,241,234,0.35);
+    flex-shrink:0;
+  }
+  .switch .knob{
+    position:absolute; top:2px; left:2px;
+    width:18px; height:18px; border-radius:50%;
+    background:#F4F1EA;
+    transition:transform .25s ease;
+    box-shadow:0 1px 3px rgba(0,0,0,0.3);
+  }
+  [data-theme="dark"] .switch .knob{
+    transform:translateX(20px);
+    background:var(--gold);
+  }
+
+  /* ---------- Layout ---------- */
+  .layout{
+    max-width:1280px; margin:0 auto;
+    display:grid;
+    grid-template-columns:1fr 320px;
+    gap:23px;
+    padding:32px 28px 60px;
+    align-items:start;
+  }
+
+  /* ---------- Question paper ---------- */
+  .paper{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:36px 44px 32px;
+    min-height:520px;
+    display:flex;
+    flex-direction:column;
+  }
+  .paper-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    border-bottom:1px solid var(--rule);
+    padding-bottom:14px; margin-bottom:28px;
+  }
+  .q-index{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--ink-soft);
+    letter-spacing:0.04em;
+  }
+  .q-index b{color:var(--navy); font-size:15px;}
+  [data-theme="dark"] .q-index b{color:var(--gold);}
+  .q-status-tag{
+    font-family:var(--mono);
+    font-size:13.5px;
+    font-weight:800;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    padding:7px 16px;
+    border-radius:20px;
+    border:2px solid transparent;
+  }
+  .q-status-tag.answered{background:var(--answered-bg); color:var(--answered); border-color:var(--answered);}
+  .q-status-tag.unanswered{background:var(--skipped-bg); color:var(--skipped); border-color:var(--skipped);}
+
+  .q-text{
+    font-family:var(--serif);
+    font-size:19px;
+    line-height:1.5;
+    color:var(--ink);
+    margin:0 0 32px 0;
+  }
+
+  .options{
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .option{
+    display:flex; align-items:flex-start; gap:14px;
+    padding:18px 18px;
+    border:1px solid var(--rule);
+    border-radius:8px;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+    background:transparent;
+  }
+  .option:hover{border-color:var(--navy); background:rgba(27,58,92,0.04);}
+  [data-theme="dark"] .option:hover{background:rgba(217,164,65,0.06); border-color:var(--gold);}
+  .option.selected{
+    border-color:var(--navy);
+    background:rgba(27,58,92,0.07);
+  }
+  [data-theme="dark"] .option.selected{
+    border-color:var(--gold);
+    background:rgba(217,164,65,0.1);
+  }
+  .option .tag{
+    font-family:var(--mono);
+    font-size:13px;
+    font-weight:bold;
+    width:24px; height:24px;
+    border-radius:50%;
+    border:1.5px solid var(--rule);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    color:var(--ink-soft);
+  }
+  .option.selected .tag{
+    border-color:var(--navy);
+    background:var(--navy);
+    color:#fff;
+  }
+  [data-theme="dark"] .option.selected .tag{
+    border-color:var(--gold);
+    background:var(--gold);
+    color:#17232E;
+  }
+  .option .opt-text{
+    font-size:15.5px; line-height:1.5; padding-top:1px;
+  }
+  .option.locked{cursor:default;}
+  .option.correct{
+    border-color:var(--answered);
+    background:var(--answered-bg);
+  }
+  .option.correct .tag{
+    border-color:var(--answered);
+    background:var(--answered);
+    color:#fff;
+  }
+  .option.incorrect{
+    border-color:var(--wrong);
+    background:var(--wrong-bg);
+  }
+  .option.incorrect .tag{
+    border-color:var(--wrong);
+    background:var(--wrong);
+    color:#fff;
+  }
+  .option.locked:hover{background:inherit; border-color:inherit;}
+  .q-status-tag.correct{background:var(--answered-bg); color:var(--answered); border-color:var(--answered); box-shadow:0 0 0 1px var(--answered) inset;}
+  .q-status-tag.incorrect{background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong); box-shadow:0 0 0 1px var(--wrong) inset;}
+  .q-status-tag.review-unanswered{
+    background:var(--wrong-bg);
+    color:var(--wrong);
+    border-color:var(--wrong);
+    box-shadow:0 0 0 1px var(--wrong) inset;
+  }
+
+  /* ---------- Explanation (review mode) ---------- */
+  .explain-box{
+    margin-top:26px;
+    background:var(--gold-soft);
+    border:1px solid var(--gold);
+    border-radius:8px;
+    padding:16px 20px;
+    font-size:14px;
+    line-height:1.65;
+    color:var(--ink);
+  }
+  [data-theme="dark"] .explain-box{background:rgba(217,164,65,0.08);}
+  .explain-box b{color:var(--navy);}
+  [data-theme="dark"] .explain-box b{color:var(--gold);}
+  .explain-box .exp-label{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-bottom:8px;
+  }
+
+  .paper-foot{
+    display:flex; justify-content:space-between;
+    margin-top:32px; padding-top:20px;
+    border-top:1px solid var(--rule);
+  }
+  button{
+    font-family:var(--sans);
+    font-size:14px;
+    font-weight:600;
+    padding:11px 22px;
+    border-radius:7px;
+    border:1px solid var(--rule);
+    background:var(--paper);
+    color:var(--ink);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  button:hover:not(:disabled){border-color:var(--navy); color:var(--navy);}
+  [data-theme="dark"] button:hover:not(:disabled){border-color:var(--gold); color:var(--gold);}
+  button:disabled{opacity:0.35; cursor:not-allowed;}
+  button.primary{
+    background:var(--navy); color:#F4F1EA; border-color:var(--navy);
+  }
+  button.primary:hover{filter:brightness(1.1); color:#F4F1EA;}
+  button.clear{background:transparent; border-color:transparent; color:var(--ink-soft); font-weight:500;}
+  .nav-group{display:flex; gap:10px;}
+
+  /* ---------- Sidebar palette ---------- */
+  .sidebar{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:24px;
+    position:sticky;
+    top:96px;
+  }
+  .sidebar h2{
+    font-family:var(--serif);
+    font-size:16px;
+    font-weight:400;
+    margin:0 0 4px 0;
+    color:var(--ink);
+  }
+  .sidebar .sub{
+    font-size:12px; color:var(--ink-soft); margin-bottom:18px;
+  }
+  .legend{
+    display:flex; flex-direction:column; gap:8px;
+    margin-bottom:20px;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  .legend span{display:flex; align-items:center; gap:8px;}
+  .dot{width:10px; height:10px; border-radius:3px; flex-shrink:0;}
+  .dot.answered{background:var(--answered);}
+  .dot.unanswered{background:var(--rule); border:1px solid var(--ink-soft);}
+  .dot.current{background:transparent; border:2px solid var(--current-ring);}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:8px;
+    margin-bottom:22px;
+  }
+  .cell{
+    aspect-ratio:1;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono);
+    font-size:13px;
+    border-radius:6px;
+    border:1px solid var(--rule);
+    background:transparent;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .cell:hover{border-color:var(--navy);}
+  [data-theme="dark"] .cell:hover{border-color:var(--gold);}
+  .cell.answered{
+    background:var(--answered-bg); color:var(--answered); border-color:var(--answered);
+    font-weight:bold;
+  }
+  .cell.incorrect{
+    background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong);
+    font-weight:bold;
+  }
+  .cell.current{
+    outline:2px solid var(--current-ring); outline-offset:2px;
+  }
+
+  .tally{
+    padding-top:16px; border-top:1px solid var(--rule);
+    color:var(--ink-soft);
+  }
+  .tally-plain{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-plain > div{flex:1; text-align:left;}
+  .tally b{color:var(--ink); font-size:16px; display:block; font-family:var(--sans);}
+  .tally b.stat-correct{color:var(--answered);}
+  .tally b.stat-incorrect{color:var(--wrong);}
+  .tally b.stat-unattempted{color:var(--skipped);}
+
+  .marks-line{
+    text-align:center;
+    background:var(--gold-soft);
+    border:1.5px solid var(--gold);
+    border-radius:8px;
+    padding:12px 10px;
+    margin-bottom:14px;
+  }
+  [data-theme="dark"] .marks-line{background:rgba(217,164,65,0.12);}
+  .marks-line b{
+    font-size:26px; color:var(--navy); font-family:var(--serif); font-weight:700;
+  }
+  [data-theme="dark"] .marks-line b{color:var(--gold);}
+  .marks-line span{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-top:2px;
+  }
+  .tally-grid{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-grid > div{flex:1; text-align:left;}
+
+  .score-breakdown{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+    max-width:420px;
+    margin:24px auto 0;
+  }
+  .score-breakdown .stat{
+    border:1.5px solid var(--rule);
+    border-radius:10px;
+    padding:14px 10px;
+  }
+  .score-breakdown .stat b{
+    display:block; font-size:24px; font-family:var(--sans); margin-bottom:4px;
+  }
+  .score-breakdown .stat span{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft);
+  }
+  .score-breakdown .stat.correct{border-color:var(--answered); background:var(--answered-bg);}
+  .score-breakdown .stat.correct b{color:var(--answered);}
+  .score-breakdown .stat.incorrect{border-color:var(--wrong); background:var(--wrong-bg);}
+  .score-breakdown .stat.incorrect b{color:var(--wrong);}
+  .score-breakdown .stat.unattempted{border-color:var(--skipped); background:var(--skipped-bg);}
+  .score-breakdown .stat.unattempted b{color:var(--skipped);}
+
+  #submitBtn{width:100%; margin-top:20px;}
+
+  /* ---------- Result overlay ---------- */
+  .result-card{
+    background:var(--paper); border:1px solid var(--rule); border-radius:10px;
+    box-shadow:var(--shadow); padding:44px; text-align:center;
+  }
+  .result-card .score{
+    font-family:var(--serif); font-size:52px; color:var(--navy); margin:8px 0;
+  }
+  [data-theme="dark"] .result-card .score{color:var(--gold);}
+  .result-card .percent{
+    font-family:var(--mono); font-size:13px; color:var(--ink-soft);
+    letter-spacing:0.04em; margin-top:-4px;
+  }
+  .hidden{display:none !important;}
+
+  /* ---------- Confirm submit modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background:rgba(15,20,25,0.55);
+    display:flex; align-items:center; justify-content:center;
+    z-index:200;
+    padding:20px;
+  }
+  .modal-box{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:12px;
+    box-shadow:var(--shadow);
+    padding:30px 30px 24px;
+    max-width:380px;
+    width:100%;
+    text-align:center;
+  }
+  .modal-box .modal-icon{
+    font-size:26px;
+    margin-bottom:6px;
+  }
+  .modal-box p{
+    font-family:var(--sans);
+    font-size:15px;
+    line-height:1.55;
+    color:var(--ink);
+    margin:10px 0 22px;
+  }
+  .modal-box p b{color:var(--navy);}
+  [data-theme="dark"] .modal-box p b{color:var(--gold);}
+  .modal-box .modal-warn{
+    font-family:var(--mono);
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--skipped);
+    background:var(--skipped-bg);
+    border:1px solid var(--skipped);
+    border-radius:6px;
+    padding:8px 10px;
+    margin:0 0 18px;
+    text-align:left;
+    line-height:1.5;
+  }
+  .modal-actions{
+    display:flex; gap:12px;
+  }
+  .modal-actions button{
+    flex:1;
+    padding:12px 10px;
+  }
+  #modalGoBack{color:var(--ink);}
+  #modalConfirm{background:var(--navy); color:#F4F1EA; border-color:var(--navy);}
+  #modalConfirm:hover{filter:brightness(1.1); color:#F4F1EA;}
+
+  /* ---------- Start-test modal ---------- */
+  .start-box{
+    max-width:420px;
+    text-align:left;
+  }
+  .start-box .modal-icon{font-size:30px; margin-bottom:2px;}
+  .start-title{
+    font-family:var(--serif);
+    font-size:21px;
+    color:var(--ink);
+    text-align:center;
+    margin:2px 0 4px;
+  }
+  .start-sub{
+    font-family:var(--mono);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:var(--ink-soft);
+    text-align:center;
+    margin:0 0 20px;
+  }
+  .stat-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:20px;
+  }
+  .stat-grid .stat-box{
+    border:1px solid var(--rule);
+    border-radius:8px;
+    padding:11px 12px;
+    background:var(--bg);
+  }
+  .stat-grid .stat-box .k{
+    font-family:var(--mono); font-size:10px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft); display:block; margin-bottom:4px;
+  }
+  .stat-grid .stat-box .v{
+    font-family:var(--sans); font-size:16px; font-weight:700; color:var(--navy);
+  }
+  [data-theme="dark"] .stat-grid .stat-box .v{color:var(--gold);}
+  .start-rules{
+    list-style:none; margin:0 0 22px; padding:0;
+    display:flex; flex-direction:column; gap:7px;
+  }
+  .start-rules li{
+    font-size:13px; line-height:1.5; color:var(--ink-soft);
+    padding-left:18px; position:relative;
+  }
+  .start-rules li::before{
+    content:"—"; position:absolute; left:0; color:var(--gold);
+  }
+  .start-field label{
+    display:block;
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft); margin-bottom:6px;
+  }
+  .start-field input{
+    width:100%;
+    font-family:var(--sans); font-size:14.5px;
+    padding:11px 14px;
+    border:1px solid var(--rule); border-radius:7px;
+    background:var(--paper); color:var(--ink);
+    margin-bottom:20px;
+  }
+  .start-field input:focus{ outline:none; border-color:var(--navy); }
+  [data-theme="dark"] .start-field input:focus{ border-color:var(--gold); }
+  #startTestBtn{
+    width:100%; padding:13px 10px; font-size:15px;
+  }
+
+  @media (max-width: 430px){
+    .start-box{ padding:24px 20px 20px; max-width:100%; }
+    .stat-grid{ grid-template-columns:1fr 1fr; gap:8px; }
+    .start-title{ font-size:18px; }
+  }
+
+  /* small name field inside submit-confirm modal */
+  .modal-name-field{ text-align:left; margin:-6px 0 18px; }
+  .modal-name-field label{
+    display:block;
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft); margin-bottom:6px;
+  }
+  .modal-name-field input{
+    width:100%;
+    font-family:var(--sans); font-size:14px;
+    padding:10px 13px;
+    border:1px solid var(--rule); border-radius:7px;
+    background:var(--paper); color:var(--ink);
+  }
+  .modal-name-field input:focus{ outline:none; border-color:var(--navy); }
+  [data-theme="dark"] .modal-name-field input:focus{ border-color:var(--gold); }
+
+  :root{
+    --desktop-width: 1440;
+}
+
+@media (max-width: 1024px){
+  .layout{
+    grid-template-columns: 1fr;
+  }
+  .sidebar{
+    position: static;      /* was sticky at top:96px — no longer needed once stacked */
+    top: auto;
+  }
+}
+@media (max-width: 600px){
+  .topbar-inner{
+    flex-wrap: wrap;
+    padding: 14px 16px;
+    gap: 10px;
+  }
+  .topbar-right{
+    flex-shrink: 1;        /* was 0 before — this is what caused the overflow */
+    flex-basis: 100%;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+  .subnote{
+    white-space: normal;
+  }
+}
+@media (max-width: 430px){
+  .layout{
+    padding: 20px 12px 40px;
+  }
+  .paper{
+    padding: 24px 18px 22px;
+  }
+  .sidebar{
+    padding: 18px;
+  }
+  .paper-head{
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .q-status-tag{
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+@media (max-width: 600px){
+  .title-block h1{
+    font-size: 17px;
+  }
+  .eyebrow{
+    font-size: 9.5px;
+  }
+  .subnote{
+    font-size: 10px;
+  }
+  .timer{
+    font-size: 11px;
+    padding: 5px 9px;
+  }
+  .mode-switch{
+    font-size: 11px;
+  }
+}
+@media (max-width: 430px){
+  .result-card{
+    padding: 24px 18px;
+  }
+  .score-breakdown{
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    max-width: 100%;
+  }
+  .score-breakdown .stat{
+    padding: 10px 6px;
+  }
+  .score-breakdown .stat b{
+    font-size: 19px;
+  }
+  .result-card .score{
+    font-size: 38px;
+  }
+}
+
+</style>
+</head>
+<body data-theme="light">
+
+<header class="topbar">
+  <div class="topbar-inner">
+
+    <!-- <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">UPSC<br>LOGO</a> -->
+    <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">
+  <img src="https://raw.githubusercontent.com/upsclog/upsclog/refs/heads/main/logo.png" alt="UPSC LoG" style="width:100%; height:100%; object-fit:contain; border-radius:6px;">
+</a>
+    <div class="title-block">
+      <div class="eyebrow">UPSC LoG · Prelims Booster 2027</div>
+      <h1>PreLoG-2027-09-FREE TIER</h1>
+      <div class="subnote" style="font-size: 12px;">
+        <span id="qTotalNote">7</span> Questions · +2 Correct / −0.67 Incorrect ·
+        <a href="https://t.me/upsclog" target="_blank" rel="noopener"> Join UPSC-LoG Telegram ↗</a>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="timer" id="timer">60:00</div>
+      <div class="mode-switch">
+        <span>Light</span>
+        <div class="switch" id="themeSwitch" role="button" aria-label="Toggle dark mode">
+          <div class="knob"></div>
+        </div>
+        <span>Dark</span>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="layout">
+
+  <div class="paper" id="paperView">
+    <div class="paper-head">
+      <div class="q-index">Question <b id="qNum">1</b> of <span id="qTotal">7</span></div>
+      <div class="q-status-tag unanswered" id="qStatusTag">Not Answered</div>
+    </div>
+
+    <p class="q-text" id="qText">Loading question…</p>
+
+    <div class="options" id="optionsList"></div>
+
+    <div class="explain-box hidden" id="explainBox">
+      <span class="exp-label">Explanation</span>
+      <div id="explainText"></div>
+    </div>
+
+    <div class="paper-foot">
+      <div class="nav-group">
+        <button id="prevBtn">← Previous</button>
+        <button class="clear" id="clearBtn">Clear response</button>
+      </div>
+      <button id="nextBtn" class="primary">Next →</button>
+    </div>
+  </div>
+
+  <div class="result-card hidden" id="resultView">
+    <div class="eyebrow" style="color:var(--ink-soft); letter-spacing:0.14em; font-family:var(--mono); font-size:11px; text-transform:uppercase;">Marks Sent for rank PDF</div>
+    <div class="score" id="scoreText">0.00 / 14.00</div>
+    <div class="percent" id="scorePercent">0.00%</div>
+    <div class="score-breakdown" id="scoreBreakdown"></div>
+    <p style="color:var(--ink-soft); font-size:14px; margin:20px 0 24px;">You can review your answers and explanations using the palette on the right.</p>
+    <h2>Check <a href="https://upsclog.github.io/upsclog/ranks_tests/daily_rankings.html" target="_blank">[RANKINGS]</a> - for Daily Rankings [PDF]</h2>
+    <button class="primary" id="reviewBtn">Review Answers</button>
+  </div>
+
+  <aside class="sidebar">
+    <h2>* Explanations attached for each question after you submit the test<br><br></h2>
+    <h2>* Auto-Submission in 30 minutes</h2>
+    <h2>* Dark <-> Bright modes for ease</h2>
+    <div class="sub"></div>
+
+    <div class="legend">
+      <span><span class="dot answered"></span> Answered / Correct</span>
+      <span><span class="dot" style="background:var(--wrong);"></span> Incorrect</span>
+      <span><span class="dot unanswered"></span> Not answered</span>
+      <span><span class="dot current"></span> Currently viewing</span>
+    </div>
+
+    <div class="grid" id="paletteGrid"></div>
+
+    <div class="tally" id="tallyRow">
+      <div class="tally-plain">
+        <div><b id="answeredCount">0</b>Answered</div>
+        <div><b id="skippedCount">7</b>Remaining</div>
+      </div>
+    </div>
+
+    <button class="primary" id="submitBtn">Submit Test</button>
+  </aside>
+
+</div>
+
+<div class="modal-overlay hidden" id="confirmModal">
+  <div class="modal-box">
+    <div class="modal-icon" id="modalIcon">📝</div>
+    <p id="modalMessage">Submit test?</p>
+    <div class="modal-name-field">
+      <label for="modalUserName">Name for rank (optional)</label>
+      <input type="text" id="modalUserName" placeholder="Enter your name" maxlength="40">
+    </div>
+    <div class="modal-actions">
+      <button id="modalGoBack">Go Back</button>
+      <button id="modalConfirm" class="primary">Yes, Submit</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="startModal">
+  <div class="modal-box start-box">
+    <div class="modal-icon">🖋️</div>
+    <div class="start-title" id="startTitle">Loading…</div>
+    <div class="start-sub">UPSC LoG · Prelims Booster</div>
+
+    <div class="stat-grid">
+      <div class="stat-box"><span class="k">Questions</span><span class="v" id="startQCount">–</span></div>
+      <div class="stat-box"><span class="k">Max Marks</span><span class="v" id="startMaxMarks">–</span></div>
+      <div class="stat-box"><span class="k">Correct</span><span class="v" id="startCorrectMarks">–</span></div>
+      <div class="stat-box"><span class="k">Incorrect</span><span class="v" id="startIncorrectMarks">–</span></div>
+    </div>
+
+    <ul class="start-rules">
+      <li>Total duration: <span id="startDuration">60</span> minutes. The test auto-submits when time runs out.</li>
+      <li>Explanations for every question unlock after you submit.</li>
+      <li>Use the palette on the right to jump between questions anytime.</li>
+    </ul>
+
+    <div class="start-field">
+      <label for="userName">Your name (for the rankings)</label>
+      <input type="text" id="userName" placeholder="Enter your name" maxlength="40">
+    </div>
+
+    <button class="primary" id="startTestBtn">Start Test →</button>
+  </div>
+</div>
+
+<script>
+const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyamXySn2AagAN935BcpYuf6oTJNuIkLMuAby7CqWJ20rgdNgdWypVNTjMyWJBxW9OObw/exec";
+const QUESTIONS = [
+{
+    q: "With reference to recent developments in plate tectonics reported in the news, consider the following statements:<br>1. The Neotethys oceanic plate is reported to be tearing apart beneath the Zagros Mountains due to ongoing plate convergence.<br>2. The Zagros Mountains lie at the boundary of the Arabian and Eurasian tectonic plates.<br>3. Slab tearing of a subducting plate can lead to variations in surface uplift and seismicity patterns.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1, 2 and 3",
+        "2 and 3 only",
+        "1 only"
+    ],
+    ans: 1,
+    exp: "Recent studies have revealed that the ancient Neotethys oceanic plate, once located between the Arabian and Eurasian plates, is tearing apart beneath the Zagros Mountains due to plate convergence. Such slab tearing alters stress patterns in the crust, affecting both uplift and seismic activity in the region. Hence, all three statements are correct."
+},
+{
+    q: "Which one of the following best explains why granite undergoes more rapid chemical weathering in humid tropical climates than in arid regions, despite having the same mineral composition?",
+    opts: [
+        "Granite in arid regions contains a higher proportion of quartz which is chemically inert",
+        "Arid regions lack any form of granite outcrops",
+        "Higher temperature and abundant moisture in humid tropics accelerate hydrolysis of feldspar minerals in granite",
+        "Granite permanently loses its crystalline structure upon exposure to sunlight"
+    ],
+    ans: 2,
+    exp: "Chemical weathering, particularly hydrolysis of feldspar, is accelerated by high temperature and moisture availability, both of which are abundant in humid tropical climates. Arid regions, despite having granite outcrops, experience limited chemical weathering due to low moisture availability, favouring physical weathering instead. Mineral composition alone does not determine the rate of weathering; climatic conditions play a decisive role."
+},
+{
+    q: "With reference to policy recommendations for combating soil erosion caused by weathering in hilly and degraded lands, consider the following statements:<br>1. The Integrated Watershed Management Programme (IWMP) was launched to address land degradation caused by weathering and erosion in rainfed areas.<br>2. It was subsequently subsumed under the Pradhan Mantri Krishi Sinchayee Yojana (PMKSY).<br>3. The programme mandated afforestation as the sole permissible intervention on all treated micro-watersheds.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3",
+        "1 and 2 only"
+    ],
+    ans: 3,
+    exp: "The Integrated Watershed Management Programme was launched to check land degradation from erosion and weathering in rainfed and degraded areas, and it was later merged into the Pradhan Mantri Krishi Sinchayee Yojana as its 'Watershed Development Component'. The programme allowed a range of interventions such as soil and moisture conservation, water harvesting, and livelihood support, not afforestation alone, making statement 3 incorrect."
+},
+{
+    q: "With reference to recent scientific developments (2025–2026) relating to the origin of the Solar System, consider the following statements:<br>1. Recent observations of protoplanetary disks around young stars have provided empirical support consistent with the nebular hypothesis.<br>2. The nebular hypothesis was originally proposed by Otto Schmidt and later modified by Chamberlin and Moulton.<br>3. Modern planet-formation models still broadly rely on the concept of accretion of dust and gas around a young sun.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "Modern observations of protoplanetary disks around young stars, discussed extensively in early 2026, have reinforced confidence in the nebular hypothesis, and contemporary planetary-formation models continue to be built on the process of accretion around a young sun. The nebular hypothesis was originally proposed by Immanuel Kant and revised by Pierre-Simon Laplace, not Otto Schmidt, making statement 2 incorrect."
+},
+{
+    q: "Consider the following statements regarding challenges associated with weathering processes in India:<br>1. Intense chemical weathering of basaltic rocks in high-rainfall regions leads to the formation of laterite soils poor in silica.<br>2. Rapid mechanical weathering in the Himalayan region is a significant contributing factor to landslide hazards.<br>3. Weathering rates are uniform across all rock types irrespective of climatic conditions.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "Intense leaching under high rainfall removes silica from basaltic rock, leaving behind iron and aluminium oxides that form laterite soils, while active mechanical weathering of fragile Himalayan rocks weakens slope stability and contributes to landslides. Weathering rates vary considerably with rock type, mineral composition, and climatic conditions, making statement 3 incorrect."
+},
+{
+    q: "With reference to the Coastal Regulation Zone (CRZ) Notification, which governs geomorphological units along India's coastline, consider the following statements:<br>1. It was first issued in 1991 under the Environment (Protection) Act, 1986.<br>2. CRZ-I includes ecologically sensitive areas such as mangroves, coral reefs, and sand dunes.<br>3. The 2019 CRZ Notification reduced the No Development Zone on the landward side for densely populated CRZ-III areas.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3",
+        "1 and 3 only"
+    ],
+    ans: 2,
+    exp: "The CRZ Notification was first issued in 1991 under the Environment (Protection) Act, 1986, with CRZ-I covering ecologically sensitive areas like mangroves, coral reefs, and sand dunes. The 2019 revision reduced the No Development Zone from 200 metres to 50 metres for densely populated CRZ-III areas, so all three statements are correct."
+},
+{
+    q: "With reference to the process of weathering, consider the following statements:<br>1. Exfoliation is a form of physical weathering caused by differential expansion and contraction of rock due to temperature changes.<br>2. Carbonation, a type of chemical weathering, primarily affects limestone and other carbonate rocks.<br>3. Biological weathering can only occur through mechanical action of plant roots and never through chemical processes.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "Exfoliation results from repeated thermal expansion and contraction causing outer rock layers to peel off, and carbonation is a chemical process where carbonic acid dissolves carbonate rocks such as limestone. Biological weathering includes both mechanical action, like root growth, and chemical action, such as organic acids secreted by lichens and microbes, making statement 3 incorrect."
+},
+{
+    q: "With reference to the composition of tectonic plates, consider the following statements:<br>1. Oceanic crust is thinner and denser than continental crust.<br>2. Continental crust is composed predominantly of silica and aluminium (SIAL), while oceanic crust is composed predominantly of silica and magnesium (SIMA).<br>3. A single tectonic plate may consist of both continental and oceanic lithosphere.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "Oceanic crust is thinner but denser than continental crust due to its basaltic (SIMA) composition, while continental crust is thicker and lighter, being composed largely of granitic (SIAL) rocks. Tectonic plates are defined by lithospheric boundaries rather than crust type alone, so a single plate, such as the Indian or African plate, can carry both continental and oceanic lithosphere."
+},
+{
+    q: "With reference to earthquakes, consider the following statements:<br>1. The point within the earth where seismic energy is first released is called the epicentre.<br>2. P-waves (primary waves) can travel through both solids and liquids, whereas S-waves (secondary waves) can travel only through solids.<br>3. Seismographs record the arrival time difference between P and S waves to estimate the distance to the earthquake's focus.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "The point within the earth where seismic energy is first released is called the focus or hypocentre, while the epicentre is the point on the earth's surface directly above the focus, making statement 1 incorrect. P-waves can pass through solids and liquids while S-waves travel only through solids, and the difference in their arrival times at a seismograph is used to calculate the distance to the focus."
+},
+{
+    q: "Which one of the following statements correctly distinguishes the Nebular Hypothesis from the Planetesimal Hypothesis regarding the origin of the Solar System, a distinction frequently tested in UPSC Prelims-standard questions?",
+    opts: [
+        "The Planetesimal Hypothesis was proposed before the Nebular Hypothesis and formed its theoretical basis",
+        "Both hypotheses agree that planets formed through collision of asteroids only",
+        "The Nebular Hypothesis proposes formation from a rotating gaseous cloud, while the Planetesimal Hypothesis involves material drawn out by a passing star",
+        "The Nebular Hypothesis was proposed by Chamberlin and Moulton, while the Planetesimal Hypothesis was proposed by Kant and Laplace"
+    ],
+    ans: 2,
+    exp: "The Nebular Hypothesis, given by Kant and revised by Laplace, holds that planets formed from a rotating cloud of gas and dust around a young sun, whereas the Planetesimal Hypothesis of Chamberlin and Moulton proposes that material was pulled out of the sun by a passing star and later condensed into planetesimals. The Nebular Hypothesis chronologically preceded the Planetesimal Hypothesis, and the two describe distinct mechanisms of planet formation."
+},
+{
+    q: "With reference to challenges associated with rocks and their exploitation in India, consider the following statements:<br>1. Unregulated quarrying of sedimentary rocks in riverbeds contributes to bank erosion and loss of aquatic habitat.<br>2. Illegal stone quarrying is exclusively regulated under central legislation, with no role for State governments.<br>3. Over-extraction of rocks for construction material can destabilize slopes and increase landslide susceptibility.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "Unregulated riverbed quarrying disturbs river morphology, causing bank erosion and habitat loss, while excessive rock extraction from hill slopes for construction material weakens slope stability and heightens landslide risk. Under the MMDR Act framework, State governments frame rules and grant permits for minor minerals such as building stone, so statement 2 is incorrect."
+},
+{
+    q: "With reference to constitutional and legal provisions concerning the mineral wealth found within the interior of the earth and underlying the territorial waters of India, consider the following statements:<br>1. Article 297 of the Constitution vests all lands, minerals, and other things of value underlying the ocean within the territorial waters or the continental shelf in the Union.<br>2. 'Regulation of mines and mineral development' is listed under the Union List of the Seventh Schedule.<br>3. States have no power to legislate on minor minerals found within their territory.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "Article 297 vests all resources of the territorial waters, continental shelf, and exclusive economic zone in the Union, and Entry 54 of the Union List empowers Parliament to regulate mines and mineral development in the public interest. However, under the MMDR Act, State governments are empowered to make rules for minor minerals, making statement 3 incorrect."
+},
+{
+    q: "With reference to the functions of the Geological Survey of India (GSI), consider the following statements:<br>1. GSI conducts systematic geological mapping and assessment of landforms across India's surface and offshore areas.<br>2. GSI operates as an attached office under the Ministry of Environment, Forest and Climate Change.<br>3. GSI undertakes geohazard studies including landslide investigation and seismotectonic studies.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "GSI's core functions include systematic geological mapping of landforms and geohazard studies such as landslide investigation and seismotectonics. However, GSI functions as an attached office under the Ministry of Mines, not the Ministry of Environment, Forest and Climate Change, making statement 2 incorrect."
+},
+{
+    q: "With reference to policies enabling scientific research on planetary formation and the origin of celestial bodies including the Earth, consider the following statements:<br>1. The Indian Space Policy, 2023 allows private sector participation in space-based research activities including planetary science.<br>2. IN-SPACe functions as the regulatory and promotional body authorizing private entities to undertake space activities in India.<br>3. The Department of Space retains exclusive rights over all research related to planetary origin, barring private or academic participation.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3",
+        "1 and 2 only"
+    ],
+    ans: 3,
+    exp: "The Indian Space Policy, 2023 opened up space-based research, including planetary and astronomical studies, to private players, with IN-SPACe acting as the single-window regulatory and promotional agency authorizing such activities. Since the policy explicitly encourages private and academic participation, statement 3, which claims exclusive government rights, is incorrect."
+},
+{
+    q: "With reference to the powers and functions of the National Disaster Management Authority (NDMA) concerning geomorphological hazards such as landslides, consider the following statements:<br>1. NDMA is empowered to lay down guidelines for landslide hazard zonation and risk management across states.<br>2. The National Landslide Risk Management Strategy was formulated under the aegis of NDMA.<br>3. NDMA has exclusive authority to override State Disaster Management Authorities in all matters related to landslide-prone terrain.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "NDMA lays down policies and guidelines for disaster risk management, including landslide hazard zonation, and has formulated the National Landslide Risk Management Strategy in coordination with technical agencies. State Disaster Management Authorities retain their own statutory role in implementation, so NDMA does not have exclusive overriding authority, making statement 3 incorrect."
+},
+{
+    q: "With reference to the National Centre for Seismology (NCS), consider the following statements:<br>1. It functions as an attached office under the Ministry of Earth Sciences.<br>2. It is responsible for real-time seismic monitoring and maintaining the National Seismological Network.<br>3. It was formed by merging the seismology functions of the Geological Survey of India with the India Meteorological Department.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The National Centre for Seismology, established in 2014, functions as an attached office under the Ministry of Earth Sciences and operates the National Seismological Network for real-time earthquake monitoring. It was formed by merging the Seismology Division of the India Meteorological Department into NCS, not the Geological Survey of India, making statement 3 incorrect."
+},
+{
+    q: "With reference to the physical properties used to identify minerals, consider the following statements:<br>1. Hardness of a mineral is measured on the Mohs scale, with talc representing the softest and diamond the hardest.<br>2. Cleavage refers to the tendency of a mineral to break along smooth, flat planes determined by its internal crystal structure.<br>3. Streak, the colour of a mineral's powder, is always identical to the colour of the mineral in its bulk form.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The Mohs hardness scale ranks minerals from talc, the softest, to diamond, the hardest, and cleavage describes how a mineral breaks along planes dictated by its atomic structure. Streak often differs from the mineral's surface colour, as seen in pyrite, which appears golden but leaves a greenish-black streak, making statement 3 incorrect."
+},
+{
+    q: "With reference to the National Mineral Exploration Policy (NMEP), 2016, which sought reforms in the exploration of deep-seated minerals within the earth's interior, consider the following statements:<br>1. It aimed to attract private sector participation in exploration of deep-seated and concealed mineral deposits.<br>2. It proposed generation of baseline geoscientific data through a National Geoscience Data Repository.<br>3. It mandated that only Public Sector Undertakings could undertake reconnaissance-level exploration.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "The National Mineral Exploration Policy, 2016 sought to attract private investment for exploring deep-seated and concealed minerals and proposed a National Geoscience Data Repository for baseline data availability to explorers. It aimed to expand participation beyond Public Sector Undertakings rather than restrict reconnaissance to them, making statement 3 incorrect."
+},
+{
+    q: "In line with the trend of questions asked in UPSC Prelims on volcanism, consider the following statements:<br>1. Lava with high silica content is generally more viscous and associated with explosive volcanic eruptions.<br>2. Shield volcanoes are typically formed by highly viscous, silica-rich lava that erupts violently.<br>3. Most active volcanoes in the world are located along the Pacific Ring of Fire, associated with subduction zone boundaries.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3",
+        "1 and 3 only"
+    ],
+    ans: 3,
+    exp: "High-silica lava is viscous and traps gases, leading to explosive eruptions, and the Pacific Ring of Fire, associated with subduction along converging plate boundaries, hosts the majority of the world's active volcanoes. Shield volcanoes, in contrast, are built by low-viscosity basaltic lava that erupts gently and flows over long distances, making statement 2 incorrect."
+},
+{
+    q: "With reference to constitutional and legal safeguards concerning rocks and mineral-bearing land in Scheduled Areas, consider the following statements:<br>1. The Fifth Schedule of the Constitution empowers the Governor to regulate the transfer of land, including mineral-bearing land, in Scheduled Areas.<br>2. The Panchayats (Extension to Scheduled Areas) Act, 1996 mandates consultation with the Gram Sabha before granting mining leases for minor minerals in Scheduled Areas.<br>3. The Samatha judgment (1997) held that government land in Scheduled Areas cannot be leased to private, non-tribal mining companies.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1, 2 and 3",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only"
+    ],
+    ans: 0,
+    exp: "The Fifth Schedule empowers the Governor to regulate transfer of land in Scheduled Areas to protect tribal interests, while the PESA Act, 1996 mandates Gram Sabha consultation before granting mining leases for minor minerals in such areas. The Supreme Court, in the Samatha judgment of 1997, held that government land in Scheduled Areas cannot be leased to private non-tribal mining companies, so all three statements are correct."
+},
+{
+    q: "With reference to the evolution of geomorphological thought, consider the following statements:<br>1. William Morris Davis propounded the 'Geographical Cycle' or 'Cycle of Erosion', describing landscape evolution through youth, maturity, and old age stages.<br>2. Walther Penck argued that the rate of uplift relative to the rate of erosion determines the nature of slope development.<br>3. Davis assumed a single uninterrupted uplift followed by a long period of stillstand during which erosion acts.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "1, 2 and 3",
+        "2 and 3 only"
+    ],
+    ans: 2,
+    exp: "Davis's Geographical Cycle described landscape evolution through sequential youth, maturity, and old age stages, assuming rapid initial uplift followed by a long period of stillstand during which erosional processes dominate. Penck, in contrast, emphasised the interplay between the rate of tectonic uplift and the rate of erosion in shaping slope form, making all three statements correct."
+},
+{
+    q: "With reference to challenges in monitoring and managing volcanic hazards in India, consider the following statements:<br>1. Barren Island, India's only confirmed active volcano, is located in the Andaman and Nicobar Islands.<br>2. Continuous ground-based monitoring of Barren Island is challenging due to its uninhabited and remote location.<br>3. India has multiple active volcanoes along its western coast that require regular monitoring.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3",
+        "1 and 2 only"
+    ],
+    ans: 3,
+    exp: "Barren Island, India's only confirmed active volcano, lies in the Andaman and Nicobar Islands, and its uninhabited, remote setting makes sustained ground-based monitoring logistically difficult, relying largely on satellite observation. India's western coast, being a passive continental margin, does not host active volcanoes, making statement 3 incorrect."
+},
+{
+    q: "With reference to the Mines and Minerals (Development and Regulation) Amendment Act, 2023, consider the following statements:<br>1. It introduced a new category called 'Exploration Licence' to encourage private sector participation in exploring deep-seated critical minerals.<br>2. It empowered the Central Government to exclusively auction mineral concessions for specified critical minerals.<br>3. It reserved the exploration and mining of all atomic minerals exclusively for private companies.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "The 2023 amendment introduced the Exploration Licence to draw private and foreign investment into exploring deep-seated critical minerals and empowered the Central Government to exclusively auction concessions for specified critical minerals. It removed only six of the twelve atomic minerals from the restricted list, while the remaining atomic minerals continue to be reserved for government entities, making statement 3 incorrect."
+},
+
+
+
+{
+    q: "With reference to the Himalayan mountain range as a product of orogeny, consider the following statements:<br>1. The Himalayas were formed by the collision of the Indian and Eurasian plates, initiated approximately 45 million years ago.<br>2. The uplift of the Himalayas has resulted in isostatic adjustment, whereby lighter continental crust 'floats' higher than denser oceanic crust.<br>3. The ongoing convergence between Indian and Eurasian plates continues at a rate of approximately 2 cm per year.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "The Himalayas formed through collision of the Indian Plate with the Eurasian Plate starting around 45 million years ago, with the Indian Plate continuing northward at roughly 2 cm per year. This collision exemplifies isostasy, where continental crust, being lighter than oceanic lithosphere, is supported at greater elevation. All three statements are correct."
+},
+{
+    q: "With reference to the formation and significance of karst topography, consider the following statements:<br>1. Karst landscapes develop primarily in regions where soluble carbonate or evaporite rocks undergo chemical dissolution by slightly acidic groundwater.<br>2. The Western Ghats of India exhibit extensive karst features due to their limestone composition and high annual rainfall.<br>3. Sinkholes in karst regions form when the roof of an underground cave becomes structurally unstable and collapses.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "Karst topography develops through dissolution of carbonate rocks such as limestone by mildly acidic groundwater, forming features like caves, sinkholes, and underground streams. Sinkholes indeed result from roof collapse of subsurface cavities. However, the Western Ghats are primarily composed of Deccan basalt, not limestone, so karst development there is limited, making statement 2 incorrect."
+},
+{
+    q: "With reference to the rock cycle and the transformation of rocks through geological processes, consider the following statements:<br>1. Metamorphic rocks form from pre-existing rocks subjected to intense heat and pressure at depth, without melting.<br>2. Granite, formed through the crystallization of magma beneath the earth's surface, is an intrusive igneous rock.<br>3. Sandstone becomes quartzite when subjected to metamorphic conditions, representing a transition from sedimentary to metamorphic rock.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "Metamorphic rocks form from the solid-state transformation of existing rocks through heat and pressure without melting, granite exemplifies intrusive igneous rocks crystallizing from subsurface magma, and sandstone metamorphoses into hard, glassy quartzite when subjected to metamorphic conditions. All three statements accurately describe aspects of the rock cycle."
+},
+{
+    q: "With reference to the physiography of the Indo-Gangetic Plains, consider the following statements:<br>1. The alluvial deposits composing the Indo-Gangetic Plains were primarily derived from the erosion of the Himalayan mountain range.<br>2. River terraces found at different elevations within the plains provide evidence of multiple phases of river incision and aggradation.<br>3. The old alluvium (bhangar) found in the Indo-Gangetic Plains is younger than the recent alluvium (khadar) of the river floodplains.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The Indo-Gangetic Plains were built through the deposition of sediments eroded from the Himalayas by northward-flowing rivers, and river terraces of varying elevations reflect alternating phases of river incision and aggradation responding to climatic and tectonic changes. The bhangar (old alluvium) is older than khadar (recent alluvium), making statement 3 incorrect."
+},
+{
+    q: "With reference to glacial and periglacial geomorphological processes in high-altitude and polar regions, consider the following statements:<br>1. Permafrost regions experience freeze-thaw cycles that drive mechanical weathering and create distinctive landforms such as patterned ground and pingos.<br>2. Glacial outwash plains, deposited by meltwater streams emanating from glacier termini, typically exhibit well-sorted, horizontally stratified sediments.<br>3. Cirques are U-shaped glacial valleys formed primarily through the headward erosion by valley glaciers.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "Permafrost undergoes repeated freezing and thawing, causing frost-heave weathering and creating patterned ground, pingos, and solifluction features. Glacial outwash plains built by meltwater are indeed well-sorted and horizontally stratified. Cirques, however, are amphitheatre-shaped depressions formed by rotational erosion at glacier heads, not necessarily U-shaped valleys, making statement 3 incompletely accurate."
+},
+{
+    q: "With reference to coastal geomorphology and marine erosion processes along India's coastline, consider the following statements:<br>1. Wave-cut platforms are horizontal rock surfaces formed by the erosive action of waves at the base of sea cliffs during high tide.<br>2. The formation of a sandy beach and the development of berms and cusps are influenced by wave energy, sediment grain size, and wave period.<br>3. Coral reefs provide natural protection to coastlines by dissipating wave energy and reducing coastal erosion caused by storm surge.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "Wave-cut platforms form through wave erosion at the base of cliffs and represent the active wave erosion zone. Beach morphology, including berms and cusps, depends on wave energy, sediment characteristics, and wave periodicity. Coral reefs absorb wave energy through friction and structural dissipation, significantly reducing coastal erosion vulnerability. All three statements are correct."
+},
+{
+    q: "With reference to the significance of fossils in understanding Earth's history, consider the following statements:<br>1. Index fossils, also called guide fossils, are organisms that existed over a wide geographic area but for a limited time span, making them valuable for biostratigraphic dating.<br>2. The Cambrian Explosion, marked by the sudden appearance of diverse animal phyla, provides direct evidence supporting the hypothesis of gradual speciation.<br>3. Fossil fuels such as coal, petroleum, and natural gas are formed from the accumulated organic remains of organisms from ancient ecosystems.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "Index fossils are indeed limited in temporal distribution but widespread geographically, making them invaluable for biostratigraphy, and fossil fuels derive from accumulated organic matter from past life. The Cambrian Explosion, showing rapid diversification, actually contrasts with gradualism and has been attributed to ecological opportunity and improved fossil preservation, making statement 2 incorrect."
+},
+{
+    q: "With reference to the formation of soil and pedogenic processes, consider the following statements:<br>1. Laterite soil formation in humid tropical regions involves intense leaching of silica and accumulation of iron and aluminium oxides in the B horizon.<br>2. Podzol soils, characteristic of boreal forests, have a bleached A horizon due to leaching of iron compounds into the B horizon, resulting in an iron-enriched layer called an iron pan.<br>3. Soil profile horizons O, A, B, and C reflect uniform processes of weathering and do not vary with climate or vegetation type.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "Laterite soils form through leaching of silica while iron and aluminium oxides accumulate, and podzols exhibit a bleached A horizon with iron and organic matter concentrating in the B horizon forming a cemented iron pan. However, soil profiles vary significantly with climate, vegetation, parent material, and topography, making statement 3 incorrect."
+},
+{
+    q: "With reference to groundwater occurrence and hydrogeology in India, consider the following statements:<br>1. Confined aquifers, bounded by impermeable layers above and below, experience artesian pressure that can cause water to rise above the water table when a well is drilled.<br>2. The Indus-Gangetic alluvial plains contain prolific groundwater resources due to their high porosity and permeability derived from sand and gravel deposits.<br>3. Over-extraction of groundwater in agricultural regions has led to a reversal of groundwater flow, causing saline intrusion into freshwater aquifers.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "Confined aquifers do exhibit artesian pressure causing water to rise above the water table when breached, and the alluvial plains are highly productive aquifers with excellent porosity and permeability. Saline intrusion typically occurs in coastal aquifers when freshwater extraction exceeds recharge, not in inland agricultural regions, making statement 3 incorrect."
+},
+{
+    q: "With reference to mass movement processes and slope stability, consider the following statements:<br>1. A debris flow is a rapid, gravity-driven movement of a mixture of soil, rock fragments, and water with high mobility and velocity<br>2. Rotational slides occur when a mass of material moves along a curved slip surface, common in weak layered sediments such as clays and shales.<br>3. Liquefaction, primarily caused by seismic shaking, reduces the shear strength of saturated cohesive soils to near zero, allowing rapid downslope movement.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "Debris flows are indeed rapid, gravity-driven mixtures of unconsolidated material with high mobility, and rotational slides move along curved slip surfaces and are common in weak layered sediments. However, liquefaction primarily affects granular (cohesionless) sediments like sands and silts, not cohesive soils like clays, making statement 3 incorrect."
+},
+{
+    q: "With reference to India's geothermal resources and their exploitation for renewable energy, consider the following statements:<br>1. India's geothermal potential is concentrated mainly in areas of recent or ongoing volcanic activity such as the Western Ghats and parts of Himachal Pradesh.<br>2. The Manikaran geothermal field in Himachal Pradesh is one of India's most developed geothermal sites, located on a seismically active fault zone.<br>3. Direct use of geothermal energy in India is limited compared to developed nations, partly due to the lack of accessible high-temperature geothermal resources.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "Manikaran in Himachal Pradesh, located near the Himachal Seismic Belt, is indeed one of India's significant geothermal sites with active hot springs. India's geothermal utilization remains limited relative to developed nations due to lack of easily accessible high-temperature reservoirs. The Western Ghats are not volcanically active; India's geothermal potential is associated with tectonic belts and fault zones, not volcanism, making statement 1 incorrect."
+},
+{
+    q: "With reference to sedimentary structures and their paleoenvironmental significance, consider the following statements:<br>1. Cross-bedding patterns in sandstones indicate deposition in high-energy environments such as rivers, deltas, or shallow marine settings with unidirectional or oscillatory flow.<br>2. Ripple marks preserved on sediment surfaces indicate shallow water depths and the presence of gentle, unidirectional currents or wave motion.<br>3. Graded bedding, where sediment grain size decreases upward within a single bed, indicates deposition during a single, continuous event with decreasing current velocity.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "Cross-bedding reflects high-energy environments with flowing water or wind, ripple marks indicate shallow water with gentle currents or waves and preserve paleocurrent direction, and graded bedding represents waning flow energy within a single depositional event. All three statements are correct and represent fundamental concepts in sedimentology."
+},
+{
+    q: "With reference to the continental drift hypothesis and the evidence supporting it, consider the following statements:<br>1. Alfred Wegener's continental drift hypothesis was initially rejected by the scientific community largely due to the absence of an acceptable mechanism explaining how continents could move through oceanic crust.<br>2. The matching of fossil species such as Mesosaurus across currently separated continents provided compelling biogeographic evidence for continental drift.<br>3. Paleomagnetic data showing systematic reversals in magnetic polarity in oceanic basalts provided direct evidence of seafloor spreading and supported continental drift.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "Wegener's theory lacked an explanation for the mechanism of continental movement, making it controversial for decades. Mesosaurus, found only in South America and Africa, and similar fossil distributions provided strong biogeographic evidence. Paleomagnetic reversals and seafloor spreading patterns, discovered in the mid-20th century, gave the theory the mechanistic basis it lacked. All three statements are correct."
+},
+{
+    q: "With reference to desertification and land degradation in India's arid and semi-arid regions, consider the following statements:<br>1. The National Action Programme to Combat Desertification (NAPCD) identifies overgrazing, deforestation, and unsustainable agricultural practices as primary drivers of land degradation.<br>2. The Indira Gandhi Canal Project in Rajasthan, designed to irrigate desert areas, has resulted in waterlogging and soil salinization in some command areas despite increasing productivity in others.<br>3. Afforestation programmes such as the Green Slash initiative have successfully halted desertification across all of India's desert regions.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The NAPCD indeed identifies overgrazing, deforestation, and unsustainable practices as major drivers of degradation, and the Indira Gandhi Canal Project has provided both benefits and challenges, including waterlogging and salinization in portions of its command area. However, afforestation initiatives, while beneficial, have not completely halted desertification across all desert regions, making statement 3 an overstatement."
+},
+{
+    q: "With reference to the Earth's atmosphere and its composition during different geological periods, consider the following statements:<br>1. The composition of Earth's early atmosphere approximately 3.5 billion years ago was dominated by nitrogen and carbon dioxide, with little to no free oxygen.<br>2. The Great Oxidation Event, occurring around 2.4 billion years ago, marked the rise of atmospheric oxygen produced by photosynthetic cyanobacteria and fundamentally altered Earth's chemistry.<br>3. Modern atmospheric oxygen levels of approximately 21% were achieved by the end of the Archean Eon and have remained constant since then.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "Earth's early atmosphere around 3.5 billion years ago was indeed oxygen-poor, dominated by nitrogen, carbon dioxide, and possibly methane. The Great Oxidation Event at approximately 2.4 billion years ago, driven by cyanobacterial photosynthesis, fundamentally transformed atmospheric chemistry. However, modern oxygen levels were attained much later, by the Proterozoic Eon, not immediately after the GOE, and have fluctuated throughout history, making statement 3 incorrect."
+},
+{
+    q: "With reference to the formation and characteristics of submarine canyons and turbidity currents, consider the following statements:<br>1. Submarine canyons are steep-sided underwater valleys incised into the continental shelf and slope, often originating at river mouths or at the edges of the continental shelf.<br>2. Turbidity currents are gravity-driven flows of sediment-laden water that move rapidly down submarine canyons and slopes, capable of transporting massive volumes of sediment into the deep ocean.<br>3. Turbidites, the sedimentary deposits left by turbidity currents, invariably display uniform grain size and lack internal sedimentary structures due to the high velocity of deposition.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "Submarine canyons are indeed steep-walled underwater valleys cutting through the continental shelf and slope, often fed by rivers. Turbidity currents are powerful sediment flows moving rapidly downslope capable of transporting enormous sediment volumes. However, turbidites display graded bedding and multiple sedimentary structures (cross-lamination, ripples) reflecting the decreasing energy of the flow, not uniform grain size, making statement 3 incorrect."
+},
+{
+    q: "With reference to the use of remote sensing and GIS technology in geological surveys and monitoring, consider the following statements:<br>1. Multispectral satellite imagery enables the identification of rock and mineral types by distinguishing their characteristic spectral reflectance patterns across different wavelengths.<br>2. Digital Elevation Models (DEMs) derived from satellite radar interferometry have replaced ground-based surveys entirely in mapping fault lines and detecting active tectonics.<br>3. Synthetic Aperture Radar (SAR) can penetrate cloud cover and vegetation, making it valuable for monitoring landslides, glacial retreat, and other geomorphological changes in inaccessible regions.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "Multispectral satellite data effectively identifies rock and mineral types through their distinctive spectral signatures, and SAR's all-weather capability makes it invaluable for monitoring geomorphological changes in cloud-covered or vegetated terrain. DEMs from satellite radar interferometry are highly useful but have not entirely replaced field surveys, which remain essential for ground-truth validation and detailed structural mapping, making statement 2 incorrect."
+},
+{
+    q: "With reference to the formation of metallic ore deposits and the processes concentrating economic minerals, consider the following statements:<br>1. Hydrothermal ore deposits form when hot, mineral-rich fluids circulating through the crust deposit minerals as temperature and pressure decrease upon reaching cooler host rocks.<br>2. Placer deposits, such as alluvial gold and diamond deposits, accumulate through weathering and erosion of source rocks with subsequent concentration by gravity and water sorting in streams and riverbeds.<br>3. Laterite deposits are exclusively sources of iron ore and cannot yield economically viable deposits of other metals such as nickel or bauxite.<br>Which of the statements given above is or are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "Hydrothermal deposits form when circulating hot fluids carrying dissolved minerals precipitate their contents as temperature, pressure, and pH change upon contact with host rocks. Placer deposits result from mechanical concentration of resistant minerals through erosion, transport, and gravitational settling in water. Laterites are important sources of multiple metals including iron, nickel (laterite ores are a major source), and aluminium (bauxite), making statement 3 incorrect."
+},
+{
+    q: "With reference to the history of life on Earth and the major extinction events, consider the following statements:<br>1. The Permian-Triassic extinction event, the most severe of the Phanerozoic Era, eliminated approximately 96% of marine species and 70% of terrestrial vertebrate families.<br>2. The Cretaceous-Paleogene extinction event, attributed primarily to a large asteroid impact in present-day Mexico, eliminated the dinosaurs and approximately 75% of all species.<br>3. Post-extinction recovery of biodiversity is instantaneous, with ecological niches rapidly refilled by surviving species within a few years of each extinction event.<br>Which of the statements given above is or are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The Permian-Triassic extinction (~252 million years ago) was the most severe, eliminating vast proportions of marine and terrestrial life, and the Cretaceous-Paleogene extinction (~66 million years ago) saw asteroid impact eliminate non-avian dinosaurs and ~75% of species. However, post-extinction recovery occurs over millions of years, not years, involving evolutionary radiation of surviving lineages into vacated niches, making statement 3 incorrect."
+},
+{
+    q: "With reference to weathering profiles and the concept of the weathering front, consider the following statements:<br>1. The weathering front represents the boundary between weathered rock above and fresh, unaltered bedrock below, and typically migrates downward more rapidly in regions with higher rainfall and temperature.<br>2. In tropical humid environments, weathering fronts may extend to depths exceeding 100 meters, while in arid regions they are typically confined to depths of only a few meters.<br>3. The rate of weathering front migration is independent of the mineralogical composition of the parent rock and depends solely on climatic factors.<br>Which of the statements given above is are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The weathering front is the boundary separating altered from unaltered rock, and it advances more rapidly in warm, wet climates conducive to chemical weathering. Deep weathering profiles (100 + meters) are characteristic of tropics, while arid regions show shallow weathering. However, rock mineralogy significantly influences weathering rates—for example, granite containing feldspar weathers faster than quartzite—making statement 3 incorrect."
+},
+{
+    q: "With reference to seismic waves and the interior structure of the Earth, consider the following statements:<br>1. P-waves (Primary waves) travel faster than S-waves (Secondary waves) and can pass through both solid and liquid layers.<br>2. The discontinuity between the crust and mantle is known as the Mohorovičić discontinuity.<br>3. S-waves cannot penetrate the Earth's outer core, which indicates that the outer core is in a liquid state.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "All three statements are correct. P-waves travel faster and pass through both solid and liquid, S-waves are slower and travel only through solids. The Mohorovičić discontinuity marks the crust-mantle boundary. The absence of S-waves in the outer core confirms its liquid nature."
+},
+{
+    q: "With reference to earthquakes and their associated challenges in India, consider the following statements:<br>1. The 2015 Nepal earthquake exposed India's vulnerability in the Himalayan region, which lies in a seismic zone classified as Zone V.<br>2. Liquefaction is a phenomenon where saturated soil loses its strength during an earthquake, posing significant risks in delta regions like the Ganges-Brahmaputra.<br>3. India's earthquake preparedness is governed primarily by the Disaster Management Act, 2005.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "Statements 1 and 2 are correct. The Himalayan region is in Zone IV (not Zone V, which is the highest). Statement 3 is correct but not fully accurate—the National Disaster Management Act, 2005 is the primary law, supporting other frameworks for earthquake preparedness."
+},
+{
+    q: "Consider the following statements about volcanic features and characteristics:<br>1. Shield volcanoes have gentle slopes and are formed by the eruption of low-viscosity basaltic lava, such as those found in Hawaii.<br>2. Composite (Stratovolcano) eruptions are characterized by explosive outbursts and the alternation of lava flows and pyroclastic materials.<br>3. Calderas are formed only by effusive eruptions where lava flows continuously without explosive activity.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "Statements 1 and 2 are correct. Shield volcanoes do have gentle slopes due to low-viscosity lava, and composite volcanoes are highly explosive with alternating layers. Statement 3 is incorrect—calderas form from explosive eruptions and collapse, not effusive eruptions."
+},
+{
+    q: "With reference to weathering processes and their role in landform development, consider the following statements:<br>1. Mechanical weathering is predominantly responsible for the formation of regolith and contributes significantly to soil development in tropical regions.<br>2. Chemical weathering is more pronounced in hot and humid climates due to increased moisture and temperature facilitating chemical reactions.<br>3. Exfoliation is a type of chemical weathering where rock layers peel off in concentric sheets due to unequal stress relief.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "Statements 1 and 2 are correct. Mechanical weathering is significant in regolith formation, and chemical weathering thrives in hot, humid climates. Statement 3 is incorrect—exfoliation is a type of mechanical (not chemical) weathering caused by pressure release and thermal expansion."
+},
+{
+    q: "With reference to landforms and disaster risk reduction policies in India, consider the following statements:<br>1. The Disaster Management Act, 2005 established the National Disaster Management Authority (NDMA) and created a framework for disaster management at all governance levels.<br>2. The Building and Other Construction Workers (Regulation of Employment and Conditions of Service) Act, 1996 includes provisions for earthquake-resistant construction standards.<br>3. The Sendai Framework for Disaster Risk Reduction (2015-2030), to which India is a signatory, emphasizes the need for understanding disaster risk and building resilience in landslide-prone areas.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "Statements 1 and 3 are correct. The Disaster Management Act, 2005 established the NDMA, and India is a signatory to the Sendai Framework focusing on disaster resilience. Statement 2 is partially related but the Act does not specifically emphasize earthquake-resistant construction—that is covered under building codes like IS 1893 and National Building Code."
+},
+{
+    q: "With reference to constitutional and legal provisions governing geothermal energy development in India, consider the following statements:<br>1. Geothermal energy resources fall under the definition of 'minerals' under the Mines and Minerals (Development and Regulation) Act, 2015, and thus come under the concurrent list of the Indian Constitution.<br>2. The exploration and extraction of geothermal energy in India is primarily regulated by the Ministry of Coal, similar to fossil fuel mining.<br>3. The Environmental Impact Assessment (EIA) Notification, 2006 requires mandatory environmental clearance for geothermal power projects, classifying them as Category A projects.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "Statements 1 and 3 are correct. Geothermal resources are classified as minerals under the MMDR Act, 2015 and fall under the concurrent list. The EIA Notification requires environmental clearance for such projects. Statement 2 is incorrect—geothermal resources are regulated by the Ministry of New and Renewable Energy, not the Ministry of Coal."
+},
+{
+    q: "With reference to mining and the challenges associated with mineral extraction in India, consider the following statements:<br>1. The Mines and Minerals (Development and Regulation) Amendment Act, 2015 introduced the system of competitive bidding for mineral blocks, replacing the system of first-come-first-serve allocation.<br>2. Illegal mining significantly contributes to groundwater depletion, air pollution, and loss of forest cover, particularly affecting tribal communities in mineral-rich states like Odisha and Jharkhand.<br>3. The National Mineral Policy, 2019 specifically mandates that at least 30% of mining benefits must be distributed to affected local communities and indigenous populations.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "Statements 1 and 2 are correct. The MMDR Amendment Act, 2015 introduced competitive bidding for mineral blocks, and illegal mining does cause significant environmental and social damage, particularly affecting tribal regions. Statement 3 is incorrect—while the National Mineral Policy, 2019 emphasizes stakeholder engagement and benefit-sharing, it does not mandate a specific 30% distribution target to local communities."
+}
+];
+
+
+
+
+
+const CORRECT_MARKS = 2;
+const NEGATIVE_MARKS = 2 / 3;
+
+let current = 0;
+const responses = new Array(QUESTIONS.length).fill(null);
+let submitted = false;
+
+const qNumEl = document.getElementById('qNum');
+const qTotalEl = document.getElementById('qTotal');
+const qTotalNoteEl = document.getElementById('qTotalNote');
+const qTextEl = document.getElementById('qText');
+const optionsListEl = document.getElementById('optionsList');
+const qStatusTag = document.getElementById('qStatusTag');
+const explainBox = document.getElementById('explainBox');
+const explainText = document.getElementById('explainText');
+const paletteGrid = document.getElementById('paletteGrid');
+const answeredCountEl = document.getElementById('answeredCount');
+const skippedCountEl = document.getElementById('skippedCount');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const clearBtn = document.getElementById('clearBtn');
+const submitBtn = document.getElementById('submitBtn');
+const paperView = document.getElementById('paperView');
+const resultView = document.getElementById('resultView');
+const reviewBtn = document.getElementById('reviewBtn');
+const scoreText = document.getElementById('scoreText');
+const scorePercent = document.getElementById('scorePercent');
+
+const confirmModal = document.getElementById('confirmModal');
+const modalMessage = document.getElementById('modalMessage');
+const modalIcon = document.getElementById('modalIcon');
+const modalGoBack = document.getElementById('modalGoBack');
+const modalConfirm = document.getElementById('modalConfirm');
+
+qTotalEl.textContent = QUESTIONS.length;
+qTotalNoteEl.textContent = QUESTIONS.length;
+skippedCountEl.textContent = QUESTIONS.length;
+
+function buildPalette(){
+  paletteGrid.innerHTML = '';
+  QUESTIONS.forEach((_, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.textContent = i + 1;
+    cell.addEventListener('click', () => { current = i; render(); });
+    paletteGrid.appendChild(cell);
+  });
+}
+
+function render(){
+  const item = QUESTIONS[current];
+  qNumEl.textContent = current + 1;
+  qTextEl.innerHTML = item.q;
+
+  optionsListEl.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  const userChoice = responses[current];
+  item.opts.forEach((opt, idx) => {
+    const div = document.createElement('div');
+    let cls = 'option';
+    if (submitted){
+      cls += ' locked';
+      if (idx === item.ans) cls += ' correct';
+      else if (idx === userChoice) cls += ' incorrect';
+    } else if (userChoice === idx){
+      cls += ' selected';
+    }
+    div.className = cls;
+    div.innerHTML = `<span class="tag">${letters[idx]}</span><span class="opt-text"></span>`;
+    div.querySelector('.opt-text').textContent = opt;
+    div.addEventListener('click', () => {
+      if (submitted) return;
+      responses[current] = idx;
+      render();
+    });
+    optionsListEl.appendChild(div);
+  });
+
+  if (submitted){
+    if (userChoice === null){
+      qStatusTag.textContent = '⚠ Not Answered · Correct answer shown';
+      qStatusTag.className = 'q-status-tag review-unanswered';
+    } else if (userChoice === item.ans){
+      qStatusTag.textContent = '✓ Correct';
+      qStatusTag.className = 'q-status-tag correct';
+    } else {
+      qStatusTag.textContent = '✗ Incorrect';
+      qStatusTag.className = 'q-status-tag incorrect';
+    }
+    explainBox.classList.remove('hidden');
+    explainText.innerHTML = '<b>Correct Answer:</b> ' + letters[item.ans] + '. ' + item.opts[item.ans] + '<br><br>' + item.exp;
+  } else {
+    const answered = userChoice !== null;
+    qStatusTag.textContent = answered ? 'Answered' : 'Not Answered';
+    qStatusTag.className = 'q-status-tag ' + (answered ? 'answered' : 'unanswered');
+    explainBox.classList.add('hidden');
+  }
+
+  prevBtn.disabled = current === 0;
+  if (submitted){
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Back to Result' : 'Next →';
+    clearBtn.style.visibility = 'hidden';
+  } else {
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Finish' : 'Next →';
+    clearBtn.style.visibility = 'visible';
+  }
+
+  // palette
+  const cells = paletteGrid.children;
+  for (let i = 0; i < cells.length; i++){
+    cells[i].classList.toggle('current', i === current);
+    if (submitted){
+      const isIncorrect = responses[i] !== null && responses[i] !== QUESTIONS[i].ans;
+      const isCorrect = responses[i] === QUESTIONS[i].ans;
+      cells[i].classList.toggle('incorrect', isIncorrect);
+      cells[i].classList.toggle('answered', isCorrect);
+    } else {
+      cells[i].classList.toggle('answered', responses[i] !== null);
+      cells[i].classList.remove('incorrect');
+    }
+  }
+
+  const answeredTotal = responses.filter(r => r !== null).length;
+  if (submitted){
+    let correct = 0, incorrect = 0;
+    QUESTIONS.forEach((q, i) => {
+      if (responses[i] === null) return;
+      if (responses[i] === q.ans) correct++; else incorrect++;
+    });
+    const unattempted = QUESTIONS.length - answeredTotal;
+    const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+    document.getElementById('tallyRow').innerHTML = `
+      <div class="marks-line"><b>${marks.toFixed(2)}</b><span>Marks Scored</span></div>
+      <div class="tally-grid">
+        <div><b class="stat-correct">${correct}</b>Correct</div>
+        <div><b class="stat-incorrect">${incorrect}</b>Incorrect</div>
+        <div><b class="stat-unattempted">${unattempted}</b>Unattempted</div>
+      </div>
+    `;
+  } else {
+    answeredCountEl.textContent = answeredTotal;
+    skippedCountEl.textContent = QUESTIONS.length - answeredTotal;
+  }
+}
+
+prevBtn.addEventListener('click', () => { if (current > 0){ current--; render(); }});
+nextBtn.addEventListener('click', () => {
+  if (current < QUESTIONS.length - 1){ current++; render(); }
+  else if (submitted){
+    paperView.classList.add('hidden');
+    resultView.classList.remove('hidden');
+  } else {
+    openConfirmModal();
+  }
+});
+clearBtn.addEventListener('click', () => { responses[current] = null; render(); });
+
+submitBtn.addEventListener('click', openConfirmModal);
+
+/* ---------- Confirmation modal logic ---------- */
+function openConfirmModal(){
+  const nameVal = document.getElementById('userName').value.trim();
+  document.getElementById('modalUserName').value = nameVal;
+  refreshConfirmModalText();
+  confirmModal.classList.remove('hidden');
+}
+
+function refreshConfirmModalText(){
+  const nameVal = document.getElementById('modalUserName').value.trim();
+  if (nameVal){
+    modalIcon.textContent = '📝';
+    modalMessage.innerHTML = `Submit test : <b>${escapeHtml(nameVal)}</b> ?`;
+  } else {
+    modalIcon.textContent = '⚠️';
+    modalMessage.innerHTML = `You have not set your name, your rank will be set as: <b>Anonymous</b>`;
+  }
+}
+
+document.getElementById('modalUserName').addEventListener('input', refreshConfirmModalText);
+
+function closeConfirmModal(){
+  confirmModal.classList.add('hidden');
+}
+
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+modalGoBack.addEventListener('click', closeConfirmModal);
+modalConfirm.addEventListener('click', () => {
+  closeConfirmModal();
+  doSubmit();
+});
+confirmModal.addEventListener('click', (e) => {
+  if (e.target === confirmModal) closeConfirmModal();
+});
+
+function doSubmit(){
+  submitted = true;
+  clearInterval(countdown);
+  let correct = 0, incorrect = 0;
+  QUESTIONS.forEach((q, i) => {
+    if (responses[i] === null) return;
+    if (responses[i] === q.ans) correct++; else incorrect++;
+  });
+  const unattempted = QUESTIONS.length - (correct + incorrect);
+  const maxMarks = QUESTIONS.length * CORRECT_MARKS;
+  const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+  const percentage = (marks / maxMarks) * 100;
+
+  scoreText.textContent = marks.toFixed(2) + ' / ' + maxMarks.toFixed(2);
+  scorePercent.textContent = percentage.toFixed(2) + '%';
+  document.getElementById('scoreBreakdown').innerHTML = `
+    <div class="stat correct"><b>${correct}</b><span>Correct</span></div>
+    <div class="stat incorrect"><b>${incorrect}</b><span>Incorrect</span></div>
+    <div class="stat unattempted"><b>${unattempted}</b><span>Unattempted</span></div>
+  `;
+  const userName = document.getElementById('modalUserName').value.trim() || "Anonymous"; 
+  fetch(SHEET_ENDPOINT, {
+    method: "POST",
+    mode: "no-cors",
+    body: JSON.stringify({
+      name: userName,
+      marks: marks.toFixed(2),
+      correct: correct,
+      incorrect: incorrect,
+      unattempted: unattempted,
+      testCode: "PreLoG-2027-09-FREE TIER"
+    })
+  }); 
+  submitBtn.style.display = 'none';
+  paperView.classList.add('hidden');
+  resultView.classList.remove('hidden');
+  render();
+}
+
+reviewBtn.addEventListener('click', () => {
+  resultView.classList.add('hidden');
+  paperView.classList.remove('hidden');
+  current = 0;
+  render();
+});
+
+// theme toggle
+const themeSwitch = document.getElementById('themeSwitch');
+themeSwitch.addEventListener('click', () => {
+  const body = document.body;
+  const isDark = body.getAttribute('data-theme') === 'dark';
+  body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+});
+
+// countdown timer — only ticks once the test has been started
+let seconds = 60 * 60;
+let testStarted = false;
+const timerEl = document.getElementById('timer');
+const countdown = setInterval(() => {
+  if (!testStarted || seconds <= 0 || submitted) return;
+  seconds--;
+  const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+  const s = String(seconds % 60).padStart(2, '0');
+  timerEl.textContent = `${m}:${s}`;
+  timerEl.classList.toggle('urgent', seconds <= 60);
+  if (seconds === 0){
+    timerEl.textContent = 'Time Up!';
+    doSubmit();
+  }
+}, 1000);
+
+/* ---------- Start-test modal logic ---------- */
+const startModal = document.getElementById('startModal');
+const startTestBtn = document.getElementById('startTestBtn');
+const startNameInput = document.getElementById('userName');
+
+// populate the start screen dynamically so this same code works
+// no matter how many questions / what marking scheme this file has
+document.getElementById('startTitle').textContent =
+  document.querySelector('.title-block h1').textContent;
+document.getElementById('startQCount').textContent = QUESTIONS.length;
+document.getElementById('startMaxMarks').textContent = (QUESTIONS.length * CORRECT_MARKS).toFixed(0);
+document.getElementById('startCorrectMarks').textContent = '+' + CORRECT_MARKS.toFixed(2);
+document.getElementById('startIncorrectMarks').textContent = '−' + NEGATIVE_MARKS.toFixed(2);
+document.getElementById('startDuration').textContent = Math.round(seconds / 60);
+
+startTestBtn.addEventListener('click', () => {
+  testStarted = true;
+  startModal.classList.add('hidden');
+});
+
+// pressing Enter in the name field on the start screen also starts the test
+startNameInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') startTestBtn.click();
+});
+
+buildPalette();
+render();
+
+window.addEventListener('beforeunload', function(e){
+  const hasProgress = !submitted && responses.some(r => r !== null);
+  if (hasProgress){
+    e.preventDefault();
+    e.returnValue = 'Your answers have not been submitted. If you leave or refresh this page, all marked answers will be lost.';
+    return e.returnValue;
+  }
+});
+
+</script>
+
+</body>
+</html>

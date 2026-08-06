@@ -1,0 +1,1726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC LoG — Prelims Booster</title>
+<style>
+  :root{
+    --bg: #F3F4F1;
+    --paper: #FFFFFF;
+    --ink: #1D2A35;
+    --ink-soft: #5B6873;
+    --rule: #D8DCD6;
+    --navy: #1B3A5C;
+    --navy-deep: #12283F;
+    --gold: #B8862E;
+    --gold-soft: #EFDFB8;
+    --answered: #2F7D5A;
+    --answered-bg: #E4F3EC;
+    --skipped: #B8862E;
+    --skipped-bg: #FBF1DE;
+    --current-ring: #1B3A5C;
+    --wrong: #B23A2E;
+    --wrong-bg: #FBEAE7;
+    --shadow: 0 1px 2px rgba(20,30,40,0.06), 0 6px 20px rgba(20,30,40,0.05);
+    --serif: Georgia, 'Times New Roman', 'Iowan Old Style', serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --mono: 'Courier New', ui-monospace, monospace;
+  }
+  [data-theme="dark"]{
+    --bg: #0F1A24;
+    --paper: #17232E;
+    --ink: #E7ECEF;
+    --ink-soft: #97A5AF;
+    --rule: #2A3846;
+    --navy: #3E6E9E;
+    --navy-deep: #2A4E70;
+    --gold: #D9A441;
+    --gold-soft: #3A3220;
+    --answered: #4CAF7D;
+    --answered-bg: #163227;
+    --skipped: #D9A441;
+    --skipped-bg: #332A16;
+    --current-ring: #D9A441;
+    --wrong: #E07A6C;
+    --wrong-bg: #3A1E1A;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+    html, body{
+    overflow-x: hidden;
+    width: 100%;
+  }
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    min-height:100vh;
+    transition:background .3s ease, color .3s ease;
+  }
+
+  /* ---------- Header ---------- */
+  header.topbar{
+    background:linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color:#F4F1EA;
+    padding:0;
+    box-shadow:var(--shadow);
+    position:sticky; top:0; z-index:50;
+  }
+  .topbar-inner{
+    max-width:1280px; margin:0 auto;
+    display:flex; align-items:center; gap:20px;
+    padding:14px 28px;
+  }
+  .logo-slot{
+    width:52px; height:52px;
+    border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    overflow:hidden;
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .logo-slot img{
+    width:100%; height:100%;
+    object-fit:contain;
+  }
+  .logo-slot:hover{border-color:rgba(244,241,234,0.75); color:#F4F1EA;}
+  .title-block{flex:1; min-width:0;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gold-soft, #D9A441);
+    opacity:0.85;
+  }
+  .title-block h1{
+    font-family:var(--serif);
+    font-size:22px;
+    font-weight:400;
+    margin:2px 0 0 0;
+    letter-spacing:0.01em;
+  }
+  .subnote{
+    font-family:var(--mono);
+    font-size:11px;
+    color:rgba(244,241,234,0.65);
+    margin-top:6px;
+    letter-spacing:0.02em;
+  }
+  .subnote a{color:var(--gold-soft); text-decoration:none;}
+  .subnote a:hover{text-decoration:underline;}
+  .topbar-right{
+    display:flex; align-items:center; gap:18px; flex-shrink:0;
+  }
+  .timer{
+    font-family:var(--mono);
+    font-size:13px;
+    color:#F4F1EA;
+    border:1px solid rgba(244,241,234,0.3);
+    padding:6px 12px;
+    border-radius:6px;
+    background:rgba(0,0,0,0.12);
+    transition:background .2s ease;
+  }
+  .timer.urgent{background:var(--wrong); border-color:var(--wrong);}
+
+  /* dark mode switch */
+  .mode-switch{
+    display:flex; align-items:center; gap:8px;
+    font-size:12px; color:rgba(244,241,234,0.85);
+  }
+  .switch{
+    position:relative; width:44px; height:24px;
+    background:rgba(244,241,234,0.2);
+    border-radius:20px; cursor:pointer;
+    border:1px solid rgba(244,241,234,0.35);
+    flex-shrink:0;
+  }
+  .switch .knob{
+    position:absolute; top:2px; left:2px;
+    width:18px; height:18px; border-radius:50%;
+    background:#F4F1EA;
+    transition:transform .25s ease;
+    box-shadow:0 1px 3px rgba(0,0,0,0.3);
+  }
+  [data-theme="dark"] .switch .knob{
+    transform:translateX(20px);
+    background:var(--gold);
+  }
+
+  /* ---------- Layout ---------- */
+  .layout{
+    max-width:1280px; margin:0 auto;
+    display:grid;
+    grid-template-columns:1fr 320px;
+    gap:23px;
+    padding:32px 28px 60px;
+    align-items:start;
+  }
+
+  /* ---------- Question paper ---------- */
+  .paper{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:36px 44px 32px;
+    min-height:520px;
+    display:flex;
+    flex-direction:column;
+  }
+  .paper-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    border-bottom:1px solid var(--rule);
+    padding-bottom:14px; margin-bottom:28px;
+  }
+  .q-index{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--ink-soft);
+    letter-spacing:0.04em;
+  }
+  .q-index b{color:var(--navy); font-size:15px;}
+  [data-theme="dark"] .q-index b{color:var(--gold);}
+  .q-status-tag{
+    font-family:var(--mono);
+    font-size:13.5px;
+    font-weight:800;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    padding:7px 16px;
+    border-radius:20px;
+    border:2px solid transparent;
+  }
+  .q-status-tag.answered{background:var(--answered-bg); color:var(--answered); border-color:var(--answered);}
+  .q-status-tag.unanswered{background:var(--skipped-bg); color:var(--skipped); border-color:var(--skipped);}
+
+  .q-text{
+    font-family:var(--serif);
+    font-size:19px;
+    line-height:1.5;
+    color:var(--ink);
+    margin:0 0 32px 0;
+  }
+
+  .options{
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .option{
+    display:flex; align-items:flex-start; gap:14px;
+    padding:18px 18px;
+    border:1px solid var(--rule);
+    border-radius:8px;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+    background:transparent;
+  }
+  .option:hover{border-color:var(--navy); background:rgba(27,58,92,0.04);}
+  [data-theme="dark"] .option:hover{background:rgba(217,164,65,0.06); border-color:var(--gold);}
+  .option.selected{
+    border-color:var(--navy);
+    background:rgba(27,58,92,0.07);
+  }
+  [data-theme="dark"] .option.selected{
+    border-color:var(--gold);
+    background:rgba(217,164,65,0.1);
+  }
+  .option .tag{
+    font-family:var(--mono);
+    font-size:13px;
+    font-weight:bold;
+    width:24px; height:24px;
+    border-radius:50%;
+    border:1.5px solid var(--rule);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    color:var(--ink-soft);
+  }
+  .option.selected .tag{
+    border-color:var(--navy);
+    background:var(--navy);
+    color:#fff;
+  }
+  [data-theme="dark"] .option.selected .tag{
+    border-color:var(--gold);
+    background:var(--gold);
+    color:#17232E;
+  }
+  .option .opt-text{
+    font-size:15.5px; line-height:1.5; padding-top:1px;
+  }
+  .option.locked{cursor:default;}
+  .option.correct{
+    border-color:var(--answered);
+    background:var(--answered-bg);
+  }
+  .option.correct .tag{
+    border-color:var(--answered);
+    background:var(--answered);
+    color:#fff;
+  }
+  .option.incorrect{
+    border-color:var(--wrong);
+    background:var(--wrong-bg);
+  }
+  .option.incorrect .tag{
+    border-color:var(--wrong);
+    background:var(--wrong);
+    color:#fff;
+  }
+  .option.locked:hover{background:inherit; border-color:inherit;}
+  .q-status-tag.correct{background:var(--answered-bg); color:var(--answered); border-color:var(--answered); box-shadow:0 0 0 1px var(--answered) inset;}
+  .q-status-tag.incorrect{background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong); box-shadow:0 0 0 1px var(--wrong) inset;}
+  .q-status-tag.review-unanswered{
+    background:var(--wrong-bg);
+    color:var(--wrong);
+    border-color:var(--wrong);
+    box-shadow:0 0 0 1px var(--wrong) inset;
+  }
+
+  /* ---------- Explanation (review mode) ---------- */
+  .explain-box{
+    margin-top:26px;
+    background:var(--gold-soft);
+    border:1px solid var(--gold);
+    border-radius:8px;
+    padding:16px 20px;
+    font-size:14px;
+    line-height:1.65;
+    color:var(--ink);
+  }
+  [data-theme="dark"] .explain-box{background:rgba(217,164,65,0.08);}
+  .explain-box b{color:var(--navy);}
+  [data-theme="dark"] .explain-box b{color:var(--gold);}
+  .explain-box .exp-label{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-bottom:8px;
+  }
+
+  .paper-foot{
+    display:flex; justify-content:space-between;
+    margin-top:32px; padding-top:20px;
+    border-top:1px solid var(--rule);
+  }
+  button{
+    font-family:var(--sans);
+    font-size:14px;
+    font-weight:600;
+    padding:11px 22px;
+    border-radius:7px;
+    border:1px solid var(--rule);
+    background:var(--paper);
+    color:var(--ink);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  button:hover:not(:disabled){border-color:var(--navy); color:var(--navy);}
+  [data-theme="dark"] button:hover:not(:disabled){border-color:var(--gold); color:var(--gold);}
+  button:disabled{opacity:0.35; cursor:not-allowed;}
+  button.primary{
+    background:var(--navy); color:#F4F1EA; border-color:var(--navy);
+  }
+  button.primary:hover{filter:brightness(1.1); color:#F4F1EA;}
+  button.clear{background:transparent; border-color:transparent; color:var(--ink-soft); font-weight:500;}
+  .nav-group{display:flex; gap:10px;}
+
+  /* ---------- Sidebar palette ---------- */
+  .sidebar{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:24px;
+    position:sticky;
+    top:96px;
+  }
+  .sidebar h2{
+    font-family:var(--serif);
+    font-size:16px;
+    font-weight:400;
+    margin:0 0 4px 0;
+    color:var(--ink);
+  }
+  .sidebar .sub{
+    font-size:12px; color:var(--ink-soft); margin-bottom:18px;
+  }
+  .legend{
+    display:flex; flex-direction:column; gap:8px;
+    margin-bottom:20px;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  .legend span{display:flex; align-items:center; gap:8px;}
+  .dot{width:10px; height:10px; border-radius:3px; flex-shrink:0;}
+  .dot.answered{background:var(--answered);}
+  .dot.unanswered{background:var(--rule); border:1px solid var(--ink-soft);}
+  .dot.current{background:transparent; border:2px solid var(--current-ring);}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:8px;
+    margin-bottom:22px;
+  }
+  .cell{
+    aspect-ratio:1;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono);
+    font-size:13px;
+    border-radius:6px;
+    border:1px solid var(--rule);
+    background:transparent;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .cell:hover{border-color:var(--navy);}
+  [data-theme="dark"] .cell:hover{border-color:var(--gold);}
+  .cell.answered{
+    background:var(--answered-bg); color:var(--answered); border-color:var(--answered);
+    font-weight:bold;
+  }
+  .cell.incorrect{
+    background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong);
+    font-weight:bold;
+  }
+  .cell.current{
+    outline:2px solid var(--current-ring); outline-offset:2px;
+  }
+
+  .tally{
+    padding-top:16px; border-top:1px solid var(--rule);
+    color:var(--ink-soft);
+  }
+  .tally-plain{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-plain > div{flex:1; text-align:left;}
+  .tally b{color:var(--ink); font-size:16px; display:block; font-family:var(--sans);}
+  .tally b.stat-correct{color:var(--answered);}
+  .tally b.stat-incorrect{color:var(--wrong);}
+  .tally b.stat-unattempted{color:var(--skipped);}
+
+  .marks-line{
+    text-align:center;
+    background:var(--gold-soft);
+    border:1.5px solid var(--gold);
+    border-radius:8px;
+    padding:12px 10px;
+    margin-bottom:14px;
+  }
+  [data-theme="dark"] .marks-line{background:rgba(217,164,65,0.12);}
+  .marks-line b{
+    font-size:26px; color:var(--navy); font-family:var(--serif); font-weight:700;
+  }
+  [data-theme="dark"] .marks-line b{color:var(--gold);}
+  .marks-line span{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-top:2px;
+  }
+  .tally-grid{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-grid > div{flex:1; text-align:left;}
+
+  .score-breakdown{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+    max-width:420px;
+    margin:24px auto 0;
+  }
+  .score-breakdown .stat{
+    border:1.5px solid var(--rule);
+    border-radius:10px;
+    padding:14px 10px;
+  }
+  .score-breakdown .stat b{
+    display:block; font-size:24px; font-family:var(--sans); margin-bottom:4px;
+  }
+  .score-breakdown .stat span{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft);
+  }
+  .score-breakdown .stat.correct{border-color:var(--answered); background:var(--answered-bg);}
+  .score-breakdown .stat.correct b{color:var(--answered);}
+  .score-breakdown .stat.incorrect{border-color:var(--wrong); background:var(--wrong-bg);}
+  .score-breakdown .stat.incorrect b{color:var(--wrong);}
+  .score-breakdown .stat.unattempted{border-color:var(--skipped); background:var(--skipped-bg);}
+  .score-breakdown .stat.unattempted b{color:var(--skipped);}
+
+  #submitBtn{width:100%; margin-top:20px;}
+
+  /* ---------- Result overlay ---------- */
+  .result-card{
+    background:var(--paper); border:1px solid var(--rule); border-radius:10px;
+    box-shadow:var(--shadow); padding:44px; text-align:center;
+  }
+  .result-card .score{
+    font-family:var(--serif); font-size:52px; color:var(--navy); margin:8px 0;
+  }
+  [data-theme="dark"] .result-card .score{color:var(--gold);}
+  .result-card .percent{
+    font-family:var(--mono); font-size:13px; color:var(--ink-soft);
+    letter-spacing:0.04em; margin-top:-4px;
+  }
+  .hidden{display:none !important;}
+
+  /* ---------- Confirm submit modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background:rgba(15,20,25,0.55);
+    display:flex; align-items:center; justify-content:center;
+    z-index:200;
+    padding:20px;
+  }
+  .modal-box{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:12px;
+    box-shadow:var(--shadow);
+    padding:30px 30px 24px;
+    max-width:380px;
+    width:100%;
+    text-align:center;
+  }
+  .modal-box .modal-icon{
+    font-size:26px;
+    margin-bottom:6px;
+  }
+  .modal-box p{
+    font-family:var(--sans);
+    font-size:15px;
+    line-height:1.55;
+    color:var(--ink);
+    margin:10px 0 22px;
+  }
+  .modal-box p b{color:var(--navy);}
+  [data-theme="dark"] .modal-box p b{color:var(--gold);}
+  .modal-box .modal-warn{
+    font-family:var(--mono);
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--skipped);
+    background:var(--skipped-bg);
+    border:1px solid var(--skipped);
+    border-radius:6px;
+    padding:8px 10px;
+    margin:0 0 18px;
+    text-align:left;
+    line-height:1.5;
+  }
+  .modal-actions{
+    display:flex; gap:12px;
+  }
+  .modal-actions button{
+    flex:1;
+    padding:12px 10px;
+  }
+  #modalGoBack{color:var(--ink);}
+  #modalConfirm{background:var(--navy); color:#F4F1EA; border-color:var(--navy);}
+  #modalConfirm:hover{filter:brightness(1.1); color:#F4F1EA;}
+
+  /* ---------- Start-test modal ---------- */
+  .start-box{
+    max-width:420px;
+    text-align:left;
+  }
+  .start-box .modal-icon{font-size:30px; margin-bottom:2px;}
+  .start-title{
+    font-family:var(--serif);
+    font-size:21px;
+    color:var(--ink);
+    text-align:center;
+    margin:2px 0 4px;
+  }
+  .start-sub{
+    font-family:var(--mono);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:var(--ink-soft);
+    text-align:center;
+    margin:0 0 20px;
+  }
+  .stat-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:20px;
+  }
+  .stat-grid .stat-box{
+    border:1px solid var(--rule);
+    border-radius:8px;
+    padding:11px 12px;
+    background:var(--bg);
+  }
+  .stat-grid .stat-box .k{
+    font-family:var(--mono); font-size:10px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft); display:block; margin-bottom:4px;
+  }
+  .stat-grid .stat-box .v{
+    font-family:var(--sans); font-size:16px; font-weight:700; color:var(--navy);
+  }
+  [data-theme="dark"] .stat-grid .stat-box .v{color:var(--gold);}
+  .start-rules{
+    list-style:none; margin:0 0 22px; padding:0;
+    display:flex; flex-direction:column; gap:7px;
+  }
+  .start-rules li{
+    font-size:13px; line-height:1.5; color:var(--ink-soft);
+    padding-left:18px; position:relative;
+  }
+  .start-rules li::before{
+    content:"—"; position:absolute; left:0; color:var(--gold);
+  }
+  .start-field label{
+    display:block;
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft); margin-bottom:6px;
+  }
+  .start-field input{
+    width:100%;
+    font-family:var(--sans); font-size:14.5px;
+    padding:11px 14px;
+    border:1px solid var(--rule); border-radius:7px;
+    background:var(--paper); color:var(--ink);
+    margin-bottom:20px;
+  }
+  .start-field input:focus{ outline:none; border-color:var(--navy); }
+  [data-theme="dark"] .start-field input:focus{ border-color:var(--gold); }
+  #startTestBtn{
+    width:100%; padding:13px 10px; font-size:15px;
+  }
+
+  @media (max-width: 430px){
+    .start-box{ padding:24px 20px 20px; max-width:100%; }
+    .stat-grid{ grid-template-columns:1fr 1fr; gap:8px; }
+    .start-title{ font-size:18px; }
+  }
+
+  /* small name field inside submit-confirm modal */
+  .modal-name-field{ text-align:left; margin:-6px 0 18px; }
+  .modal-name-field label{
+    display:block;
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft); margin-bottom:6px;
+  }
+  .modal-name-field input{
+    width:100%;
+    font-family:var(--sans); font-size:14px;
+    padding:10px 13px;
+    border:1px solid var(--rule); border-radius:7px;
+    background:var(--paper); color:var(--ink);
+  }
+  .modal-name-field input:focus{ outline:none; border-color:var(--navy); }
+  [data-theme="dark"] .modal-name-field input:focus{ border-color:var(--gold); }
+
+  :root{
+    --desktop-width: 1440;
+}
+
+@media (max-width: 1024px){
+  .layout{
+    grid-template-columns: 1fr;
+  }
+  .sidebar{
+    position: static;      /* was sticky at top:96px — no longer needed once stacked */
+    top: auto;
+  }
+}
+@media (max-width: 600px){
+  .topbar-inner{
+    flex-wrap: wrap;
+    padding: 14px 16px;
+    gap: 10px;
+  }
+  .topbar-right{
+    flex-shrink: 1;        /* was 0 before — this is what caused the overflow */
+    flex-basis: 100%;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+  .subnote{
+    white-space: normal;
+  }
+}
+@media (max-width: 430px){
+  .layout{
+    padding: 20px 12px 40px;
+  }
+  .paper{
+    padding: 24px 18px 22px;
+  }
+  .sidebar{
+    padding: 18px;
+  }
+  .paper-head{
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .q-status-tag{
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+@media (max-width: 600px){
+  .title-block h1{
+    font-size: 17px;
+  }
+  .eyebrow{
+    font-size: 9.5px;
+  }
+  .subnote{
+    font-size: 10px;
+  }
+  .timer{
+    font-size: 11px;
+    padding: 5px 9px;
+  }
+  .mode-switch{
+    font-size: 11px;
+  }
+}
+@media (max-width: 430px){
+  .result-card{
+    padding: 24px 18px;
+  }
+  .score-breakdown{
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    max-width: 100%;
+  }
+  .score-breakdown .stat{
+    padding: 10px 6px;
+  }
+  .score-breakdown .stat b{
+    font-size: 19px;
+  }
+  .result-card .score{
+    font-size: 38px;
+  }
+}
+
+</style>
+</head>
+<body data-theme="light">
+
+<header class="topbar">
+  <div class="topbar-inner">
+
+    <!-- <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">UPSC<br>LOGO</a> -->
+    <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">
+  <img src="https://raw.githubusercontent.com/upsclog/upsclog/refs/heads/main/logo.png" alt="UPSC LoG" style="width:100%; height:100%; object-fit:contain; border-radius:6px;">
+</a>
+    <div class="title-block">
+      <div class="eyebrow">UPSC LoG · Prelims Booster 2027</div>
+      <h1>PreLoG-2027-10-FREE TIER</h1>
+      <div class="subnote" style="font-size: 12px;">
+        <span id="qTotalNote">7</span> Questions · +2 Correct / −0.67 Incorrect ·
+        <a href="https://t.me/upsclog" target="_blank" rel="noopener"> Join UPSC-LoG Telegram ↗</a>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="timer" id="timer">60:00</div>
+      <div class="mode-switch">
+        <span>Light</span>
+        <div class="switch" id="themeSwitch" role="button" aria-label="Toggle dark mode">
+          <div class="knob"></div>
+        </div>
+        <span>Dark</span>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="layout">
+
+  <div class="paper" id="paperView">
+    <div class="paper-head">
+      <div class="q-index">Question <b id="qNum">1</b> of <span id="qTotal">7</span></div>
+      <div class="q-status-tag unanswered" id="qStatusTag">Not Answered</div>
+    </div>
+
+    <p class="q-text" id="qText">Loading question…</p>
+
+    <div class="options" id="optionsList"></div>
+
+    <div class="explain-box hidden" id="explainBox">
+      <span class="exp-label">Explanation</span>
+      <div id="explainText"></div>
+    </div>
+
+    <div class="paper-foot">
+      <div class="nav-group">
+        <button id="prevBtn">← Previous</button>
+        <button class="clear" id="clearBtn">Clear response</button>
+      </div>
+      <button id="nextBtn" class="primary">Next →</button>
+    </div>
+  </div>
+
+  <div class="result-card hidden" id="resultView">
+    <div class="eyebrow" style="color:var(--ink-soft); letter-spacing:0.14em; font-family:var(--mono); font-size:11px; text-transform:uppercase;">Marks Sent for rank PDF</div>
+    <div class="score" id="scoreText">0.00 / 14.00</div>
+    <div class="percent" id="scorePercent">0.00%</div>
+    <div class="score-breakdown" id="scoreBreakdown"></div>
+    <p style="color:var(--ink-soft); font-size:14px; margin:20px 0 24px;">You can review your answers and explanations using the palette on the right.</p>
+    <h2>Check <a href="https://upsclog.github.io/upsclog/ranks_tests/daily_rankings.html" target="_blank">[RANKINGS]</a> - for Daily Rankings [PDF]</h2>
+    <button class="primary" id="reviewBtn">Review Answers</button>
+  </div>
+
+  <aside class="sidebar">
+    <h2>* Explanations attached for each question after you submit the test<br><br></h2>
+    <h2>* Auto-Submission in 30 minutes</h2>
+    <h2>* Dark <-> Bright modes for ease</h2>
+    <div class="sub"></div>
+
+    <div class="legend">
+      <span><span class="dot answered"></span> Answered / Correct</span>
+      <span><span class="dot" style="background:var(--wrong);"></span> Incorrect</span>
+      <span><span class="dot unanswered"></span> Not answered</span>
+      <span><span class="dot current"></span> Currently viewing</span>
+    </div>
+
+    <div class="grid" id="paletteGrid"></div>
+
+    <div class="tally" id="tallyRow">
+      <div class="tally-plain">
+        <div><b id="answeredCount">0</b>Answered</div>
+        <div><b id="skippedCount">7</b>Remaining</div>
+      </div>
+    </div>
+
+    <button class="primary" id="submitBtn">Submit Test</button>
+  </aside>
+
+</div>
+
+<div class="modal-overlay hidden" id="confirmModal">
+  <div class="modal-box">
+    <div class="modal-icon" id="modalIcon">📝</div>
+    <p id="modalMessage">Submit test?</p>
+    <div class="modal-name-field">
+      <label for="modalUserName">Name for rank (optional)</label>
+      <input type="text" id="modalUserName" placeholder="Enter your name" maxlength="40">
+    </div>
+    <div class="modal-actions">
+      <button id="modalGoBack">Go Back</button>
+      <button id="modalConfirm" class="primary">Yes, Submit</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="startModal">
+  <div class="modal-box start-box">
+    <div class="modal-icon">🖋️</div>
+    <div class="start-title" id="startTitle">Loading…</div>
+    <div class="start-sub">UPSC LoG · Prelims Booster</div>
+
+    <div class="stat-grid">
+      <div class="stat-box"><span class="k">Questions</span><span class="v" id="startQCount">–</span></div>
+      <div class="stat-box"><span class="k">Max Marks</span><span class="v" id="startMaxMarks">–</span></div>
+      <div class="stat-box"><span class="k">Correct</span><span class="v" id="startCorrectMarks">–</span></div>
+      <div class="stat-box"><span class="k">Incorrect</span><span class="v" id="startIncorrectMarks">–</span></div>
+    </div>
+
+    <ul class="start-rules">
+      <li>Total duration: <span id="startDuration">60</span> minutes. The test auto-submits when time runs out.</li>
+      <li>Explanations for every question unlock after you submit.</li>
+      <li>Use the palette on the right to jump between questions anytime.</li>
+    </ul>
+
+    <div class="start-field">
+      <label for="userName">Your name (for the rankings)</label>
+      <input type="text" id="userName" placeholder="Enter your name" maxlength="40">
+    </div>
+
+    <button class="primary" id="startTestBtn">Start Test →</button>
+  </div>
+</div>
+
+<script>
+const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyamXySn2AagAN935BcpYuf6oTJNuIkLMuAby7CqWJ20rgdNgdWypVNTjMyWJBxW9OObw/exec";
+const QUESTIONS = [
+{
+    q: "With reference to jet streams and their associated challenges, consider the following statements: <br> 1. The Sub-Tropical Jet Stream steers Western Disturbances into the Indian subcontinent during winter.<br>2. A southward shift of the Tropical Easterly Jet Stream is associated with a weakening of the Indian monsoon.<br>3. Jet streams flow only in the Northern Hemisphere.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The Sub-Tropical Westerly Jet Stream steers Western Disturbances into North India in winter, causing rainfall and snowfall. The Tropical Easterly Jet (African-Asian Jet) flows over peninsular India in summer, and its weakening or southward shift is linked with monsoon breaks/droughts. Jet streams occur in both hemispheres, not just the Northern Hemisphere, so statement 3 is incorrect."
+},
+{
+    q: "With reference to insolation, consider the following statements: <br> 1. Insolation received at the Earth's surface is entirely in the form of short-wave radiation.<br>2. Ozone in the stratosphere absorbs a significant portion of incoming ultraviolet radiation.<br>3. Carbon dioxide and water vapour primarily absorb terrestrial (long-wave) radiation rather than incoming solar radiation.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "Insolation reaching the Earth is short-wave radiation, since the Sun, being extremely hot, emits energy in shorter wavelengths. Stratospheric ozone absorbs most incoming ultraviolet radiation, protecting the biosphere. Greenhouse gases like CO2 and water vapour are relatively transparent to incoming short-wave insolation but strongly absorb outgoing long-wave terrestrial radiation, producing the greenhouse effect. Hence all three statements are correct."
+},
+{
+    q: "With reference to recent developments concerning solar radiation and insolation, consider the following statements: <br> 1. IMD studies have indicated a decline in surface solar radiation over parts of India, partly attributed to rising aerosol concentrations.<br>2. Data from India's Aditya-L1 mission has been used to study the unusual behaviour of intense solar storms.<br>3. Aditya-L1 is stationed at the Lagrangian Point L1 between the Earth and the Sun.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "Recent IMD-linked studies have flagged a dimming trend in surface solar radiation over India due to rising aerosol and pollution loads, with implications for solar energy generation. Data from Aditya-L1, along with other satellites, has helped scientists explain the unusual behaviour of the May 2024 solar storm. Aditya-L1 orbits the Sun-Earth L1 point, about 1.5 million km from Earth, enabling continuous observation of the Sun. All three statements are correct."
+},
+{
+    q: "Air masses are classified primarily on the basis of their source region and the surface over which they form. In this context, consider the following pairs: <br> 1. Continental Polar (cP) — Cold and dry<br>2. Maritime Tropical (mT) — Warm and humid<br>3. Continental Tropical (cT) — Cold and humid<br>Which of the pairs given above is/are correctly matched?",
+    opts: [
+        "1 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "Continental Polar air masses form over high-latitude land areas and are cold and dry, while Maritime Tropical air masses form over warm oceans and are warm and humid, matching statements 1 and 2. Continental Tropical air masses form over low-latitude deserts and are hot and dry, not cold and humid, making statement 3 incorrect. This source-region-based classification is a recurring theme in UPSC Prelims climatology questions."
+},
+{
+    q: "With reference to efforts to improve weather and air-mass related forecasting in India, consider the following statements: <br> 1. Mission Mausam aims to enhance India's weather observation, modelling, and forecasting capabilities.<br>2. Numerical Weather Prediction (NWP) models use data on air mass characteristics such as temperature and moisture to generate forecasts.<br>3. The India Meteorological Department (IMD) functions under the Ministry of Earth Sciences.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "Mission Mausam, launched to make India 'weather-ready' and 'climate-smart', focuses on upgrading observational networks, supercomputing capacity, and forecasting models. Numerical Weather Prediction models rely on atmospheric data, including air mass properties, to simulate future weather. The IMD, India's principal weather forecasting agency, functions under the Ministry of Earth Sciences. Hence, all three statements are correct."
+},
+{
+    q: "With reference to cloud seeding and weather modification activities in India, consider the following statements: <br> 1. India has a dedicated standalone legislation exclusively governing cloud seeding and artificial rain operations.<br>2. Cloud seeding aircraft operations in India require clearance under provisions of the Aircraft Act, 1934 and associated rules.<br>3. Cloud seeding trials have been conducted in Indian cities in recent years to address air pollution.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "India does not have a dedicated standalone law for cloud seeding; such operations are instead regulated under the general framework of the Aircraft Act, 1934 and the Aircraft Rules, along with state-level permissions, making statement 1 incorrect. Aircraft used for seeding require regulatory clearance under these aviation provisions. Cloud seeding trials, such as those conducted in Delhi to combat smog and induce artificial rain, have taken place in recent years, making statements 2 and 3 correct."
+},
+
+
+{
+    q: "With reference to the phenomenon of temperature inversion, a recurring theme in UPSC Prelims, consider the following statements: <br> 1. Temperature inversion refers to a reversal of the normal lapse rate, with temperature increasing with height near the surface.<br>2. Clear skies and calm winds during long winter nights favour the formation of temperature inversion.<br>3. Temperature inversion helps in the vertical dispersal of pollutants near the surface.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "Under normal conditions, temperature decreases with height, but in an inversion this is reversed near the surface, making statement 1 correct. Long, clear winter nights with calm winds allow rapid radiational cooling of the surface, favouring inversion, making statement 2 correct. Since inversion creates a stable atmospheric layer, it traps pollutants near the ground rather than dispersing them, so statement 3 is incorrect."
+},
+{
+    q: "With reference to institutional and policy measures related to monsoon forecasting in India, consider the following statements: <br> 1. The National Monsoon Mission was launched by the Ministry of Earth Sciences to improve the accuracy of monsoon forecasts using dynamical models.<br>2. The India Meteorological Department issues its first Long Range Forecast for the southwest monsoon in April every year.<br>3. Mission Mausam seeks to upgrade India's weather observation and forecasting infrastructure, including monsoon prediction capability.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "The National Monsoon Mission, launched by the Ministry of Earth Sciences, aimed to develop a dynamical forecasting system to improve monsoon prediction accuracy. The IMD conventionally issues its first Long Range Forecast for the southwest monsoon in April. Mission Mausam, a more recent initiative, aims to modernise India's weather observation and forecasting systems, which includes monsoon-related capabilities. All three statements are correct."
+},
+{
+    q: "With reference to recent reforms in India's approach to extreme temperature events, consider the following statements: <br> 1. The National Disaster Management Authority has issued guidelines for the preparation of Heat Action Plans by states and cities.<br>2. Impact-based forecasting by the IMD focuses on the likely consequences of a heatwave rather than only the temperature values.<br>3. A 'heatwave' is declared by the IMD only when the actual maximum temperature exceeds 45°C, irrespective of the normal temperature of the region.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The NDMA has directed states and cities to prepare Heat Action Plans as part of reforms to reduce heat-related mortality, making statement 1 correct. Impact-based forecasting, a reform pushed by IMD, communicates likely impacts (on health, infrastructure) rather than just raw temperature figures, making statement 2 correct. IMD's heatwave criteria are based on departure from normal temperature for a region (e.g., 4.5°C or more above normal) and not solely on a fixed 45°C threshold, so statement 3 is incorrect."
+},
+{
+    q: "In October 2025, an experiment involving artificial modification of clouds was conducted in Delhi. In this context, consider the following statements: <br> 1. The trial was conducted by IIT Kanpur in collaboration with the Delhi government to address post-monsoon air pollution.<br>2. Cloud seeding requires the presence of moisture-laden clouds and cannot generate rainfall from a cloudless sky.<br>3. The Delhi trial was assessed by experts to have been fully successful in producing significant rainfall.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The October 2025 cloud seeding trial in Delhi was conducted by IIT Kanpur with the Delhi government's support, aimed at inducing rain to settle smog. Cloud seeding works only on existing moisture-rich clouds and cannot create rainfall in clear skies, so statement 2 is correct. However, the trial produced only light drizzle in parts of the city rather than significant rainfall, largely due to insufficient moisture in post-monsoon clouds, making statement 3 incorrect."
+},
+{
+    q: "With reference to the features and characteristics of insolation, consider the following statements: <br> 1. The angle of incidence of the Sun's rays is inversely related to the intensity of insolation received per unit area.<br>2. Areas near the Equator receive more concentrated insolation than areas at higher latitudes due to a more direct angle of incidence.<br>3. The duration of sunshine has no bearing on the total amount of insolation received at a place.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "A smaller angle of incidence spreads the same amount of solar energy over a larger surface area, reducing intensity, confirming an inverse relationship as in statement 1. Equatorial regions receive nearly vertical rays, concentrating insolation over a smaller area compared to higher latitudes, making statement 2 correct. Duration of sunshine does affect the total insolation received, as longer daylight allows more cumulative energy input, so statement 3 is incorrect."
+},
+{
+    q: "With reference to the challenges associated with tropical cyclones affecting India, consider the following statements: <br> 1. Storm surges associated with cyclones pose a greater threat to life and property along low-lying coasts than wind speed alone.<br>2. The Bay of Bengal generates more cyclones than the Arabian Sea due to higher sea surface temperatures and lower wind shear.<br>3. Accurate track prediction of cyclones has eliminated the need for coastal evacuation planning in India.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "Storm surges, caused by cyclonic winds pushing seawater onto the coast, are historically responsible for the highest casualties in coastal cyclone disasters, more than wind damage alone, making statement 1 correct. The Bay of Bengal has warmer sea surface temperatures and more favourable conditions for cyclogenesis compared to the Arabian Sea, making statement 2 correct. Despite improved track prediction, uncertainties in intensity and landfall timing mean evacuation planning remains essential, so statement 3 is incorrect."
+},
+{
+    q: "With reference to recent reforms and initiatives concerning the composition and quality of India's atmosphere, consider the following statements: <br> 1. The National Clean Air Programme (NCAP) sets city-specific targets for reduction of particulate matter concentration.<br>2. The Global Atmosphere Watch programme, coordinated by the World Meteorological Organisation, monitors atmospheric composition including greenhouse gases.<br>3. India does not participate in any international programme for monitoring atmospheric composition.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The National Clean Air Programme, launched by the Ministry of Environment, Forest and Climate Change, sets city-wise targets for reducing particulate matter pollution, making statement 1 correct. The WMO's Global Atmosphere Watch programme monitors atmospheric composition, including greenhouse gases and aerosols, worldwide, making statement 2 correct. India actively participates in such international atmospheric monitoring efforts through IMD and other institutions, so statement 3 is incorrect."
+},
+{
+    q: "With reference to the factors that determine climate classification (such as in the Koppen scheme), consider the following statements: <br> 1. Temperature and precipitation are the two primary parameters used to define climate types.<br>2. Latitude alone is sufficient to determine the climate type of a region, irrespective of altitude or continentality.<br>3. A tropical monsoon climate is characterised by a short dry season unlike the tropical savanna climate, which has a longer dry season.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "Climate classification schemes such as Koppen's primarily use temperature and precipitation patterns to define climate types, making statement 1 correct. Latitude alone is insufficient, since factors like altitude, continentality, and ocean currents significantly modify climate, making statement 2 incorrect. The tropical monsoon climate has a short dry season and heavy seasonal rainfall, while the tropical savanna climate has a comparatively longer dry season, making statement 3 correct."
+},
+{
+    q: "With reference to recent policy reforms concerning wind energy in India, consider the following statements: <br> 1. The Repowering Policy for wind power projects aims to replace old, low-capacity turbines with modern high-capacity ones at the same site.<br>2. India's offshore wind energy policy permits development of wind farms in its Exclusive Economic Zone.<br>3. The National Wind-Solar Hybrid Policy seeks to optimise utilisation of transmission infrastructure by combining wind and solar power at a common site.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "The Repowering Policy encourages replacing ageing, low-capacity wind turbines with modern higher-capacity ones at existing sites to boost output, making statement 1 correct. India's offshore wind energy policy allows exploration and development of wind energy within its Exclusive Economic Zone, making statement 2 correct. The National Wind-Solar Hybrid Policy promotes co-located wind and solar projects to make better use of land and transmission infrastructure, making statement 3 correct. Hence all three statements are correct."
+},
+{
+    q: "With reference to recent developments concerning India's climate and its classification, consider the following statements: <br> 1. Early 2025 saw many parts of India recording temperatures well above normal, resulting in a shorter winter season.<br>2. The National Action Plan on Climate Change (NAPCC) continues to serve as the umbrella framework guiding India's climate response.<br>3. The PM Dhan-Dhaanya Krishi Yojana, announced in the Union Budget 2025-26, applies a uniform national approach without regard to agro-climatic variation.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "Early 2025 saw temperatures across India running noticeably above normal, leading to a shorter and milder winter with impacts on agriculture, making statement 1 correct. The NAPCC, launched in 2008, remains the overarching policy framework for India's climate action, making statement 2 correct. The PM Dhan-Dhaanya Krishi Yojana, in contrast, applies a geographically differentiated, zone-specific approach targeting agriculture-lagging districts, rather than a uniform national approach, making statement 3 incorrect."
+},
+{
+    q: "With reference to the features and characteristics of atmospheric temperature, consider the following statements: <br> 1. The annual range of temperature is generally greater in continental interiors than in coastal areas at similar latitudes.<br>2. The diurnal range of temperature tends to be higher in desert areas than in humid regions.<br>3. Normal lapse rate refers to the average rate of decrease of temperature with height in the troposphere, approximately 6.5°C per km.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "Land heats and cools faster than water, so continental interiors experience a greater annual temperature range than coastal areas at similar latitudes, making statement 1 correct. Deserts, lacking cloud cover and moisture to moderate temperature, show a higher diurnal range than humid regions, making statement 2 correct. The normal lapse rate is indeed the average decrease of temperature with altitude in the troposphere, approximately 6.5°C per kilometre, making statement 3 correct. Hence all three statements are correct."
+},
+{
+    q: "With reference to institutional and legal provisions governing the issuance of meteorological warnings related to pressure systems such as cyclones and depressions in India, consider the following statements: <br> 1. The India Meteorological Department has been designated as the nodal agency for cyclone warnings under the Disaster Management Act, 2005 framework.<br>2. The National Disaster Management Authority derives its statutory mandate from the Disaster Management Act, 2005.<br>3. State Disaster Response Funds can be utilised for relief measures following disasters linked to cyclonic pressure systems.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "The IMD functions as the nodal agency for issuing cyclone and severe weather warnings, operating within the institutional framework created under the Disaster Management Act, 2005, making statement 1 correct. The NDMA itself was constituted under this Act and derives its statutory powers from it, making statement 2 correct. The State Disaster Response Fund, also provided for under this framework, can be used for relief following cyclones and other pressure-system-linked disasters, making statement 3 correct. Hence all three statements are correct."
+},
+{
+    q: "With reference to the challenges associated with rising temperatures in India, consider the following statements: <br> 1. The Urban Heat Island effect causes city centres to record higher temperatures than their surrounding rural areas.<br>2. Increased use of air conditioning in cities helps reduce the intensity of the Urban Heat Island effect.<br>3. Heatwaves disproportionately affect outdoor and informal sector workers due to prolonged exposure.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "The Urban Heat Island effect results in cities being significantly warmer than surrounding rural areas due to concrete surfaces, reduced vegetation, and waste heat, making statement 1 correct. Widespread air conditioning use actually worsens the effect by releasing additional waste heat into the urban atmosphere, making statement 2 incorrect. Outdoor and informal sector workers face heightened health risks from heatwaves due to prolonged direct exposure and limited access to cooling, making statement 3 correct."
+},
+{
+    q: "With reference to important policies related to India's climate types and regional climate planning, consider the following statements: <br> 1. State Action Plans on Climate Change (SAPCCs) are prepared in alignment with the National Action Plan on Climate Change.<br>2. Agro-Climatic Regional Planning divides India into zones based on soil type, climate, and cropping pattern for planning purposes.<br>3. The Köppen climate classification scheme has been incorporated into Indian government legislation as a binding legal standard.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "SAPCCs are prepared by states in alignment with the missions and objectives of the NAPCC, making statement 1 correct. Agro-Climatic Regional Planning divides the country into zones based on soil, climate, and cropping patterns to guide agricultural and developmental planning, making statement 2 correct. The Köppen scheme is a scientific classification tool used for academic and planning reference, not a binding legal standard incorporated into legislation, making statement 3 incorrect."
+},
+{
+    q: "With reference to legal and constitutional dimensions associated with extreme temperature events in India, consider the following statements: <br> 1. The Supreme Court of India has recognised the right to be protected from the adverse effects of climate change as flowing from Articles 14 and 21 of the Constitution.<br>2. A heatwave can be notified as a disaster by a state government under the provisions of the Disaster Management Act, 2005.<br>3. The Constitution of India contains an explicit standalone fundamental right titled the 'Right against Extreme Heat'.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The Supreme Court has held that the right to be free from the adverse effects of climate change is implicit in the right to life and equality under Articles 21 and 14, making statement 1 correct. Under the Disaster Management Act, 2005, state governments have the discretion to notify a heatwave as a disaster to enable relief measures, making statement 2 correct. There is no explicit standalone fundamental right by that name in the Constitution, making statement 3 incorrect."
+},
+{
+    q: "With reference to important policies and guidelines addressing extreme temperature in India, consider the following statements: <br> 1. The National Disaster Management Authority has issued guidelines for the preparation and implementation of Heat Action Plans.<br>2. Heat Action Plans typically include early warning systems and inter-agency coordination for reducing heat-related mortality.<br>3. The Ministry of Health and Family Welfare has no role in the formulation of heat-related public health guidelines.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The NDMA has issued national guidelines for preparation of Heat Action Plans by states and cities to build resilience against heatwaves, making statement 1 correct. These plans typically involve early warning dissemination and coordination among health, disaster management, and municipal agencies to reduce mortality, making statement 2 correct. The Ministry of Health and Family Welfare actively contributes to public health guidelines on heat-related illness, so statement 3 is incorrect."
+},
+{
+    q: "With reference to the functional role of pressure belts in the global atmospheric circulation system, consider the following statements: <br> 1. The Equatorial Low-Pressure Belt drives convectional rainfall due to intense heating and rising air.<br>2. The Sub-Tropical High-Pressure Belts are associated with the sinking of air and the formation of major hot deserts.<br>3. The Sub-Polar Low-Pressure Belts are formed mainly due to intense surface heating similar to the equatorial belt.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The Equatorial Low-Pressure Belt is formed due to intense surface heating, causing air to rise and cool, resulting in convectional rainfall, making statement 1 correct. The Sub-Tropical High-Pressure Belts are zones of descending air, which is dry and warming, favouring desert formation, making statement 2 correct. The Sub-Polar Low-Pressure Belts, however, are dynamically induced by the convergence of warm sub-tropical and cold polar air masses rather than surface heating, making statement 3 incorrect."
+},
+{
+    q: "With reference to the functional role of temperature in influencing broader atmospheric processes, consider the following statements: <br> 1. Differential heating of land and water bodies is a key factor in the development of monsoon wind systems.<br>2. Horizontal differences in temperature give rise to differences in air pressure, which in turn drive wind circulation.<br>3. Temperature has no influence on the moisture-holding capacity of air.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "Differential heating of land and sea creates pressure differences that drive seasonal reversal of winds, forming the basis of monsoon systems, making statement 1 correct. Horizontal temperature gradients cause corresponding pressure gradients, which set air in motion as wind, making statement 2 correct. Temperature strongly influences the moisture-holding capacity of air, since warmer air can hold more water vapour than cooler air, making statement 3 incorrect."
+},
+{
+    q: "With reference to legal provisions governing the quality of India's atmosphere, consider the following statements: <br> 1. The Air (Prevention and Control of Pollution) Act, 1981 empowers State Pollution Control Boards to declare air pollution control areas.<br>2. The Environment (Protection) Act, 1986 was enacted prior to the Air Act and provided the original legal basis for air quality regulation in India.<br>3. Under the Air Act, 1981, industries are required to obtain consent from the State Pollution Control Board before operating in a declared air pollution control area.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "The Air Act, 1981 empowers State Pollution Control Boards to declare air pollution control areas and regulate emissions within them, making statement 1 correct. The Environment (Protection) Act was enacted in 1986, after the Air Act of 1981, as an umbrella legislation, so statement 2 is incorrect. The Air Act also mandates that industries obtain prior consent from the State Board before operating within such declared areas, making statement 3 correct."
+},
+{
+    q: "With reference to the functional role of insolation in driving atmospheric and oceanic processes, consider the following statements: <br> 1. Uneven distribution of insolation across latitudes is a primary driver of the global pressure belt system.<br>2. Insolation received at the Earth's surface powers the hydrological cycle by causing evaporation.<br>3. Insolation plays no role in determining ocean surface currents.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The unequal heating of the Earth's surface due to latitudinal variation in insolation creates pressure differences that give rise to the global pressure belt system, making statement 1 correct. Insolation drives evaporation from water bodies, powering the hydrological cycle, making statement 2 correct. Insolation-driven wind systems are a major factor in generating ocean surface currents, so statement 3 is incorrect."
+},
+{
+    q: "With reference to the functional role of tropical cyclones within the broader climate system, consider the following statements: <br> 1. Cyclones help redistribute excess heat from tropical oceans towards higher latitudes.<br>2. Cyclones can bring beneficial rainfall to drought-affected regions along their track.<br>3. Cyclones have no measurable effect on the mixing of ocean surface and deeper waters.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "Tropical cyclones act as a mechanism for redistributing excess heat energy from warm tropical oceans towards temperate latitudes, aiding global heat balance, making statement 1 correct. Despite their destructive potential, cyclones can bring significant and sometimes beneficial rainfall to otherwise dry regions along their path, making statement 2 correct. Cyclones actually cause considerable vertical mixing of ocean waters through strong wind-driven turbulence, so statement 3 is incorrect."
+},
+{
+    q: "With reference to the functional layers and processes of the Earth's atmosphere, consider the following statements: <br> 1. The stratosphere performs the function of absorbing harmful ultraviolet radiation through its ozone layer.<br>2. The ionosphere assists in long-distance radio communication by reflecting radio waves back to the Earth's surface.<br>3. The troposphere is the layer where nearly all weather phenomena, such as clouds and precipitation, occur.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1, 2 and 3",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only"
+    ],
+    ans: 0,
+    exp: "The stratosphere's ozone layer absorbs the bulk of incoming harmful ultraviolet radiation, protecting life on Earth, making statement 1 correct. The ionosphere, owing to its ionised particles, reflects radio waves and enables long-distance communication, making statement 2 correct. Nearly all weather phenomena, including cloud formation and precipitation, occur within the troposphere, the lowest atmospheric layer, making statement 3 correct. Hence all three statements are correct."
+},
+{
+    q: "With reference to international recommendations for improving the observation of global pressure systems, consider the following statements: <br> 1. The World Meteorological Organisation coordinates a global network of surface and upper-air observation stations to monitor pressure systems.<br>2. Ocean buoys and weather balloons are recommended tools for gathering upper-air and oceanic pressure data.<br>3. India does not participate in any WMO-coordinated global observation network.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 2 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "The WMO coordinates the Global Observing System, which includes surface stations and upper-air observation networks that help monitor pressure systems worldwide, making statement 1 correct. Weather balloons (radiosondes) and ocean buoys are recommended tools for collecting upper-air and oceanic data feeding into pressure system analysis, making statement 2 correct. India, through the IMD, actively participates in these WMO-coordinated global observation networks, so statement 3 is incorrect."
+},
+{
+    q: "With reference to the features and characteristics of the Earth's atmosphere, consider the following statements: <br> 1. Nitrogen is the most abundant gas in the atmosphere by volume, followed by oxygen.<br>2. Atmospheric pressure decreases continuously and uniformly with increasing altitude up to the outer limits of the atmosphere.<br>3. The mesosphere is the layer where meteors typically burn up upon entering the atmosphere.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "Nitrogen constitutes about 78% of the atmosphere by volume, followed by oxygen at about 21%, making statement 1 correct. Atmospheric pressure decreases with height, but not uniformly, as the rate of decrease varies across different layers, making statement 2 incorrect. The mesosphere is the layer in which most meteors burn up due to friction with atmospheric gases, making statement 3 correct."
+},
+{
+    q: "With reference to the evolution of scientific understanding of the Indian monsoon, consider the following statements: <br> 1. The classical theory attributed the monsoon primarily to the differential heating of land and sea.<br>2. The dynamic or air-mass theory explains the monsoon with reference to shifting of global wind belts and the Inter-Tropical Convergence Zone.<br>3. The role of the Tibetan Plateau as a high-altitude heat source influencing monsoon circulation is a later addition to monsoon theory.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "The classical thermal theory explained the monsoon as a large-scale land-sea breeze caused by differential heating, making statement 1 correct. The dynamic theory, developed later, explains the monsoon in terms of the seasonal shift of planetary wind belts and the Inter-Tropical Convergence Zone, making statement 2 correct. The recognition of the Tibetan Plateau as an elevated heat source intensifying monsoon circulation emerged as a more recent refinement to monsoon theory, making statement 3 correct."
+},
+{
+    q: "With reference to legal provisions relevant to wind-related environmental concerns in India, consider the following statements: <br> 1. Trans-boundary movement of air pollutants carried by wind can be addressed under the Air (Prevention and Control of Pollution) Act, 1981.<br>2. The Air Act, 1981 was enacted pursuant to the decisions of the United Nations Conference on the Human Environment held in Stockholm.<br>3. Wind energy projects in India are exempt from all forms of environmental clearance requirements.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The Air Act, 1981 provides the regulatory framework for controlling air pollution, which includes pollutants that may be transported over distances by wind, making statement 1 correct. The Act was enacted in pursuance of decisions taken at the 1972 Stockholm Conference on the Human Environment, making statement 2 correct. Wind energy projects are not entirely exempt from environmental scrutiny and may require clearances depending on location and scale, making statement 3 incorrect."
+},
+{
+    q: "With reference to Cyclone Shakti, which affected the Arabian Sea coast in 2025, consider the following statements: <br> 1. Cyclone Shakti was classified by the IMD as a Severe Cyclonic Storm.<br>2. The name 'Shakti' was proposed by Sri Lanka under the regional cyclone naming system.<br>3. Cyclone Shakti formed over the Bay of Bengal before moving into the Arabian Sea.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "Cyclone Shakti was classified as a Severe Cyclonic Storm by the IMD after forming over the east-central Arabian Sea in 2025, making statement 1 correct. The name 'Shakti' was proposed by Sri Lanka and approved under the WMO/ESCAP panel's regional naming convention, making statement 2 correct. Shakti formed directly over the Arabian Sea rather than originating in the Bay of Bengal, making statement 3 incorrect."
+},
+{
+    q: "With reference to the historical evolution of the scientific understanding of humidity and clouds, consider the following statements: <br> 1. Luke Howard's classification system, introduced in the early nineteenth century, remains the basis for modern cloud naming conventions.<br>2. The invention of the hygrometer enabled quantitative measurement of atmospheric humidity.<br>3. Ancient Indian texts contain no references to clouds or rain-bearing weather phenomena.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "Luke Howard's early nineteenth-century classification of clouds into types such as cirrus, cumulus, and stratus continues to underpin modern cloud nomenclature, making statement 1 correct. The hygrometer, developed to measure atmospheric moisture content, enabled quantitative study of humidity, making statement 2 correct. Ancient Indian texts, including sections of the Vedas and later works like the Brihat Samhita, do contain observations related to clouds and rainfall, making statement 3 incorrect."
+},
+{
+    q: "With reference to the historical evolution of scientific understanding of insolation, consider the following statements: <br> 1. The concept of the 'solar constant' refers to the average amount of solar radiation received per unit area at the outer edge of the Earth's atmosphere.<br>2. Early measurements of insolation were made possible through instruments such as the pyrheliometer.<br>3. Scientific consensus has always held that insolation received by the Earth remains absolutely constant with no variation over time.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The solar constant refers to the average solar radiation received per unit area at the top of the Earth's atmosphere, making statement 1 correct. The pyrheliometer was developed as an instrument to measure direct solar radiation, enabling early quantitative study of insolation, making statement 2 correct. Scientific understanding recognises that insolation varies due to factors such as solar cycles and the Earth's orbital changes, so the claim of absolute constancy in statement 3 is incorrect."
+},
+{
+    q: "With reference to the features and characteristics of winds, consider the following statements: <br> 1. Planetary winds, such as the trade winds and westerlies, blow throughout the year in a consistent direction.<br>2. Periodic winds, such as land and sea breezes, reverse their direction according to a daily or seasonal cycle.<br>3. Local winds develop due to broad-scale pressure differences operating over an entire hemisphere.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "Planetary winds, including trade winds and westerlies, blow consistently in a broadly fixed direction throughout the year due to permanent pressure belts, making statement 1 correct. Periodic winds, such as land and sea breezes or monsoon winds, reverse direction on a daily or seasonal basis, making statement 2 correct. Local winds, unlike planetary winds, arise from localized temperature and pressure differences over small areas rather than hemispheric-scale patterns, making statement 3 incorrect."
+},
+
+{
+    q: "With reference to the legal and regulatory framework linked to harnessing insolation for renewable energy in India, consider the following statements: <br> 1. Renewable Purchase Obligations (RPOs) under the Electricity Act, 2003 mandate power distribution companies to source a minimum share of electricity from renewable sources, including solar.<br>2. The Electricity Act, 2003 was the first legislation in independent India to introduce provisions for renewable energy.<br>3. State Electricity Regulatory Commissions are empowered to specify RPO trajectories for their respective states.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "The Electricity Act, 2003 empowers regulators to impose Renewable Purchase Obligations, requiring distribution licensees to procure a minimum proportion of power from renewable sources such as solar, making statement 1 correct. However, renewable energy provisions existed in Indian policy even earlier through bodies like the erstwhile Department of Non-Conventional Energy Sources, so calling the 2003 Act the first such legislation is incorrect. State Electricity Regulatory Commissions do have the power to specify state-specific RPO trajectories, making statement 3 correct."
+},
+{
+    q: "With reference to recent developments concerning India's atmosphere and greenhouse gas emissions, consider the following statements: <br> 1. India recorded the largest absolute increase in greenhouse gas emissions among all countries in 2024.<br>2. The 30th Conference of Parties (COP30) to the UNFCCC was held in Belem, Brazil.<br>3. India's per capita greenhouse gas emissions exceed the global average.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "India registered the largest absolute increase in greenhouse gas emissions among all nations in 2024, ahead of China, making statement 1 correct. COP30 was indeed held in Belem, Brazil in November 2025, making statement 2 correct. Despite the absolute increase, India's per capita emissions remain well below the global average, making statement 3 incorrect."
+},
+{
+    q: "With reference to the challenges associated with global climate type classification amid changing climatic conditions, consider the following statements: <br> 1. Studies indicate a poleward expansion of tropical and arid climate zones due to global warming.<br>2. Shifting climate boundaries pose challenges for agricultural planning based on traditional agro-climatic zoning.<br>3. The boundaries used in climate classification schemes like Koppen's are fixed permanently and do not require periodic revision.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "Several studies have documented a poleward shift and expansion of tropical and arid (desert-type) climate zones as global temperatures rise, making statement 1 correct. This shifting of climatic boundaries creates real challenges for agricultural planning that relies on historically defined agro-climatic zones, making statement 2 correct. In practice, climate classification boundaries are periodically reassessed using updated temperature and precipitation data as climate patterns change, so statement 3 is incorrect."
+},
+{
+    q: "With reference to constitutional provisions relevant to climate and environmental protection in India, consider the following statements: <br> 1. Article 48A directs the State to protect and improve the environment and to safeguard forests and wildlife.<br>2. Article 51A(g) imposes a fundamental duty on every citizen to protect and improve the natural environment.<br>3. Article 48A is enforceable directly in a court of law in the same manner as a Fundamental Right.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "Article 48A, a Directive Principle of State Policy, directs the State to protect and improve the environment and safeguard forests and wildlife, making statement 1 correct. Article 51A(g) imposes a corresponding Fundamental Duty on citizens to protect the natural environment, making statement 2 correct. Being a Directive Principle, Article 48A is not directly enforceable in courts in the same manner as Fundamental Rights, though courts have read environmental protection into Article 21, making statement 3 incorrect."
+},
+{
+    q: "With reference to the evolution of the Earth's atmosphere over geological time, consider the following statements: <br> 1. The earliest atmosphere of the Earth is believed to have been dominated by hydrogen and helium, later lost due to solar wind and low gravity.<br>2. The Great Oxidation Event, associated with photosynthetic cyanobacteria, marked a significant rise in atmospheric oxygen levels.<br>3. Volcanic degassing played no role in shaping the Earth's early secondary atmosphere.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The Earth's primordial atmosphere is thought to have consisted mainly of hydrogen and helium, which were subsequently lost to space due to the planet's relatively weak gravity and solar wind effects, making statement 1 correct. The Great Oxidation Event, roughly 2.4 billion years ago, saw atmospheric oxygen rise substantially due to cyanobacterial photosynthesis, making statement 2 correct. Volcanic degassing was, in fact, a major contributor to the Earth's secondary atmosphere, releasing gases such as water vapour, carbon dioxide, and nitrogen, making statement 3 incorrect."
+},
+{
+    q: "With reference to policies and regulatory frameworks relevant to the classification and reporting of air masses, consider the following statements: <br> 1. International Civil Aviation Organisation (ICAO) standards require meteorological services to provide air mass and weather information relevant to flight safety.<br>2. The India Meteorological Department follows World Meteorological Organisation protocols for classifying and reporting synoptic weather data, including air mass characteristics.<br>3. There exists a dedicated standalone Indian legislation exclusively governing the classification of air masses.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "ICAO's Annex 3 standards require meteorological authorities to provide aviation-relevant weather information, which includes data on air masses affecting flight routes, making statement 1 correct. The IMD, as India's meteorological authority, follows WMO protocols for synoptic observation and reporting, including parameters relevant to air mass identification, making statement 2 correct. There is no dedicated standalone Indian law specifically governing air mass classification; it is addressed through general meteorological and aviation regulatory frameworks, making statement 3 incorrect."
+},
+{
+    q: "With reference to the features and characteristics of major climate types, consider the following statements: <br> 1. The Mediterranean climate is characterised by dry summers and mild, wet winters.<br>2. The humid subtropical climate (Cwa/Cwg type in parts of India) typically experiences hot, wet summers and cool, dry winters.<br>3. Tundra climate supports the growth of tall coniferous forests due to short but intense summer warmth.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The Mediterranean climate is distinguished by dry, warm summers and mild, wet winters, influenced by the seasonal shift of sub-tropical high-pressure belts, making statement 1 correct. India's humid subtropical (Cwa/Cwg) regions experience hot, wet summers due to the monsoon and relatively cool, dry winters, making statement 2 correct. Tundra climate, marked by extremely short and cool summers, supports only low-growing vegetation like mosses and lichens, not tall coniferous forests, making statement 3 incorrect."
+},
+{
+    q: "With reference to institutional reforms and recommendations for cyclone disaster management in India following the 1999 Odisha super cyclone, consider the following statements: <br> 1. The National Cyclone Risk Mitigation Project was initiated to strengthen structural and non-structural mitigation measures in cyclone-prone states.<br>2. Recommendations include the construction of multi-purpose cyclone shelters in vulnerable coastal areas.<br>3. Restoration of mangrove cover has been recommended as a nature-based measure to reduce the impact of storm surges.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "The National Cyclone Risk Mitigation Project (NCRMP) was launched to enhance both structural and non-structural mitigation capacities in cyclone-prone coastal states, making statement 1 correct. A key recommendation and outcome of such reforms has been the construction of multi-purpose cyclone shelters, making statement 2 correct. Mangrove restoration has also been consistently recommended as an effective nature-based buffer against storm surges, making statement 3 correct. Hence, all three statements are correct."
+},
+{
+    q: "With reference to the historical evolution of India's approach to cyclone disaster management, consider the following statements: <br> 1. The devastating 1999 Odisha super cyclone was a major catalyst for reforms in India's disaster management framework.<br>2. India's disaster management approach shifted significantly from a relief-centric approach to a more proactive, mitigation-oriented approach after the early 2000s.<br>3. The Disaster Management Act, 2005 was enacted before the 1999 Odisha super cyclone.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The 1999 Odisha super cyclone, which caused massive loss of life, is widely regarded as a turning point that catalysed significant reform in India's disaster management framework, making statement 1 correct. Following this and subsequent disasters, India's approach evolved from a largely relief-centric model to a more proactive, mitigation and preparedness-oriented framework, making statement 2 correct. The Disaster Management Act was enacted in 2005, after the 1999 cyclone, not before it, making statement 3 incorrect."
+},
+{
+    q: "With reference to the historical evolution of scientific understanding of global wind systems, consider the following statements: <br> 1. Edmund Halley was among the earliest scientists to attempt a systematic explanation of trade winds based on differential heating.<br>2. George Hadley later refined the explanation of trade winds by incorporating the effect of the Earth's rotation.<br>3. The three-cell model of atmospheric circulation (Hadley, Ferrel, and Polar cells) was proposed prior to Halley's work on trade winds.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "Edmund Halley, in the early eighteenth century, provided one of the earliest systematic attempts to explain trade winds through solar heating differences, making statement 1 correct. George Hadley later refined this by incorporating the effect of the Earth's rotation on wind deflection, making statement 2 correct. The three-cell circulation model was developed much later, building upon and refining the earlier work of Halley and Hadley, not before it, making statement 3 incorrect."
+},
+{
+    q: "With reference to the challenges associated with the study and forecasting of air masses, consider the following statements: <br> 1. Air masses undergo gradual modification in temperature and humidity as they move away from their source region.<br>2. Rapid modification of an air mass over land can complicate short-term weather forecasting.<br>3. Climate change has had no observed effect on the characteristics of source regions from which air masses originate.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "As an air mass moves away from its source region, it gradually acquires new temperature and moisture characteristics from the surface it passes over, a process called modification, making statement 1 correct. When this modification occurs rapidly, especially over land with variable surface conditions, it introduces uncertainty into short-term forecasting, making statement 2 correct. Climate change has, in fact, been observed to alter conditions in source regions, such as warming polar areas, affecting the properties of air masses that originate there, making statement 3 incorrect."
+},
+{
+    q: "With reference to a typical UPSC Prelims-style question based on climatic data, consider a location with the following characteristics: mean monthly temperatures consistently above 18°C throughout the year, and a distinct rainfall pattern with a short but pronounced dry season, receiving over 200 cm of annual rainfall concentrated in a few months. This climatic pattern is most representative of which one of the following? <br>",
+    opts: [
+        "Tropical Savanna climate",
+        "Mediterranean climate",
+        "Tropical Monsoon climate",
+        "Humid Subtropical climate"
+    ],
+    ans: 2,
+    exp: "A tropical monsoon climate is characterised by uniformly high temperatures throughout the year, heavy seasonal rainfall exceeding 200 cm annually, and only a short dry season, distinguishing it from the Savanna climate, which has a longer dry season and lower total rainfall. The Mediterranean and humid subtropical climates have markedly different seasonal temperature and rainfall patterns, ruling them out. This type of graph-based, data-interpretation question reflects a recurring UPSC Prelims trend of testing climatic type identification from temperature-rainfall data, as seen in past papers."
+},
+{
+    q: "With reference to Western Disturbances and their behaviour in 2025, consider the following statements: <br> 1. An analysis by climate researchers noted an increased frequency of Western Disturbances affecting India from early 2025 onward.<br>2. Western Disturbances were observed to extend beyond their typical December-to-March period into months such as May and June in recent years.<br>3. Increased Western Disturbance activity in 2025 was associated with reduced instances of prolonged heat waves in northwestern India.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 3,
+    exp: "Climate research organisations reported an increase in the frequency of Western Disturbances affecting India starting from early 2025, particularly from late January onward, making statement 1 correct. Studies have also noted that Western Disturbances, traditionally confined to December-March, have increasingly been observed extending into months like May and June in recent years, making statement 2 correct. This increased winter and spring activity was linked to a reduction in prolonged heat waves in northwestern India during the corresponding period, making statement 3 correct. Hence all three statements are correct."
+},
+{
+    q: "With reference to the functional role of the monsoon within India's economic and ecological systems, consider the following statements: <br> 1. The southwest monsoon contributes the majority share of India's total annual rainfall.<br>2. Monsoon rainfall plays a critical role in replenishing groundwater reserves and reservoir storage across the country.<br>3. Variability in monsoon rainfall has no discernible relationship with India's agricultural output or food inflation.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The southwest monsoon accounts for the bulk of India's total annual rainfall, making it central to the country's water balance, making statement 1 correct. Monsoon rains are crucial for recharging groundwater aquifers and filling reservoirs used for irrigation, drinking water, and power generation, making statement 2 correct. Monsoon variability has a well-documented relationship with agricultural output, since a deficient or erratic monsoon can depress crop yields and drive up food prices, making statement 3 incorrect."
+}
+];
+
+
+
+
+
+
+
+
+
+const CORRECT_MARKS = 2;
+const NEGATIVE_MARKS = 2 / 3;
+
+let current = 0;
+const responses = new Array(QUESTIONS.length).fill(null);
+let submitted = false;
+
+const qNumEl = document.getElementById('qNum');
+const qTotalEl = document.getElementById('qTotal');
+const qTotalNoteEl = document.getElementById('qTotalNote');
+const qTextEl = document.getElementById('qText');
+const optionsListEl = document.getElementById('optionsList');
+const qStatusTag = document.getElementById('qStatusTag');
+const explainBox = document.getElementById('explainBox');
+const explainText = document.getElementById('explainText');
+const paletteGrid = document.getElementById('paletteGrid');
+const answeredCountEl = document.getElementById('answeredCount');
+const skippedCountEl = document.getElementById('skippedCount');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const clearBtn = document.getElementById('clearBtn');
+const submitBtn = document.getElementById('submitBtn');
+const paperView = document.getElementById('paperView');
+const resultView = document.getElementById('resultView');
+const reviewBtn = document.getElementById('reviewBtn');
+const scoreText = document.getElementById('scoreText');
+const scorePercent = document.getElementById('scorePercent');
+
+const confirmModal = document.getElementById('confirmModal');
+const modalMessage = document.getElementById('modalMessage');
+const modalIcon = document.getElementById('modalIcon');
+const modalGoBack = document.getElementById('modalGoBack');
+const modalConfirm = document.getElementById('modalConfirm');
+
+qTotalEl.textContent = QUESTIONS.length;
+qTotalNoteEl.textContent = QUESTIONS.length;
+skippedCountEl.textContent = QUESTIONS.length;
+
+function buildPalette(){
+  paletteGrid.innerHTML = '';
+  QUESTIONS.forEach((_, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.textContent = i + 1;
+    cell.addEventListener('click', () => { current = i; render(); });
+    paletteGrid.appendChild(cell);
+  });
+}
+
+function render(){
+  const item = QUESTIONS[current];
+  qNumEl.textContent = current + 1;
+  qTextEl.innerHTML = item.q;
+
+  optionsListEl.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  const userChoice = responses[current];
+  item.opts.forEach((opt, idx) => {
+    const div = document.createElement('div');
+    let cls = 'option';
+    if (submitted){
+      cls += ' locked';
+      if (idx === item.ans) cls += ' correct';
+      else if (idx === userChoice) cls += ' incorrect';
+    } else if (userChoice === idx){
+      cls += ' selected';
+    }
+    div.className = cls;
+    div.innerHTML = `<span class="tag">${letters[idx]}</span><span class="opt-text"></span>`;
+    div.querySelector('.opt-text').textContent = opt;
+    div.addEventListener('click', () => {
+      if (submitted) return;
+      responses[current] = idx;
+      render();
+    });
+    optionsListEl.appendChild(div);
+  });
+
+  if (submitted){
+    if (userChoice === null){
+      qStatusTag.textContent = '⚠ Not Answered · Correct answer shown';
+      qStatusTag.className = 'q-status-tag review-unanswered';
+    } else if (userChoice === item.ans){
+      qStatusTag.textContent = '✓ Correct';
+      qStatusTag.className = 'q-status-tag correct';
+    } else {
+      qStatusTag.textContent = '✗ Incorrect';
+      qStatusTag.className = 'q-status-tag incorrect';
+    }
+    explainBox.classList.remove('hidden');
+    explainText.innerHTML = '<b>Correct Answer:</b> ' + letters[item.ans] + '. ' + item.opts[item.ans] + '<br><br>' + item.exp;
+  } else {
+    const answered = userChoice !== null;
+    qStatusTag.textContent = answered ? 'Answered' : 'Not Answered';
+    qStatusTag.className = 'q-status-tag ' + (answered ? 'answered' : 'unanswered');
+    explainBox.classList.add('hidden');
+  }
+
+  prevBtn.disabled = current === 0;
+  if (submitted){
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Back to Result' : 'Next →';
+    clearBtn.style.visibility = 'hidden';
+  } else {
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Finish' : 'Next →';
+    clearBtn.style.visibility = 'visible';
+  }
+
+  // palette
+  const cells = paletteGrid.children;
+  for (let i = 0; i < cells.length; i++){
+    cells[i].classList.toggle('current', i === current);
+    if (submitted){
+      const isIncorrect = responses[i] !== null && responses[i] !== QUESTIONS[i].ans;
+      const isCorrect = responses[i] === QUESTIONS[i].ans;
+      cells[i].classList.toggle('incorrect', isIncorrect);
+      cells[i].classList.toggle('answered', isCorrect);
+    } else {
+      cells[i].classList.toggle('answered', responses[i] !== null);
+      cells[i].classList.remove('incorrect');
+    }
+  }
+
+  const answeredTotal = responses.filter(r => r !== null).length;
+  if (submitted){
+    let correct = 0, incorrect = 0;
+    QUESTIONS.forEach((q, i) => {
+      if (responses[i] === null) return;
+      if (responses[i] === q.ans) correct++; else incorrect++;
+    });
+    const unattempted = QUESTIONS.length - answeredTotal;
+    const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+    document.getElementById('tallyRow').innerHTML = `
+      <div class="marks-line"><b>${marks.toFixed(2)}</b><span>Marks Scored</span></div>
+      <div class="tally-grid">
+        <div><b class="stat-correct">${correct}</b>Correct</div>
+        <div><b class="stat-incorrect">${incorrect}</b>Incorrect</div>
+        <div><b class="stat-unattempted">${unattempted}</b>Unattempted</div>
+      </div>
+    `;
+  } else {
+    answeredCountEl.textContent = answeredTotal;
+    skippedCountEl.textContent = QUESTIONS.length - answeredTotal;
+  }
+}
+
+prevBtn.addEventListener('click', () => { if (current > 0){ current--; render(); }});
+nextBtn.addEventListener('click', () => {
+  if (current < QUESTIONS.length - 1){ current++; render(); }
+  else if (submitted){
+    paperView.classList.add('hidden');
+    resultView.classList.remove('hidden');
+  } else {
+    openConfirmModal();
+  }
+});
+clearBtn.addEventListener('click', () => { responses[current] = null; render(); });
+
+submitBtn.addEventListener('click', openConfirmModal);
+
+/* ---------- Confirmation modal logic ---------- */
+function openConfirmModal(){
+  const nameVal = document.getElementById('userName').value.trim();
+  document.getElementById('modalUserName').value = nameVal;
+  refreshConfirmModalText();
+  confirmModal.classList.remove('hidden');
+}
+
+function refreshConfirmModalText(){
+  const nameVal = document.getElementById('modalUserName').value.trim();
+  if (nameVal){
+    modalIcon.textContent = '📝';
+    modalMessage.innerHTML = `Submit test : <b>${escapeHtml(nameVal)}</b> ?`;
+  } else {
+    modalIcon.textContent = '⚠️';
+    modalMessage.innerHTML = `You have not set your name, your rank will be set as: <b>Anonymous</b>`;
+  }
+}
+
+document.getElementById('modalUserName').addEventListener('input', refreshConfirmModalText);
+
+function closeConfirmModal(){
+  confirmModal.classList.add('hidden');
+}
+
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+modalGoBack.addEventListener('click', closeConfirmModal);
+modalConfirm.addEventListener('click', () => {
+  closeConfirmModal();
+  doSubmit();
+});
+confirmModal.addEventListener('click', (e) => {
+  if (e.target === confirmModal) closeConfirmModal();
+});
+
+function doSubmit(){
+  submitted = true;
+  clearInterval(countdown);
+  let correct = 0, incorrect = 0;
+  QUESTIONS.forEach((q, i) => {
+    if (responses[i] === null) return;
+    if (responses[i] === q.ans) correct++; else incorrect++;
+  });
+  const unattempted = QUESTIONS.length - (correct + incorrect);
+  const maxMarks = QUESTIONS.length * CORRECT_MARKS;
+  const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+  const percentage = (marks / maxMarks) * 100;
+
+  scoreText.textContent = marks.toFixed(2) + ' / ' + maxMarks.toFixed(2);
+  scorePercent.textContent = percentage.toFixed(2) + '%';
+  document.getElementById('scoreBreakdown').innerHTML = `
+    <div class="stat correct"><b>${correct}</b><span>Correct</span></div>
+    <div class="stat incorrect"><b>${incorrect}</b><span>Incorrect</span></div>
+    <div class="stat unattempted"><b>${unattempted}</b><span>Unattempted</span></div>
+  `;
+  const userName = document.getElementById('modalUserName').value.trim() || "Anonymous"; 
+  fetch(SHEET_ENDPOINT, {
+    method: "POST",
+    mode: "no-cors",
+    body: JSON.stringify({
+      name: userName,
+      marks: marks.toFixed(2),
+      correct: correct,
+      incorrect: incorrect,
+      unattempted: unattempted,
+      testCode: "PreLoG-2027-10-FREE TIER"
+    })
+  }); 
+  submitBtn.style.display = 'none';
+  paperView.classList.add('hidden');
+  resultView.classList.remove('hidden');
+  render();
+}
+
+reviewBtn.addEventListener('click', () => {
+  resultView.classList.add('hidden');
+  paperView.classList.remove('hidden');
+  current = 0;
+  render();
+});
+
+// theme toggle
+const themeSwitch = document.getElementById('themeSwitch');
+themeSwitch.addEventListener('click', () => {
+  const body = document.body;
+  const isDark = body.getAttribute('data-theme') === 'dark';
+  body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+});
+
+// countdown timer — only ticks once the test has been started
+let seconds = 60 * 60;
+let testStarted = false;
+const timerEl = document.getElementById('timer');
+const countdown = setInterval(() => {
+  if (!testStarted || seconds <= 0 || submitted) return;
+  seconds--;
+  const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+  const s = String(seconds % 60).padStart(2, '0');
+  timerEl.textContent = `${m}:${s}`;
+  timerEl.classList.toggle('urgent', seconds <= 60);
+  if (seconds === 0){
+    timerEl.textContent = 'Time Up!';
+    doSubmit();
+  }
+}, 1000);
+
+/* ---------- Start-test modal logic ---------- */
+const startModal = document.getElementById('startModal');
+const startTestBtn = document.getElementById('startTestBtn');
+const startNameInput = document.getElementById('userName');
+
+// populate the start screen dynamically so this same code works
+// no matter how many questions / what marking scheme this file has
+document.getElementById('startTitle').textContent =
+  document.querySelector('.title-block h1').textContent;
+document.getElementById('startQCount').textContent = QUESTIONS.length;
+document.getElementById('startMaxMarks').textContent = (QUESTIONS.length * CORRECT_MARKS).toFixed(0);
+document.getElementById('startCorrectMarks').textContent = '+' + CORRECT_MARKS.toFixed(2);
+document.getElementById('startIncorrectMarks').textContent = '−' + NEGATIVE_MARKS.toFixed(2);
+document.getElementById('startDuration').textContent = Math.round(seconds / 60);
+
+startTestBtn.addEventListener('click', () => {
+  testStarted = true;
+  startModal.classList.add('hidden');
+});
+
+// pressing Enter in the name field on the start screen also starts the test
+startNameInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') startTestBtn.click();
+});
+
+buildPalette();
+render();
+
+window.addEventListener('beforeunload', function(e){
+  const hasProgress = !submitted && responses.some(r => r !== null);
+  if (hasProgress){
+    e.preventDefault();
+    e.returnValue = 'Your answers have not been submitted. If you leave or refresh this page, all marked answers will be lost.';
+    return e.returnValue;
+  }
+});
+
+</script>
+
+</body>
+</html>
