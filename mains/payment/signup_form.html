@@ -66,6 +66,22 @@
   .hint { font-size: 12px; color: #8B7F68; margin-top: 6px; }
   .err { font-size: 12.5px; color: #B4432A; margin-top: 6px; display: none; }
 
+  .qr-block { margin-top: 16px; margin-bottom: 18px; text-align: center; }
+  .qr-frame {
+    position: relative; display: inline-block; border-radius: 10px;
+    overflow: hidden; border: 1px solid #E4DCC8; background: #FFFDF8;
+    line-height: 0;
+  }
+  .qr-frame img { display: block; width: 220px; height: auto; max-width: 100%; }
+  .qr-download {
+    position: absolute; bottom: 8px; right: 8px; width: 34px; height: 34px;
+    border-radius: 50%; background: #1F2A44; color: #FAF6EF; border: none;
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    box-shadow: 0 2px 6px rgba(31,42,68,0.35); text-decoration: none;
+  }
+  .qr-download:hover { background: #B4432A; }
+  .qr-caption { font-size: 12.5px; color: #8B7F68; margin: 8px 0 0; }
+
   .upload-box {
     border: 2px dashed #C9BFA6; border-radius: 10px; padding: 22px 16px;
     text-align: center; cursor: pointer; background: #FFFDF8; transition: border-color 0.15s;
@@ -129,7 +145,7 @@
   <div class="card">
     <div class="header">
       <p class="brand-eyebrow">Verification required</p>
-      <h1 class="brand-title">UPSC LoG<br />Mains Monk Batch<br>@99/month</h1>
+      <h1 class="brand-title">UPSC LoG<br />Mains Monk Batch<br>₹99/month</h1>
       <p class="brand-sub">Submit your details</p>
     </div>
 
@@ -139,7 +155,7 @@
 
         <div class="field">
           <label for="s-name">Full name</label>
-          <input id="s-name" type="text" placeholder="Tina Dabi" autocomplete="name" required />
+          <input id="s-name" type="text" placeholder="e.g. Tina Dabi" autocomplete="name" required />
           <div class="err" id="err-name">Name is required.</div>
         </div>
 
@@ -168,7 +184,7 @@
               <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
             </div>
             <p class="upload-text">Tap to upload screenshot</p>
-            <p class="upload-subtext">PNG or JPG, payment confirmation</p>
+            <p class="upload-subtext">SCROLL DOWN FOR QR-CODE</p>
             <input id="s-file" type="file" accept="image/*" required />
           </label>
           <div class="preview-wrap" id="preview-wrap">
@@ -182,6 +198,17 @@
         </div>
 
         <button type="submit" class="btn-primary" id="submit-btn">Submit</button>
+
+        <div class="qr-block">
+          <label>Scan to pay</label>
+          <div class="qr-frame">
+            <img id="qr-img" src="my_qr.jpg" alt="Payment QR code" />
+            <a class="qr-download" id="qr-download" href="my_qr.jpg" download="my_qr.jpg" aria-label="Download QR code">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            </a>
+          </div>
+          <p class="qr-caption">Tap the download icon to save the QR code, then pay via your UPI app.</p>
+        </div>
       </form>
 
       <div class="state-panel" id="state-success">
@@ -189,7 +216,7 @@
           <svg width="56" height="56" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#EAF3DE"/><path d="M8 12.5l2.5 2.5L16 9" stroke="#3B6D11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <h2 class="state-title">Submission received</h2>
-        <p class="state-body">You will be verified shortly. If you don't hear back soon, or have any questions, reach out to admin directly.</p>
+        <p class="state-body">You will be verified within <b>24 HOURS</b>. If you don't hear back soon, or have any questions, reach out to admin directly.</p>
         <div class="btn-row">
           <a class="admin-btn" href="https://t.me/upsclogger" target="_blank" rel="noopener">Contact @upsclogger</a>
         </div>
