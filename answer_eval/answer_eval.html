@@ -67,13 +67,30 @@
 
   header{ padding-bottom: 10px; }
 
-  .eyebrow{
+  .back-link{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.14em;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--maroon-deep);
-    margin: 0 0 10px;
+    text-decoration: none;
+    margin: 0 0 14px;
+    padding: 6px 0;
+    transition: color .12s ease, gap .12s ease;
+  }
+
+  .back-link:hover{
+    color: var(--maroon);
+    gap: 12px;
+  }
+
+  .back-link .arrow{
+    font-size: 18px;
+    line-height: 1;
   }
 
   h1{
@@ -259,14 +276,17 @@
   @media (max-width: 360px){
     .wrap{ padding: 28px 14px 50px 30px; }
     h1{ font-size: 26px; }
-    .eyebrow{ font-size: 11px; }
+    .back-link{ font-size: 14px; }
   }
 </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <p class="eyebrow">UPSC LoG</p>
+      <a class="back-link" href="../index.html">
+        <span class="arrow">&larr;</span>
+        <span>UPSC LoG</span>
+      </a>
       <h1>Daily DPQ Register</h1>
     </header>
 
