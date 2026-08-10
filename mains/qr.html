@@ -61,9 +61,9 @@
 
   /* ---------- Page wrapper ---------- */
   .wrap{
-    max-width:900px;
+    max-width:1200px;
     margin:0 auto;
-    padding:44px 6vw 90px 6vw;
+    padding:44px 4vw 90px 4vw;
     text-align:center;
   }
   .eyebrow{
@@ -95,7 +95,7 @@
     border-radius:4px;
     padding:20px;
     position:relative;
-    max-width:560px;
+    max-width:900px;
   }
   .image-panel::before{
     content:"";
@@ -104,18 +104,24 @@
     border:1px solid rgba(198,161,91,0.10);
     pointer-events:none;
   }
-  .image-box{
+
+  /* Two-image row: side by side on desktop, stacked on mobile */
+  .image-row{
     position:relative;
     z-index:1;
+    display:flex;
+    flex-direction:row;
     width:100%;
+  }
+  .image-box{
+    flex:1 1 0;
     aspect-ratio:1/1;
     background:var(--paper);
-    border-radius:4px;
     display:flex;
     align-items:center;
     justify-content:center;
     overflow:hidden;
-    box-shadow:0 12px 30px rgba(0,0,0,0.35);
+    min-width:0; /* prevents flex overflow from squishing images unevenly */
   }
   .image-box img{
     width:100%;
@@ -124,17 +130,32 @@
     display:block;
   }
 
+  /* thin demarcation line between the two images */
+  .image-row .image-box:first-child{
+    border-radius:4px 0 0 4px;
+    border-right:1px solid var(--navy-deep);
+  }
+  .image-row .image-box:last-child{
+    border-radius:0 4px 4px 0;
+  }
+
+  /* Rounded outer corners on the whole row, matching original panel radius */
+  .image-row{
+    border-radius:4px;
+    box-shadow:0 12px 30px rgba(0,0,0,0.35);
+  }
+
   /* ---------- Done button ---------- */
   .done-btn{
     display:block;
     width:100%;
     margin-top:34px;
-    padding:18px 28px;
+    padding:24px 28px;
     background:var(--gold);
     color:var(--navy-deep);
     border:none;
     border-radius:999px;
-    font-size:14px;
+    font-size:clamp(16px, 2.4vw, 20px);
     letter-spacing:2px;
     text-transform:uppercase;
     font-weight:600;
@@ -151,6 +172,23 @@
     .topbar{padding:26px 6vw 0 6vw;}
     .wrap{padding:36px 6vw 70px 6vw;}
     .image-panel{padding:12px;}
+
+    /* stack images vertically on mobile with a thin horizontal divider */
+    .image-row{
+      flex-direction:column;
+    }
+    .image-box{
+      flex:none;
+      width:100%;
+    }
+    .image-row .image-box:first-child{
+      border-radius:4px 4px 0 0;
+      border-right:none;
+      border-bottom:1px solid var(--navy-deep);
+    }
+    .image-row .image-box:last-child{
+      border-radius:0 0 4px 4px;
+    }
   }
 </style>
 </head>
@@ -165,10 +203,16 @@
  -->
 <div class="wrap">
   <h1>UPSC LoG MAINS MONK</h1>
+  <p class="sub">UPSC LoG Mains Monk batch is live. Be mains ready before Prelims 2027.</p>
 
   <div class="image-panel">
-    <div class="image-box">
-      <img src="mains_monk_subscription_image.png" alt="Mains Monk Subscription Details">
+    <div class="image-row">
+      <div class="image-box">
+        <img src="mains_monk_subscription_image.png" alt="Mains Monk Subscription Details">
+      </div>
+      <div class="image-box">
+        <img src="mains_monk_subscription_image_2.png" alt="Mains Monk Subscription Details 2">
+      </div>
     </div>
   </div>
 
