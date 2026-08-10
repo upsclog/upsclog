@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>UPSC LoG — Daily DPQ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink: #1E2A44;
+    --ink-soft: #3A4666;
+    --paper: #EEE8D8;
+    --paper-line: #D9D0B8;
+    --maroon: #8C2A1E;
+    --maroon-deep: #6E2016;
+    --brass: #A9812E;
+    --green-ok: #2F5D3A;
+    --grey-closed: #8A8264;
+    --white: #FBF9F3;
+  }
+
+  *{ box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html{ -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+  html, body{
+    margin: 0;
+    padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    width: 100%;
+  }
+
+  body{
+    min-height: 100vh;
+    min-height: 100dvh;
+    background-image: linear-gradient(var(--paper-line) 1px, transparent 1px);
+    background-size: 100% 34px;
+    background-position: 0 130px;
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  body::before{
+    content: "";
+    position: fixed;
+    top: 0; bottom: 0;
+    left: clamp(24px, 8vw, 120px);
+    width: 2px;
+    background: var(--maroon);
+    opacity: 0.55;
+    z-index: 0;
+  }
+
+  .wrap{
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 56px clamp(24px, 9vw, 130px) 90px;
+  }
+
+  header{ padding-bottom: 10px; }
+
+  .back-link{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--maroon-deep);
+    text-decoration: none;
+    margin: 0 0 14px;
+    padding: 6px 0;
+    transition: color .12s ease, gap .12s ease;
+  }
+
+  .back-link:hover{
+    color: var(--maroon);
+    gap: 12px;
+  }
+
+  .back-link .arrow{
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  h1{
+    font-family: 'Source Serif 4', serif;
+    font-weight: 700;
+    font-size: clamp(34px, 5vw, 48px);
+    margin: 0 0 6px;
+    letter-spacing: -0.01em;
+  }
+
+  .sub{
+    font-size: 15px;
+    color: var(--ink-soft);
+    max-width: 50ch;
+    line-height: 1.55;
+    margin: 10px 0 0;
+  }
+
+  .index-label{
+    margin-top: 40px;
+    margin-bottom: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .index-label::after{
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--paper-line);
+  }
+
+  .cards{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 16px;
+  }
+
+  .card{
+    display: block;
+    background: var(--white);
+    border: 1px solid var(--paper-line);
+    border-left: 3px solid var(--brass);
+    padding: 20px 20px 18px;
+    min-height: 44px;
+    text-decoration: none;
+    color: var(--ink);
+    position: relative;
+    transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease;
+    touch-action: manipulation;
+  }
+
+  .card:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(30,42,68,0.08);
+  }
+
+  .card:active{
+    transform: translateY(0);
+    box-shadow: none;
+  }
+
+  @media (hover: none) and (pointer: coarse){
+    .card:hover{ transform: none; box-shadow: none; }
+  }
+
+  .card.status-open{ border-left-color: var(--green-ok); }
+  .card.status-today{ border-left-color: var(--maroon); }
+  .card.status-closed,
+  .card.status-locked,
+  .card.status-upcoming{
+    border-left-color: var(--grey-closed);
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .card-title{
+    font-family: 'Source Serif 4', serif;
+    font-size: 21px;
+    font-weight: 600;
+    margin: 0 0 10px;
+  }
+
+  .card-tag{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+
+  .card-tag.open{ color: var(--green-ok); background: rgba(47,93,58,0.08); }
+  .card-tag.today{ color: var(--maroon-deep); background: rgba(140,42,30,0.08); }
+  .card-tag.upcoming{ color: var(--brass); background: rgba(169,129,46,0.08); }
+  .card-tag.closed,
+  .card-tag.locked{ color: var(--grey-closed); background: rgba(138,130,100,0.1); }
+
+  /* Schedule card — always first, visually distinct from day cards */
+  .card.schedule-card{
+    background: var(--ink);
+    border: 1px solid var(--ink);
+    border-left: 3px solid var(--brass);
+    color: var(--white);
+  }
+
+  .card.schedule-card:hover{
+    box-shadow: 0 6px 18px rgba(30,42,68,0.25);
+  }
+
+  .card.schedule-card .card-title{
+    color: var(--white);
+    font-size: 19px;
+    letter-spacing: 0.02em;
+  }
+
+  .card.schedule-card .card-tag{
+    color: var(--brass);
+    background: rgba(169,129,46,0.18);
+  }
+
+  .card.schedule-card .card-note{
+    color: rgba(251,249,243,0.7);
+  }
+
+  .card.schedule-card .card-arrow{
+    color: var(--brass);
+  }
+
+  .card-note{
+    margin: 10px 0 0;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  .card-arrow{
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    color: var(--brass);
+  }
+
+  .empty{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--ink-soft);
+    padding: 30px 0;
+  }
+
+  footer{
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid var(--paper-line);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--grey-closed);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 520px){
+    body::before{ left: 16px; }
+    .wrap{ padding: 32px 18px 60px 36px; }
+    h1{ font-size: 30px; }
+    .sub{ font-size: 14px; }
+    .cards{ grid-template-columns: 1fr; gap: 12px; }
+    .card{ padding: 18px 18px 16px; }
+    .card-title{ font-size: 19px; }
+  }
+
+  @media (max-width: 360px){
+    .wrap{ padding: 28px 14px 50px 30px; }
+    h1{ font-size: 26px; }
+    .back-link{ font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a class="back-link" href="../index.html">
+        <span class="arrow">&larr;</span>
+        <span>UPSC LoG</span>
+      </a>
+      <h1>Daily DPQ Register</h1>
+    </header>
+
+    <div class="index-label">Days</div>
+    <div class="cards" id="cardGrid"></div>
+
+    <footer>
+      UPSC LoG — Daily Practice Question programme.
+    </footer>
+  </div>
+
+<script>
+  // ─────────────────────────────────────────────────────────────
+  // ADD / EDIT CARDS HERE. Each one becomes a card below.
+  //
+  //   id      → sent to the sheet as the Day value (keep it unique).
+  //             Also used in the URL.
+  //   title   → what's shown on the card itself.
+  //   date    → "YYYY-MM-DD", the day this card is meant for.
+  //             Status is worked out automatically from this:
+  //               - that date is today      → open, "Submission Today"
+  //               - that date is tomorrow   → locked, "Submission Tomorrow"
+  //               - date already passed     → locked, "Closed"
+  //               - date further in future  → locked, "Opens later"
+  //             Only today's card is clickable — everything else is
+  //             locked until its date arrives, and closes itself off
+  //             automatically once it's past. No manual editing needed
+  //             day to day.
+  //   status  → optional. Set to "open" to force a card clickable
+  //             regardless of date (e.g. a one-off makeup window),
+  //             or "closed" to force it locked. Leave unset to let
+  //             the date decide.
+  //   note    → optional short line shown under the tag.
+  //
+  // Cards display in the order listed here — put newest/most
+  // relevant first.
+  // ─────────────────────────────────────────────────────────────
+  const CARDS = [
+/*  { id: "Mains-Monk-60", title: "Mains-Monk-60", date: "2026-09-09", note: "" },
+  { id: "Mains-Monk-59", title: "Mains-Monk-59", date: "2026-09-08", note: "" },
+  { id: "Mains-Monk-58", title: "Mains-Monk-58", date: "2026-09-07", note: "" },
+  { id: "Mains-Monk-57", title: "Mains-Monk-57", date: "2026-09-06", note: "" },
+  { id: "Mains-Monk-56", title: "Mains-Monk-56", date: "2026-09-05", note: "" },
+  { id: "Mains-Monk-55", title: "Mains-Monk-55", date: "2026-09-04", note: "" },
+  { id: "Mains-Monk-54", title: "Mains-Monk-54", date: "2026-09-03", note: "" },
+  { id: "Mains-Monk-53", title: "Mains-Monk-53", date: "2026-09-02", note: "" },
+  { id: "Mains-Monk-52", title: "Mains-Monk-52", date: "2026-09-01", note: "" },
+  { id: "Mains-Monk-51", title: "Mains-Monk-51", date: "2026-08-31", note: "" },
+  { id: "Mains-Monk-50", title: "Mains-Monk-50", date: "2026-08-30", note: "" },
+  { id: "Mains-Monk-49", title: "Mains-Monk-49", date: "2026-08-29", note: "" },
+  { id: "Mains-Monk-48", title: "Mains-Monk-48", date: "2026-08-28", note: "" },
+  { id: "Mains-Monk-47", title: "Mains-Monk-47", date: "2026-08-27", note: "" },
+  { id: "Mains-Monk-46", title: "Mains-Monk-46", date: "2026-08-26", note: "" },
+  { id: "Mains-Monk-45", title: "Mains-Monk-45", date: "2026-08-25", note: "" },
+  { id: "Mains-Monk-44", title: "Mains-Monk-44", date: "2026-08-24", note: "" },
+  { id: "Mains-Monk-43", title: "Mains-Monk-43", date: "2026-08-23", note: "" },
+  { id: "Mains-Monk-42", title: "Mains-Monk-42", date: "2026-08-22", note: "" },
+  { id: "Mains-Monk-41", title: "Mains-Monk-41", date: "2026-08-21", note: "" },
+  { id: "Mains-Monk-40", title: "Mains-Monk-40", date: "2026-08-20", note: "" },
+  { id: "Mains-Monk-39", title: "Mains-Monk-39", date: "2026-08-19", note: "" },
+  { id: "Mains-Monk-38", title: "Mains-Monk-38", date: "2026-08-18", note: "" },
+  { id: "Mains-Monk-37", title: "Mains-Monk-37", date: "2026-08-17", note: "" },
+  { id: "Mains-Monk-36", title: "Mains-Monk-36", date: "2026-08-16", note: "" },
+  { id: "Mains-Monk-35", title: "Mains-Monk-35", date: "2026-08-15", note: "" },
+  { id: "Mains-Monk-34", title: "Mains-Monk-34", date: "2026-08-14", note: "" },
+  { id: "Mains-Monk-33", title: "Mains-Monk-33", date: "2026-08-13", note: "" },
+  { id: "Mains-Monk-32", title: "Mains-Monk-32", date: "2026-08-12", note: "" },
+  { id: "Mains-Monk-31", title: "Mains-Monk-31", date: "2026-08-11", note: "" },*/
+  // { id: "Mains-Monk-10", title: "Mains-Monk-10", date: "2026-08-10", note: "" },
+  // { id: "Mains-Monk-9", title: "Mains-Monk-9", date: "2026-08-19", note: "" },
+  // { id: "Mains-Monk-8", title: "Mains-Monk-8", date: "2026-08-18", note: "" },
+  // { id: "Mains-Monk-7", title: "Mains-Monk-7", date: "2026-08-17", note: "" },
+  // { id: "Mains-Monk-6", title: "Mains-Monk-6", date: "2026-08-16", note: "" },
+  // { id: "Mains-Monk-5", title: "Mains-Monk-5", date: "2026-08-15", note: "" },
+  // { id: "Mains-Monk-4", title: "Mains-Monk-4", date: "2026-08-14", note: "" },
+  // { id: "Mains-Monk-3", title: "Mains-Monk-3", date: "2026-08-13", note: "" },
+  // { id: "Mains-Monk-2", title: "Mains-Monk-2", date: "2026-08-12", note: "" },
+  { id: "Mains-Monk-Submission", title: "Mains-Monk-Submission", date: "2026-08-11", note: "" }
+  ];
+
+  const TAG_LABEL = {
+    today: "Submission Today",
+    upcoming: "Submission Tomorrow",
+    open: "Open",
+    closed: "Closed",
+    locked: "Opens later"
+  };
+
+  // Works out a card's live status from its date, unless "status"
+  // was explicitly set on the card to force it open/closed.
+  function resolveStatus(card){
+    if (card.status === 'open' || card.status === 'closed') return card.status;
+    if (!card.date) return card.status || 'open';
+
+    const cardDate = new Date(card.date + 'T00:00:00');
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const diffDays = Math.round((cardDate - today) / 86400000);
+
+    if (diffDays < 0) return 'today';
+    if (diffDays === 0) return 'today';
+    if (diffDays === 1) return 'today';
+    return 'locked';
+  }
+
+  const grid = document.getElementById('cardGrid');
+
+  // Always-first card, pinned regardless of CARDS below.
+  // Change the href if you rename/move the schedule page.
+  const scheduleCard = document.createElement('a');
+  scheduleCard.className = 'card schedule-card';
+  scheduleCard.href = 'DPQ_Schedule.pdf';
+  scheduleCard.target = '_blank';
+  scheduleCard.rel = 'noopener';
+  scheduleCard.innerHTML = `
+    <span class="card-arrow">&#8599;</span>
+    <h3 class="card-title">DPQ LoG Schedule</h3>
+    <span class="card-tag">View Schedule</span>
+  `;
+  grid.appendChild(scheduleCard);
+
+  if (!CARDS.length){
+    grid.innerHTML = '<div class="empty">No days posted yet. Add entries to the CARDS list in index.html.</div>';
+  } else {
+    CARDS.forEach(card => {
+      const status = resolveStatus(card);
+      const isLocked = status === 'closed' || status === 'locked' || status === 'upcoming';
+      const el = document.createElement(isLocked ? 'div' : 'a');
+      el.className = `card status-${status}`;
+      if (!isLocked){
+        const params = new URLSearchParams({ day: card.id, label: card.title });
+        el.href = `submit.html?${params.toString()}`;
+      }
+      el.innerHTML = `
+        ${isLocked ? '' : '<span class="card-arrow">&rarr;</span>'}
+        <h3 class="card-title">${card.title}</h3>
+        <span class="card-tag ${status}">${TAG_LABEL[status] || status}</span>
+        ${card.note ? `<p class="card-note">${card.note}</p>` : ''}
+      `;
+      grid.appendChild(el);
+    });
+  }
+</script>
+</body>
+</html>
