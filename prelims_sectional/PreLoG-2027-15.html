@@ -1,0 +1,1722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC LoG — Prelims Booster</title>
+<style>
+  :root{
+    --bg: #F3F4F1;
+    --paper: #FFFFFF;
+    --ink: #1D2A35;
+    --ink-soft: #5B6873;
+    --rule: #D8DCD6;
+    --navy: #1B3A5C;
+    --navy-deep: #12283F;
+    --gold: #B8862E;
+    --gold-soft: #EFDFB8;
+    --answered: #2F7D5A;
+    --answered-bg: #E4F3EC;
+    --skipped: #B8862E;
+    --skipped-bg: #FBF1DE;
+    --current-ring: #1B3A5C;
+    --wrong: #B23A2E;
+    --wrong-bg: #FBEAE7;
+    --shadow: 0 1px 2px rgba(20,30,40,0.06), 0 6px 20px rgba(20,30,40,0.05);
+    --serif: Georgia, 'Times New Roman', 'Iowan Old Style', serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --mono: 'Courier New', ui-monospace, monospace;
+  }
+  [data-theme="dark"]{
+    --bg: #0F1A24;
+    --paper: #17232E;
+    --ink: #E7ECEF;
+    --ink-soft: #97A5AF;
+    --rule: #2A3846;
+    --navy: #3E6E9E;
+    --navy-deep: #2A4E70;
+    --gold: #D9A441;
+    --gold-soft: #3A3220;
+    --answered: #4CAF7D;
+    --answered-bg: #163227;
+    --skipped: #D9A441;
+    --skipped-bg: #332A16;
+    --current-ring: #D9A441;
+    --wrong: #E07A6C;
+    --wrong-bg: #3A1E1A;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+    html, body{
+    overflow-x: hidden;
+    width: 100%;
+  }
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    min-height:100vh;
+    transition:background .3s ease, color .3s ease;
+  }
+
+  /* ---------- Header ---------- */
+  header.topbar{
+    background:linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color:#F4F1EA;
+    padding:0;
+    box-shadow:var(--shadow);
+    position:sticky; top:0; z-index:50;
+  }
+  .topbar-inner{
+    max-width:1280px; margin:0 auto;
+    display:flex; align-items:center; gap:20px;
+    padding:14px 28px;
+  }
+  .logo-slot{
+    width:52px; height:52px;
+    border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    overflow:hidden;
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .logo-slot img{
+    width:100%; height:100%;
+    object-fit:contain;
+  }
+  .logo-slot:hover{border-color:rgba(244,241,234,0.75); color:#F4F1EA;}
+  .title-block{flex:1; min-width:0;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gold-soft, #D9A441);
+    opacity:0.85;
+  }
+  .title-block h1{
+    font-family:var(--serif);
+    font-size:22px;
+    font-weight:400;
+    margin:2px 0 0 0;
+    letter-spacing:0.01em;
+  }
+  .subnote{
+    font-family:var(--mono);
+    font-size:11px;
+    color:rgba(244,241,234,0.65);
+    margin-top:6px;
+    letter-spacing:0.02em;
+  }
+  .subnote a{color:var(--gold-soft); text-decoration:none;}
+  .subnote a:hover{text-decoration:underline;}
+  .topbar-right{
+    display:flex; align-items:center; gap:18px; flex-shrink:0;
+  }
+  .timer{
+    font-family:var(--mono);
+    font-size:13px;
+    color:#F4F1EA;
+    border:1px solid rgba(244,241,234,0.3);
+    padding:6px 12px;
+    border-radius:6px;
+    background:rgba(0,0,0,0.12);
+    transition:background .2s ease;
+  }
+  .timer.urgent{background:var(--wrong); border-color:var(--wrong);}
+
+  /* dark mode switch */
+  .mode-switch{
+    display:flex; align-items:center; gap:8px;
+    font-size:12px; color:rgba(244,241,234,0.85);
+  }
+  .switch{
+    position:relative; width:44px; height:24px;
+    background:rgba(244,241,234,0.2);
+    border-radius:20px; cursor:pointer;
+    border:1px solid rgba(244,241,234,0.35);
+    flex-shrink:0;
+  }
+  .switch .knob{
+    position:absolute; top:2px; left:2px;
+    width:18px; height:18px; border-radius:50%;
+    background:#F4F1EA;
+    transition:transform .25s ease;
+    box-shadow:0 1px 3px rgba(0,0,0,0.3);
+  }
+  [data-theme="dark"] .switch .knob{
+    transform:translateX(20px);
+    background:var(--gold);
+  }
+
+  /* ---------- Layout ---------- */
+  .layout{
+    max-width:1280px; margin:0 auto;
+    display:grid;
+    grid-template-columns:1fr 320px;
+    gap:23px;
+    padding:32px 28px 60px;
+    align-items:start;
+  }
+
+  /* ---------- Question paper ---------- */
+  .paper{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:36px 44px 32px;
+    min-height:520px;
+    display:flex;
+    flex-direction:column;
+  }
+  .paper-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    border-bottom:1px solid var(--rule);
+    padding-bottom:14px; margin-bottom:28px;
+  }
+  .q-index{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--ink-soft);
+    letter-spacing:0.04em;
+  }
+  .q-index b{color:var(--navy); font-size:15px;}
+  [data-theme="dark"] .q-index b{color:var(--gold);}
+  .q-status-tag{
+    font-family:var(--mono);
+    font-size:13.5px;
+    font-weight:800;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    padding:7px 16px;
+    border-radius:20px;
+    border:2px solid transparent;
+  }
+  .q-status-tag.answered{background:var(--answered-bg); color:var(--answered); border-color:var(--answered);}
+  .q-status-tag.unanswered{background:var(--skipped-bg); color:var(--skipped); border-color:var(--skipped);}
+
+  .q-text{
+    font-family:var(--serif);
+    font-size:19px;
+    line-height:1.5;
+    color:var(--ink);
+    margin:0 0 32px 0;
+  }
+
+  .options{
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .option{
+    display:flex; align-items:flex-start; gap:14px;
+    padding:18px 18px;
+    border:1px solid var(--rule);
+    border-radius:8px;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+    background:transparent;
+  }
+  .option:hover{border-color:var(--navy); background:rgba(27,58,92,0.04);}
+  [data-theme="dark"] .option:hover{background:rgba(217,164,65,0.06); border-color:var(--gold);}
+  .option.selected{
+    border-color:var(--navy);
+    background:rgba(27,58,92,0.07);
+  }
+  [data-theme="dark"] .option.selected{
+    border-color:var(--gold);
+    background:rgba(217,164,65,0.1);
+  }
+  .option .tag{
+    font-family:var(--mono);
+    font-size:13px;
+    font-weight:bold;
+    width:24px; height:24px;
+    border-radius:50%;
+    border:1.5px solid var(--rule);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    color:var(--ink-soft);
+  }
+  .option.selected .tag{
+    border-color:var(--navy);
+    background:var(--navy);
+    color:#fff;
+  }
+  [data-theme="dark"] .option.selected .tag{
+    border-color:var(--gold);
+    background:var(--gold);
+    color:#17232E;
+  }
+  .option .opt-text{
+    font-size:15.5px; line-height:1.5; padding-top:1px;
+  }
+  .option.locked{cursor:default;}
+  .option.correct{
+    border-color:var(--answered);
+    background:var(--answered-bg);
+  }
+  .option.correct .tag{
+    border-color:var(--answered);
+    background:var(--answered);
+    color:#fff;
+  }
+  .option.incorrect{
+    border-color:var(--wrong);
+    background:var(--wrong-bg);
+  }
+  .option.incorrect .tag{
+    border-color:var(--wrong);
+    background:var(--wrong);
+    color:#fff;
+  }
+  .option.locked:hover{background:inherit; border-color:inherit;}
+  .q-status-tag.correct{background:var(--answered-bg); color:var(--answered); border-color:var(--answered); box-shadow:0 0 0 1px var(--answered) inset;}
+  .q-status-tag.incorrect{background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong); box-shadow:0 0 0 1px var(--wrong) inset;}
+  .q-status-tag.review-unanswered{
+    background:var(--wrong-bg);
+    color:var(--wrong);
+    border-color:var(--wrong);
+    box-shadow:0 0 0 1px var(--wrong) inset;
+  }
+
+  /* ---------- Explanation (review mode) ---------- */
+  .explain-box{
+    margin-top:26px;
+    background:var(--gold-soft);
+    border:1px solid var(--gold);
+    border-radius:8px;
+    padding:16px 20px;
+    font-size:14px;
+    line-height:1.65;
+    color:var(--ink);
+  }
+  [data-theme="dark"] .explain-box{background:rgba(217,164,65,0.08);}
+  .explain-box b{color:var(--navy);}
+  [data-theme="dark"] .explain-box b{color:var(--gold);}
+  .explain-box .exp-label{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-bottom:8px;
+  }
+
+  .paper-foot{
+    display:flex; justify-content:space-between;
+    margin-top:32px; padding-top:20px;
+    border-top:1px solid var(--rule);
+  }
+  button{
+    font-family:var(--sans);
+    font-size:14px;
+    font-weight:600;
+    padding:11px 22px;
+    border-radius:7px;
+    border:1px solid var(--rule);
+    background:var(--paper);
+    color:var(--ink);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  button:hover:not(:disabled){border-color:var(--navy); color:var(--navy);}
+  [data-theme="dark"] button:hover:not(:disabled){border-color:var(--gold); color:var(--gold);}
+  button:disabled{opacity:0.35; cursor:not-allowed;}
+  button.primary{
+    background:var(--navy); color:#F4F1EA; border-color:var(--navy);
+  }
+  button.primary:hover{filter:brightness(1.1); color:#F4F1EA;}
+  button.clear{background:transparent; border-color:transparent; color:var(--ink-soft); font-weight:500;}
+  .nav-group{display:flex; gap:10px;}
+
+  /* ---------- Sidebar palette ---------- */
+  .sidebar{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:24px;
+    position:sticky;
+    top:96px;
+  }
+  .sidebar h2{
+    font-family:var(--serif);
+    font-size:16px;
+    font-weight:400;
+    margin:0 0 4px 0;
+    color:var(--ink);
+  }
+  .sidebar .sub{
+    font-size:12px; color:var(--ink-soft); margin-bottom:18px;
+  }
+  .legend{
+    display:flex; flex-direction:column; gap:8px;
+    margin-bottom:20px;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  .legend span{display:flex; align-items:center; gap:8px;}
+  .dot{width:10px; height:10px; border-radius:3px; flex-shrink:0;}
+  .dot.answered{background:var(--answered);}
+  .dot.unanswered{background:var(--rule); border:1px solid var(--ink-soft);}
+  .dot.current{background:transparent; border:2px solid var(--current-ring);}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:8px;
+    margin-bottom:22px;
+  }
+  .cell{
+    aspect-ratio:1;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono);
+    font-size:13px;
+    border-radius:6px;
+    border:1px solid var(--rule);
+    background:transparent;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .cell:hover{border-color:var(--navy);}
+  [data-theme="dark"] .cell:hover{border-color:var(--gold);}
+  .cell.answered{
+    background:var(--answered-bg); color:var(--answered); border-color:var(--answered);
+    font-weight:bold;
+  }
+  .cell.incorrect{
+    background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong);
+    font-weight:bold;
+  }
+  .cell.current{
+    outline:2px solid var(--current-ring); outline-offset:2px;
+  }
+
+  .tally{
+    padding-top:16px; border-top:1px solid var(--rule);
+    color:var(--ink-soft);
+  }
+  .tally-plain{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-plain > div{flex:1; text-align:left;}
+  .tally b{color:var(--ink); font-size:16px; display:block; font-family:var(--sans);}
+  .tally b.stat-correct{color:var(--answered);}
+  .tally b.stat-incorrect{color:var(--wrong);}
+  .tally b.stat-unattempted{color:var(--skipped);}
+
+  .marks-line{
+    text-align:center;
+    background:var(--gold-soft);
+    border:1.5px solid var(--gold);
+    border-radius:8px;
+    padding:12px 10px;
+    margin-bottom:14px;
+  }
+  [data-theme="dark"] .marks-line{background:rgba(217,164,65,0.12);}
+  .marks-line b{
+    font-size:26px; color:var(--navy); font-family:var(--serif); font-weight:700;
+  }
+  [data-theme="dark"] .marks-line b{color:var(--gold);}
+  .marks-line span{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-top:2px;
+  }
+  .tally-grid{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-grid > div{flex:1; text-align:left;}
+
+  .score-breakdown{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+    max-width:420px;
+    margin:24px auto 0;
+  }
+  .score-breakdown .stat{
+    border:1.5px solid var(--rule);
+    border-radius:10px;
+    padding:14px 10px;
+  }
+  .score-breakdown .stat b{
+    display:block; font-size:24px; font-family:var(--sans); margin-bottom:4px;
+  }
+  .score-breakdown .stat span{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft);
+  }
+  .score-breakdown .stat.correct{border-color:var(--answered); background:var(--answered-bg);}
+  .score-breakdown .stat.correct b{color:var(--answered);}
+  .score-breakdown .stat.incorrect{border-color:var(--wrong); background:var(--wrong-bg);}
+  .score-breakdown .stat.incorrect b{color:var(--wrong);}
+  .score-breakdown .stat.unattempted{border-color:var(--skipped); background:var(--skipped-bg);}
+  .score-breakdown .stat.unattempted b{color:var(--skipped);}
+
+  #submitBtn{width:100%; margin-top:20px;}
+
+  /* ---------- Result overlay ---------- */
+  .result-card{
+    background:var(--paper); border:1px solid var(--rule); border-radius:10px;
+    box-shadow:var(--shadow); padding:44px; text-align:center;
+  }
+  .result-card .score{
+    font-family:var(--serif); font-size:52px; color:var(--navy); margin:8px 0;
+  }
+  [data-theme="dark"] .result-card .score{color:var(--gold);}
+  .result-card .percent{
+    font-family:var(--mono); font-size:13px; color:var(--ink-soft);
+    letter-spacing:0.04em; margin-top:-4px;
+  }
+  .hidden{display:none !important;}
+
+  /* ---------- Confirm submit modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background:rgba(15,20,25,0.55);
+    display:flex; align-items:center; justify-content:center;
+    z-index:200;
+    padding:20px;
+  }
+  .modal-box{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:12px;
+    box-shadow:var(--shadow);
+    padding:30px 30px 24px;
+    max-width:380px;
+    width:100%;
+    text-align:center;
+  }
+  .modal-box .modal-icon{
+    font-size:26px;
+    margin-bottom:6px;
+  }
+  .modal-box p{
+    font-family:var(--sans);
+    font-size:15px;
+    line-height:1.55;
+    color:var(--ink);
+    margin:10px 0 22px;
+  }
+  .modal-box p b{color:var(--navy);}
+  [data-theme="dark"] .modal-box p b{color:var(--gold);}
+  .modal-box .modal-warn{
+    font-family:var(--mono);
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--skipped);
+    background:var(--skipped-bg);
+    border:1px solid var(--skipped);
+    border-radius:6px;
+    padding:8px 10px;
+    margin:0 0 18px;
+    text-align:left;
+    line-height:1.5;
+  }
+  .modal-actions{
+    display:flex; gap:12px;
+  }
+  .modal-actions button{
+    flex:1;
+    padding:12px 10px;
+  }
+  #modalGoBack{color:var(--ink);}
+  #modalConfirm{background:var(--navy); color:#F4F1EA; border-color:var(--navy);}
+  #modalConfirm:hover{filter:brightness(1.1); color:#F4F1EA;}
+
+  /* ---------- Start-test modal ---------- */
+  .start-box{
+    max-width:420px;
+    text-align:left;
+  }
+  .start-box .modal-icon{font-size:30px; margin-bottom:2px;}
+  .start-title{
+    font-family:var(--serif);
+    font-size:21px;
+    color:var(--ink);
+    text-align:center;
+    margin:2px 0 4px;
+  }
+  .start-sub{
+    font-family:var(--mono);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:var(--ink-soft);
+    text-align:center;
+    margin:0 0 20px;
+  }
+  .stat-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:20px;
+  }
+  .stat-grid .stat-box{
+    border:1px solid var(--rule);
+    border-radius:8px;
+    padding:11px 12px;
+    background:var(--bg);
+  }
+  .stat-grid .stat-box .k{
+    font-family:var(--mono); font-size:10px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft); display:block; margin-bottom:4px;
+  }
+  .stat-grid .stat-box .v{
+    font-family:var(--sans); font-size:16px; font-weight:700; color:var(--navy);
+  }
+  [data-theme="dark"] .stat-grid .stat-box .v{color:var(--gold);}
+  .start-rules{
+    list-style:none; margin:0 0 22px; padding:0;
+    display:flex; flex-direction:column; gap:7px;
+  }
+  .start-rules li{
+    font-size:13px; line-height:1.5; color:var(--ink-soft);
+    padding-left:18px; position:relative;
+  }
+  .start-rules li::before{
+    content:"—"; position:absolute; left:0; color:var(--gold);
+  }
+  .start-field label{
+    display:block;
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft); margin-bottom:6px;
+  }
+  .start-field input{
+    width:100%;
+    font-family:var(--sans); font-size:14.5px;
+    padding:11px 14px;
+    border:1px solid var(--rule); border-radius:7px;
+    background:var(--paper); color:var(--ink);
+    margin-bottom:20px;
+  }
+  .start-field input:focus{ outline:none; border-color:var(--navy); }
+  [data-theme="dark"] .start-field input:focus{ border-color:var(--gold); }
+  #startTestBtn{
+    width:100%; padding:13px 10px; font-size:15px;
+  }
+
+  @media (max-width: 430px){
+    .start-box{ padding:24px 20px 20px; max-width:100%; }
+    .stat-grid{ grid-template-columns:1fr 1fr; gap:8px; }
+    .start-title{ font-size:18px; }
+  }
+
+  /* small name field inside submit-confirm modal */
+  .modal-name-field{ text-align:left; margin:-6px 0 18px; }
+  .modal-name-field label{
+    display:block;
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft); margin-bottom:6px;
+  }
+  .modal-name-field input{
+    width:100%;
+    font-family:var(--sans); font-size:14px;
+    padding:10px 13px;
+    border:1px solid var(--rule); border-radius:7px;
+    background:var(--paper); color:var(--ink);
+  }
+  .modal-name-field input:focus{ outline:none; border-color:var(--navy); }
+  [data-theme="dark"] .modal-name-field input:focus{ border-color:var(--gold); }
+
+  :root{
+    --desktop-width: 1440;
+}
+
+@media (max-width: 1024px){
+  .layout{
+    grid-template-columns: 1fr;
+  }
+  .sidebar{
+    position: static;      /* was sticky at top:96px — no longer needed once stacked */
+    top: auto;
+  }
+}
+@media (max-width: 600px){
+  .topbar-inner{
+    flex-wrap: wrap;
+    padding: 14px 16px;
+    gap: 10px;
+  }
+  .topbar-right{
+    flex-shrink: 1;        /* was 0 before — this is what caused the overflow */
+    flex-basis: 100%;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+  .subnote{
+    white-space: normal;
+  }
+}
+@media (max-width: 430px){
+  .layout{
+    padding: 20px 12px 40px;
+  }
+  .paper{
+    padding: 24px 18px 22px;
+  }
+  .sidebar{
+    padding: 18px;
+  }
+  .paper-head{
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .q-status-tag{
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+@media (max-width: 600px){
+  .title-block h1{
+    font-size: 17px;
+  }
+  .eyebrow{
+    font-size: 9.5px;
+  }
+  .subnote{
+    font-size: 10px;
+  }
+  .timer{
+    font-size: 11px;
+    padding: 5px 9px;
+  }
+  .mode-switch{
+    font-size: 11px;
+  }
+}
+@media (max-width: 430px){
+  .result-card{
+    padding: 24px 18px;
+  }
+  .score-breakdown{
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    max-width: 100%;
+  }
+  .score-breakdown .stat{
+    padding: 10px 6px;
+  }
+  .score-breakdown .stat b{
+    font-size: 19px;
+  }
+  .result-card .score{
+    font-size: 38px;
+  }
+}
+
+</style>
+</head>
+<body data-theme="light">
+
+<header class="topbar">
+  <div class="topbar-inner">
+
+    <!-- <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">UPSC<br>LOGO</a> -->
+    <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">
+  <img src="https://raw.githubusercontent.com/upsclog/upsclog/refs/heads/main/logo.png" alt="UPSC LoG" style="width:100%; height:100%; object-fit:contain; border-radius:6px;">
+</a>
+    <div class="title-block">
+      <div class="eyebrow">UPSC LoG · Prelims Booster 2027</div>
+      <h1>PreLoG-2027-15-FREE TIER</h1>
+      <div class="subnote" style="font-size: 12px;">
+        <span id="qTotalNote">7</span> Questions · +2 Correct / −0.67 Incorrect ·
+        <a href="https://t.me/upsclog" target="_blank" rel="noopener"> Join UPSC-LoG Telegram ↗</a>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="timer" id="timer">60:00</div>
+      <div class="mode-switch">
+        <span>Light</span>
+        <div class="switch" id="themeSwitch" role="button" aria-label="Toggle dark mode">
+          <div class="knob"></div>
+        </div>
+        <span>Dark</span>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="layout">
+
+  <div class="paper" id="paperView">
+    <div class="paper-head">
+      <div class="q-index">Question <b id="qNum">1</b> of <span id="qTotal">7</span></div>
+      <div class="q-status-tag unanswered" id="qStatusTag">Not Answered</div>
+    </div>
+
+    <p class="q-text" id="qText">Loading question…</p>
+
+    <div class="options" id="optionsList"></div>
+
+    <div class="explain-box hidden" id="explainBox">
+      <span class="exp-label">Explanation</span>
+      <div id="explainText"></div>
+    </div>
+
+    <div class="paper-foot">
+      <div class="nav-group">
+        <button id="prevBtn">← Previous</button>
+        <button class="clear" id="clearBtn">Clear response</button>
+      </div>
+      <button id="nextBtn" class="primary">Next →</button>
+    </div>
+  </div>
+
+  <div class="result-card hidden" id="resultView">
+    <div class="eyebrow" style="color:var(--ink-soft); letter-spacing:0.14em; font-family:var(--mono); font-size:11px; text-transform:uppercase;">Marks Sent for rank PDF</div>
+    <div class="score" id="scoreText">0.00 / 14.00</div>
+    <div class="percent" id="scorePercent">0.00%</div>
+    <div class="score-breakdown" id="scoreBreakdown"></div>
+    <p style="color:var(--ink-soft); font-size:14px; margin:20px 0 24px;">You can review your answers and explanations using the palette on the right.</p>
+    <h2>Check <a href="https://upsclog.github.io/upsclog/ranks_tests/daily_rankings.html" target="_blank">[RANKINGS]</a> - for Daily Rankings [PDF]</h2>
+    <button class="primary" id="reviewBtn">Review Answers</button>
+  </div>
+
+  <aside class="sidebar">
+    <h2>* Explanations attached for each question after you submit the test<br><br></h2>
+    <h2>* Auto-Submission in 30 minutes</h2>
+    <h2>* Dark <-> Bright modes for ease</h2>
+    <div class="sub"></div>
+
+    <div class="legend">
+      <span><span class="dot answered"></span> Answered / Correct</span>
+      <span><span class="dot" style="background:var(--wrong);"></span> Incorrect</span>
+      <span><span class="dot unanswered"></span> Not answered</span>
+      <span><span class="dot current"></span> Currently viewing</span>
+    </div>
+
+    <div class="grid" id="paletteGrid"></div>
+
+    <div class="tally" id="tallyRow">
+      <div class="tally-plain">
+        <div><b id="answeredCount">0</b>Answered</div>
+        <div><b id="skippedCount">7</b>Remaining</div>
+      </div>
+    </div>
+
+    <button class="primary" id="submitBtn">Submit Test</button>
+  </aside>
+
+</div>
+
+<div class="modal-overlay hidden" id="confirmModal">
+  <div class="modal-box">
+    <div class="modal-icon" id="modalIcon">📝</div>
+    <p id="modalMessage">Submit test?</p>
+    <div class="modal-name-field">
+      <label for="modalUserName">Name for rank (optional)</label>
+      <input type="text" id="modalUserName" placeholder="Enter your name" maxlength="40">
+    </div>
+    <div class="modal-actions">
+      <button id="modalGoBack">Go Back</button>
+      <button id="modalConfirm" class="primary">Yes, Submit</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="startModal">
+  <div class="modal-box start-box">
+    <div class="modal-icon">🖋️</div>
+    <div class="start-title" id="startTitle">Loading…</div>
+    <div class="start-sub">UPSC LoG · Prelims Booster</div>
+
+    <div class="stat-grid">
+      <div class="stat-box"><span class="k">Questions</span><span class="v" id="startQCount">–</span></div>
+      <div class="stat-box"><span class="k">Max Marks</span><span class="v" id="startMaxMarks">–</span></div>
+      <div class="stat-box"><span class="k">Correct</span><span class="v" id="startCorrectMarks">–</span></div>
+      <div class="stat-box"><span class="k">Incorrect</span><span class="v" id="startIncorrectMarks">–</span></div>
+    </div>
+
+    <ul class="start-rules">
+      <li>Total duration: <span id="startDuration">60</span> minutes. The test auto-submits when time runs out.</li>
+      <li>Explanations for every question unlock after you submit.</li>
+      <li>Use the palette on the right to jump between questions anytime.</li>
+    </ul>
+
+    <div class="start-field">
+      <label for="userName">Your name (for the rankings)</label>
+      <input type="text" id="userName" placeholder="Enter your name" maxlength="40">
+    </div>
+
+    <button class="primary" id="startTestBtn">Start Test →</button>
+  </div>
+</div>
+
+<script>
+const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyamXySn2AagAN935BcpYuf6oTJNuIkLMuAby7CqWJ20rgdNgdWypVNTjMyWJBxW9OObw/exec";
+const QUESTIONS = [
+{
+    q: "With reference to recent developments in India's semiconductor sector, consider the following statements:<br>1. As of December 2025, ten semiconductor projects had been approved under the India Semiconductor Mission across six states, with a combined investment of about Rs 1.60 lakh crore.<br>2. India's first commercial silicon-carbide semiconductor fabrication facility is being set up in Odisha.<br>3. The Tata Electronics wafer fabrication facility at Dholera, Gujarat, had already achieved its first semiconductor chip output by 2024.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "By December 2025, ten ISM-approved projects worth around Rs 1.60 lakh crore were spread across six states, and Odisha is hosting India's first commercial silicon-carbide fabrication facility. The Tata Dholera fab, however, is still under construction, with first silicon targeted only for late 2026, not achieved in 2024."
+},
+{
+    q: "The 'Perform, Achieve and Trade' (PAT) Scheme, sometimes seen in the news, is associated with which of the following?<br>1. It is implemented by the Bureau of Energy Efficiency.<br>2. It applies exclusively to the thermal power generation sector.<br>3. Under the scheme, energy savings achieved by designated consumers are converted into tradable Energy Saving Certificates (ESCerts).<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1, 2 and 3",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1 and 3 only"
+    ],
+    ans: 3,
+    exp: "The PAT scheme, a flagship initiative under the National Mission for Enhanced Energy Efficiency, is implemented by the Bureau of Energy Efficiency and allows energy-intensive industries to trade Energy Saving Certificates. It covers multiple energy-intensive sectors such as cement, steel, fertilizers, and thermal power, not thermal power alone."
+},
+{
+    q: "The 'Ujwal DISCOM Assurance Yojana (UDAY)' launched by the Government of India was aimed at addressing which of the following issues in India's power sector?<br>1. Improving the operational and financial efficiency of state-owned power distribution companies (DISCOMs).<br>2. Reducing Aggregate Technical and Commercial (AT&C) losses in electricity distribution.<br>3. It was enacted as a statutory scheme through an Act of Parliament.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "UDAY was launched in 2015 to financially and operationally turn around debt-ridden DISCOMs, with a focus on reducing AT&C losses and improving billing efficiency. It was implemented through a Memorandum of Understanding between States and the Centre, not through an Act of Parliament."
+},
+{
+    q: "With reference to the Atomic Energy Act, 1962 and India's nuclear policy, consider the following statements:<br>1. The Act vests exclusive control over atomic energy-related activities with the Central Government.<br>2. Private companies are permitted to independently set up and operate nuclear power plants in India.<br>3. The Department of Atomic Energy functions directly under the Prime Minister.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 2 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The Atomic Energy Act, 1962 gives the Central Government exclusive authority over the development and use of atomic energy, and the Department of Atomic Energy operates directly under the Prime Minister. Private companies are not permitted to independently own or operate nuclear power plants; only government entities such as NPCIL, along with select joint ventures, are authorised to do so."
+},
+{
+    q: "With reference to the Anusandhan National Research Foundation (ANRF), consider the following statements:<br>1. It was established through an Act of Parliament in 2023 and subsumes the Science and Engineering Research Board (SERB).<br>2. The Prime Minister serves as the ex-officio President of its Governing Board.<br>3. It is envisaged to be funded entirely through government budgetary support, with no contribution from private industry.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "The ANRF Act, 2023 established the foundation, subsuming SERB, with the Prime Minister as ex-officio President of its Governing Board. Its funding model envisages a significant share (majority) coming from non-government sources, including industry and philanthropic contributions, not entirely from the government."
+},
+{
+    q: "With reference to the India-based Neutrino Observatory (INO), a project frequently referred to in UPSC Prelims-related current affairs, consider the following statements:<br>1. It is being set up in the state of Tamil Nadu.<br>2. It primarily aims to study neutrinos produced in nuclear power reactors.<br>3. The project involves the use of an Iron Calorimeter (ICAL) detector.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The INO project is located in Theni district, Tamil Nadu, and uses an Iron Calorimeter (ICAL) detector to study atmospheric neutrinos generated by cosmic ray interactions, not neutrinos from nuclear reactors."
+},
+{
+    q: "With reference to optical astronomy in India, consider the following statements:<br>1. The Devasthal Optical Telescope, one of the largest of its kind in Asia, is located in Uttarakhand.<br>2. It is operated by the Indian Institute of Astrophysics (IIA).<br>3. Increasing light pollution near observatory sites is a major challenge for optical astronomy in India.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The Devasthal Optical Telescope in Nainital, Uttarakhand, is operated by the Aryabhatta Research Institute of Observational Sciences (ARIES), not the Indian Institute of Astrophysics. Light pollution from expanding urban areas remains a significant and growing challenge for optical observatories in India."
+},
+{
+    q: "In the context of recent developments related to geomagnetism, consider the following statements:<br>1. In May 2024, a severe geomagnetic storm caused auroras to be visible from parts of India, including Ladakh.<br>2. Geomagnetic storms are primarily triggered by Coronal Mass Ejections (CMEs) from the Sun.<br>3. India's Aditya-L1 mission, which studies the Sun, is stationed at the L2 Lagrange point.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "A severe (G5-class) geomagnetic storm in May 2024, caused by CMEs from the Sun, led to rare aurora sightings even in Ladakh. Aditya-L1 is placed at the L1 Lagrange point, not L2, allowing continuous, uninterrupted observation of the Sun."
+},
+{
+    q: "With reference to the India Semiconductor Mission (ISM), consider the following statements:<br>1. It is administered by the Ministry of Electronics and Information Technology.<br>2. It provides fiscal support of up to 50% of the project cost for setting up semiconductor fabrication units in India.<br>3. Under this mission, India's first approved semiconductor fabrication unit is being set up in Bengaluru, Karnataka.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The India Semiconductor Mission, under MeitY, offers up to 50% fiscal support for semiconductor and display fab projects. India's first approved commercial semiconductor fab, however, is being set up at Dholera, Gujarat, not Bengaluru."
+},
+{
+    q: "With reference to the National Quantum Mission (NQM), consider the following statements:<br>1. It was approved by the Union Cabinet in 2023 with a total outlay of about Rs 6,000 crore.<br>2. It is implemented by the Department of Science and Technology.<br>3. The Mission focuses exclusively on quantum computing, excluding areas such as quantum communication and sensing.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The National Quantum Mission, approved in 2023 with an outlay of about Rs 6,003.65 crore, is implemented by the Department of Science and Technology. It covers multiple thematic areas, including quantum computing, communication, sensing and metrology, and materials and devices, not computing alone."
+},
+{
+    q: "With reference to the Patents Act, 1970, consider the following statements:<br>1. Inventions relating to atomic energy are excluded from patentability under the Act.<br>2. The Act is administered by the Controller General of Patents, Designs and Trade Marks under the DPIIT.<br>3. As per the TRIPS Agreement, member countries must provide patent protection for a minimum term of 10 years.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 2 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "Section 4 of the Patents Act, 1970 excludes inventions relating to atomic energy from patentability, and the Act is administered by the Controller General of Patents, Designs and Trade Marks under the DPIIT. The TRIPS Agreement mandates a minimum patent term of 20 years, not 10."
+},
+{
+    q: "With reference to the UJALA (Unnat Jyoti by Affordable LEDs for All) scheme, consider the following statements:<br>1. It aims to promote the replacement of incandescent bulbs and CFLs with LED bulbs.<br>2. It is implemented by Energy Efficiency Services Limited (EESL).<br>3. LEDs generate light primarily through the principle of population inversion, similar to lasers.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "UJALA promotes LED adoption to replace inefficient incandescent and CFL lamps and is implemented by EESL, a joint venture of central PSUs. LEDs generate light via electroluminescence at a semiconductor p-n junction, not population inversion, which is the principle underlying lasers."
+},
+{
+    q: "With reference to regulation of electromagnetic field (EMF) radiation from mobile towers in India, consider the following statements:<br>1. The Department of Telecommunications has capped EMF radiation limits at one-tenth of the levels prescribed by the International Commission on Non-Ionizing Radiation Protection (ICNIRP).<br>2. Self-certification of EMF compliance by telecom operators is not permitted under Indian regulations.<br>3. 'Tarang Sanchar', a web portal launched by the DoT, allows citizens to check EMF compliance status of mobile towers in their locality.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "India's EMF exposure limits for mobile towers are set at one-tenth of ICNIRP-prescribed levels, and the Tarang Sanchar portal lets citizens check EMF compliance status of towers. However, self-certification of compliance by telecom operators is permitted under DoT norms, contrary to statement 2."
+},
+{
+    q: "With reference to the photoelectric effect, consider the following statements:<br>1. It demonstrates the particle nature of light.<br>2. Emission of photoelectrons occurs instantaneously once light of frequency above the threshold frequency falls on a metal surface, regardless of intensity.<br>3. For a fixed frequency above the threshold, the kinetic energy of emitted photoelectrons increases with an increase in the intensity of incident light.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The photoelectric effect confirms the particle (photon) nature of light, and photoelectron emission is instantaneous above the threshold frequency irrespective of intensity. The kinetic energy of photoelectrons depends on the frequency of incident light, not its intensity; higher intensity only increases the number of photoelectrons emitted."
+},
+{
+    q: "With reference to India's installed electricity generation capacity, consider the following statements:<br>1. Coal-based power plants account for the largest share of India's installed electricity generation capacity.<br>2. In Indian energy statistics, 'thermal power' includes electricity generated from coal, lignite, gas, and diesel.<br>3. Nuclear power constitutes the largest share within the category of 'thermal power' in India.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "Coal remains the largest single source of India's installed capacity, and 'thermal power' as a statistical category covers coal, lignite, gas, and diesel-based generation. Nuclear power is classified separately from thermal power and constitutes a comparatively small share of India's overall capacity."
+},
+{
+    q: "With reference to the history of the semiconductor industry in India, consider the following statements:<br>1. Semiconductor Complex Limited (SCL), one of India's earliest semiconductor fabrication facilities, was established at Mohali, Punjab.<br>2. SCL's original manufacturing facility suffered severe damage in a fire incident in 1989.<br>3. Prior to the launch of the India Semiconductor Mission in 2021, India had no prior experience whatsoever in semiconductor design or fabrication.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "SCL was set up at Mohali, Punjab, and its fabrication facility suffered a major fire in 1989 that significantly set back its operations. India has had decades of prior involvement in semiconductor design (notably chip design services) well before the 2021 Semiconductor Mission, so statement 3 is incorrect."
+},
+{
+    q: "With reference to Radioisotope Thermoelectric Generators (RTGs), a topic featured in recent UPSC Prelims, consider the following statements:<br>1. RTGs generate electricity from the heat released during radioactive decay and are not fission reactors.<br>2. The International Thermonuclear Experimental Reactor (ITER) project, in which India is a partner, is being constructed in France.<br>3. The Plutonium-238 used as fuel in RTGs is the same isotope used in nuclear weapons.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "RTGs are not fission reactors and generate power from heat released by natural radioactive decay, and the multinational ITER project is being built at Cadarache, France, with India as a partner. Plutonium-238 used in RTGs is distinct from weapons-grade Plutonium-239 and is unsuitable for weapons use."
+},
+{
+    q: "With reference to the applications of radar technology, a theme seen in recent UPSC Prelims questions, consider the following statements:<br>1. Radars can be used for monitoring precipitation and tracking the migratory movement of birds and other animals.<br>2. Radar technology functions on the principle of reflection of radio waves from objects.<br>3. Radars can identify narcotic substances concealed on passengers based on their distinct electromagnetic signature.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "Radars are used to monitor precipitation and track animal migration by detecting reflected radio waves off objects, which is the basic principle of radar operation. Radars are not used to detect narcotics concealed on individuals, as this requires different detection technologies."
+},
+{
+    q: "With reference to the regulation of noise/sound in India, consider the following statements:<br>1. The Central Motor Vehicles Rules, 1989 prescribe permissible noise limits for vehicle horns.<br>2. Before the Noise Pollution (Regulation and Control) Rules, 2000, the Air (Prevention and Control of Pollution) Act, 1981 was used as the legal basis to regulate noise pollution in India.<br>3. As per Supreme Court directions, use of loudspeakers and public address systems is completely banned in India between 10 PM and 6 AM, with no exceptions permitted.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The Central Motor Vehicles Rules, 1989 prescribe horn noise limits, and prior to the 2000 Rules, noise pollution was regulated under the Air (Prevention and Control of Pollution) Act, 1981, by treating noise as air pollution. However, limited exceptions for loudspeaker use during night hours (e.g., for festivals, with district authority permission) are permitted, making statement 3 incorrect."
+},
+{
+    q: "With reference to challenges facing India's semiconductor industry, consider the following statements:<br>1. India remains heavily dependent on imports for fabrication equipment and high-purity silicon wafers.<br>2. High capital intensity and long gestation periods are major challenges in establishing semiconductor fabrication plants in India.<br>3. India possesses a well-established domestic ecosystem for manufacturing photolithography equipment used in chip fabrication.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "India remains dependent on imported fabrication equipment and high-purity silicon wafers, and the sector faces challenges from the high capital intensity and long gestation periods of fab projects. India lacks a domestic ecosystem for advanced photolithography equipment manufacturing, which remains dominated globally by a handful of firms."
+},
+{
+    q: "With reference to the Revamped Distribution Sector Scheme (RDSS) and related electricity sector reforms, consider the following statements:<br>1. RDSS aims to reduce Aggregate Technical and Commercial (AT&C) losses of power distribution companies to pan-India levels of 12-15%.<br>2. The scheme promotes rollout of smart prepaid metering across the country.<br>3. Smart metering under RDSS is entirely funded by private investment, with no central government financial support.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "RDSS targets reduction of AT&C losses to 12-15% and pan-India rollout of smart prepaid metering to improve DISCOM efficiency. The scheme includes central financial assistance and result-linked incentives from the Government of India, so it is not entirely privately funded."
+},
+{
+    q: "With reference to the structure and composition of atomic nuclei, consider the following statements:<br>1. The nucleus of an atom is composed of protons and neutrons, collectively referred to as nucleons.<br>2. Isotopes of an element have the same number of protons but differing numbers of neutrons.<br>3. Isobars are atoms of different elements having the same number of neutrons but different mass numbers.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The nucleus consists of protons and neutrons, together called nucleons, and isotopes of an element share the same proton number but differ in neutron number. Isobars, by definition, are atoms of different elements having the same mass number but differing numbers of protons and neutrons, not the same neutron number as stated."
+},
+{
+    q: "With reference to the Kodaikanal Solar Observatory, consider the following statements:<br>1. It was established in 1899 and is operated by the Indian Institute of Astrophysics.<br>2. It was set up as an offshoot of the earlier Madras Observatory, founded in the 18th century.<br>3. The observatory is primarily used for studying gamma-ray bursts from distant galaxies.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The Kodaikanal Solar Observatory, established in 1899 and now operated by the Indian Institute of Astrophysics, evolved from the earlier Madras Observatory founded in the 18th century. It is a solar observatory dedicated to studying the Sun, not gamma-ray bursts from distant galaxies."
+},
+{
+    q: "With reference to the history of thermodynamics-based technology in India, consider the following statements:<br>1. India's first thermal power station was set up by the Calcutta Electric Supply Corporation in the late 19th century.<br>2. Steam locomotives powered India's first railway line, which ran between Bombay and Thane in 1853.<br>3. The Zeroth Law of Thermodynamics, which underlies the concept of temperature, was formulated before the First and Second Laws.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "India's first thermal power station was set up by the Calcutta Electric Supply Corporation, and steam locomotives powered India's first railway line between Bombay and Thane in 1853. The Zeroth Law, despite underpinning the concept of temperature, was actually formulated later than the First and Second Laws and only named 'zeroth' due to its logical precedence."
+},
+{
+    q: "With reference to Apsara, India's first nuclear research reactor, consider the following statements:<br>1. It became critical in 1956 at the Bhabha Atomic Research Centre, Trombay.<br>2. It is widely regarded as the first nuclear reactor to become operational in Asia.<br>3. The reactor was indigenously designed, financed, and constructed entirely without any foreign collaboration or assistance.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "Apsara became critical in 1956 at Trombay and is widely credited as the first nuclear reactor to become operational in Asia. However, its initial fuel core used enriched uranium supplied by the United Kingdom, so it was not built entirely without foreign assistance."
+},
+{
+    q: "With reference to the Boilers Act, 1923, consider the following statements:<br>1. The Central Boilers Board constituted under the Act is empowered to frame regulations for the construction, inspection, and safe operation of boilers.<br>2. The Act permits only the Central Government to appoint Boiler Inspectors, with no role given to State Governments.<br>3. Boilers, the subject matter of this Act, fall under the Concurrent List of the Constitution.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "The Central Boilers Board frames regulations on boiler construction, inspection, and safety, and 'steam boilers' is a subject placed in the Concurrent List of the Seventh Schedule. Under the Act, however, State Governments appoint Chief Inspectors of Boilers for enforcement within their jurisdictions, contrary to statement 2."
+},
+{
+    q: "With reference to Gaganyaan-1 (G1), India's first uncrewed orbital test flight under the human spaceflight programme, consider the following statements:<br>1. G1 is scheduled to be launched from the Thumba Equatorial Rocket Launching Station in Kerala.<br>2. G1 will carry Vyommitra, a humanoid robot, to simulate crew functions and validate life-support systems in orbit.<br>3. The first crewed Gaganyaan mission is currently targeted for 2027, following the uncrewed test flights.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "G1 will carry the humanoid robot Vyommitra to validate crew safety, life-support, and recovery systems, and the first crewed Gaganyaan mission is currently targeted for 2027. However, G1 is scheduled to launch from the Satish Dhawan Space Centre, Sriharikota, using the HLVM3 rocket, not from the Thumba Equatorial Rocket Launching Station."
+},
+{
+    q: "With reference to recent developments in Indian Navy sonar and underwater surveillance systems, consider the following statements:<br>1. The Indian Navy is developing a Containerised Theatre Level Sonar (CTLS) system to build a networked anti-submarine warfare (ASW) sensor grid.<br>2. The 'Abhay' active sonar system used aboard Indian Navy warships has been developed by DRDO's Naval Physical and Oceanographic Laboratory (NPOL).<br>3. Sonar systems primarily use electromagnetic waves, rather than sound waves, for underwater target detection.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The Indian Navy's CTLS initiative aims to create a scalable, networked ASW sensor grid, and the indigenous 'Abhay' active sonar has been developed by DRDO's NPOL. Sonar, unlike radar, operates using sound waves for underwater detection, not electromagnetic waves."
+},
+{
+    q: "With reference to recent trends in UPSC Prelims questions on applications of physics, consider the following statements:<br>1. A recent question asked candidates to identify the exhaust pipe emission of Fuel Cell Electric Vehicles (FCEVs) powered by hydrogen, with water vapour being the correct answer.<br>2. Questions on applications of physics have increasingly focused on real-world technologies such as radars, RTGs, and fuel cells rather than purely theoretical physics.<br>3. UPSC has never asked an assertion-reason type question related to applications of physics in its Prelims examination.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "A recent UPSC Prelims question tested the FCEV exhaust emission (water vapour), reflecting a broader trend of application-oriented, current-affairs-linked physics questions rather than pure theory. However, statement 3's absolute claim is incorrect, as assertion-reason and statement-based formats on applied science topics have appeared in past papers."
+},
+{
+    q: "With reference to the Indian Wireless Telegraphy Act, 1933, consider the following statements:<br>1. It requires a license for the possession of wireless telegraphy apparatus in India.<br>2. The Wireless Planning and Coordination (WPC) Wing functions under the Ministry of Electronics and Information Technology.<br>3. The Act empowers the government to regulate the electromagnetic spectrum used for wireless communication.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The Indian Wireless Telegraphy Act, 1933 mandates licensing for possessing wireless apparatus and empowers spectrum regulation for wireless communication. The Wireless Planning and Coordination Wing, however, functions under the Department of Telecommunications, Ministry of Communications, not the Ministry of Electronics and Information Technology."
+},
+{
+    q: "With reference to reforms proposed for India's nuclear power sector, consider the following statements:<br>1. The Union Budget 2025-26 proposed amendments to the Atomic Energy Act, 1962 and the Civil Liability for Nuclear Damage Act, 2010 to enable greater private sector participation in nuclear power generation.<br>2. The proposed reforms aim to encourage development of Small Modular Reactors (SMRs) through public-private partnerships.<br>3. As of the Budget announcement, these amendments had already been passed by Parliament and were in force.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The Union Budget 2025-26 announced proposed amendments to the Atomic Energy Act and the Civil Liability for Nuclear Damage Act to enable private participation and boost SMR development through partnerships. However, at the time of the announcement these were only proposed reforms, not amendments already passed and in force."
+},
+{
+    q: "With reference to the Central Electricity Regulatory Commission (CERC) under the Electricity Act, 2003, consider the following statements:<br>1. CERC regulates the tariff of generating companies owned by the Central Government.<br>2. CERC issues licenses for inter-State transmission of electricity.<br>3. CERC regulates the tariff of electricity generated and supplied entirely within a single State.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1, 2 and 3",
+        "1 and 3 only",
+        "1 and 2 only",
+        "2 and 3 only"
+    ],
+    ans: 2,
+    exp: "CERC, a statutory body under the Electricity Act, 2003, regulates tariffs of central government-owned generating companies and issues inter-State transmission licenses. Intra-State tariff regulation falls under the respective State Electricity Regulatory Commission (SERC), not CERC."
+},
+{
+    q: "With reference to the 'PM Surya Ghar: Muft Bijli Yojana', consider the following statements:<br>1. It aims to provide free electricity up to 300 units per month to participating households through rooftop solar installations.<br>2. Subsidy under the scheme is directly credited to the beneficiary's bank account.<br>3. The scheme is implemented by the Ministry of Power.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "PM Surya Ghar: Muft Bijli Yojana provides free electricity up to 300 units per month via subsidized rooftop solar, with subsidy transferred directly to beneficiaries' bank accounts. It is implemented by the Ministry of New and Renewable Energy, not the Ministry of Power."
+},
+{
+    q: "With reference to semiconductors, consider the following statements:<br>1. Doping an intrinsic semiconductor with a pentavalent impurity such as phosphorus produces a p-type semiconductor.<br>2. Silicon, the primary raw material used in semiconductor fabrication units being established in India, belongs to Group 14 of the periodic table.<br>3. In n-type semiconductors, electrons act as the majority charge carriers.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "Doping with a pentavalent impurity like phosphorus adds free electrons, producing an n-type (not p-type) semiconductor. Silicon is indeed a Group 14 element, and in n-type semiconductors electrons are correctly the majority charge carriers."
+},
+{
+    q: "With reference to the Energy Conservation (Amendment) Act, 2022, consider the following statements:<br>1. It empowers the Central Government to specify a carbon credit trading scheme.<br>2. It mandates all commercial buildings in India to achieve net-zero carbon emissions by 2030.<br>3. The parent legislation, the Energy Conservation Act, was originally enacted in 2001.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 2 and 3",
+        "1 and 3 only"
+    ],
+    ans: 3,
+    exp: "The 2022 Amendment empowers the government to introduce a carbon credit trading scheme, and the original Energy Conservation Act dates to 2001. However, the Act does not mandate a specific net-zero deadline of 2030 for commercial buildings; it instead mandates minimum consumption of non-fossil energy sources by designated consumers."
+},
+{
+    q: "With reference to the export control of sensitive technologies from India, consider the following statements:<br>1. Export of all semiconductor devices from India is completely banned under the SCOMET list.<br>2. The SCOMET list is notified under the Foreign Trade (Development and Regulation) Act, 1992.<br>3. SCOMET stands for 'Special Chemicals, Organisms, Materials, Equipment and Technologies'.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "1 and 3 only",
+        "2 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The SCOMET list, notified under the Foreign Trade (Development and Regulation) Act, 1992, regulates (not entirely bans) the export of specified dual-use and sensitive technologies, including certain semiconductor-related items, requiring a license for their export. SCOMET correctly stands for Special Chemicals, Organisms, Materials, Equipment and Technologies."
+},
+{
+    q: "With reference to thermal power generation technology in India, consider the following statements:<br>1. Supercritical technology operates at pressure and temperature conditions above the critical point of water.<br>2. Supercritical plants achieve higher efficiency and lower coal consumption per unit of electricity generated compared to subcritical plants.<br>3. All thermal power plants currently operating in India use supercritical or ultra-supercritical technology.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "2 and 3 only",
+        "1 and 2 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 1,
+    exp: "Supercritical technology operates above water's critical point, allowing higher thermal efficiency and reduced coal consumption per unit of power generated. However, a significant share of India's existing thermal capacity still comprises older subcritical plants, so statement 3 is incorrect."
+},
+{
+    q: "With reference to the Telecommunications Act, 2023, consider the following statements:<br>1. It repealed the Indian Telegraph Act, 1885.<br>2. It allows spectrum for satellite communication services to be assigned through an administrative process rather than auction.<br>3. It empowers the government to take temporary possession of telecommunication services or networks during a public emergency.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1, 2 and 3",
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only"
+    ],
+    ans: 0,
+    exp: "The Telecommunications Act, 2023 repealed the colonial-era Indian Telegraph Act, 1885 (along with two other laws), provides for administrative (rather than auction-based) assignment of satellite spectrum, and grants the government emergency powers to take temporary control of telecom networks and services."
+},
+{
+    q: "With reference to the Civil Liability for Nuclear Damage Act, 2010, consider the following statements:<br>1. It establishes a no-fault liability regime under which the operator of a nuclear installation is liable for nuclear damage irrespective of fault.<br>2. Liability of the operator is capped, with the Central Government bearing costs beyond this cap up to an overall liability ceiling.<br>3. It completely exempts suppliers of nuclear equipment from any liability, regardless of circumstances.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 3 only",
+        "2 and 3 only",
+        "1 and 2 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The Act establishes a no-fault liability regime with a capped operator liability, beyond which the government bears costs up to the overall ceiling. However, Section 17 of the Act provides operators a 'right of recourse' against suppliers in specific circumstances, so suppliers are not completely exempt."
+},
+{
+    q: "With reference to the Nuclear Energy Mission announced in the Union Budget 2025-26, consider the following statements:<br>1. It targets achieving 100 GW of nuclear power capacity in India by 2047.<br>2. It is being implemented under the Ministry of Power.<br>3. It aims to have at least five indigenously developed Small Modular Reactors (SMRs) operational by 2033.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The Nuclear Energy Mission for Viksit Bharat targets 100 GW of nuclear capacity by 2047 and envisages at least five indigenously developed Small Modular Reactors operational by 2033. It falls under the Department of Atomic Energy, not the Ministry of Power."
+},
+{
+    q: "With reference to the Electricity Act, 2003, consider the following statements:<br>1. It provides for the establishment of an Appellate Tribunal for Electricity (APTEL).<br>2. It mandates that there can be only one licensed electricity distribution company in a given area of supply.<br>3. It provides for open access to the transmission and distribution network.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The Electricity Act, 2003 established APTEL for adjudicating electricity-related disputes and introduced open access to transmission and distribution networks. It does not mandate exclusivity of a single distribution licensee; the Act in fact enables multiple licensees in the same area of supply."
+},
+{
+    q: "With reference to the electricity grid in India, consider the following statements:<br>1. India's national electricity grid operates at a frequency of 50 Hz.<br>2. All five regional power grids of India were synchronously interconnected into a single national grid by 2013.<br>3. Direct Current (DC) is used for all long-distance electricity transmission in India, having entirely replaced Alternating Current (AC) transmission.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "India's grid operates at 50 Hz, and with the synchronization of the North-Eastern grid in 2013, all five regional grids became part of a single national grid ('One Nation, One Grid'). AC remains the predominant mode of transmission; HVDC is used selectively for specific bulk/long-distance links, not exclusively."
+},
+{
+    q: "With reference to the Noise Pollution (Regulation and Control) Rules, 2000 in India, consider the following statements:<br>1. These rules were framed under the Environment (Protection) Act, 1986.<br>2. State Governments are empowered to declare an area within 100 metres of hospitals, educational institutions, and courts as a 'silence zone'.<br>3. Enforcement of these rules is carried out exclusively by the Central Pollution Control Board, with no role for State Pollution Control Boards.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The Noise Pollution Rules, 2000 were framed under the Environment (Protection) Act, 1986, and empower authorities to declare 100-metre zones around sensitive institutions as silence zones. Enforcement is carried out by both the CPCB at the national level and State Pollution Control Boards/Committees at the state level."
+},
+{
+    q: "With reference to the National Large Solar Telescope (NLST) project, consider the following statements:<br>1. It is being set up at Merak in Ladakh.<br>2. It is expected to be one of the largest solar telescopes in Asia upon completion.<br>3. The project is being executed by the Indian Space Research Organisation (ISRO).<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The National Large Solar Telescope is planned at Merak in Ladakh and is expected to be among the largest solar telescopes in Asia, taking advantage of the region's clear skies and high altitude. It is being executed by the Indian Institute of Astrophysics, not ISRO."
+},
+{
+    q: "With reference to the study of geomagnetism in India, consider the following statements:<br>1. The Colaba-Alibag Magnetic Observatory, one of the oldest of its kind in the world, has recorded geomagnetic data since the 19th century.<br>2. The Indian Institute of Geomagnetism (IIG) is an autonomous research institute under the Department of Space.<br>3. IIG operates a network of magnetic observatories across India to monitor variations in the Earth's magnetic field.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The Colaba-Alibag Observatory has recorded geomagnetic data since the 19th century, and IIG operates a nationwide network of magnetic observatories. However, IIG is an autonomous institute under the Department of Science and Technology, not the Department of Space."
+},
+{
+    q: "With reference to the history of the metric system in India, consider the following statements:<br>1. India officially adopted the metric system of weights and measures through the Standards of Weights and Measures Act, 1956.<br>2. The metric system became compulsory for all weights and measures in India with effect from 1 April 1962.<br>3. Prior to metrication, India followed only the British Imperial system, with no other traditional systems of measurement in use.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "India adopted the metric system through the Standards of Weights and Measures Act, 1956, and it became compulsory from 1 April 1962. Before metrication, India used a mix of the British Imperial system and various traditional indigenous units, not the Imperial system alone."
+},
+{
+    q: "With reference to recent reforms in Legal Metrology in India, consider the following statements:<br>1. The Legal Metrology (Packaged Commodities) Rules were amended in 2022 to mandate disclosure of net quantity and MRP for goods sold through e-commerce platforms.<br>2. The Bureau of Indian Standards (BIS) is the nodal agency for administering Legal Metrology rules in India.<br>3. Recent reforms have aimed at easing compliance burdens on manufacturers through steps such as permitting pre-printing of MRP.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 2,
+    exp: "The 2022 amendment to the Packaged Commodities Rules extended labelling requirements to e-commerce sales, and reforms have eased compliance through measures like pre-printing of MRP. Legal Metrology is administered by the Department of Consumer Affairs through state Controllers of Legal Metrology, not by BIS, which handles industrial standardization."
+},
+{
+    q: "With reference to geomagnetism-related challenges, consider the following statements:<br>1. The South Atlantic Anomaly refers to a region where the Earth's magnetic field is unusually weak, exposing satellites to higher radiation levels.<br>2. Geomagnetic storms can induce currents in long-distance power transmission lines, posing risks to grid stability.<br>3. India's power grid infrastructure is entirely immune to disruptions caused by space weather events.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The South Atlantic Anomaly is a zone of weakened magnetic field causing increased satellite radiation exposure, and geomagnetically induced currents from geomagnetic storms can threaten power grid stability. India's grid is not immune to such space weather-related disruptions."
+},
+{
+    q: "With reference to the institutional history of nuclear and modern physics research in India, consider the following statements:<br>1. The Tata Institute of Fundamental Research (TIFR) was founded in 1945 under the guidance of Homi J. Bhabha.<br>2. The Atomic Energy Commission of India was established in 1948.<br>3. The Department of Atomic Energy was set up in the same year as the Atomic Energy Commission, i.e., 1948.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "TIFR was founded in 1945 under Homi Bhabha, and the Atomic Energy Commission was established in 1948. The Department of Atomic Energy was set up later, in 1954, not in the same year as the Commission."
+},
+{
+    q: "With reference to the Earth's magnetic field, consider the following statements:<br>1. It is primarily generated by convective motion of molten iron-nickel in the liquid outer core, a process known as the geodynamo.<br>2. The three basic elements used to describe the Earth's magnetic field at a location are declination, inclination, and horizontal intensity.<br>3. The Indian subcontinent lies entirely within a region of zero magnetic declination throughout the year.<br>Which of the statements given above is/are correct?",
+    opts: [
+        "1 and 2 only",
+        "2 and 3 only",
+        "1 and 3 only",
+        "1, 2 and 3"
+    ],
+    ans: 0,
+    exp: "The Earth's magnetic field arises from the geodynamo process in the liquid outer core, and is described using declination, inclination, and horizontal intensity. Magnetic declination varies across the Indian subcontinent and changes over time; it is not uniformly zero."
+},
+];
+
+
+
+
+
+
+
+
+const CORRECT_MARKS = 2;
+const NEGATIVE_MARKS = 2 / 3;
+
+let current = 0;
+const responses = new Array(QUESTIONS.length).fill(null);
+let submitted = false;
+
+const qNumEl = document.getElementById('qNum');
+const qTotalEl = document.getElementById('qTotal');
+const qTotalNoteEl = document.getElementById('qTotalNote');
+const qTextEl = document.getElementById('qText');
+const optionsListEl = document.getElementById('optionsList');
+const qStatusTag = document.getElementById('qStatusTag');
+const explainBox = document.getElementById('explainBox');
+const explainText = document.getElementById('explainText');
+const paletteGrid = document.getElementById('paletteGrid');
+const answeredCountEl = document.getElementById('answeredCount');
+const skippedCountEl = document.getElementById('skippedCount');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const clearBtn = document.getElementById('clearBtn');
+const submitBtn = document.getElementById('submitBtn');
+const paperView = document.getElementById('paperView');
+const resultView = document.getElementById('resultView');
+const reviewBtn = document.getElementById('reviewBtn');
+const scoreText = document.getElementById('scoreText');
+const scorePercent = document.getElementById('scorePercent');
+
+const confirmModal = document.getElementById('confirmModal');
+const modalMessage = document.getElementById('modalMessage');
+const modalIcon = document.getElementById('modalIcon');
+const modalGoBack = document.getElementById('modalGoBack');
+const modalConfirm = document.getElementById('modalConfirm');
+
+qTotalEl.textContent = QUESTIONS.length;
+qTotalNoteEl.textContent = QUESTIONS.length;
+skippedCountEl.textContent = QUESTIONS.length;
+
+function buildPalette(){
+  paletteGrid.innerHTML = '';
+  QUESTIONS.forEach((_, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.textContent = i + 1;
+    cell.addEventListener('click', () => { current = i; render(); });
+    paletteGrid.appendChild(cell);
+  });
+}
+
+function render(){
+  const item = QUESTIONS[current];
+  qNumEl.textContent = current + 1;
+  qTextEl.innerHTML = item.q;
+
+  optionsListEl.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  const userChoice = responses[current];
+  item.opts.forEach((opt, idx) => {
+    const div = document.createElement('div');
+    let cls = 'option';
+    if (submitted){
+      cls += ' locked';
+      if (idx === item.ans) cls += ' correct';
+      else if (idx === userChoice) cls += ' incorrect';
+    } else if (userChoice === idx){
+      cls += ' selected';
+    }
+    div.className = cls;
+    div.innerHTML = `<span class="tag">${letters[idx]}</span><span class="opt-text"></span>`;
+    div.querySelector('.opt-text').textContent = opt;
+    div.addEventListener('click', () => {
+      if (submitted) return;
+      responses[current] = idx;
+      render();
+    });
+    optionsListEl.appendChild(div);
+  });
+
+  if (submitted){
+    if (userChoice === null){
+      qStatusTag.textContent = '⚠ Not Answered · Correct answer shown';
+      qStatusTag.className = 'q-status-tag review-unanswered';
+    } else if (userChoice === item.ans){
+      qStatusTag.textContent = '✓ Correct';
+      qStatusTag.className = 'q-status-tag correct';
+    } else {
+      qStatusTag.textContent = '✗ Incorrect';
+      qStatusTag.className = 'q-status-tag incorrect';
+    }
+    explainBox.classList.remove('hidden');
+    explainText.innerHTML = '<b>Correct Answer:</b> ' + letters[item.ans] + '. ' + item.opts[item.ans] + '<br><br>' + item.exp;
+  } else {
+    const answered = userChoice !== null;
+    qStatusTag.textContent = answered ? 'Answered' : 'Not Answered';
+    qStatusTag.className = 'q-status-tag ' + (answered ? 'answered' : 'unanswered');
+    explainBox.classList.add('hidden');
+  }
+
+  prevBtn.disabled = current === 0;
+  if (submitted){
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Back to Result' : 'Next →';
+    clearBtn.style.visibility = 'hidden';
+  } else {
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Finish' : 'Next →';
+    clearBtn.style.visibility = 'visible';
+  }
+
+  // palette
+  const cells = paletteGrid.children;
+  for (let i = 0; i < cells.length; i++){
+    cells[i].classList.toggle('current', i === current);
+    if (submitted){
+      const isIncorrect = responses[i] !== null && responses[i] !== QUESTIONS[i].ans;
+      const isCorrect = responses[i] === QUESTIONS[i].ans;
+      cells[i].classList.toggle('incorrect', isIncorrect);
+      cells[i].classList.toggle('answered', isCorrect);
+    } else {
+      cells[i].classList.toggle('answered', responses[i] !== null);
+      cells[i].classList.remove('incorrect');
+    }
+  }
+
+  const answeredTotal = responses.filter(r => r !== null).length;
+  if (submitted){
+    let correct = 0, incorrect = 0;
+    QUESTIONS.forEach((q, i) => {
+      if (responses[i] === null) return;
+      if (responses[i] === q.ans) correct++; else incorrect++;
+    });
+    const unattempted = QUESTIONS.length - answeredTotal;
+    const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+    document.getElementById('tallyRow').innerHTML = `
+      <div class="marks-line"><b>${marks.toFixed(2)}</b><span>Marks Scored</span></div>
+      <div class="tally-grid">
+        <div><b class="stat-correct">${correct}</b>Correct</div>
+        <div><b class="stat-incorrect">${incorrect}</b>Incorrect</div>
+        <div><b class="stat-unattempted">${unattempted}</b>Unattempted</div>
+      </div>
+    `;
+  } else {
+    answeredCountEl.textContent = answeredTotal;
+    skippedCountEl.textContent = QUESTIONS.length - answeredTotal;
+  }
+}
+
+prevBtn.addEventListener('click', () => { if (current > 0){ current--; render(); }});
+nextBtn.addEventListener('click', () => {
+  if (current < QUESTIONS.length - 1){ current++; render(); }
+  else if (submitted){
+    paperView.classList.add('hidden');
+    resultView.classList.remove('hidden');
+  } else {
+    openConfirmModal();
+  }
+});
+clearBtn.addEventListener('click', () => { responses[current] = null; render(); });
+
+submitBtn.addEventListener('click', openConfirmModal);
+
+/* ---------- Confirmation modal logic ---------- */
+function openConfirmModal(){
+  const nameVal = document.getElementById('userName').value.trim();
+  document.getElementById('modalUserName').value = nameVal;
+  refreshConfirmModalText();
+  confirmModal.classList.remove('hidden');
+}
+
+function refreshConfirmModalText(){
+  const nameVal = document.getElementById('modalUserName').value.trim();
+  if (nameVal){
+    modalIcon.textContent = '📝';
+    modalMessage.innerHTML = `Submit test : <b>${escapeHtml(nameVal)}</b> ?`;
+  } else {
+    modalIcon.textContent = '⚠️';
+    modalMessage.innerHTML = `You have not set your name, your rank will be set as: <b>Anonymous</b>`;
+  }
+}
+
+document.getElementById('modalUserName').addEventListener('input', refreshConfirmModalText);
+
+function closeConfirmModal(){
+  confirmModal.classList.add('hidden');
+}
+
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+modalGoBack.addEventListener('click', closeConfirmModal);
+modalConfirm.addEventListener('click', () => {
+  closeConfirmModal();
+  doSubmit();
+});
+confirmModal.addEventListener('click', (e) => {
+  if (e.target === confirmModal) closeConfirmModal();
+});
+
+function doSubmit(){
+  submitted = true;
+  clearInterval(countdown);
+  let correct = 0, incorrect = 0;
+  QUESTIONS.forEach((q, i) => {
+    if (responses[i] === null) return;
+    if (responses[i] === q.ans) correct++; else incorrect++;
+  });
+  const unattempted = QUESTIONS.length - (correct + incorrect);
+  const maxMarks = QUESTIONS.length * CORRECT_MARKS;
+  const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+  const percentage = (marks / maxMarks) * 100;
+
+  scoreText.textContent = marks.toFixed(2) + ' / ' + maxMarks.toFixed(2);
+  scorePercent.textContent = percentage.toFixed(2) + '%';
+  document.getElementById('scoreBreakdown').innerHTML = `
+    <div class="stat correct"><b>${correct}</b><span>Correct</span></div>
+    <div class="stat incorrect"><b>${incorrect}</b><span>Incorrect</span></div>
+    <div class="stat unattempted"><b>${unattempted}</b><span>Unattempted</span></div>
+  `;
+  const userName = document.getElementById('modalUserName').value.trim() || "Anonymous"; 
+  fetch(SHEET_ENDPOINT, {
+    method: "POST",
+    mode: "no-cors",
+    body: JSON.stringify({
+      name: userName,
+      marks: marks.toFixed(2),
+      correct: correct,
+      incorrect: incorrect,
+      unattempted: unattempted,
+      testCode: "PreLoG-2027-15-FREE TIER"
+    })
+  }); 
+  submitBtn.style.display = 'none';
+  paperView.classList.add('hidden');
+  resultView.classList.remove('hidden');
+  render();
+}
+
+reviewBtn.addEventListener('click', () => {
+  resultView.classList.add('hidden');
+  paperView.classList.remove('hidden');
+  current = 0;
+  render();
+});
+
+// theme toggle
+const themeSwitch = document.getElementById('themeSwitch');
+themeSwitch.addEventListener('click', () => {
+  const body = document.body;
+  const isDark = body.getAttribute('data-theme') === 'dark';
+  body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+});
+
+// countdown timer — only ticks once the test has been started
+let seconds = 60 * 60;
+let testStarted = false;
+const timerEl = document.getElementById('timer');
+const countdown = setInterval(() => {
+  if (!testStarted || seconds <= 0 || submitted) return;
+  seconds--;
+  const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+  const s = String(seconds % 60).padStart(2, '0');
+  timerEl.textContent = `${m}:${s}`;
+  timerEl.classList.toggle('urgent', seconds <= 60);
+  if (seconds === 0){
+    timerEl.textContent = 'Time Up!';
+    doSubmit();
+  }
+}, 1000);
+
+/* ---------- Start-test modal logic ---------- */
+const startModal = document.getElementById('startModal');
+const startTestBtn = document.getElementById('startTestBtn');
+const startNameInput = document.getElementById('userName');
+
+// populate the start screen dynamically so this same code works
+// no matter how many questions / what marking scheme this file has
+document.getElementById('startTitle').textContent =
+  document.querySelector('.title-block h1').textContent;
+document.getElementById('startQCount').textContent = QUESTIONS.length;
+document.getElementById('startMaxMarks').textContent = (QUESTIONS.length * CORRECT_MARKS).toFixed(0);
+document.getElementById('startCorrectMarks').textContent = '+' + CORRECT_MARKS.toFixed(2);
+document.getElementById('startIncorrectMarks').textContent = '−' + NEGATIVE_MARKS.toFixed(2);
+document.getElementById('startDuration').textContent = Math.round(seconds / 60);
+
+startTestBtn.addEventListener('click', () => {
+  testStarted = true;
+  startModal.classList.add('hidden');
+});
+
+// pressing Enter in the name field on the start screen also starts the test
+startNameInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') startTestBtn.click();
+});
+
+buildPalette();
+render();
+
+window.addEventListener('beforeunload', function(e){
+  const hasProgress = !submitted && responses.some(r => r !== null);
+  if (hasProgress){
+    e.preventDefault();
+    e.returnValue = 'Your answers have not been submitted. If you leave or refresh this page, all marked answers will be lost.';
+    return e.returnValue;
+  }
+});
+
+</script>
+
+</body>
+</html>
