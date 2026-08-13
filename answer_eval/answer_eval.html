@@ -2,433 +2,929 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>UPSC LoG — Daily DPQ</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Answer Sheet</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <style>
   :root{
-    --ink: #1E2A44;
-    --ink-soft: #3A4666;
-    --paper: #EEE8D8;
-    --paper-line: #D9D0B8;
-    --maroon: #8C2A1E;
-    --maroon-deep: #6E2016;
-    --brass: #A9812E;
-    --green-ok: #2F5D3A;
-    --grey-closed: #8A8264;
-    --white: #FBF9F3;
+    --paper: #FBF8F1;
+    --paper-line: #D8CFC0;
+    --margin-red: #B84A3E;
+    --ink: #2A2A28;
+    --ink-soft: #6B6459;
+    --pencil: #4E6E8E;
+    --stamp-green: #4B7A54;
   }
-
-  *{ box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
-  html{ -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-
-  html, body{
-    margin: 0;
-    padding: 0;
-    background: var(--paper);
-    color: var(--ink);
-    font-family: 'IBM Plex Sans', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-    width: 100%;
-  }
-
+  *{box-sizing:border-box;}
   body{
-    min-height: 100vh;
-    min-height: 100dvh;
-    background-image: linear-gradient(var(--paper-line) 1px, transparent 1px);
-    background-size: 100% 34px;
-    background-position: 0 130px;
-    padding-left: env(safe-area-inset-left);
-    padding-right: env(safe-area-inset-right);
+    margin:0;
+    background:
+      repeating-linear-gradient(var(--paper) 0 31px, var(--paper-line) 31px 32px),
+      var(--paper);
+    background-position: 0 60px;
+    font-family:'Source Sans 3', sans-serif;
+    color:var(--ink);
+    min-height:100vh;
+    position:relative;
   }
-
   body::before{
-    content: "";
-    position: fixed;
-    top: 0; bottom: 0;
-    left: clamp(24px, 8vw, 120px);
-    width: 2px;
-    background: var(--maroon);
-    opacity: 0.55;
-    z-index: 0;
+    content:"";
+    position:fixed;
+    top:0; bottom:0; left:56px;
+    width:2px;
+    background:var(--margin-red);
+    opacity:.35;
+    z-index:0;
   }
-
+  @media (max-width:640px){
+    body::before{ left:28px; }
+  }
   .wrap{
-    position: relative;
-    z-index: 1;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 56px clamp(24px, 9vw, 130px) 90px;
+    max-width:720px;
+    margin:0 auto;
+    padding:40px 32px 80px 76px;
+    position:relative;
+    z-index:1;
   }
-
-  header{ padding-bottom: 10px; }
-
-  .back-link{
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 16px;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--maroon-deep);
-    text-decoration: none;
-    margin: 0 0 14px;
-    padding: 6px 0;
-    transition: color .12s ease, gap .12s ease;
+  @media (max-width:640px){
+    .wrap{ padding:28px 20px 60px 44px; }
   }
-
-  .back-link:hover{
-    color: var(--maroon);
-    gap: 12px;
+  header{
+    margin-bottom:36px;
   }
-
-  .back-link .arrow{
-    font-size: 18px;
-    line-height: 1;
-  }
-
   h1{
-    font-family: 'Source Serif 4', serif;
-    font-weight: 700;
-    font-size: clamp(34px, 5vw, 48px);
-    margin: 0 0 6px;
-    letter-spacing: -0.01em;
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:2.1rem;
+    margin:0 0 4px;
+    letter-spacing:-0.01em;
   }
-
   .sub{
-    font-size: 15px;
-    color: var(--ink-soft);
-    max-width: 50ch;
-    line-height: 1.55;
-    margin: 10px 0 0;
+    color:var(--ink-soft);
+    font-size:.95rem;
+    font-family:'JetBrains Mono', monospace;
   }
-
-  .index-label{
-    margin-top: 40px;
-    margin-bottom: 16px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .index-label::after{
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: var(--paper-line);
-  }
-
-  .cards{
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-    gap: 16px;
-  }
-
   .card{
-    display: block;
-    background: var(--white);
-    border: 1px solid var(--paper-line);
-    border-left: 3px solid var(--brass);
-    padding: 20px 20px 18px;
-    min-height: 44px;
-    text-decoration: none;
-    color: var(--ink);
-    position: relative;
-    transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease;
-    touch-action: manipulation;
+    background:rgba(255,255,255,.55);
+    border:1px solid var(--paper-line);
+    border-radius:2px;
+    padding:20px 22px;
+    margin-bottom:20px;
+  }
+  .new-q textarea{
+    width:100%;
+    font-family:'Fraunces', serif;
+    font-size:1.05rem;
+    border:none;
+    background:transparent;
+    resize:vertical;
+    min-height:52px;
+    outline:none;
+    color:var(--ink);
+  }
+  .new-q textarea::placeholder{ color:var(--ink-soft); font-style:italic; }
+  button{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.82rem;
+    letter-spacing:.03em;
+    text-transform:uppercase;
+    background:var(--ink);
+    color:var(--paper);
+    border:none;
+    padding:10px 18px;
+    border-radius:2px;
+    cursor:pointer;
+    transition:opacity .15s ease;
+  }
+  button:hover{ opacity:.82; }
+  button:disabled{ opacity:.4; cursor:not-allowed; }
+  button.ghost{
+    background:transparent;
+    color:var(--ink);
+    border:1px solid var(--ink);
+  }
+  .row-end{ display:flex; justify-content:flex-end; margin-top:10px; }
+
+  .q-item{
+    display:block;
+    text-decoration:none;
+    color:inherit;
+    cursor:pointer;
+  }
+  .q-item .num{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.75rem;
+    color:var(--pencil);
+    display:block;
+    margin-bottom:6px;
+  }
+  .q-item .text{
+    font-family:'Fraunces', serif;
+    font-size:1.15rem;
+    line-height:1.4;
+  }
+  .q-item .meta{
+    color:var(--ink-soft);
+    font-size:.82rem;
+    margin-top:8px;
+  }
+  .q-item .cta{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.78rem;
+    color:var(--pencil);
+    margin-top:12px;
+  }
+  .q-item:hover .cta{ text-decoration:underline; }
+  .q-item:hover{ background:rgba(255,255,255,.85); }
+  .q-item{ position:relative; display:block; }
+  .q-item .q-body{ display:block; text-decoration:none; color:inherit; cursor:pointer; }
+  .icon-btn{
+    position:absolute;
+    top:14px; right:14px;
+    background:transparent;
+    border:none;
+    color:var(--ink-soft);
+    font-family:'JetBrains Mono', monospace;
+    font-size:.72rem;
+    text-transform:none;
+    padding:4px 8px;
+    cursor:pointer;
+    border-radius:2px;
+    z-index:2;
+  }
+  .icon-btn:hover{
+    color:var(--margin-red);
+    background:rgba(184,74,62,.08);
+    opacity:1;
+  }
+  .paper-photo .icon-btn{
+    top:4px; right:4px;
+    background:rgba(255,255,255,.85);
   }
 
-  .card:hover{
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(30,42,68,0.08);
+  .back{
+    display:inline-block;
+    margin-bottom:20px;
+    color:var(--pencil);
+    font-family:'JetBrains Mono', monospace;
+    font-size:.85rem;
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .back:hover{ text-decoration:underline; }
+
+  .question-full{
+    font-family:'Fraunces', serif;
+    font-size:1.5rem;
+    line-height:1.4;
+    margin-bottom:28px;
   }
 
-  .card:active{
-    transform: translateY(0);
-    box-shadow: none;
+  .dropzone{
+    border:2px dashed var(--paper-line);
+    border-radius:4px;
+    padding:36px 20px;
+    text-align:center;
+    background:rgba(255,255,255,.4);
+    transition:border-color .15s ease, background .15s ease;
+    cursor:pointer;
   }
-
-  @media (hover: none) and (pointer: coarse){
-    .card:hover{ transform: none; box-shadow: none; }
+  .dropzone.drag{
+    border-color:var(--pencil);
+    background:rgba(78,110,142,.08);
   }
-
-  .card.status-open{ border-left-color: var(--green-ok); }
-  .card.status-today{ border-left-color: var(--maroon); }
-  .card.status-closed,
-  .card.status-locked,
-  .card.status-upcoming{
-    border-left-color: var(--grey-closed);
-    opacity: 0.6;
-    cursor: not-allowed;
-    pointer-events: none;
+  .dropzone .icon{
+    font-size:1.8rem;
+    margin-bottom:8px;
   }
-
-  .card-title{
-    font-family: 'Source Serif 4', serif;
-    font-size: 21px;
-    font-weight: 600;
-    margin: 0 0 10px;
+  .dropzone .main-txt{
+    font-family:'Fraunces', serif;
+    font-size:1.05rem;
+    margin-bottom:4px;
   }
-
-  .card-tag{
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10.5px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    padding: 3px 8px;
-    border-radius: 2px;
+  .dropzone .sub-txt{
+    color:var(--ink-soft);
+    font-size:.85rem;
   }
-
-  .card-tag.open{ color: var(--green-ok); background: rgba(47,93,58,0.08); }
-  .card-tag.today{ color: var(--maroon-deep); background: rgba(140,42,30,0.08); }
-  .card-tag.upcoming{ color: var(--brass); background: rgba(169,129,46,0.08); }
-  .card-tag.closed,
-  .card-tag.locked{ color: var(--grey-closed); background: rgba(138,130,100,0.1); }
-
-  /* Schedule card — always first, visually distinct from day cards */
-  .card.schedule-card{
-    background: var(--ink);
-    border: 1px solid var(--ink);
-    border-left: 3px solid var(--brass);
-    color: var(--white);
+  input[type=file]{ display:none; }
+  input[type=text]{
+    width:100%;
+    font-family:'Source Sans 3', sans-serif;
+    font-size:.95rem;
+    border:none;
+    border-bottom:1px solid var(--paper-line);
+    background:transparent;
+    padding:8px 2px;
+    outline:none;
+    color:var(--ink);
   }
-
-  .card.schedule-card:hover{
-    box-shadow: 0 6px 18px rgba(30,42,68,0.25);
+  .field-label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.72rem;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    color:var(--ink-soft);
+    display:block;
+    margin-bottom:6px;
   }
-
-  .card.schedule-card .card-title{
-    color: var(--white);
-    font-size: 19px;
-    letter-spacing: 0.02em;
+  .preview-strip{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:14px;
   }
-
-  .card.schedule-card .card-tag{
-    color: var(--brass);
-    background: rgba(169,129,46,0.18);
+  .preview-strip img{
+    width:72px; height:72px;
+    object-fit:cover;
+    border-radius:3px;
+    border:1px solid var(--paper-line);
+    transform:rotate(-1.2deg);
   }
-
-  .card.schedule-card .card-note{
-    color: rgba(251,249,243,0.7);
+  .pdf-thumb{
+    width:72px; height:72px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    border:1px solid var(--paper-line);
+    border-radius:3px;
+    background:#fff;
+    font-size:1.5rem;
+    transform:rotate(-1.2deg);
   }
-
-  .card.schedule-card .card-arrow{
-    color: var(--brass);
+  .pdf-thumb span{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.6rem;
+    color:var(--ink-soft);
+    margin-top:2px;
   }
+  .preview-strip div:nth-child(even) img{ transform:rotate(1.4deg); }
 
-  .card-note{
-    margin: 10px 0 0;
-    font-size: 12.5px;
-    color: var(--ink-soft);
-    line-height: 1.5;
+  .gallery-title{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.78rem;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    color:var(--ink-soft);
+    margin:36px 0 14px;
   }
-
-  .card-arrow{
-    position: absolute;
-    top: 18px;
-    right: 18px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 14px;
-    color: var(--brass);
+  .gallery{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(150px,1fr));
+    gap:16px;
   }
-
+  .paper-photo{
+    background:#fff;
+    padding:8px 8px 34px;
+    border:1px solid var(--paper-line);
+    box-shadow:0 3px 8px rgba(0,0,0,.08);
+    border-radius:1px;
+    transform:rotate(var(--r,0deg));
+    position:relative;
+  }
+  .paper-photo:nth-child(3n){ --r:-1.4deg; }
+  .paper-photo:nth-child(3n+1){ --r:1deg; }
+  .paper-photo:nth-child(3n+2){ --r:-0.6deg; }
+  .paper-photo img{
+    width:100%;
+    display:block;
+    border-radius:1px;
+    cursor:pointer;
+  }
+  .pdf-card{
+    width:100%;
+    aspect-ratio:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    font-size:2.2rem;
+    background:var(--paper);
+    border:1px solid var(--paper-line);
+    border-radius:1px;
+    cursor:pointer;
+  }
+  .pdf-card span{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.72rem;
+    color:var(--pencil);
+  }
+  .paper-photo .name{
+    position:absolute;
+    bottom:8px; left:8px; right:8px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:.72rem;
+    color:var(--ink-soft);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
   .empty{
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px;
-    color: var(--ink-soft);
-    padding: 30px 0;
+    color:var(--ink-soft);
+    font-style:italic;
+    font-family:'Fraunces', serif;
+    padding:20px 0;
   }
-
-  footer{
-    margin-top: 60px;
-    padding-top: 20px;
-    border-top: 1px solid var(--paper-line);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    color: var(--grey-closed);
-    line-height: 1.7;
+  .toast{
+    position:fixed;
+    bottom:24px; left:50%;
+    transform:translateX(-50%);
+    background:var(--stamp-green);
+    color:#fff;
+    padding:10px 18px;
+    border-radius:3px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:.82rem;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .25s ease, transform .25s ease;
+    z-index:50;
   }
-
-  @media (max-width: 520px){
-    body::before{ left: 16px; }
-    .wrap{ padding: 32px 18px 60px 36px; }
-    h1{ font-size: 30px; }
-    .sub{ font-size: 14px; }
-    .cards{ grid-template-columns: 1fr; gap: 12px; }
-    .card{ padding: 18px 18px 16px; }
-    .card-title{ font-size: 19px; }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(-6px); }
+  .setup-warning{
+    background:#fff3f0;
+    border:1px solid var(--margin-red);
+    color:var(--margin-red);
+    padding:16px 18px;
+    border-radius:3px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:.82rem;
+    margin-bottom:24px;
+    line-height:1.6;
   }
-
-  @media (max-width: 360px){
-    .wrap{ padding: 28px 14px 50px 30px; }
-    h1{ font-size: 26px; }
-    .back-link{ font-size: 14px; }
+  .lightbox{
+    position:fixed; inset:0;
+    background:rgba(20,18,15,.9);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:100;
+    padding:24px;
+  }
+  .lightbox.open{ display:flex; }
+  .lightbox img{
+    max-width:100%;
+    max-height:100%;
+    border-radius:2px;
+  }
+  .header-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:16px;
+  }
+  .schedule-bar{
+    margin-bottom:20px;
+  }
+  .schedule-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:var(--margin-red);
+    color:#fff;
+    font-family:'JetBrains Mono', monospace;
+    font-size:.82rem;
+    letter-spacing:.02em;
+    text-decoration:none;
+    padding:11px 18px;
+    border-radius:3px;
+    box-shadow:0 2px 6px rgba(184,74,62,.25);
+    transition:opacity .15s ease, transform .15s ease;
+    width:100%;
+    justify-content:center;
+    box-sizing:border-box;
+  }
+  .schedule-btn:hover{ opacity:.88; }
+  .schedule-btn:active{ transform:scale(.98); }
+  @media (min-width:520px){
+    .schedule-btn{ width:auto; justify-content:flex-start; }
+  }
+  #auth-box{
+    flex-shrink:0;
+  }
+  .auth-link{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.78rem;
+    color:var(--pencil);
+    cursor:pointer;
+    background:none;
+    border:none;
+    text-decoration:underline;
+    padding:0;
+  }
+  .auth-status{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.75rem;
+    color:var(--ink-soft);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .login-panel{
+    position:absolute;
+    right:0;
+    top:36px;
+    background:#fff;
+    border:1px solid var(--paper-line);
+    box-shadow:0 6px 20px rgba(0,0,0,.12);
+    border-radius:4px;
+    padding:16px;
+    width:230px;
+    z-index:20;
+  }
+  .login-panel input{
+    margin-bottom:10px;
+  }
+  .login-panel .row-end{ margin-top:6px; }
+  .auth-wrap{ position:relative; }
+  .login-error{
+    color:var(--margin-red);
+    font-family:'JetBrains Mono', monospace;
+    font-size:.72rem;
+    margin-top:6px;
+  }
+  .locked-note{
+    color:var(--ink-soft);
+    font-style:italic;
+    font-family:'Fraunces', serif;
+    font-size:.95rem;
+    padding:14px 0;
+  }
+  .leaderboard-title{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.78rem;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    color:var(--ink-soft);
+    margin:36px 0 14px;
+  }
+  .leaderboard-box{
+    max-height:260px;
+    overflow-y:auto;
+    background:rgba(255,255,255,.55);
+    border:1px solid var(--paper-line);
+    border-radius:2px;
+    -webkit-overflow-scrolling:touch;
+  }
+  .leaderboard-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    padding:10px 16px;
+    border-bottom:1px solid var(--paper-line);
+    font-family:'Fraunces', serif;
+    font-size:.98rem;
+  }
+  .leaderboard-row:last-child{ border-bottom:none; }
+  .leaderboard-row .lb-rank{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.72rem;
+    color:var(--pencil);
+    width:22px;
+    flex-shrink:0;
+  }
+  .leaderboard-row .lb-name{
+    flex:1;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .leaderboard-row .lb-count{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.78rem;
+    color:var(--ink-soft);
+    flex-shrink:0;
+    background:rgba(75,122,84,.1);
+    color:var(--stamp-green);
+    padding:2px 8px;
+    border-radius:10px;
   }
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <a class="back-link" href="../index.html">
-        <span class="arrow">&larr;</span>
-        <span>UPSC LoG</span>
+
+<div class="wrap" id="app">
+  <header>
+    <div class="schedule-bar">
+      <a class="schedule-btn" href="DPQ_Schedule.pdf" target="_blank" rel="noopener">
+        📅 UPSC LoG DPQs Schedule
       </a>
-      <h1>Daily DPQ Register</h1>
-    </header>
+    </div>
+    <div class="header-top">
+      <div>
+        <h1>Answer Sheet</h1>
+        <div class="sub">post a question — collect handwritten answers</div>
+      </div>
+      <div id="auth-box"></div>
+    </div>
+  </header>
+  <div id="view"></div>
+</div>
 
-    <div class="index-label">Days</div>
-    <div class="cards" id="cardGrid"></div>
 
-    <footer>
-      UPSC LoG — Daily Practice Question programme.
-    </footer>
-  </div>
+
+<div class="toast" id="toast"></div>
+<div class="lightbox" id="lightbox"><img id="lightbox-img" src=""></div>
 
 <script>
-  // ─────────────────────────────────────────────────────────────
-  // ADD / EDIT CARDS HERE. Each one becomes a card below.
-  //
-  //   id      → sent to the sheet as the Day value (keep it unique).
-  //             Also used in the URL.
-  //   title   → what's shown on the card itself.
-  //   date    → "YYYY-MM-DD", the day this card is meant for.
-  //             Status is worked out automatically from this:
-  //               - that date is today      → open, "Submission Today"
-  //               - that date is tomorrow   → locked, "Submission Tomorrow"
-  //               - date already passed     → locked, "Closed"
-  //               - date further in future  → locked, "Opens later"
-  //             Only today's card is clickable — everything else is
-  //             locked until its date arrives, and closes itself off
-  //             automatically once it's past. No manual editing needed
-  //             day to day.
-  //   status  → optional. Set to "open" to force a card clickable
-  //             regardless of date (e.g. a one-off makeup window),
-  //             or "closed" to force it locked. Leave unset to let
-  //             the date decide.
-  //   note    → optional short line shown under the tag.
-  //
-  // Cards display in the order listed here — put newest/most
-  // relevant first.
-  // ─────────────────────────────────────────────────────────────
-  const CARDS = [
-/*  { id: "Mains-Monk-60", title: "Mains-Monk-60", date: "2026-09-09", note: "" },
-  { id: "Mains-Monk-59", title: "Mains-Monk-59", date: "2026-09-08", note: "" },
-  { id: "Mains-Monk-58", title: "Mains-Monk-58", date: "2026-09-07", note: "" },
-  { id: "Mains-Monk-57", title: "Mains-Monk-57", date: "2026-09-06", note: "" },
-  { id: "Mains-Monk-56", title: "Mains-Monk-56", date: "2026-09-05", note: "" },
-  { id: "Mains-Monk-55", title: "Mains-Monk-55", date: "2026-09-04", note: "" },
-  { id: "Mains-Monk-54", title: "Mains-Monk-54", date: "2026-09-03", note: "" },
-  { id: "Mains-Monk-53", title: "Mains-Monk-53", date: "2026-09-02", note: "" },
-  { id: "Mains-Monk-52", title: "Mains-Monk-52", date: "2026-09-01", note: "" },
-  { id: "Mains-Monk-51", title: "Mains-Monk-51", date: "2026-08-31", note: "" },
-  { id: "Mains-Monk-50", title: "Mains-Monk-50", date: "2026-08-30", note: "" },
-  { id: "Mains-Monk-49", title: "Mains-Monk-49", date: "2026-08-29", note: "" },
-  { id: "Mains-Monk-48", title: "Mains-Monk-48", date: "2026-08-28", note: "" },
-  { id: "Mains-Monk-47", title: "Mains-Monk-47", date: "2026-08-27", note: "" },
-  { id: "Mains-Monk-46", title: "Mains-Monk-46", date: "2026-08-26", note: "" },
-  { id: "Mains-Monk-45", title: "Mains-Monk-45", date: "2026-08-25", note: "" },
-  { id: "Mains-Monk-44", title: "Mains-Monk-44", date: "2026-08-24", note: "" },
-  { id: "Mains-Monk-43", title: "Mains-Monk-43", date: "2026-08-23", note: "" },
-  { id: "Mains-Monk-42", title: "Mains-Monk-42", date: "2026-08-22", note: "" },
-  { id: "Mains-Monk-41", title: "Mains-Monk-41", date: "2026-08-21", note: "" },
-  { id: "Mains-Monk-40", title: "Mains-Monk-40", date: "2026-08-20", note: "" },
-  { id: "Mains-Monk-39", title: "Mains-Monk-39", date: "2026-08-19", note: "" },
-  { id: "Mains-Monk-38", title: "Mains-Monk-38", date: "2026-08-18", note: "" },
-  { id: "Mains-Monk-37", title: "Mains-Monk-37", date: "2026-08-17", note: "" },
-  { id: "Mains-Monk-36", title: "Mains-Monk-36", date: "2026-08-16", note: "" },
-  { id: "Mains-Monk-35", title: "Mains-Monk-35", date: "2026-08-15", note: "" },
-  { id: "Mains-Monk-34", title: "Mains-Monk-34", date: "2026-08-14", note: "" },
-  { id: "Mains-Monk-33", title: "Mains-Monk-33", date: "2026-08-13", note: "" },
-  { id: "Mains-Monk-32", title: "Mains-Monk-32", date: "2026-08-12", note: "" },
-  { id: "Mains-Monk-31", title: "Mains-Monk-31", date: "2026-08-11", note: "" },*/
-  // { id: "Mains-Monk-10", title: "Mains-Monk-10", date: "2026-08-10", note: "" },
-  // { id: "Mains-Monk-9", title: "Mains-Monk-9", date: "2026-08-19", note: "" },
-  // { id: "Mains-Monk-8", title: "Mains-Monk-8", date: "2026-08-18", note: "" },
-  // { id: "Mains-Monk-7", title: "Mains-Monk-7", date: "2026-08-17", note: "" },
-  // { id: "Mains-Monk-6", title: "Mains-Monk-6", date: "2026-08-16", note: "" },
-  // { id: "Mains-Monk-5", title: "Mains-Monk-5", date: "2026-08-15", note: "" },
-  // { id: "Mains-Monk-4", title: "Mains-Monk-4", date: "2026-08-14", note: "" },
-  // { id: "Mains-Monk-3", title: "Mains-Monk-3", date: "2026-08-13", note: "" },
-  // { id: "Mains-Monk-2", title: "Mains-Monk-2", date: "2026-08-12", note: "" },
-  { id: "Mains-Monk-Submission", title: "Mains-Monk-Submission", date: "2026-08-11", note: "" }
-  ];
+/* ====== CONFIGURE THESE TWO LINES ====== */
+const SUPABASE_URL = "https://krdrdhhlbdsnvihwhvfo.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtyZHJkaGhsYmRzbnZpaHdodmZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM4NDU5MzksImV4cCI6MjA5OTQyMTkzOX0.5DOX7VQ0PQ0xSsuclyEb0J5DYrjoOu4bnQfwLXxHeoU";
+/* ======================================= */
 
-  const TAG_LABEL = {
-    today: "Submission Today",
-    upcoming: "Submission Tomorrow",
-    open: "Open",
-    closed: "Closed",
-    locked: "Opens later"
-  };
+const configured = !SUPABASE_URL.startsWith("YOUR_") && !SUPABASE_ANON_KEY.startsWith("YOUR_");
+const sb = configured ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
-  // Works out a card's live status from its date, unless "status"
-  // was explicitly set on the card to force it open/closed.
-  function resolveStatus(card){
-    if (card.status === 'open' || card.status === 'closed') return card.status;
-    if (!card.date) return card.status || 'open';
+const view = document.getElementById('view');
+const toastEl = document.getElementById('toast');
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
 
-    const cardDate = new Date(card.date + 'T00:00:00');
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const diffDays = Math.round((cardDate - today) / 86400000);
+function toast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  setTimeout(()=>toastEl.classList.remove('show'), 2200);
+}
+function openLightbox(src){
+  lightboxImg.src = src;
+  lightbox.classList.add('open');
+}
+lightbox.addEventListener('click', ()=> lightbox.classList.remove('open'));
 
-    if (diffDays < 0) return 'today';
-    if (diffDays === 0) return 'today';
-    if (diffDays === 1) return 'today';
-    return 'locked';
-  }
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+function timeAgo(dateStr){
+  const s = Math.floor((Date.now() - new Date(dateStr).getTime())/1000);
+  if(s<60) return 'just now';
+  if(s<3600) return Math.floor(s/60)+'m ago';
+  if(s<86400) return Math.floor(s/3600)+'h ago';
+  return Math.floor(s/86400)+'d ago';
+}
 
-  const grid = document.getElementById('cardGrid');
+function setupWarning(){
+  return `<div class="setup-warning">
+    Not connected yet. Open this file and set <b>SUPABASE_URL</b> and
+    <b>SUPABASE_ANON_KEY</b> at the top of the &lt;script&gt; tag with the
+    values from your Supabase project (Settings → API).
+  </div>`;
+}
 
-  // Always-first card, pinned regardless of CARDS below.
-  // Change the href if you rename/move the schedule page.
-  const scheduleCard = document.createElement('a');
-  scheduleCard.className = 'card schedule-card';
-  scheduleCard.href = 'DPQ_Schedule.pdf';
-  scheduleCard.target = '_blank';
-  scheduleCard.rel = 'noopener';
-  scheduleCard.innerHTML = `
-    <span class="card-arrow">&#8599;</span>
-    <h3 class="card-title">DPQ LoG Schedule</h3>
-    <span class="card-tag">View Schedule</span>
-  `;
-  grid.appendChild(scheduleCard);
+/* ---------- AUTH ---------- */
+let currentUser = null;
+const authBox = document.getElementById('auth-box');
 
-  if (!CARDS.length){
-    grid.innerHTML = '<div class="empty">No days posted yet. Add entries to the CARDS list in index.html.</div>';
+function renderAuthBox(){
+  if(!configured){ authBox.innerHTML = ''; return; }
+  if(currentUser){
+    authBox.innerHTML = `
+      <div class="auth-status">
+        <span>${escapeHtml(currentUser.email)}</span>
+        <button class="auth-link" id="logout-btn">sign out</button>
+      </div>`;
+    document.getElementById('logout-btn').onclick = async () => {
+      await sb.auth.signOut();
+    };
   } else {
-    CARDS.forEach(card => {
-      const status = resolveStatus(card);
-      const isLocked = status === 'closed' || status === 'locked' || status === 'upcoming';
-      const el = document.createElement(isLocked ? 'div' : 'a');
-      el.className = `card status-${status}`;
-      if (!isLocked){
-        const params = new URLSearchParams({ day: card.id, label: card.title });
-        el.href = `submit.html?${params.toString()}`;
-      }
-      el.innerHTML = `
-        ${isLocked ? '' : '<span class="card-arrow">&rarr;</span>'}
-        <h3 class="card-title">${card.title}</h3>
-        <span class="card-tag ${status}">${TAG_LABEL[status] || status}</span>
-        ${card.note ? `<p class="card-note">${card.note}</p>` : ''}
-      `;
-      grid.appendChild(el);
+    authBox.innerHTML = `<div class="auth-wrap">
+      <button class="auth-link" id="show-login-btn">admin sign in</button>
+    </div>`;
+    document.getElementById('show-login-btn').onclick = showLoginPanel;
+  }
+}
+
+function showLoginPanel(){
+  const wrap = authBox.querySelector('.auth-wrap');
+  if(wrap.querySelector('.login-panel')) return;
+  const panel = document.createElement('div');
+  panel.className = 'login-panel';
+  panel.innerHTML = `
+    <span class="field-label">Email</span>
+    <input type="text" id="login-email" placeholder="you@example.com">
+    <span class="field-label">Password</span>
+    <input type="password" id="login-pass" placeholder="••••••••">
+    <div class="row-end"><button id="login-submit">Sign in</button></div>
+    <div class="login-error" id="login-error"></div>
+  `;
+  wrap.appendChild(panel);
+  document.getElementById('login-submit').onclick = async () => {
+    const email = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-pass').value;
+    const errEl = document.getElementById('login-error');
+    errEl.textContent = '';
+    const { error } = await sb.auth.signInWithPassword({ email, password });
+    if(error){ errEl.textContent = error.message; return; }
+    panel.remove();
+    toast('Signed in');
+  };
+  document.addEventListener('click', function outside(e){
+    if(!wrap.contains(e.target)){ panel.remove(); document.removeEventListener('click', outside); }
+  }, { capture:true });
+}
+
+async function router(){
+  const hash = location.hash.slice(1) || '/';
+  if(!configured){
+    view.innerHTML = setupWarning() + questionListSkeleton();
+    return;
+  }
+  if(hash.startsWith('/q/')){
+    renderQuestion(hash.slice(3));
+  } else {
+    renderList();
+  }
+}
+window.addEventListener('hashchange', router);
+
+function questionListSkeleton(){
+  return `<div class="card"><div class="empty">Connect Supabase to get started.</div></div>`;
+}
+
+/* ---------- LIST VIEW ---------- */
+async function renderList(){
+  const newQBlock = currentUser ? `
+    <div class="card new-q">
+      <span class="field-label">New question</span>
+      <textarea id="new-q-text" placeholder="Type the question here..."></textarea>
+      <div class="row-end"><button id="post-q-btn">Post question</button></div>
+    </div>
+  ` : `
+    <div class="card"><div class="locked-note">Sign in as admin to post a new question.</div></div>
+  `;
+
+  view.innerHTML = `
+    ${newQBlock}
+    <div id="q-list"><div class="empty">Loading...</div></div>
+    <div class="leaderboard-title">Candidates</div>
+    <div class="leaderboard-box" id="leaderboard-box"><div class="empty" style="padding:16px;">Loading...</div></div>
+  `;
+  if(currentUser) document.getElementById('post-q-btn').onclick = postQuestion;
+
+  const { data, error } = await sb.from('questions').select('*').order('created_at', { ascending:false });
+  const list = document.getElementById('q-list');
+  if(error){ list.innerHTML = `<div class="empty">Couldn't load questions: ${escapeHtml(error.message)}</div>`; return; }
+  if(!data.length){ list.innerHTML = `<div class="empty">No questions yet.</div>`; }
+  else {
+    // Count distinct submitters per question, so multiple uploads by the same
+    // person for one question show up as a single "answer" here.
+    const { data: allAnswers } = await sb.from('answers').select('question_id, submitter_name');
+    const submitterMap = new Map(); // question_id -> Set of lowercased names
+    (allAnswers || []).forEach(a => {
+      const key = (a.submitter_name || 'Anonymous').trim().toLowerCase() || 'anonymous';
+      if(!submitterMap.has(a.question_id)) submitterMap.set(a.question_id, new Set());
+      submitterMap.get(a.question_id).add(key);
+    });
+
+    list.innerHTML = data.map((q, i) => {
+      const count = submitterMap.get(q.id)?.size || 0;
+      return `
+      <div class="card q-item">
+        ${currentUser ? `<button class="icon-btn" data-delete-q="${q.id}" title="Delete question">✕ delete</button>` : ''}
+        <a class="q-body" href="#/q/${q.id}">
+          <span class="num">Q${String(data.length - i).padStart(2,'0')}</span>
+          <div class="text">${escapeHtml(q.text)}</div>
+          <div class="meta">${count} answer(s) · ${timeAgo(q.created_at)}</div>
+          <div class="cta">Click here to add your answer &rarr;</div>
+        </a>
+      </div>
+    `;
+    }).join('');
+
+    list.querySelectorAll('[data-delete-q]').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const id = btn.getAttribute('data-delete-q');
+        if(!confirm('Delete this question and all its answers? This can\'t be undone.')) return;
+        await deleteQuestion(id);
+      });
     });
   }
+
+  loadLeaderboard();
+}
+
+/* ---------- LEADERBOARD ---------- */
+async function loadLeaderboard(){
+  const box = document.getElementById('leaderboard-box');
+  if(!box) return;
+  const { data, error } = await sb.from('answers').select('submitter_name, question_id');
+  if(error){ box.innerHTML = `<div class="empty" style="padding:16px;">Couldn't load candidates.</div>`; return; }
+  if(!data.length){ box.innerHTML = `<div class="empty" style="padding:16px;">No submissions yet.</div>`; return; }
+
+  const map = new Map(); // name(lowercased) -> { display, qids:Set }
+  data.forEach(row => {
+    const raw = (row.submitter_name || 'Anonymous').trim() || 'Anonymous';
+    const key = raw.toLowerCase();
+    if(!map.has(key)) map.set(key, { display: raw, qids: new Set() });
+    map.get(key).qids.add(row.question_id);
+  });
+
+  const rows = Array.from(map.values())
+    .map(v => ({ name: v.display, count: v.qids.size }))
+    .sort((a,b) => b.count - a.count || a.name.localeCompare(b.name));
+
+  box.innerHTML = rows.map((r, i) => `
+    <div class="leaderboard-row">
+      <span class="lb-rank">${i+1}.</span>
+      <span class="lb-name">${escapeHtml(r.name)}</span>
+      <span class="lb-count">${r.count} answer${r.count === 1 ? '' : 's'}</span>
+    </div>
+  `).join('');
+}
+
+async function deleteQuestion(id){
+  // Remove answer images from storage first
+  const { data: answers } = await sb.from('answers').select('image_url').eq('question_id', id);
+  if(answers && answers.length){
+    const paths = answers.map(a => extractStoragePath(a.image_url)).filter(Boolean);
+    if(paths.length) await sb.storage.from('answers').remove(paths);
+  }
+  // answers rows are removed automatically via "on delete cascade"
+  const { error } = await sb.from('questions').delete().eq('id', id);
+  if(error){ toast('Error: ' + error.message); return; }
+  toast('Question deleted');
+  renderList();
+}
+
+function extractStoragePath(publicUrl){
+  const marker = '/answers/';
+  const idx = publicUrl.indexOf(marker);
+  if(idx === -1) return null;
+  return publicUrl.slice(idx + marker.length);
+}
+
+async function postQuestion(){
+  const el = document.getElementById('new-q-text');
+  const text = el.value.trim();
+  if(!text) return;
+  const btn = document.getElementById('post-q-btn');
+  btn.disabled = true;
+  const { error } = await sb.from('questions').insert({ text });
+  btn.disabled = false;
+  if(error){ toast('Error: ' + error.message); return; }
+  el.value = '';
+  toast('Question posted');
+  renderList();
+}
+
+/* ---------- QUESTION DETAIL VIEW ---------- */
+async function renderQuestion(id){
+  view.innerHTML = `<div class="empty">Loading...</div>`;
+
+  const { data: q, error: qErr } = await sb.from('questions').select('*').eq('id', id).single();
+  if(qErr || !q){ view.innerHTML = `<a class="back" href="#/">&larr; back</a><div class="empty">Question not found.</div>`; return; }
+
+  view.innerHTML = `
+    <a class="back" href="#/">&larr; all questions</a>
+    <div class="question-full">${escapeHtml(q.text)}</div>
+
+    <div class="card">
+      <span class="field-label">Your name</span>
+      <input type="text" id="submitter-name" placeholder="e.g. Priya">
+      <div style="height:16px"></div>
+      <span class="field-label">Photo or PDF of your answer</span>
+      <div class="dropzone" id="dropzone">
+        <div class="icon">📎</div>
+        <div class="main-txt">Drag & drop a photo or PDF, or tap to select</div>
+        <div class="sub-txt">JPG, PNG, or PDF</div>
+        <input type="file" id="file-input" accept="image/*,application/pdf" multiple>
+      </div>
+      <div class="preview-strip" id="preview-strip"></div>
+      <div class="row-end"><button id="submit-btn" disabled>Upload answer</button></div>
+    </div>
+
+    <div class="gallery-title">Submitted answers</div>
+    <div class="gallery" id="gallery"><div class="empty">Loading...</div></div>
+  `;
+
+  setupUploader(q.id);
+  loadAnswers(q.id);
+}
+
+let pendingFiles = [];
+
+function setupUploader(questionId){
+  const dz = document.getElementById('dropzone');
+  const input = document.getElementById('file-input');
+  const stripEl = document.getElementById('preview-strip');
+  const submitBtn = document.getElementById('submit-btn');
+
+  dz.addEventListener('click', ()=> input.click());
+  dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
+  dz.addEventListener('dragleave', ()=> dz.classList.remove('drag'));
+  dz.addEventListener('drop', e => {
+    e.preventDefault();
+    dz.classList.remove('drag');
+    handleFiles(e.dataTransfer.files);
+  });
+  input.addEventListener('change', e => handleFiles(e.target.files));
+
+  function isPdf(file){
+    return file.type === 'application/pdf' || /\.pdf$/i.test(file.name);
+  }
+
+  function handleFiles(fileList){
+    pendingFiles = Array.from(fileList).filter(f => f.type.startsWith('image/') || isPdf(f));
+    stripEl.innerHTML = '';
+    pendingFiles.forEach(f => {
+      const d = document.createElement('div');
+      if(isPdf(f)){
+        d.innerHTML = `<div class="pdf-thumb" title="${escapeHtml(f.name)}">📄<span>PDF</span></div>`;
+      } else {
+        const url = URL.createObjectURL(f);
+        d.innerHTML = `<img src="${url}">`;
+      }
+      stripEl.appendChild(d);
+    });
+    submitBtn.disabled = pendingFiles.length === 0;
+  }
+
+  submitBtn.onclick = async () => {
+    const name = document.getElementById('submitter-name').value.trim() || 'Anonymous';
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Uploading...';
+    try{
+      for(const file of pendingFiles){
+        const path = `${questionId}/${Date.now()}-${Math.random().toString(36).slice(2,8)}-${file.name}`;
+        const { error: upErr } = await sb.storage.from('answers').upload(path, file);
+        if(upErr) throw upErr;
+        const { data: pub } = sb.storage.from('answers').getPublicUrl(path);
+        const { error: insErr } = await sb.from('answers').insert({
+          question_id: questionId,
+          submitter_name: name,
+          image_url: pub.publicUrl
+        });
+        if(insErr) throw insErr;
+      }
+      toast('Answer uploaded');
+      pendingFiles = [];
+      document.getElementById('preview-strip').innerHTML = '';
+      document.getElementById('file-input').value = '';
+      loadAnswers(questionId);
+    } catch(err){
+      toast('Error: ' + err.message);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Upload answer';
+    }
+  };
+}
+
+async function loadAnswers(questionId){
+  const gallery = document.getElementById('gallery');
+  const { data, error } = await sb.from('answers').select('*').eq('question_id', questionId).order('created_at', { ascending:false });
+  if(error){ gallery.innerHTML = `<div class="empty">Couldn't load answers.</div>`; return; }
+  if(!data.length){ gallery.innerHTML = `<div class="empty">No answers yet.</div>`; return; }
+  gallery.innerHTML = data.map(a => {
+    const isPdfFile = /\.pdf(\?|$)/i.test(a.image_url);
+    const media = isPdfFile
+      ? `<div class="pdf-card" onclick="window.open('${a.image_url}', '_blank')">📄<span>Open PDF</span></div>`
+      : `<img src="${a.image_url}" onclick="openLightbox('${a.image_url}')">`;
+    return `
+    <div class="paper-photo">
+      ${currentUser ? `<button class="icon-btn" data-delete-a="${a.id}" data-url="${escapeHtml(a.image_url)}" title="Delete this answer">✕</button>` : ''}
+      ${media}
+      <div class="name">${escapeHtml(a.submitter_name)} · ${timeAgo(a.created_at)}</div>
+    </div>`;
+  }).join('');
+
+  gallery.querySelectorAll('[data-delete-a]').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      if(!confirm('Delete this answer?')) return;
+      const id = btn.getAttribute('data-delete-a');
+      const url = btn.getAttribute('data-url');
+      const path = extractStoragePath(url);
+      if(path) await sb.storage.from('answers').remove([path]);
+      const { error } = await sb.from('answers').delete().eq('id', id);
+      if(error){ toast('Error: ' + error.message); return; }
+      toast('Answer deleted');
+      loadAnswers(questionId);
+    });
+  });
+}
+
+if(configured){
+  sb.auth.getSession().then(({ data }) => {
+    currentUser = data.session?.user || null;
+    renderAuthBox();
+    router();
+  });
+  sb.auth.onAuthStateChange((_event, session) => {
+    currentUser = session?.user || null;
+    renderAuthBox();
+    router();
+  });
+} else {
+  router();
+}
 </script>
 </body>
 </html>
