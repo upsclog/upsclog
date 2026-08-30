@@ -286,21 +286,12 @@
   }
   footer a{ color:var(--paper-dim); }
 
-  /* topbar — holds back button (left) and enroll button (right), same flow position back-btn used to occupy */
-  .topbar{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:14px;
-    margin:60px 6vw 0;
-  }
-
   /* back button — sits in normal document flow, not fixed/absolute */
   .back-btn{
     display:inline-flex;
     align-items:center;
     gap:8px;
-    margin:0;
+    margin:60px 6vw 0;
     padding:9px 15px;
     border-radius:100px;
     border:1px solid var(--card-border);
@@ -312,40 +303,11 @@
     text-decoration:none;
     cursor:pointer;
     transition:border-color .25s, background .25s, transform .15s;
-    flex:0 0 auto;
   }
   .back-btn:hover{ border-color:rgba(233,231,222,0.4); background:#191D27; }
   .back-btn:active{ transform:scale(0.96); }
   .back-btn:focus-visible{ outline:2px solid var(--paper); outline-offset:2px; }
   .back-btn svg{ width:15px; height:15px; flex:0 0 auto; }
-
-  /* enroll button — prominent CTA, top-right of topbar on tablet/desktop */
-  .enroll-btn{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    padding:10px 20px;
-    border-radius:100px;
-    background:linear-gradient(90deg, var(--gs1), var(--gs2) 30%, var(--gs3) 55%, var(--gs4) 75%, var(--ph));
-    color:#0B0D12;
-    font-family:'IBM Plex Sans', sans-serif;
-    font-weight:700;
-    font-size:13.5px;
-    letter-spacing:0.02em;
-    text-decoration:none;
-    white-space:nowrap;
-    cursor:pointer;
-    flex:0 0 auto;
-    box-shadow:0 12px 26px -10px rgba(184,131,74,0.65);
-    transition:transform .2s ease, box-shadow .2s ease;
-  }
-  .enroll-btn:hover{ transform:translateY(-2px); box-shadow:0 16px 32px -8px rgba(184,131,74,0.75); }
-  .enroll-btn:active{ transform:scale(0.97); }
-  .enroll-btn:focus-visible{ outline:2px solid var(--paper); outline-offset:2px; }
-  .enroll-btn svg{ width:15px; height:15px; flex:0 0 auto; }
-
-  /* mobile inline enroll card — hidden by default, shown only on mobile via media query below */
-  .enroll-inline-wrap{ display:none; }
 
   @media (min-width:641px){
     .pyq-list{
@@ -378,24 +340,7 @@
 
   @media (max-width:640px){
     header{ padding-top:20px; padding-bottom:0px; }
-    .topbar{ margin:16px 6vw 0; }
-    .back-btn{ padding:8px 13px; font-size:12.5px; }
-
-    /* on mobile, the top-right CTA steps aside for the inline card after test 5 */
-    .enroll-btn-top{ display:none; }
-    .enroll-inline-wrap{
-      display:flex;
-      justify-content:center;
-      width:100%;
-      margin-left:40px;
-    }
-    .enroll-inline-wrap .enroll-btn{
-      width:100%;
-      max-width:400px;
-      justify-content:center;
-      padding:13px 16px;
-      font-size:14px;
-    }
+    .back-btn{ margin:16px 6vw 0; padding:8px 13px; font-size:12.5px; }
 
     .pyq-section{ padding:36px 6vw 64px; }
     .pyq-spine{ left:22px; }
@@ -427,16 +372,10 @@
 
 <div class="grid-veil"></div>
 
-<div class="topbar">
-  <button class="back-btn" onclick="location.href='index.html'" aria-label="Go back">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-    UPSC LoG
-  </button>
-  <a class="enroll-btn enroll-btn-top" href="prelims_sectional/qr.html" id="enrollNowTop" target="_blank" rel="noopener noreferrer" aria-label="Enroll now">
-    Enroll Now
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-  </a>
-</div>
+<button class="back-btn" onclick="location.href='index.html'" aria-label="Go back">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+  UPSC LoG
+</button>
 
 <div class="wrap">
   <header>
@@ -519,21 +458,6 @@ BOXES.forEach((b, i) => {
   row.appendChild(a);
   list.appendChild(row);
 });
-
-// Mobile-only inline "Enroll Now" card, placed right after test 5 (PreLoG-2027-05).
-// On screens wider than 640px this stays hidden (the top-right button is used instead).
-const test5Anchor = list.querySelector('a[href="prelims_sectional/PreLoG-2027-05.html"]');
-if (test5Anchor) {
-  const enrollWrap = document.createElement('div');
-  enrollWrap.className = 'enroll-inline-wrap';
-  enrollWrap.innerHTML = `
-    <a class="enroll-btn" href="prelims_sectional/qr.html" target="_blank" rel="noopener noreferrer" aria-label="Enroll now">
-      Enroll Now
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-    </a>
-  `;
-  test5Anchor.closest('.pyq-row').after(enrollWrap);
-}
 </script>
 
 </body>
