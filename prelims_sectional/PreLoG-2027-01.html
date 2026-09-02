@@ -723,7 +723,7 @@
 </a>
     <div class="title-block">
       <div class="eyebrow">UPSC LoG · Prelims Booster 2027</div>
-      <h1>PreLoG-2027-01-FREE TIER</h1>
+      <h1>PreLoG-2027-1-FREE TIER</h1>
       <div class="subnote" style="font-size: 12px;">
         <span id="qTotalNote">7</span> Questions · +2 Correct / −0.67 Incorrect ·
         <a href="https://t.me/upsclog" target="_blank" rel="noopener"> Join UPSC-LoG Telegram ↗</a>
@@ -822,18 +822,18 @@
 <div class="modal-overlay" id="startModal">
   <div class="modal-box start-box">
     <div class="modal-icon">🖋️</div>
-    <div class="start-title">PreLoG-2027-01</div>
-    <div class="start-sub">UPSC LoG · Prelims Booster · Free Tier</div>
+    <div class="start-title" id="startTitle">Loading…</div>
+    <div class="start-sub">UPSC LoG · Prelims Booster</div>
 
     <div class="stat-grid">
-      <div class="stat-box"><span class="k">Questions</span><span class="v">50</span></div>
-      <div class="stat-box"><span class="k">Max Marks</span><span class="v">100</span></div>
-      <div class="stat-box"><span class="k">Correct</span><span class="v">+2.00</span></div>
-      <div class="stat-box"><span class="k">Incorrect</span><span class="v">−0.67</span></div>
+      <div class="stat-box"><span class="k">Questions</span><span class="v" id="startQCount">–</span></div>
+      <div class="stat-box"><span class="k">Max Marks</span><span class="v" id="startMaxMarks">–</span></div>
+      <div class="stat-box"><span class="k">Correct</span><span class="v" id="startCorrectMarks">–</span></div>
+      <div class="stat-box"><span class="k">Incorrect</span><span class="v" id="startIncorrectMarks">–</span></div>
     </div>
 
     <ul class="start-rules">
-      <li>Total duration: 60 minutes. The test auto-submits when time runs out.</li>
+      <li>Total duration: <span id="startDuration">60</span> minutes. The test auto-submits when time runs out.</li>
       <li>Explanations for every question unlock after you submit.</li>
       <li>Use the palette on the right to jump between questions anytime.</li>
     </ul>
@@ -849,562 +849,558 @@
 
 <script>
 const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyamXySn2AagAN935BcpYuf6oTJNuIkLMuAby7CqWJ20rgdNgdWypVNTjMyWJBxW9OObw/exec";
-
 const QUESTIONS = [
-{
-    q: "With reference to the Chalcolithic cultures of India, consider the following statements:<br>1. The Jorwe culture was concentrated mainly in present-day Maharashtra.<br>2. Chalcolithic people were generally unaware of the use of iron.<br>3. Daimabad, a Chalcolithic site, has yielded bronze images including a chariot.<br>Which of the statements given above is/are correct?",
-    opts: [
-        "1 and 2 only",
-        "2 and 3 only",
-        "1 and 3 only",
-        "1, 2 and 3"
-    ],
-    ans: 3,
-    exp: "The Jorwe culture flourished in Maharashtra (sites like Nevasa, Daimabad, Inamgaon). Chalcolithic communities used copper along with stone tools but did not know the use of iron. Daimabad, the largest Jorwe culture site, is famous for its bronze chariot and other bronze artefacts. Hence all three statements are correct."
-},
-{
-    q: "The term 'Chalcolithic' refers to a phase of human cultural evolution characterised by the use of which combination of tools/metals?",
-    opts: [
-        "Iron and stone tools used together",
-        "Copper and stone tools used together",
-        "Bronze tools exclusively, with no stone tools",
-        "Copper and iron tools used together"
-    ],
-    ans: 1,
-    exp: "'Chalcolithic' (Copper-Stone Age) denotes the period when people used copper along with stone tools, marking a transitional phase between the Neolithic and Iron Ages. Copper was used in a relatively pure form and had not been fully replaced by bronze or iron in most Chalcolithic settlements of India."
-},
-{
-    q: "Prehistoric rock paintings found at sites such as Bhimbetka are significant primarily because they:",
-    opts: [
-        "Depict administrative and revenue records of early village communities",
-        "Provide evidence of early urban planning and drainage systems",
-        "Reflect the socio-economic life, hunting practices, and rituals of prehistoric people",
-        "Are exclusively associated with the Harappan Civilization"
-    ],
-    ans: 2,
-    exp: "Rock paintings at Bhimbetka and other shelters, mostly from the Mesolithic period (though some are earlier), depict hunting scenes, wild animals, group dances, and rituals, offering insight into the daily life and belief systems of prehistoric communities. They have no connection with Harappan urban planning or administrative records."
-},
-{
-    q: "Which of the following best characterises the Paleolithic Age in India?",
-    opts: [
-        "People practised settled agriculture and lived in mud-brick houses",
-        "People used handmade painted pottery for storage of grains",
-        "People were hunter-gatherers using tools made of stone, mostly quartzite",
-        "People had domesticated animals and used bronze tools extensively"
-    ],
-    ans: 2,
-    exp: "The Paleolithic Age was characterised by a hunting-gathering economy, with people using unpolished, rough stone tools (chiefly quartzite) such as hand-axes, cleavers, and choppers. Settled agriculture, pottery, and domestication of animals emerged only later, in the Neolithic and Chalcolithic periods."
-},
-{
-    q: "With reference to burial and settlement practices of Chalcolithic communities in India, consider the following statements:<br>1. In the Jorwe culture, the dead were generally buried in a north-south orientation.<br>2. Children were sometimes buried in urns beneath the floor of houses.<br>3. Chalcolithic settlements have been found only in the Indus river plains.<br>Which of the statements given above is/are correct?",
-    opts: [
-        "1 and 2 only",
-        "1 and 3 only",
-        "2 and 3 only",
-        "1, 2 and 3"
-    ],
-    ans: 0,
-    exp: "Chalcolithic communities such as the Jorwe culture buried their dead in a north-south direction, and children were often buried in urns beneath house floors. However, Chalcolithic settlements were widespread across regions like Rajasthan (Ahar-Banas), Madhya Pradesh (Malwa), and Maharashtra (Jorwe), not confined to the Indus plains, which were primarily associated with the Harappan Civilization."
-},
-{
-q: "The functions of rock paintings for prehistoric societies, and modern efforts towards their conservation, are best reflected in which of the following?<br>1. They served as a medium of communication and ritual expression among hunter-gatherer groups.<br>2. The Archaeological Survey of India has recommended in-situ preservation of rock art sites rather than their removal to museums.<br>3. Rock art sites in India are protected only under State legislation, with no Central law applicable.<br>Which of the statements given above is/are correct?",
-opts: [
-"1 and 2 only",
-"2 and 3 only",
-"1 and 3 only",
-"1, 2 and 3"
-],
-ans: 0,
-exp: "Rock paintings depicted hunting, rituals, and daily life, serving as an early form of communication and symbolic expression. Conservation bodies like ASI generally recommend in-situ preservation (protecting paintings at their original location) over removal, since removal damages context and pigment. Rock art sites like Bhimbetka are protected under the Ancient Monuments and Archaeological Sites and Remains (AMASR) Act, a Central legislation, so statement 3 is incorrect."
-},
-{
-q: "The Neolithic Revolution is regarded as a major turning point in human cultural evolution primarily because it introduced which of the following changes?<br>1. Shift from food-gathering to food-producing economy.<br>2. Domestication of plants and animals.<br>3. Widespread use of iron tools for agriculture.<br>Select the correct answer using the code below:",
-opts: [
-"1 and 2 only",
-"2 and 3 only",
-"1 and 3 only",
-"1, 2 and 3"
-],
-ans: 0,
-exp: "The Neolithic Age marked humanity's transition from a food-gathering (hunting) economy to a food-producing economy, based on the domestication of plants and animals, along with settled agriculture, polished stone tools, and pottery. Iron tools were not used in the Neolithic period; iron came into use much later, only in the Iron Age."
-},
-{
-q: "With reference to recent archaeological findings in India (2025), consider the following statements:<br>1. Researchers from IIT Gandhinagar found shell-midden sites at Khadir Bet in the Rann of Kutch indicating human habitation predating the Harappan civilization.<br>2. Accelerator Mass Spectrometry (AMS) dating was used to determine the age of the shell deposits.<br>3. The findings confirmed that Paleolithic tools were used exclusively at the site, with no evidence of any later cultural phase.<br>Which of the statements given above is/are correct?",
-opts: [
-"1 and 2 only",
-"2 and 3 only",
-"1 and 3 only",
-"1, 2 and 3"
-],
-ans: 0,
-exp: "In 2025, IIT Gandhinagar-led researchers identified prehistoric shell-midden sites on Khadir Bet in the Great Rann of Kutch, radiocarbon-dated using AMS to periods significantly predating the Harappan settlement, indicating an earlier coastal hunter-gatherer society. The sites yielded diverse stone tools and shell deposits, not evidence confined exclusively to one specific tool tradition, making statement 3 incorrect."
-},
-{
-q: "Which of the following poses a genuine challenge in reconstructing the history of Chalcolithic cultures in India?",
-opts: [
-"Absence of any archaeological evidence of settlements",
-"Absence of a deciphered script, making reconstruction dependent mainly on material remains",
-"Complete absence of metal objects at excavated sites",
-"Uniform culture across all regions with no regional variation"
-],
-ans: 1,
-exp: "Chalcolithic communities did not possess a deciphered script, so historians rely almost entirely on archaeological evidence such as pottery, tools, house structures, and burial practices to reconstruct their history, which limits detailed understanding of their social and political life. Chalcolithic sites do show metal (copper) objects, and cultures like Ahar-Banas, Malwa, and Jorwe show distinct regional variations, not uniformity."
-},
-{
-q: "Consider the following features:<br>1. Use of microliths, i.e., small, finely worked stone tools.<br>2. Beginning of domestication of animals such as dog and sheep.<br>3. Evidence of burial of the dead along with grave goods.<br>Which of the above are characteristic features associated with the Mesolithic Age in India?",
-opts: [
-"1 and 2 only",
-"2 and 3 only",
-"1 and 3 only",
-"1, 2 and 3"
-],
-ans: 3,
-exp: "The Mesolithic Age (Middle Stone Age) is marked by the use of microliths, and it witnessed the beginning of animal domestication, including dogs and sheep, as evidenced from sites like Adamgarh and Bagor. Mesolithic sites such as Bagor and Damdama have also revealed burial practices, sometimes with grave goods, indicating emerging ritual behaviour."
-},
-{
-    q: "With reference to important prehistoric sites of India, consider the following pairs:<br>1. Bhimbetka — Madhya Pradesh<br>2. Adamgarh — Maharashtra<br>3. Attirampakkam — Tamil Nadu<br>Which of the pairs given above is/are correctly matched?",
-    opts: [
-        "1 and 2 only",
-        "1 and 3 only",
-        "2 and 3 only",
-        "1, 2 and 3"
-    ],
-    ans: 1,
-    exp: "Bhimbetka rock shelters are located in Madhya Pradesh and are a UNESCO World Heritage Site. Attirampakkam, known for Acheulian and Levallois-type stone tools, is located in Tamil Nadu. Adamgarh, a Mesolithic site associated with early animal domestication, is actually located in Madhya Pradesh, not Maharashtra, making pair 2 incorrectly matched."
-},
-{
-    q: "With reference to the socio-economic structure of Chalcolithic communities in India, consider the following statements:<br>1. They lived in rural settlements and depended on agriculture and stock-raising.<br>2. Copper and stone were both used, but iron was absent.<br>3. Society had developed a clear division based on differences in house size and burial goods, indicating some degree of social stratification.<br>Which of the statements given above is/are correct?",
-    opts: [
-        "1 and 2 only",
-        "2 and 3 only",
-        "1 and 3 only",
-        "1, 2 and 3"
-    ],
-    ans: 3,
-    exp: "Chalcolithic people lived in rural, non-urban settlements, practising agriculture along with cattle and sheep rearing, and used copper alongside stone tools without knowledge of iron. Variations in house sizes and grave goods across sites like Inamgaon and Nevasa suggest emerging social differentiation, though society remained largely non-urban and non-stratified compared to later periods."
-},
-{
-    q: "The Megalithic monuments of peninsular India, associated broadly with the Iron Age, are protected in the present day mainly under which of the following?",
-    opts: [
-        "The Ancient Monuments and Archaeological Sites and Remains (AMASR) Act, 1958",
-        "The Indian Forest Act, 1927",
-        "The Panchayats (Extension to Scheduled Areas) Act, 1996",
-        "The Biological Diversity Act, 2002"
-    ],
-    ans: 0,
-    exp: "Megalithic sites of archaeological importance, along with other ancient monuments, are protected under the Ancient Monuments and Archaeological Sites and Remains (AMASR) Act, 1958 (amended in 2010), which empowers the ASI to declare and safeguard sites of national importance. The other Acts listed deal with forests, tribal governance, and biodiversity respectively, and are unrelated to archaeological protection."
-},
-{
-    q: "Which of the following measures have been recommended/undertaken for the conservation of prehistoric rock art and archaeological sites in India?<br>1. Declaration of significant sites as sites of national importance under central legislation.<br>2. Nomination of outstanding sites to the UNESCO World Heritage List.<br>3. Complete relocation of all rock paintings to national museums for safekeeping.<br>Select the correct answer using the code below:",
-    opts: [
-        "1 and 2 only",
-        "1 and 3 only",
-        "2 and 3 only",
-        "1, 2 and 3"
-    ],
-    ans: 0,
-    exp: "Prehistoric sites of significance are declared as sites of national importance under the AMASR Act, and outstanding sites such as the Rock Shelters of Bhimbetka have been inscribed on the UNESCO World Heritage List. Conservation practice favours in-situ protection of rock art at its original location rather than complete relocation to museums, which would damage authenticity and context."
-},
-{
-    q: "With reference to the tool-making tradition of the Paleolithic Age in India, consider the following statements:<br>1. The Lower Paleolithic phase is characterised by core tools such as hand-axes and cleavers.<br>2. The Middle Paleolithic phase saw a shift towards tools made on flakes.<br>3. The Upper Paleolithic phase is marked by the emergence of blade and burin tools.<br>Which of the statements given above is/are correct?",
-    opts: [
-        "1 and 2 only",
-        "2 and 3 only",
-        "1 and 3 only",
-        "1, 2 and 3"
-    ],
-    ans: 3,
-    exp: "The Paleolithic Age in India is conventionally divided into Lower (core tools like hand-axes and cleavers), Middle (flake-based tools), and Upper Paleolithic (blade and burin tools, along with a rise in bone tools) phases based on the changing structure and technology of stone tools. This tripartite classification, widely used by archaeologists, reflects the gradual technological refinement of tool-making traditions."
-},
-{
-    q: "Prehistoric rock art sites of India, including painted rock shelters, are legally protected under which of the following?",
-    opts: [
-        "The Ancient Monuments and Archaeological Sites and Remains (AMASR) Act, 1958",
-        "The Indian Forest Act, 1927",
-        "The Wildlife (Protection) Act, 1972",
-        "The Environment (Protection) Act, 1986"
-    ],
-    ans: 0,
-    exp: "Rock art and prehistoric archaeological sites of national importance are protected under the AMASR Act, 1958 (amended in 2010), administered by the Archaeological Survey of India. The other Acts pertain to forests, wildlife, and environmental protection, and are not the primary legal instruments for heritage/archaeological site protection."
-},
-{
-    q: "Which of the following Central legislations is most relevant to the legal protection of Neolithic archaeological sites and their artefacts in India?",
-    opts: [
-        "Ancient Monuments and Archaeological Sites and Remains (Amendment and Validation) Act, 2010",
-        "Antiquities and Art Treasures Act, 1972",
-        "Both (a) and (b)",
-        "National Monuments Authority Act, 2005"
-    ],
-    ans: 2,
-    exp: "The AMASR (Amendment and Validation) Act, 2010 strengthens protection of monuments and regulates construction near protected sites, while the Antiquities and Art Treasures Act, 1972 regulates the export trade in antiquities and their registration, both of which apply to Neolithic sites and artefacts. There is no separate 'National Monuments Authority Act, 2005'; the National Monuments Authority was established under the 2010 amendment itself."
-},
-{
-    q: "With reference to the Megalithic culture of India, consider the following statements:<br>1. It is generally associated with the Iron Age in peninsular India.<br>2. Megaliths refer only to burial sites and never to non-sepulchral (non-burial) structures.<br>3. Black-and-Red Ware pottery is commonly associated with Megalithic burials.<br>Which of the statements given above is/are correct?",
-    opts: [
-        "1 and 2 only",
-        "1 and 3 only",
-        "2 and 3 only",
-        "1, 2 and 3"
-    ],
-    ans: 1,
-    exp: "The Megalithic culture emerged in peninsular India largely during the Iron Age and is best known through burial sites marked by large stone structures. However, megaliths include both sepulchral (burial-related, e.g., dolmens, cists) and non-sepulchral (commemorative, e.g., menhirs) structures, so statement 2 is incorrect. Black-and-Red Ware pottery is a hallmark find in Megalithic burials across South India."
-},
-{
-    q: "Which of the following best describes the functions performed by copper tools among Chalcolithic communities in India?",
-    opts: [
-        "They completely replaced stone tools in all economic activities",
-        "They were used mainly for ornamental and ceremonial purposes, alongside continued use of stone tools for regular tasks",
-        "They were used exclusively for warfare and military purposes",
-        "They were used only for making agricultural ploughs"
-    ],
-    ans: 1,
-    exp: "Chalcolithic people used copper mainly for making ornaments, tools of limited utility, and some weapons, but stone tools (blades, microliths) continued to be used extensively for everyday activities like cutting and farming, since copper was scarce and not fully exploited for large-scale tool-making. Copper did not replace stone tools entirely, nor was it used exclusively for one narrow purpose."
-},
-{
-    q: "Which of the following is a genuine challenge faced by archaeologists in studying the Mesolithic Age in India?",
-    opts: [
-        "Complete absence of any Mesolithic sites in India",
-        "Perishable nature of many associated materials like wood, bone, and skin, along with small size of stone tools, making identification difficult",
-        "Mesolithic sites being found only in the Indus Valley region",
-        "The presence of a well-deciphered Mesolithic script that has led to conflicting interpretations"
-    ],
-    ans: 1,
-    exp: "A major challenge in studying the Mesolithic Age is the perishable nature of associated organic materials (wood, bone, hide) which rarely survive, and the small size of microliths, which can be easily overlooked or difficult to interpret contextually. Mesolithic sites are found widely across India (e.g., Bagor, Langhnaj, Adamgarh), and no script existed in this period."
-},
-{
-    q: "In the context of conservation of Paleolithic sites in India, which of the following measures has been suggested/adopted by heritage authorities?",
-    opts: [
-        "Declaring significant Paleolithic sites as protected monuments and regulating construction activity around them",
-        "Permitting unrestricted mining and quarrying activities near Paleolithic sites to promote local economic development",
-        "Shifting all Paleolithic tools to private collectors for better preservation",
-        "Discontinuing scientific dating techniques in favour of traditional estimation methods"
-    ],
-    ans: 0,
-    exp: "Conservation efforts for significant Paleolithic sites (e.g., Attirampakkam) generally involve declaring them protected sites/monuments and regulating nearby construction, mining, or quarrying to prevent damage. Uncontrolled mining threatens such sites, and modern scientific dating techniques (like luminescence dating) are actively used and encouraged, not discontinued."
-},
-{
-    q: "The bow and arrow, along with composite tools, gained increasing importance during the Mesolithic Age in India primarily because they enabled:",
-    opts: [
-        "Large-scale irrigation-based agriculture",
-        "More efficient hunting of fast-moving smaller game in a changing post-Pleistocene environment",
-        "Construction of fortified brick cities",
-        "Smelting and casting of copper implements"
-    ],
-    ans: 1,
-    exp: "With the onset of a warmer, post-Pleistocene climate, forests expanded and smaller, faster game became more common; the bow and arrow, along with microlith-tipped composite tools, allowed Mesolithic hunter-gatherers to hunt such game more effectively. Agriculture, urban fortifications, and copper metallurgy were not features of the Mesolithic Age."
-},
-{
-    q: "With reference to the background and evolution of the Neolithic Age in India, consider the following statements:<br>1. Mehrgarh in Balochistan provides some of the earliest evidence of plant and animal domestication in the subcontinent.<br>2. Neolithic culture in India developed uniformly at the same time across all regions.<br>3. Ash mounds, associated with cattle-penning activities, are a notable feature of Neolithic sites in South India.<br>Which of the statements given above is/are correct?",
-    opts: [
-        "1 and 2 only",
-        "1 and 3 only",
-        "2 and 3 only",
-        "1, 2 and 3"
-    ],
-    ans: 1,
-    exp: "Mehrgarh is among the earliest Neolithic sites in South Asia, providing evidence of early agriculture and domestication. Neolithic culture did not develop uniformly across India; it emerged at different times in different regions (e.g., Mehrgarh c. 7000 BCE, South Indian sites later), so statement 2 is incorrect. South Indian Neolithic sites like Sangankallu are known for ash mounds linked to cattle-penning."
-},
-{
-    q: "Which of the following is a distinguishing characteristic that differentiates the Paleolithic Age from the Neolithic Age in India?",
-    opts: [
-        "Use of stone tools, found in the Paleolithic but absent in the Neolithic",
-        "Practice of hunting-gathering with unpolished tools, as opposed to settled agriculture with polished tools",
-        "Knowledge of fire, present only in the Neolithic Age",
-        "Use of metal tools, found only in the Paleolithic Age"
-    ],
-    ans: 1,
-    exp: "The Paleolithic Age was marked by a hunting-gathering economy using rough, unpolished stone tools, whereas the Neolithic Age saw the emergence of settled agriculture, domestication, and the use of polished/ground stone tools. Stone tools were used in both ages; fire was known since the Paleolithic; and neither age used metal tools, which appeared later in the Chalcolithic/Iron Age."
-},
-{
-    q: "With reference to recent archaeological developments (2025) concerning the Neolithic Age in India, consider the following statements:<br>1. Fresh findings at Daojali Hading in Assam reaffirmed evidence of Neolithic habitation along with early metallurgical activity.<br>2. The site has yielded jadeite stones suggesting possible ancient trade links with East and Southeast Asia.<br>3. Daojali Hading is located in the Indus river valley region of Punjab.<br>Which of the statements given above is/are correct?",
-    opts: [
-        "1 and 2 only",
-        "2 and 3 only",
-        "1 and 3 only",
-        "1, 2 and 3"
-    ],
-    ans: 0,
-    exp: "Recent archaeological findings at Daojali Hading (Dima Hasao district, Assam) reaffirmed the site's status as a Neolithic habitation with evidence of early metallurgical activity, along with jadeite stones pointing to possible trade links with East and Southeast Asia. The site is located in Assam in northeast India, not in the Indus valley of Punjab, making statement 3 incorrect."
-},
-{
-    q: "With reference to the background and evolution of the Paleolithic Age in India, consider the following statements:<br>1. The Lower Paleolithic phase is associated with the Soanian and Acheulian tool-making traditions.<br>2. The Middle Paleolithic culture in India is often referred to as 'Nevasian', named after a site on the Pravara river.<br>3. The three-phase division of the Paleolithic Age (Lower, Middle, Upper) is based solely on the geographical location of sites, without reference to climate or tool technology.<br>Which of the statements given above is/are correct?",
-    opts: [
-        "1 and 2 only",
-        "2 and 3 only",
-        "1 and 3 only",
-        "1, 2 and 3"
-    ],
-    ans: 0,
-    exp: "The Lower Paleolithic in India is linked to the Soanian tradition (Punjab/Kashmir region) and the Acheulian tradition (hand-axes and cleavers). The Middle Paleolithic, dominated by flake tools, is termed 'Nevasian' after Nevasa on the Pravara river, comparable to the Mousterian tradition. The three-phase division is based on both the changing nature of stone tools used and the accompanying climatic changes of the Ice Age, not on geography alone, making statement 3 incorrect."
-},
-{
-    q: "Which of the following are genuine challenges faced by historians and archaeologists in reconstructing the Megalithic culture of peninsular India?<br>1. Most available evidence comes from burial sites, limiting insight into everyday life and settlement patterns.<br>2. A precise chronological framework is difficult to establish, as megalithic dates vary widely across regions and sites.<br>3. Megalithic culture is attested only through archaeological remains, with no corroboration from any contemporary literary source.<br>Which of the statements given above is/are correct?",
-    opts: [
-        "1 and 2 only",
-        "2 and 3 only",
-        "1 and 3 only",
-        "1, 2 and 3"
-    ],
-    ans: 0,
-    exp: "A major limitation in studying Megalithic culture is that most evidence is drawn from burials, so understanding of habitation sites and daily life remains limited. Dating is also contentious, as megalithic practices span a wide period and show considerable regional variation in South India. However, Sangam-era Tamil literature and accounts of Graeco-Roman writers do provide corroborating literary evidence, so statement 3 is incorrect."
-},
-{
-    q: "With reference to legal protection available to Mesolithic and other prehistoric sites in India, consider the following statements:<br>1. The Ancient Monuments and Archaeological Sites and Remains (Amendment and Validation) Act, 2010 introduced the concept of 'prohibited' and 'regulated' areas around protected monuments.<br>2. The National Monuments Authority was constituted under this 2010 amendment to oversee construction-related activities near protected sites.<br>3. The Antiquities and Art Treasures Act, 1972 mandates registration of antiquities and regulates their export from India.<br>Which of the statements given above is/are correct?",
-    opts: [
-        "1 and 2 only",
-        "2 and 3 only",
-        "1 and 3 only",
-        "1, 2 and 3"
-    ],
-    ans: 3,
-    exp: "The AMASR (Amendment and Validation) Act, 2010 introduced a 100-metre 'prohibited area' and a further 300-metre 'regulated area' around centrally protected monuments and sites, restricting construction activity. It also established the National Monuments Authority to consider applications for construction in the regulated area. Separately, the Antiquities and Art Treasures Act, 1972 requires registration of antiquities with the ASI and regulates/prohibits their export, except under licence."
-},
-{
-    q: "With reference to the functions and powers of the Archaeological Survey of India (ASI) concerning Stone Age and other prehistoric sites declared as monuments of national importance, consider the following statements:<br>1. The ASI has the power to acquire a protected monument through purchase, gift, or compulsory acquisition.<br>2. The ASI can prohibit mining, quarrying, and construction activities within the prohibited area around a protected monument.<br>3. The ASI has the exclusive and final authority to grant licences for the export of all antiquities without any oversight.<br>Which of the statements given above is/are correct?",
-    opts: [
-        "1 and 2 only",
-        "2 and 3 only",
-        "1 and 3 only",
-        "1, 2 and 3"
-    ],
-    ans: 0,
-    exp: "Under the AMASR Act, the ASI (through the Central Government) may acquire protected monuments by purchase, gift, bequest, or compulsory acquisition, and can restrict mining, quarrying, or construction activity within the prohibited area to prevent damage. Export of antiquities is regulated under the Antiquities and Art Treasures Act, 1972 through a registering officer and requires a licence, and is not left to the unchecked discretion of the ASI alone, making statement 3 incorrect."
-},
-{
-    q: "With reference to constitutional and legal provisions governing Stone Age archaeological sites in India, consider the following statements:<br>1. Entry 67 of the Union List empowers Parliament to legislate on ancient monuments and archaeological sites declared to be of national importance.<br>2. Entry 12 of the State List deals with ancient and historical monuments other than those declared to be of national importance.<br>3. Article 49 of the Constitution places an obligation on the State to protect monuments and objects of national importance from destruction or removal.<br>Which of the statements given above is/are correct?",
-    opts: [
-        "1 and 2 only",
-        "2 and 3 only",
-        "1 and 3 only",
-        "1, 2 and 3"
-    ],
-    ans: 3,
-    exp: "Entry 67 of the Union List covers ancient monuments and archaeological sites declared by Parliament to be of national importance, while Entry 12 of the State List covers those not so declared, which fall under state jurisdiction. Article 49, a Directive Principle, obligates the State to protect every monument or object of artistic or historic interest of national importance from spoliation, disfigurement, destruction, removal, or export. All three statements are therefore correct."
-},
-{
-    q: "With reference to reforms and recommendations concerning the conservation of prehistoric rock paintings in India, consider the following statements:<br>1. UNESCO, while inscribing the Rock Shelters of Bhimbetka as a World Heritage Site, recommended a survey of the rock art and an appraisal of its conservation status.<br>2. It was suggested that the site's boundary could, in future, be extended to include the wider cultural landscape of nearby adivasi villages.<br>3. The recommendations called for complete removal of the paintings to a climate-controlled museum for their long-term preservation.<br>Which of the statements given above is/are correct?",
-    opts: [
-        "1 and 2 only",
-        "2 and 3 only",
-        "1 and 3 only",
-        "1, 2 and 3"
-    ],
-    ans: 0,
-    exp: "When Bhimbetka was inscribed on the UNESCO World Heritage List in 2003, the World Heritage Committee requested a survey of the rock art and an appraisal of its conservation, and suggested that the boundary could later be extended to cover the living cultural landscape of adjoining adivasi villages linked to the site's traditions. There was no recommendation to remove the paintings to a museum, since in-situ preservation at the original rock shelters was and remains the preferred approach."
-},
-{
-    q: "With reference to constitutional and legal provisions relevant to Chalcolithic archaeological sites in India that have not been declared to be of national importance, consider the following statements:<br>1. Such sites fall under Entry 40 of the Concurrent List, titled 'Archaeological sites and remains'.<br>2. Both Parliament and State Legislatures can make laws regarding such sites, though Union law prevails in case of repugnancy.<br>3. States are constitutionally barred from enacting their own legislation for the protection of such sites.<br>Which of the statements given above is/are correct?",
-    opts: [
-        "1 and 2 only",
-        "2 and 3 only",
-        "1 and 3 only",
-        "1, 2 and 3"
-    ],
-    ans: 0,
-    exp: "Archaeological sites and remains not declared to be of national importance fall under Entry 40 of the Concurrent List, meaning both Parliament and State Legislatures can legislate on them, though Article 254 gives Union law precedence in case of a conflict. States are not barred from legislating; several states have their own Ancient Monuments Acts to protect state-level sites, such as Chalcolithic settlements not covered under central protection."
-},
-{
-    q: "With reference to prehistoric rock art in India, a topic frequently tested in UPSC Prelims, consider the following statements:<br>1. The Bhimbetka rock shelters were discovered by the archaeologist V.S. Wakankar in 1957.<br>2. The colours used in these paintings were derived from natural minerals such as haematite (red) and limestone or kaolin (white).<br>3. The themes depicted are confined exclusively to religious and spiritual practices, with no depiction of everyday activities such as hunting or dancing.<br>Which of the statements given above is/are correct?",
-    opts: [
-        "2 and 3 only",
-        "1 and 3 only",
-        "1 and 2 only",
-        "1, 2 and 3"
-    ],
-    ans: 2,
-    exp: "V.S. Wakankar discovered the Bhimbetka rock shelters in 1957, and the pigments used were natural minerals - red from haematite and white from limestone or kaolin. However, the paintings depict a wide range of everyday themes such as hunting, dancing, childbirth, and communal activities, not merely religious or spiritual subjects, making statement 3 incorrect."
-},
-{
-    q: "With reference to the features and characteristics of the Paleolithic Age in India, consider the following statements:<br>1. Tools were predominantly made of quartzite and included hand-axes, cleavers, and choppers associated with the Soanian and Acheulian traditions.<br>2. People followed a hunting-gathering economy and had no knowledge of pottery or settled agriculture.<br>3. Permanent settlements with brick structures were a defining feature of the Paleolithic Age in India.<br>Which of the statements given above is/are correct?",
-    opts: [
-        "1 and 3 only",
-        "1 and 2 only",
-        "2 and 3 only",
-        "1, 2 and 3"
-    ],
-    ans: 1,
-    exp: "Paleolithic tools in India were mostly quartzite implements associated with the Soanian tradition (Punjab/Kashmir) and the Acheulian tradition (hand-axes, cleavers), and the people were nomadic hunter-gatherers without pottery or agriculture. Permanent brick settlements did not exist until much later, in the urban phase of the Harappan civilization, making statement 3 incorrect."
-},
-{
-    q: "With reference to reforms and recommendations concerning the study and preservation of Chalcolithic sites in India, consider the following statements:<br>1. Scholars have recommended greater use of scientific dating techniques, such as radiocarbon (C-14) dating, to establish more precise chronologies for Chalcolithic cultures.<br>2. It has been recommended that excavation reports integrate archaeobotanical and archaeozoological evidence to better understand subsistence patterns at sites like Inamgaon.<br>3. Experts have recommended discontinuing all further excavation of Chalcolithic sites in order to preserve them in an entirely undisturbed state.<br>Which of the statements given above is/are correct?",
-    opts: [
-        "1 and 2 only",
-        "2 and 3 only",
-        "1 and 3 only",
-        "1, 2 and 3"
-    ],
-    ans: 0,
-    exp: "Scholars have called for wider use of radiocarbon dating to refine Chalcolithic chronologies and for integrating archaeobotanical/archaeozoological data, as done at sites like Inamgaon, to reconstruct ancient subsistence economies. There is no recommendation to halt excavation entirely, since scientific excavation itself is the main source of knowledge about these non-literate cultures."
-},
-{
-    q: "With reference to prehistoric sites of India, a recurring theme in UPSC Prelims, consider the following pairs:<br>1. Chopani Mando — Site providing some of the earliest evidence of handmade pottery in India (Mesolithic)<br>2. Sarai Nahar Rai — Site providing important evidence of Mesolithic human burials<br>3. Attirampakkam — Site famous for Neolithic ash mounds linked to cattle-penning<br>Which of the pairs given above is/are correctly matched?",
-    opts: [
-        "1 and 3 only",
-        "1 and 2 only",
-        "2 and 3 only",
-        "1, 2 and 3"
-    ],
-    ans: 1,
-    exp: "Chopani Mando in the Belan Valley has yielded some of the earliest evidence of handmade pottery associated with the Mesolithic, and Sarai Nahar Rai in Uttar Pradesh is well known for its Mesolithic burial evidence. Attirampakkam, however, is primarily an Acheulian Paleolithic site; ash mounds linked to cattle-penning are a South Indian Neolithic feature found at sites like Sanganakallu, not Attirampakkam, making pair 3 incorrect."
-},
-{
-    q: "With reference to pottery traditions associated with Chalcolithic cultures of India, a theme UPSC has tested through matching-pair questions, consider the following pairs:<br>1. Black-and-Red Ware (BRW) — Associated with Chalcolithic cultures such as Ahar-Banas<br>2. Ochre Coloured Pottery (OCP) — Associated with Chalcolithic-era sites in the Ganga-Yamuna doab<br>3. Painted Grey Ware (PGW) — Associated with the Chalcolithic Jorwe culture of Maharashtra<br>Which of the pairs given above is/are correctly matched?",
-    opts: [
-        "2 and 3 only",
-        "1 and 3 only",
-        "1 and 2 only",
-        "1, 2 and 3"
-    ],
-    ans: 2,
-    exp: "Black-and-Red Ware is a hallmark of the Ahar-Banas Chalcolithic culture of Rajasthan, and Ochre Coloured Pottery is associated with Chalcolithic-era sites of the Ganga-Yamuna doab, often linked to the Copper Hoard culture. Painted Grey Ware, however, belongs to the Later Vedic/early Iron Age and is not linked to the Jorwe culture, which is instead associated with Black-on-Red painted pottery, making pair 3 incorrect."
-},
-{
-    q: "With reference to the evolution of prehistoric rock art in India across successive ages, consider the following statements:<br>1. Upper Paleolithic rock art is characterised by dynamic and lively depictions of animals such as bison and rhinoceros.<br>2. In the Mesolithic phase, paintings became comparatively smaller in size and more frequently depicted group hunting scenes and communal dancing.<br>3. Neolithic-Chalcolithic period paintings show a relative decline in vividness compared to earlier phases, even as pottery and metal tools begin to appear as motifs.<br>Which of the statements given above is/are correct?",
-    opts: [
-        "1 and 2 only",
-        "2 and 3 only",
-        "1 and 3 only",
-        "1, 2 and 3"
-    ],
-    ans: 3,
-    exp: "Rock art evolved distinctly across ages: Upper Paleolithic paintings are noted for dynamic, lively animal depictions; Mesolithic art became smaller and richer in group scenes of hunting and dancing; and by the Neolithic-Chalcolithic phase, while pottery and metal tools appear as new motifs, the vividness and vitality of earlier compositions declined. All three statements accurately reflect this documented evolution."
-},
-{
-    q: "With reference to a 2025 archaeological study conducted on the Rann of Kutch relevant to the Mesolithic Age in India, consider the following statements:<br>1. Researchers associated with IIT Gandhinagar identified prehistoric shell-midden deposits at Khadir Bet, indicating a coastal hunter-gatherer presence predating the Harappan civilization.<br>2. The deposits were dated using Accelerator Mass Spectrometry (AMS), a high-precision radiocarbon dating method.<br>3. The study concluded that the site was exclusively a settled Neolithic agricultural community, with no evidence of a hunting-gathering economy.<br>Which of the statements given above is/are correct?",
-    opts: [
-        "1 and 3 only",
-        "2 and 3 only",
-        "1 and 2 only",
-        "1, 2 and 3"
-    ],
-    ans: 2,
-    exp: "In 2025, researchers associated with IIT Gandhinagar identified shell-midden deposits on Khadir Bet in the Great Rann of Kutch, indicating a coastal hunter-gatherer occupation that predates the Harappan settlement, and used Accelerator Mass Spectrometry for high-precision dating. The findings pointed to a hunting-gathering and shellfish-collecting economy rather than a purely settled agricultural community, making statement 3 incorrect."
-},
-{
-    q: "With reference to challenges and issues faced by historians in studying the Neolithic Age in India, consider the following statements:<br>1. Many Neolithic sites lack a uniform absolute chronology, since regional developments across India were not simultaneous.<br>2. There is often an overlap between the Neolithic and Chalcolithic phases at several sites, making a clear-cut classification difficult.<br>3. Neolithic sites in India have yielded a completely uniform and standardised set of cultivated crops across all regions, leaving no scope for regional variation.<br>Which of the statements given above is/are correct?",
-    opts: [
-        "2 and 3 only",
-        "1 and 2 only",
-        "1 and 3 only",
-        "1, 2 and 3"
-    ],
-    ans: 1,
-    exp: "A key challenge in studying the Neolithic Age is the absence of a uniform chronology, since agriculture and settled life emerged at different times in different regions (e.g., Mehrgarh much earlier than South Indian sites). Many sites also show overlapping Neolithic-Chalcolithic phases, complicating classification. However, cultivated crops varied significantly by region, such as wheat and barley in the northwest versus millets and pulses in the south, making statement 3 incorrect."
-},
-{
-    q: "With reference to the structure and composition of Neolithic settlements in India, consider the following statements:<br>1. Neolithic settlements at Burzahom in Kashmir show evidence of circular pit-dwellings dug into the ground.<br>2. The Neolithic toolkit was mainly composed of ground and polished stone tools such as axes, adzes, and chisels.<br>3. Neolithic villages were entirely bereft of any storage structures, as surplus food production was unknown.<br>Which of the statements given above is/are correct?",
-    opts: [
-        "2 and 3 only",
-        "1 and 3 only",
-        "1 and 2 only",
-        "1, 2 and 3"
-    ],
-    ans: 2,
-    exp: "Excavations at Burzahom in Kashmir revealed circular pit-dwellings dug into the ground, and the Neolithic toolkit is characterised by ground and polished stone tools like axes, adzes, and chisels, in contrast to the rough tools of earlier ages. Neolithic communities, however, did produce agricultural surplus and evidence of storage structures such as granaries has been found at several sites, making statement 3 incorrect."
-},
-{
-    q: "With reference to important Acts and legal amendments relevant to the protection of Paleolithic sites in India, consider the following statements:<br>1. The Ancient Monuments Preservation Act, 1904 was the first major legislation for protecting archaeological sites and monuments in India.<br>2. The Antiquities (Export Control) Act, 1947 regulated the export of antiquities and was later replaced by the Antiquities and Art Treasures Act, 1972.<br>3. The Ancient Monuments and Archaeological Sites and Remains (AMASR) Act, 1958 repealed and replaced the 1904 Act, providing a unified framework covering sites like Bhimbetka.<br>Which of the statements given above is/are correct?",
-    opts: [
-        "1 and 2 only",
-        "2 and 3 only",
-        "1 and 3 only",
-        "1, 2 and 3"
-    ],
-    ans: 3,
-    exp: "The Ancient Monuments Preservation Act, 1904 was indeed the first major colonial-era law protecting monuments and sites in India. The Antiquities (Export Control) Act, 1947 regulated antiquity exports and was later subsumed by the Antiquities and Art Treasures Act, 1972. The AMASR Act, 1958 consolidated and replaced the 1904 Act, creating a unified legal framework that today covers Paleolithic sites of national importance such as Bhimbetka. All three statements are therefore correct."
-},
-{
-    q: "With reference to reforms and recommendations concerning the conservation of Paleolithic sites in India, consider the following statements:<br>1. Archaeologists have recommended wider application of luminescence dating techniques to establish more reliable chronologies for Paleolithic sites.<br>2. Conservation experts have recommended regulating mining and quarrying activities near significant sites such as Attirampakkam to prevent damage.<br>3. It has been recommended that all Paleolithic tools be permanently removed from their find-spots and displayed only in museums abroad.<br>Which of the statements given above is/are correct?",
-    opts: [
-        "2 and 3 only",
-        "1 and 2 only",
-        "1 and 3 only",
-        "1, 2 and 3"
-    ],
-    ans: 1,
-    exp: "Scientists have increasingly recommended techniques like Optically Stimulated Luminescence dating to refine chronologies at Paleolithic sites, and conservationists have called for regulating mining and quarrying near sites like Attirampakkam, which face threats from such activity. There is no recommendation to remove artefacts abroad; in fact, Indian law regulates and restricts the export of antiquities, making statement 3 incorrect."
-},
-{
-    q: "With reference to the background and evolution of the Neolithic Age in the Indian subcontinent, consider the following statements:<br>1. Mehrgarh, in present-day Balochistan, provides some of the earliest evidence of Neolithic farming and domestication in South Asia, dating to around 7000 BCE.<br>2. The Neolithic Age in India developed simultaneously across all regions, with identical crop patterns and settlement types everywhere.<br>3. Distinct regional Neolithic cultures emerged in Kashmir (Burzahom), the middle Ganga valley, and South India, each with characteristic features.<br>Which of the statements given above is/are correct?",
-    opts: [
-        "1 and 2 only",
-        "2 and 3 only",
-        "1 and 3 only",
-        "1, 2 and 3"
-    ],
-    ans: 2,
-    exp: "Mehrgarh is widely regarded as an early centre of Neolithic farming and domestication in South Asia, dated to around 7000 BCE. However, the Neolithic did not develop simultaneously everywhere; regions like Kashmir (Burzahom), the middle Ganga valley, and South India each developed distinct Neolithic cultures with their own crop patterns, tool types, and settlement forms, making statement 2 incorrect."
-},
-{
-    q: "With reference to a 2026 archaeological discovery relevant to the Stone Age in India, consider the following statements:<br>1. Researchers reported the discovery of petroglyphs, cupules, and stone tools including hand-axes and cleavers in the Bhondsi stretch of the Aravalli forests near Gurugram.<br>2. The findings were linked to both the Paleolithic and Mesolithic periods, suggesting long-term continuity of human activity in the region.<br>3. Cupules, one of the discoveries at the site, refer to inscriptions in a fully deciphered ancient script.<br>Which of the statements given above is/are correct?",
-    opts: [
-        "1 and 2 only",
-        "2 and 3 only",
-        "1 and 3 only",
-        "1, 2 and 3"
-    ],
-    ans: 0,
-    exp: "In 2026, archaeologists reported petroglyphs, cupules, and stone tools such as hand-axes and cleavers at Bhondsi in the Aravalli forests near Gurugram, with the finds linked to both the Paleolithic and Mesolithic periods, indicating long-term human presence. Cupules are small cup-shaped depressions carved into rock, considered among the oldest forms of rock art, not a deciphered script, making statement 3 incorrect."
-},
-{
-    q: "With reference to a 2026 archaeological development relevant to prehistoric sites in India, consider the following statements:<br>1. Excavations at Tekkalakote in Karnataka's Ballari district uncovered multiple human skeletal remains suggestive of the Mesolithic period.<br>2. Tekkalakote was earlier known primarily as a Neolithic settlement, based on excavations conducted by archaeologist Nagaraj Rao in the 1960s.<br>3. The recent excavation at Tekkalakote was conducted entirely by international researchers, with no involvement of any Indian state archaeology department.<br>Which of the statements given above is/are correct?",
-    opts: [
-        "2 and 3 only",
-        "1 and 2 only",
-        "1 and 3 only",
-        "1, 2 and 3"
-    ],
-    ans: 1,
-    exp: "In early 2026, excavations at Tekkalakote (Ballari district, Karnataka) revealed multiple human skeletal remains with features suggestive of the Mesolithic period, at a site earlier identified as Neolithic through excavations by Nagaraj Rao in 1963-64. The recent work involved the Karnataka State Department of Archaeology, Museums and Heritage alongside international researchers, so it was not conducted exclusively by international teams, making statement 3 incorrect."
-},
-{
-    q: "Consider the following pairs of Mesolithic sites in India and their archaeological significance, a format frequently used by UPSC in matching-type questions:<br>1. Bagor (Rajasthan) — Among the earliest evidence of domestication of sheep and goat<br>2. Adamgarh (Madhya Pradesh) — Among the earliest evidence of animal domestication in India<br>3. Langhnaj (Gujarat) — Famous chiefly for evidence of iron-smelting furnaces<br>Which of the pairs given above is/are correctly matched?",
-    opts: [
-        "1 and 3 only",
-        "2 and 3 only",
-        "1 and 2 only",
-        "1, 2 and 3"
-    ],
-    ans: 2,
-    exp: "Bagor in Rajasthan provides some of the earliest evidence of sheep and goat domestication in India, and Adamgarh in Madhya Pradesh is similarly known for early animal domestication evidence. Langhnaj in Gujarat is significant for its Mesolithic microliths and human burials, not for iron-smelting furnaces, which belong to a much later technological phase, making pair 3 incorrect."
-},
-{
-    q: "With reference to the features and characteristics of the Mesolithic Age in India, consider the following statements:<br>1. Microliths, the characteristic tool of the Mesolithic Age, were often hafted onto wood or bone to create composite tools.<br>2. The Mesolithic Age marks the beginning of animal domestication in India.<br>3. Mesolithic communities had no knowledge of burial practices, with corpses left exposed after death.<br>Which of the statements given above is/are correct?",
-    opts: [
-        "1 and 3 only",
-        "2 and 3 only",
-        "1, 2 and 3",
-        "1 and 2 only"
-    ],
-    ans: 3,
-    exp: "Microliths were commonly hafted onto wood or bone handles to make composite tools such as arrows and sickles, and the Mesolithic Age marks the beginning of animal domestication in India, as seen at sites like Bagor and Adamgarh. Mesolithic communities did practise deliberate burial, sometimes with grave goods, as evidenced at sites like Sarai Nahar Rai and Bagor, making statement 3 incorrect."
-},
-{
-    q: "With reference to reforms and recommendations concerning the study of Stone Age sites in India, consider the following statements:<br>1. Experts have recommended greater use of multi-disciplinary scientific techniques, such as Optically Stimulated Luminescence (OSL) dating, for dating Stone Age sites.<br>2. Recommendations include developing site museums and interpretation centres near important prehistoric sites to promote heritage awareness.<br>3. It has been recommended that local and tribal communities be entirely excluded from conservation efforts at Stone Age sites to avoid interference.<br>Which of the statements given above is/are correct?",
-    opts: [
-        "1 and 2 only",
-        "2 and 3 only",
-        "1 and 3 only",
-        "1, 2 and 3"
-    ],
-    ans: 0,
-    exp: "Experts have called for greater use of scientific dating methods such as OSL dating to establish more reliable chronologies, and for developing site museums and interpretation centres to boost heritage awareness and tourism, as seen at sites like Bhimbetka. Involving local and tribal communities, rather than excluding them, is generally recommended for effective conservation, since they often serve as custodians of heritage knowledge, making statement 3 incorrect."
-},
-{
-    q: "With reference to a 2025 discovery relevant to prehistoric rock art in India, consider the following statements:<br>1. A cluster of cave paintings believed to date to the Neolithic period was discovered in the Yelagiri Hills of Tamil Nadu.<br>2. The discovery was reported as the first significant cluster of rock art found in that particular district.<br>3. The Yelagiri Hills paintings were found to be identical in style and subject matter to the Ajanta cave murals of the early historic period.<br>Which of the statements given above is/are correct?",
-    opts: [
-        "2 and 3 only",
-        "1 and 2 only",
-        "1 and 3 only",
-        "1, 2 and 3"
-    ],
-    ans: 1,
-    exp: "In 2025, a cluster of cave paintings believed to belong to the Neolithic period was discovered in the Yelagiri Hills, Tamil Nadu, reported as the first significant such cluster found in that district. These paintings, being simple prehistoric rock art, are stylistically and thematically distinct from the elaborate Buddhist fresco murals at Ajanta, which belong to a much later historic period, making statement 3 incorrect."
-}
+    {
+        q: "With reference to the Chalcolithic cultures of India, consider the following statements:<br>1. The Jorwe culture was concentrated mainly in present-day Maharashtra.<br>2. Chalcolithic people were generally unaware of the use of iron.<br>3. Daimabad, a Chalcolithic site, has yielded bronze images including a chariot.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Exactly one of the statements is correct",
+            "Only two of the statements are correct",
+            "All of the above",
+            "1 only"
+        ],
+        ans: 2,
+        exp: "The Jorwe culture flourished in Maharashtra (sites like Nevasa, Daimabad, Inamgaon). Chalcolithic communities used copper along with stone tools but did not know the use of iron. Daimabad, the largest Jorwe culture site, is famous for its bronze chariot and other bronze artefacts. Hence all three statements are correct."
+    },
+    {
+        q: "The term 'Chalcolithic' refers to a phase of human cultural evolution characterised by the use of which combination of tools/metals?",
+        opts: [
+            "Copper and stone tools used together",
+            "Copper and iron tools used together",
+            "Bronze tools exclusively, with no stone tools",
+            "Iron and stone tools used together"
+        ],
+        ans: 0,
+        exp: "'Chalcolithic' (Copper-Stone Age) denotes the period when people used copper along with stone tools, marking a transitional phase between the Neolithic and Iron Ages. Copper was used in a relatively pure form and had not been fully replaced by bronze or iron in most Chalcolithic settlements of India."
+    },
+    {
+        q: "Prehistoric rock paintings found at sites such as Bhimbetka are significant primarily because they:",
+        opts: [
+            "Are exclusively associated with the Harappan Civilization",
+            "Depict administrative and revenue records of early village communities",
+            "Reflect the socio-economic life, hunting practices, and rituals of prehistoric people",
+            "Provide evidence of early urban planning and drainage systems"
+        ],
+        ans: 2,
+        exp: "Rock paintings at Bhimbetka and other shelters, mostly from the Mesolithic period (though some are earlier), depict hunting scenes, wild animals, group dances, and rituals, offering insight into the daily life and belief systems of prehistoric communities. They have no connection with Harappan urban planning or administrative records."
+    },
+    {
+        q: "Which of the following best characterises the Paleolithic Age in India?",
+        opts: [
+            "People had domesticated animals and used bronze tools extensively",
+            "People were hunter-gatherers using tools made of stone, mostly quartzite",
+            "People practised settled agriculture and lived in mud-brick houses",
+            "People used handmade painted pottery for storage of grains"
+        ],
+        ans: 1,
+        exp: "The Paleolithic Age was characterised by a hunting-gathering economy, with people using unpolished, rough stone tools (chiefly quartzite) such as hand-axes, cleavers, and choppers. Settled agriculture, pottery, and domestication of animals emerged only later, in the Neolithic and Chalcolithic periods."
+    },
+    {
+        q: "With reference to burial and settlement practices of Chalcolithic communities in India, consider the following statements:<br>1. In the Jorwe culture, the dead were generally buried in a north-south orientation.<br>2. Children were sometimes buried in urns beneath the floor of houses.<br>3. Chalcolithic settlements have been found only in the Indus river plains.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Only statement 1",
+            "2 and 3 only",
+            "Exactly two of the statements are correct",
+            "Exactly one of the statements is correct"
+        ],
+        ans: 2,
+        exp: "Chalcolithic communities such as the Jorwe culture buried their dead in a north-south direction, and children were often buried in urns beneath house floors. However, Chalcolithic settlements were widespread across regions like Rajasthan (Ahar-Banas), Madhya Pradesh (Malwa), and Maharashtra (Jorwe), not confined to the Indus plains, which were primarily associated with the Harappan Civilization."
+    },
+    {
+        q: "The functions of rock paintings for prehistoric societies, and modern efforts towards their conservation, are best reflected in which of the following?<br>1. They served as a medium of communication and ritual expression among hunter-gatherer groups.<br>2. The Archaeological Survey of India has recommended in-situ preservation of rock art sites rather than their removal to museums.<br>3. Rock art sites in India are protected only under State legislation, with no Central law applicable.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "None of the above",
+            "Both 1 and 3",
+            "Exactly two of the statements are correct",
+            "Statement 2 alone"
+        ],
+        ans: 2,
+        exp: "Rock paintings depicted hunting, rituals, and daily life, serving as an early form of communication and symbolic expression. Conservation bodies like ASI generally recommend in-situ preservation (protecting paintings at their original location) over removal, since removal damages context and pigment. Rock art sites like Bhimbetka are protected under the Ancient Monuments and Archaeological Sites and Remains (AMASR) Act, a Central legislation, so statement 3 is incorrect."
+    },
+    {
+        q: "The Neolithic Revolution is regarded as a major turning point in human cultural evolution primarily because it introduced which of the following changes?<br>1. Shift from food-gathering to food-producing economy.<br>2. Domestication of plants and animals.<br>3. Widespread use of iron tools for agriculture.<br>Select the correct answer using the code below:",
+        opts: [
+            "1 and 3 only",
+            "2 and 3 only",
+            "1 and 2 only",
+            "1, 2 and 3"
+        ],
+        ans: 2,
+        exp: "The Neolithic Age marked humanity's transition from a food-gathering (hunting) economy to a food-producing economy, based on the domestication of plants and animals, along with settled agriculture, polished stone tools, and pottery. Iron tools were not used in the Neolithic period; iron came into use much later, only in the Iron Age."
+    },
+    {
+        q: "With reference to recent archaeological findings in India (2025), consider the following statements:<br>1. Researchers from IIT Gandhinagar found shell-midden sites at Khadir Bet in the Rann of Kutch indicating human habitation predating the Harappan civilization.<br>2. Accelerator Mass Spectrometry (AMS) dating was used to determine the age of the shell deposits.<br>3. The findings confirmed that Paleolithic tools were used exclusively at the site, with no evidence of any later cultural phase.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "2 and 3 only",
+            "1 and 3 only",
+            "2 only",
+            "Only two of the statements are correct"
+        ],
+        ans: 3,
+        exp: "In 2025, IIT Gandhinagar-led researchers identified prehistoric shell-midden sites on Khadir Bet in the Great Rann of Kutch, radiocarbon-dated using AMS to periods significantly predating the Harappan settlement, indicating an earlier coastal hunter-gatherer society. The sites yielded diverse stone tools and shell deposits, not evidence confined exclusively to one specific tool tradition, making statement 3 incorrect."
+    },
+    {
+        q: "Which of the following poses a genuine challenge in reconstructing the history of Chalcolithic cultures in India?",
+        opts: [
+            "Uniform culture across all regions with no regional variation",
+            "Absence of a deciphered script, making reconstruction dependent mainly on material remains",
+            "Complete absence of metal objects at excavated sites",
+            "Absence of any archaeological evidence of settlements"
+        ],
+        ans: 1,
+        exp: "Chalcolithic communities did not possess a deciphered script, so historians rely almost entirely on archaeological evidence such as pottery, tools, house structures, and burial practices to reconstruct their history, which limits detailed understanding of their social and political life. Chalcolithic sites do show metal (copper) objects, and cultures like Ahar-Banas, Malwa, and Jorwe show distinct regional variations, not uniformity."
+    },
+    {
+        q: "Consider the following features:<br>1. Use of microliths, i.e., small, finely worked stone tools.<br>2. Beginning of domestication of animals such as dog and sheep.<br>3. Evidence of burial of the dead along with grave goods.<br>Which of the above are characteristic features associated with the Mesolithic Age in India?",
+        opts: [
+            "2 and 3 only",
+            "1 and 2 only",
+            "1, 2 and 3",
+            "1 and 3 only"
+        ],
+        ans: 2,
+        exp: "The Mesolithic Age (Middle Stone Age) is marked by the use of microliths, and it witnessed the beginning of animal domestication, including dogs and sheep, as evidenced from sites like Adamgarh and Bagor. Mesolithic sites such as Bagor and Damdama have also revealed burial practices, sometimes with grave goods, indicating emerging ritual behaviour."
+    },
+    {
+        q: "With reference to important prehistoric sites of India, consider the following pairs:<br>1. Bhimbetka â€” Madhya Pradesh<br>2. Adamgarh â€” Maharashtra<br>3. Attirampakkam â€” Tamil Nadu<br>Which of the pairs given above is/are correctly matched?",
+        opts: [
+            "Only two of the statements are correct",
+            "1 and 2 only",
+            "Statement 1 alone",
+            "Both 2 and 3"
+        ],
+        ans: 0,
+        exp: "Bhimbetka rock shelters are located in Madhya Pradesh and are a UNESCO World Heritage Site. Attirampakkam, known for Acheulian and Levallois-type stone tools, is located in Tamil Nadu. Adamgarh, a Mesolithic site associated with early animal domestication, is actually located in Madhya Pradesh, not Maharashtra, making pair 2 incorrectly matched."
+    },
+    {
+        q: "With reference to the socio-economic structure of Chalcolithic communities in India, consider the following statements:<br>1. They lived in rural settlements and depended on agriculture and stock-raising.<br>2. Copper and stone were both used, but iron was absent.<br>3. Society had developed a clear division based on differences in house size and burial goods, indicating some degree of social stratification.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1 and 2 only",
+            "None of the above",
+            "All three statements are correct",
+            "Statement 1 alone"
+        ],
+        ans: 2,
+        exp: "Chalcolithic people lived in rural, non-urban settlements, practising agriculture along with cattle and sheep rearing, and used copper alongside stone tools without knowledge of iron. Variations in house sizes and grave goods across sites like Inamgaon and Nevasa suggest emerging social differentiation, though society remained largely non-urban and non-stratified compared to later periods."
+    },
+    {
+        q: "The Megalithic monuments of peninsular India, associated broadly with the Iron Age, are protected in the present day mainly under which of the following?",
+        opts: [
+            "The Panchayats (Extension to Scheduled Areas) Act, 1996",
+            "The Indian Forest Act, 1927",
+            "The Biological Diversity Act, 2002",
+            "The Ancient Monuments and Archaeological Sites and Remains (AMASR) Act, 1958"
+        ],
+        ans: 3,
+        exp: "Megalithic sites of archaeological importance, along with other ancient monuments, are protected under the Ancient Monuments and Archaeological Sites and Remains (AMASR) Act, 1958 (amended in 2010), which empowers the ASI to declare and safeguard sites of national importance. The other Acts listed deal with forests, tribal governance, and biodiversity respectively, and are unrelated to archaeological protection."
+    },
+    {
+        q: "Which of the following measures have been recommended/undertaken for the conservation of prehistoric rock art and archaeological sites in India?<br>1. Declaration of significant sites as sites of national importance under central legislation.<br>2. Nomination of outstanding sites to the UNESCO World Heritage List.<br>3. Complete relocation of all rock paintings to national museums for safekeeping.<br>Select the correct answer using the code below:",
+        opts: [
+            "2 and 3 only",
+            "1, 2 and 3",
+            "1 and 2 only",
+            "1 and 3 only"
+        ],
+        ans: 2,
+        exp: "Prehistoric sites of significance are declared as sites of national importance under the AMASR Act, and outstanding sites such as the Rock Shelters of Bhimbetka have been inscribed on the UNESCO World Heritage List. Conservation practice favours in-situ protection of rock art at its original location rather than complete relocation to museums, which would damage authenticity and context."
+    },
+    {
+        q: "With reference to the tool-making tradition of the Paleolithic Age in India, consider the following statements:<br>1. The Lower Paleolithic phase is characterised by core tools such as hand-axes and cleavers.<br>2. The Middle Paleolithic phase saw a shift towards tools made on flakes.<br>3. The Upper Paleolithic phase is marked by the emergence of blade and burin tools.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Exactly one of the statements is correct",
+            "Only two of the statements are correct",
+            "All three statements are correct",
+            "2 and 3 only"
+        ],
+        ans: 2,
+        exp: "The Paleolithic Age in India is conventionally divided into Lower (core tools like hand-axes and cleavers), Middle (flake-based tools), and Upper Paleolithic (blade and burin tools, along with a rise in bone tools) phases based on the changing structure and technology of stone tools. This tripartite classification, widely used by archaeologists, reflects the gradual technological refinement of tool-making traditions."
+    },
+    {
+        q: "Prehistoric rock art sites of India, including painted rock shelters, are legally protected under which of the following?",
+        opts: [
+            "The Indian Forest Act, 1927",
+            "The Environment (Protection) Act, 1986",
+            "The Ancient Monuments and Archaeological Sites and Remains (AMASR) Act, 1958",
+            "The Wildlife (Protection) Act, 1972"
+        ],
+        ans: 2,
+        exp: "Rock art and prehistoric archaeological sites of national importance are protected under the AMASR Act, 1958 (amended in 2010), administered by the Archaeological Survey of India. The other Acts pertain to forests, wildlife, and environmental protection, and are not the primary legal instruments for heritage/archaeological site protection."
+    },
+    {
+        q: "Which of the following Central legislations is most relevant to the legal protection of Neolithic archaeological sites and their artefacts in India?",
+        opts: [
+            "National Monuments Authority Act, 2005",
+            "Both (a) and (b)",
+            "Antiquities and Art Treasures Act, 1972",
+            "Ancient Monuments and Archaeological Sites and Remains (Amendment and Validation) Act, 2010"
+        ],
+        ans: 1,
+        exp: "The AMASR (Amendment and Validation) Act, 2010 strengthens protection of monuments and regulates construction near protected sites, while the Antiquities and Art Treasures Act, 1972 regulates the export trade in antiquities and their registration, both of which apply to Neolithic sites and artefacts. There is no separate 'National Monuments Authority Act, 2005'; the National Monuments Authority was established under the 2010 amendment itself."
+    },
+    {
+        q: "With reference to the Megalithic culture of India, consider the following statements:<br>1. It is generally associated with the Iron Age in peninsular India.<br>2. Megaliths refer only to burial sites and never to non-sepulchral (non-burial) structures.<br>3. Black-and-Red Ware pottery is commonly associated with Megalithic burials.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Only two of the statements are correct",
+            "None of the above",
+            "1 only",
+            "Only one of the statements is correct"
+        ],
+        ans: 0,
+        exp: "The Megalithic culture emerged in peninsular India largely during the Iron Age and is best known through burial sites marked by large stone structures. However, megaliths include both sepulchral (burial-related, e.g., dolmens, cists) and non-sepulchral (commemorative, e.g., menhirs) structures, so statement 2 is incorrect. Black-and-Red Ware pottery is a hallmark find in Megalithic burials across South India."
+    },
+    {
+        q: "Which of the following best describes the functions performed by copper tools among Chalcolithic communities in India?",
+        opts: [
+            "They were used only for making agricultural ploughs",
+            "They were used mainly for ornamental and ceremonial purposes, alongside continued use of stone tools for regular tasks",
+            "They were used exclusively for warfare and military purposes",
+            "They completely replaced stone tools in all economic activities"
+        ],
+        ans: 1,
+        exp: "Chalcolithic people used copper mainly for making ornaments, tools of limited utility, and some weapons, but stone tools (blades, microliths) continued to be used extensively for everyday activities like cutting and farming, since copper was scarce and not fully exploited for large-scale tool-making. Copper did not replace stone tools entirely, nor was it used exclusively for one narrow purpose."
+    },
+    {
+        q: "Which of the following is a genuine challenge faced by archaeologists in studying the Mesolithic Age in India?",
+        opts: [
+            "Mesolithic sites being found only in the Indus Valley region",
+            "Complete absence of any Mesolithic sites in India",
+            "Perishable nature of many associated materials like wood, bone, and skin, along with small size of stone tools, making identification difficult",
+            "The presence of a well-deciphered Mesolithic script that has led to conflicting interpretations"
+        ],
+        ans: 2,
+        exp: "A major challenge in studying the Mesolithic Age is the perishable nature of associated organic materials (wood, bone, hide) which rarely survive, and the small size of microliths, which can be easily overlooked or difficult to interpret contextually. Mesolithic sites are found widely across India (e.g., Bagor, Langhnaj, Adamgarh), and no script existed in this period."
+    },
+    {
+        q: "In the context of conservation of Paleolithic sites in India, which of the following measures has been suggested/adopted by heritage authorities?",
+        opts: [
+            "Permitting unrestricted mining and quarrying activities near Paleolithic sites to promote local economic development",
+            "Declaring significant Paleolithic sites as protected monuments and regulating construction activity around them",
+            "Shifting all Paleolithic tools to private collectors for better preservation",
+            "Discontinuing scientific dating techniques in favour of traditional estimation methods"
+        ],
+        ans: 1,
+        exp: "Conservation efforts for significant Paleolithic sites (e.g., Attirampakkam) generally involve declaring them protected sites/monuments and regulating nearby construction, mining, or quarrying to prevent damage. Uncontrolled mining threatens such sites, and modern scientific dating techniques (like luminescence dating) are actively used and encouraged, not discontinued."
+    },
+    {
+        q: "The bow and arrow, along with composite tools, gained increasing importance during the Mesolithic Age in India primarily because they enabled:",
+        opts: [
+            "More efficient hunting of fast-moving smaller game in a changing post-Pleistocene environment",
+            "Construction of fortified brick cities",
+            "Large-scale irrigation-based agriculture",
+            "Smelting and casting of copper implements"
+        ],
+        ans: 0,
+        exp: "With the onset of a warmer, post-Pleistocene climate, forests expanded and smaller, faster game became more common; the bow and arrow, along with microlith-tipped composite tools, allowed Mesolithic hunter-gatherers to hunt such game more effectively. Agriculture, urban fortifications, and copper metallurgy were not features of the Mesolithic Age."
+    },
+    {
+        q: "With reference to the background and evolution of the Neolithic Age in India, consider the following statements:<br>1. Mehrgarh in Balochistan provides some of the earliest evidence of plant and animal domestication in the subcontinent.<br>2. Neolithic culture in India developed uniformly at the same time across all regions.<br>3. Ash mounds, associated with cattle-penning activities, are a notable feature of Neolithic sites in South India.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Exactly two of the statements are correct",
+            "2 only",
+            "Statement 1 alone",
+            "Both 2 and 3"
+        ],
+        ans: 0,
+        exp: "Mehrgarh is among the earliest Neolithic sites in South Asia, providing evidence of early agriculture and domestication. Neolithic culture did not develop uniformly across India; it emerged at different times in different regions (e.g., Mehrgarh c. 7000 BCE, South Indian sites later), so statement 2 is incorrect. South Indian Neolithic sites like Sangankallu are known for ash mounds linked to cattle-penning."
+    },
+    {
+        q: "Which of the following is a distinguishing characteristic that differentiates the Paleolithic Age from the Neolithic Age in India?",
+        opts: [
+            "Practice of hunting-gathering with unpolished tools, as opposed to settled agriculture with polished tools",
+            "Knowledge of fire, present only in the Neolithic Age",
+            "Use of metal tools, found only in the Paleolithic Age",
+            "Use of stone tools, found in the Paleolithic but absent in the Neolithic"
+        ],
+        ans: 0,
+        exp: "The Paleolithic Age was marked by a hunting-gathering economy using rough, unpolished stone tools, whereas the Neolithic Age saw the emergence of settled agriculture, domestication, and the use of polished/ground stone tools. Stone tools were used in both ages; fire was known since the Paleolithic; and neither age used metal tools, which appeared later in the Chalcolithic/Iron Age."
+    },
+    {
+        q: "With reference to recent archaeological developments (2025) concerning the Neolithic Age in India, consider the following statements:<br>1. Fresh findings at Daojali Hading in Assam reaffirmed evidence of Neolithic habitation along with early metallurgical activity.<br>2. The site has yielded jadeite stones suggesting possible ancient trade links with East and Southeast Asia.<br>3. Daojali Hading is located in the Indus river valley region of Punjab.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "All of the statements are correct",
+            "1 and 2 only",
+            "2 and 3 only",
+            "Exactly one of the statements is correct"
+        ],
+        ans: 1,
+        exp: "Recent archaeological findings at Daojali Hading (Dima Hasao district, Assam) reaffirmed the site's status as a Neolithic habitation with evidence of early metallurgical activity, along with jadeite stones pointing to possible trade links with East and Southeast Asia. The site is located in Assam in northeast India, not in the Indus valley of Punjab, making statement 3 incorrect."
+    },
+    {
+        q: "With reference to the background and evolution of the Paleolithic Age in India, consider the following statements:<br>1. The Lower Paleolithic phase is associated with the Soanian and Acheulian tool-making traditions.<br>2. The Middle Paleolithic culture in India is often referred to as 'Nevasian', named after a site on the Pravara river.<br>3. The three-phase division of the Paleolithic Age (Lower, Middle, Upper) is based solely on the geographical location of sites, without reference to climate or tool technology.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Both 2 and 3",
+            "1, 2 and 3",
+            "Both 1 and 3",
+            "Only two of the statements are correct"
+        ],
+        ans: 3,
+        exp: "The Lower Paleolithic in India is linked to the Soanian tradition (Punjab/Kashmir region) and the Acheulian tradition (hand-axes and cleavers). The Middle Paleolithic, dominated by flake tools, is termed 'Nevasian' after Nevasa on the Pravara river, comparable to the Mousterian tradition. The three-phase division is based on both the changing nature of stone tools used and the accompanying climatic changes of the Ice Age, not on geography alone, making statement 3 incorrect."
+    },
+    {
+        q: "Which of the following are genuine challenges faced by historians and archaeologists in reconstructing the Megalithic culture of peninsular India?<br>1. Most available evidence comes from burial sites, limiting insight into everyday life and settlement patterns.<br>2. A precise chronological framework is difficult to establish, as megalithic dates vary widely across regions and sites.<br>3. Megalithic culture is attested only through archaeological remains, with no corroboration from any contemporary literary source.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Statement 2 alone",
+            "Both 1 and 2",
+            "None of the above",
+            "All three statements are correct"
+        ],
+        ans: 1,
+        exp: "A major limitation in studying Megalithic culture is that most evidence is drawn from burials, so understanding of habitation sites and daily life remains limited. Dating is also contentious, as megalithic practices span a wide period and show considerable regional variation in South India. However, Sangam-era Tamil literature and accounts of Graeco-Roman writers do provide corroborating literary evidence, so statement 3 is incorrect."
+    },
+    {
+        q: "With reference to legal protection available to Mesolithic and other prehistoric sites in India, consider the following statements:<br>1. The Ancient Monuments and Archaeological Sites and Remains (Amendment and Validation) Act, 2010 introduced the concept of 'prohibited' and 'regulated' areas around protected monuments.<br>2. The National Monuments Authority was constituted under this 2010 amendment to oversee construction-related activities near protected sites.<br>3. The Antiquities and Art Treasures Act, 1972 mandates registration of antiquities and regulates their export from India.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Exactly one of the statements is correct",
+            "None of the above",
+            "All of the above",
+            "Only statement 1"
+        ],
+        ans: 2,
+        exp: "The AMASR (Amendment and Validation) Act, 2010 introduced a 100-metre 'prohibited area' and a further 300-metre 'regulated area' around centrally protected monuments and sites, restricting construction activity. It also established the National Monuments Authority to consider applications for construction in the regulated area. Separately, the Antiquities and Art Treasures Act, 1972 requires registration of antiquities with the ASI and regulates/prohibits their export, except under licence."
+    },
+    {
+        q: "With reference to the functions and powers of the Archaeological Survey of India (ASI) concerning Stone Age and other prehistoric sites declared as monuments of national importance, consider the following statements:<br>1. The ASI has the power to acquire a protected monument through purchase, gift, or compulsory acquisition.<br>2. The ASI can prohibit mining, quarrying, and construction activities within the prohibited area around a protected monument.<br>3. The ASI has the exclusive and final authority to grant licences for the export of all antiquities without any oversight.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Only two of the statements are correct",
+            "None of the above",
+            "1 and 3 only",
+            "Exactly one of the statements is correct"
+        ],
+        ans: 0,
+        exp: "Under the AMASR Act, the ASI (through the Central Government) may acquire protected monuments by purchase, gift, bequest, or compulsory acquisition, and can restrict mining, quarrying, or construction activity within the prohibited area to prevent damage. Export of antiquities is regulated under the Antiquities and Art Treasures Act, 1972 through a registering officer and requires a licence, and is not left to the unchecked discretion of the ASI alone, making statement 3 incorrect."
+    },
+    {
+        q: "With reference to constitutional and legal provisions governing Stone Age archaeological sites in India, consider the following statements:<br>1. Entry 67 of the Union List empowers Parliament to legislate on ancient monuments and archaeological sites declared to be of national importance.<br>2. Entry 12 of the State List deals with ancient and historical monuments other than those declared to be of national importance.<br>3. Article 49 of the Constitution places an obligation on the State to protect monuments and objects of national importance from destruction or removal.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1, 2 and 3",
+            "Only one of the statements is correct",
+            "Only two of the statements are correct",
+            "1 only"
+        ],
+        ans: 0,
+        exp: "Entry 67 of the Union List covers ancient monuments and archaeological sites declared by Parliament to be of national importance, while Entry 12 of the State List covers those not so declared, which fall under state jurisdiction. Article 49, a Directive Principle, obligates the State to protect every monument or object of artistic or historic interest of national importance from spoliation, disfigurement, destruction, removal, or export. All three statements are therefore correct."
+    },
+    {
+        q: "With reference to reforms and recommendations concerning the conservation of prehistoric rock paintings in India, consider the following statements:<br>1. UNESCO, while inscribing the Rock Shelters of Bhimbetka as a World Heritage Site, recommended a survey of the rock art and an appraisal of its conservation status.<br>2. It was suggested that the site's boundary could, in future, be extended to include the wider cultural landscape of nearby adivasi villages.<br>3. The recommendations called for complete removal of the paintings to a climate-controlled museum for their long-term preservation.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "2 only",
+            "Only two of the statements are correct",
+            "All of the statements are correct",
+            "1 only"
+        ],
+        ans: 1,
+        exp: "When Bhimbetka was inscribed on the UNESCO World Heritage List in 2003, the World Heritage Committee requested a survey of the rock art and an appraisal of its conservation, and suggested that the boundary could later be extended to cover the living cultural landscape of adjoining adivasi villages linked to the site's traditions. There was no recommendation to remove the paintings to a museum, since in-situ preservation at the original rock shelters was and remains the preferred approach."
+    },
+    {
+        q: "With reference to constitutional and legal provisions relevant to Chalcolithic archaeological sites in India that have not been declared to be of national importance, consider the following statements:<br>1. Such sites fall under Entry 40 of the Concurrent List, titled 'Archaeological sites and remains'.<br>2. Both Parliament and State Legislatures can make laws regarding such sites, though Union law prevails in case of repugnancy.<br>3. States are constitutionally barred from enacting their own legislation for the protection of such sites.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "All three statements are correct",
+            "Only statement 2",
+            "Exactly one of the statements is correct",
+            "Only two of the statements are correct"
+        ],
+        ans: 3,
+        exp: "Archaeological sites and remains not declared to be of national importance fall under Entry 40 of the Concurrent List, meaning both Parliament and State Legislatures can legislate on them, though Article 254 gives Union law precedence in case of a conflict. States are not barred from legislating; several states have their own Ancient Monuments Acts to protect state-level sites, such as Chalcolithic settlements not covered under central protection."
+    },
+    {
+        q: "With reference to prehistoric rock art in India, a topic frequently tested in UPSC Prelims, consider the following statements:<br>1. The Bhimbetka rock shelters were discovered by the archaeologist V.S. Wakankar in 1957.<br>2. The colours used in these paintings were derived from natural minerals such as haematite (red) and limestone or kaolin (white).<br>3. The themes depicted are confined exclusively to religious and spiritual practices, with no depiction of everyday activities such as hunting or dancing.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1 only",
+            "All of the statements are correct",
+            "Both 1 and 3",
+            "1 and 2 only"
+        ],
+        ans: 3,
+        exp: "V.S. Wakankar discovered the Bhimbetka rock shelters in 1957, and the pigments used were natural minerals - red from haematite and white from limestone or kaolin. However, the paintings depict a wide range of everyday themes such as hunting, dancing, childbirth, and communal activities, not merely religious or spiritual subjects, making statement 3 incorrect."
+    },
+    {
+        q: "With reference to the features and characteristics of the Paleolithic Age in India, consider the following statements:<br>1. Tools were predominantly made of quartzite and included hand-axes, cleavers, and choppers associated with the Soanian and Acheulian traditions.<br>2. People followed a hunting-gathering economy and had no knowledge of pottery or settled agriculture.<br>3. Permanent settlements with brick structures were a defining feature of the Paleolithic Age in India.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "None of the above",
+            "Only two of the statements are correct",
+            "1 only",
+            "Only statement 2"
+        ],
+        ans: 1,
+        exp: "Paleolithic tools in India were mostly quartzite implements associated with the Soanian tradition (Punjab/Kashmir) and the Acheulian tradition (hand-axes, cleavers), and the people were nomadic hunter-gatherers without pottery or agriculture. Permanent brick settlements did not exist until much later, in the urban phase of the Harappan civilization, making statement 3 incorrect."
+    },
+    {
+        q: "With reference to reforms and recommendations concerning the study and preservation of Chalcolithic sites in India, consider the following statements:<br>1. Scholars have recommended greater use of scientific dating techniques, such as radiocarbon (C-14) dating, to establish more precise chronologies for Chalcolithic cultures.<br>2. It has been recommended that excavation reports integrate archaeobotanical and archaeozoological evidence to better understand subsistence patterns at sites like Inamgaon.<br>3. Experts have recommended discontinuing all further excavation of Chalcolithic sites in order to preserve them in an entirely undisturbed state.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "2 only",
+            "Both 1 and 2",
+            "None of the statements are correct",
+            "Only statement 3"
+        ],
+        ans: 1,
+        exp: "Scholars have called for wider use of radiocarbon dating to refine Chalcolithic chronologies and for integrating archaeobotanical/archaeozoological data, as done at sites like Inamgaon, to reconstruct ancient subsistence economies. There is no recommendation to halt excavation entirely, since scientific excavation itself is the main source of knowledge about these non-literate cultures."
+    },
+    {
+        q: "With reference to prehistoric sites of India, a recurring theme in UPSC Prelims, consider the following pairs:<br>1. Chopani Mando â€” Site providing some of the earliest evidence of handmade pottery in India (Mesolithic)<br>2. Sarai Nahar Rai â€” Site providing important evidence of Mesolithic human burials<br>3. Attirampakkam â€” Site famous for Neolithic ash mounds linked to cattle-penning<br>Which of the pairs given above is/are correctly matched?",
+        opts: [
+            "Both 1 and 3",
+            "Exactly one of the statements is correct",
+            "Statement 3 alone",
+            "Only two of the statements are correct"
+        ],
+        ans: 3,
+        exp: "Chopani Mando in the Belan Valley has yielded some of the earliest evidence of handmade pottery associated with the Mesolithic, and Sarai Nahar Rai in Uttar Pradesh is well known for its Mesolithic burial evidence. Attirampakkam, however, is primarily an Acheulian Paleolithic site; ash mounds linked to cattle-penning are a South Indian Neolithic feature found at sites like Sanganakallu, not Attirampakkam, making pair 3 incorrect."
+    },
+    {
+        q: "With reference to pottery traditions associated with Chalcolithic cultures of India, a theme UPSC has tested through matching-pair questions, consider the following pairs:<br>1. Black-and-Red Ware (BRW) â€” Associated with Chalcolithic cultures such as Ahar-Banas<br>2. Ochre Coloured Pottery (OCP) â€” Associated with Chalcolithic-era sites in the Ganga-Yamuna doab<br>3. Painted Grey Ware (PGW) â€” Associated with the Chalcolithic Jorwe culture of Maharashtra<br>Which of the pairs given above is/are correctly matched?",
+        opts: [
+            "1 and 2 only",
+            "None of the statements are correct",
+            "Only one of the statements is correct",
+            "Both 2 and 3"
+        ],
+        ans: 0,
+        exp: "Black-and-Red Ware is a hallmark of the Ahar-Banas Chalcolithic culture of Rajasthan, and Ochre Coloured Pottery is associated with Chalcolithic-era sites of the Ganga-Yamuna doab, often linked to the Copper Hoard culture. Painted Grey Ware, however, belongs to the Later Vedic/early Iron Age and is not linked to the Jorwe culture, which is instead associated with Black-on-Red painted pottery, making pair 3 incorrect."
+    },
+    {
+        q: "With reference to the evolution of prehistoric rock art in India across successive ages, consider the following statements:<br>1. Upper Paleolithic rock art is characterised by dynamic and lively depictions of animals such as bison and rhinoceros.<br>2. In the Mesolithic phase, paintings became comparatively smaller in size and more frequently depicted group hunting scenes and communal dancing.<br>3. Neolithic-Chalcolithic period paintings show a relative decline in vividness compared to earlier phases, even as pottery and metal tools begin to appear as motifs.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "All of the above",
+            "Exactly one of the statements is correct",
+            "1 only",
+            "Both 2 and 3"
+        ],
+        ans: 0,
+        exp: "Rock art evolved distinctly across ages: Upper Paleolithic paintings are noted for dynamic, lively animal depictions; Mesolithic art became smaller and richer in group scenes of hunting and dancing; and by the Neolithic-Chalcolithic phase, while pottery and metal tools appear as new motifs, the vividness and vitality of earlier compositions declined. All three statements accurately reflect this documented evolution."
+    },
+    {
+        q: "With reference to a 2025 archaeological study conducted on the Rann of Kutch relevant to the Mesolithic Age in India, consider the following statements:<br>1. Researchers associated with IIT Gandhinagar identified prehistoric shell-midden deposits at Khadir Bet, indicating a coastal hunter-gatherer presence predating the Harappan civilization.<br>2. The deposits were dated using Accelerator Mass Spectrometry (AMS), a high-precision radiocarbon dating method.<br>3. The study concluded that the site was exclusively a settled Neolithic agricultural community, with no evidence of a hunting-gathering economy.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Only one of the statements is correct",
+            "1 and 2 only",
+            "3 only",
+            "Statement 2 alone"
+        ],
+        ans: 1,
+        exp: "In 2025, researchers associated with IIT Gandhinagar identified shell-midden deposits on Khadir Bet in the Great Rann of Kutch, indicating a coastal hunter-gatherer occupation that predates the Harappan settlement, and used Accelerator Mass Spectrometry for high-precision dating. The findings pointed to a hunting-gathering and shellfish-collecting economy rather than a purely settled agricultural community, making statement 3 incorrect."
+    },
+    {
+        q: "With reference to challenges and issues faced by historians in studying the Neolithic Age in India, consider the following statements:<br>1. Many Neolithic sites lack a uniform absolute chronology, since regional developments across India were not simultaneous.<br>2. There is often an overlap between the Neolithic and Chalcolithic phases at several sites, making a clear-cut classification difficult.<br>3. Neolithic sites in India have yielded a completely uniform and standardised set of cultivated crops across all regions, leaving no scope for regional variation.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Exactly one of the statements is correct",
+            "Both 1 and 2",
+            "Only one of the statements is correct",
+            "Statement 1 alone"
+        ],
+        ans: 1,
+        exp: "A key challenge in studying the Neolithic Age is the absence of a uniform chronology, since agriculture and settled life emerged at different times in different regions (e.g., Mehrgarh much earlier than South Indian sites). Many sites also show overlapping Neolithic-Chalcolithic phases, complicating classification. However, cultivated crops varied significantly by region, such as wheat and barley in the northwest versus millets and pulses in the south, making statement 3 incorrect."
+    },
+    {
+        q: "With reference to the structure and composition of Neolithic settlements in India, consider the following statements:<br>1. Neolithic settlements at Burzahom in Kashmir show evidence of circular pit-dwellings dug into the ground.<br>2. The Neolithic toolkit was mainly composed of ground and polished stone tools such as axes, adzes, and chisels.<br>3. Neolithic villages were entirely bereft of any storage structures, as surplus food production was unknown.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Statement 2 alone",
+            "All of the above",
+            "2 and 3 only",
+            "Both 1 and 2"
+        ],
+        ans: 3,
+        exp: "Excavations at Burzahom in Kashmir revealed circular pit-dwellings dug into the ground, and the Neolithic toolkit is characterised by ground and polished stone tools like axes, adzes, and chisels, in contrast to the rough tools of earlier ages. Neolithic communities, however, did produce agricultural surplus and evidence of storage structures such as granaries has been found at several sites, making statement 3 incorrect."
+    },
+    {
+        q: "With reference to important Acts and legal amendments relevant to the protection of Paleolithic sites in India, consider the following statements:<br>1. The Ancient Monuments Preservation Act, 1904 was the first major legislation for protecting archaeological sites and monuments in India.<br>2. The Antiquities (Export Control) Act, 1947 regulated the export of antiquities and was later replaced by the Antiquities and Art Treasures Act, 1972.<br>3. The Ancient Monuments and Archaeological Sites and Remains (AMASR) Act, 1958 repealed and replaced the 1904 Act, providing a unified framework covering sites like Bhimbetka.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "All three statements are correct",
+            "None of the statements are correct",
+            "Statement 2 alone",
+            "Exactly two of the statements are correct"
+        ],
+        ans: 0,
+        exp: "The Ancient Monuments Preservation Act, 1904 was indeed the first major colonial-era law protecting monuments and sites in India. The Antiquities (Export Control) Act, 1947 regulated antiquity exports and was later subsumed by the Antiquities and Art Treasures Act, 1972. The AMASR Act, 1958 consolidated and replaced the 1904 Act, creating a unified legal framework that today covers Paleolithic sites of national importance such as Bhimbetka. All three statements are therefore correct."
+    },
+    {
+        q: "With reference to reforms and recommendations concerning the conservation of Paleolithic sites in India, consider the following statements:<br>1. Archaeologists have recommended wider application of luminescence dating techniques to establish more reliable chronologies for Paleolithic sites.<br>2. Conservation experts have recommended regulating mining and quarrying activities near significant sites such as Attirampakkam to prevent damage.<br>3. It has been recommended that all Paleolithic tools be permanently removed from their find-spots and displayed only in museums abroad.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "All of the above",
+            "None of the above",
+            "Only statement 2",
+            "1 and 2 only"
+        ],
+        ans: 3,
+        exp: "Scientists have increasingly recommended techniques like Optically Stimulated Luminescence dating to refine chronologies at Paleolithic sites, and conservationists have called for regulating mining and quarrying near sites like Attirampakkam, which face threats from such activity. There is no recommendation to remove artefacts abroad; in fact, Indian law regulates and restricts the export of antiquities, making statement 3 incorrect."
+    },
+    {
+        q: "With reference to the background and evolution of the Neolithic Age in the Indian subcontinent, consider the following statements:<br>1. Mehrgarh, in present-day Balochistan, provides some of the earliest evidence of Neolithic farming and domestication in South Asia, dating to around 7000 BCE.<br>2. The Neolithic Age in India developed simultaneously across all regions, with identical crop patterns and settlement types everywhere.<br>3. Distinct regional Neolithic cultures emerged in Kashmir (Burzahom), the middle Ganga valley, and South India, each with characteristic features.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "All of the statements are correct",
+            "Exactly one of the statements is correct",
+            "Exactly two of the statements are correct",
+            "2 only"
+        ],
+        ans: 2,
+        exp: "Mehrgarh is widely regarded as an early centre of Neolithic farming and domestication in South Asia, dated to around 7000 BCE. However, the Neolithic did not develop simultaneously everywhere; regions like Kashmir (Burzahom), the middle Ganga valley, and South India each developed distinct Neolithic cultures with their own crop patterns, tool types, and settlement forms, making statement 2 incorrect."
+    },
+    {
+        q: "With reference to a 2026 archaeological discovery relevant to the Stone Age in India, consider the following statements:<br>1. Researchers reported the discovery of petroglyphs, cupules, and stone tools including hand-axes and cleavers in the Bhondsi stretch of the Aravalli forests near Gurugram.<br>2. The findings were linked to both the Paleolithic and Mesolithic periods, suggesting long-term continuity of human activity in the region.<br>3. Cupules, one of the discoveries at the site, refer to inscriptions in a fully deciphered ancient script.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "2 and 3 only",
+            "Statement 1 alone",
+            "1 and 2 only",
+            "None of the above"
+        ],
+        ans: 2,
+        exp: "In 2026, archaeologists reported petroglyphs, cupules, and stone tools such as hand-axes and cleavers at Bhondsi in the Aravalli forests near Gurugram, with the finds linked to both the Paleolithic and Mesolithic periods, indicating long-term human presence. Cupules are small cup-shaped depressions carved into rock, considered among the oldest forms of rock art, not a deciphered script, making statement 3 incorrect."
+    },
+    {
+        q: "With reference to a 2026 archaeological development relevant to prehistoric sites in India, consider the following statements:<br>1. Excavations at Tekkalakote in Karnataka's Ballari district uncovered multiple human skeletal remains suggestive of the Mesolithic period.<br>2. Tekkalakote was earlier known primarily as a Neolithic settlement, based on excavations conducted by archaeologist Nagaraj Rao in the 1960s.<br>3. The recent excavation at Tekkalakote was conducted entirely by international researchers, with no involvement of any Indian state archaeology department.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "None of the above",
+            "1 and 2 only",
+            "Exactly one of the statements is correct",
+            "2 and 3 only"
+        ],
+        ans: 1,
+        exp: "In early 2026, excavations at Tekkalakote (Ballari district, Karnataka) revealed multiple human skeletal remains with features suggestive of the Mesolithic period, at a site earlier identified as Neolithic through excavations by Nagaraj Rao in 1963-64. The recent work involved the Karnataka State Department of Archaeology, Museums and Heritage alongside international researchers, so it was not conducted exclusively by international teams, making statement 3 incorrect."
+    },
+    {
+        q: "Consider the following pairs of Mesolithic sites in India and their archaeological significance, a format frequently used by UPSC in matching-type questions:<br>1. Bagor (Rajasthan) â€” Among the earliest evidence of domestication of sheep and goat<br>2. Adamgarh (Madhya Pradesh) â€” Among the earliest evidence of animal domestication in India<br>3. Langhnaj (Gujarat) â€” Famous chiefly for evidence of iron-smelting furnaces<br>Which of the pairs given above is/are correctly matched?",
+        opts: [
+            "Exactly one of the statements is correct",
+            "None of the above",
+            "Exactly two of the statements are correct",
+            "Only one of the statements is correct"
+        ],
+        ans: 2,
+        exp: "Bagor in Rajasthan provides some of the earliest evidence of sheep and goat domestication in India, and Adamgarh in Madhya Pradesh is similarly known for early animal domestication evidence. Langhnaj in Gujarat is significant for its Mesolithic microliths and human burials, not for iron-smelting furnaces, which belong to a much later technological phase, making pair 3 incorrect."
+    },
+    {
+        q: "With reference to the features and characteristics of the Mesolithic Age in India, consider the following statements:<br>1. Microliths, the characteristic tool of the Mesolithic Age, were often hafted onto wood or bone to create composite tools.<br>2. The Mesolithic Age marks the beginning of animal domestication in India.<br>3. Mesolithic communities had no knowledge of burial practices, with corpses left exposed after death.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "3 only",
+            "Only two of the statements are correct",
+            "1 only",
+            "Both 2 and 3"
+        ],
+        ans: 1,
+        exp: "Microliths were commonly hafted onto wood or bone handles to make composite tools such as arrows and sickles, and the Mesolithic Age marks the beginning of animal domestication in India, as seen at sites like Bagor and Adamgarh. Mesolithic communities did practise deliberate burial, sometimes with grave goods, as evidenced at sites like Sarai Nahar Rai and Bagor, making statement 3 incorrect."
+    },
+    {
+        q: "With reference to reforms and recommendations concerning the study of Stone Age sites in India, consider the following statements:<br>1. Experts have recommended greater use of multi-disciplinary scientific techniques, such as Optically Stimulated Luminescence (OSL) dating, for dating Stone Age sites.<br>2. Recommendations include developing site museums and interpretation centres near important prehistoric sites to promote heritage awareness.<br>3. It has been recommended that local and tribal communities be entirely excluded from conservation efforts at Stone Age sites to avoid interference.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "2 and 3 only",
+            "Only statement 1",
+            "Exactly one of the statements is correct",
+            "Only two of the statements are correct"
+        ],
+        ans: 3,
+        exp: "Experts have called for greater use of scientific dating methods such as OSL dating to establish more reliable chronologies, and for developing site museums and interpretation centres to boost heritage awareness and tourism, as seen at sites like Bhimbetka. Involving local and tribal communities, rather than excluding them, is generally recommended for effective conservation, since they often serve as custodians of heritage knowledge, making statement 3 incorrect."
+    },
+    {
+        q: "With reference to a 2025 discovery relevant to prehistoric rock art in India, consider the following statements:<br>1. A cluster of cave paintings believed to date to the Neolithic period was discovered in the Yelagiri Hills of Tamil Nadu.<br>2. The discovery was reported as the first significant cluster of rock art found in that particular district.<br>3. The Yelagiri Hills paintings were found to be identical in style and subject matter to the Ajanta cave murals of the early historic period.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "All of the above",
+            "Only statement 1",
+            "None of the above",
+            "Exactly two of the statements are correct"
+        ],
+        ans: 3,
+        exp: "In 2025, a cluster of cave paintings believed to belong to the Neolithic period was discovered in the Yelagiri Hills, Tamil Nadu, reported as the first significant such cluster found in that district. These paintings, being simple prehistoric rock art, are stylistically and thematically distinct from the elaborate Buddhist fresco murals at Ajanta, which belong to a much later historic period, making statement 3 incorrect."
+    }
 ];
-
-
-
 
 
 
@@ -1643,7 +1639,7 @@ function doSubmit(){
       correct: correct,
       incorrect: incorrect,
       unattempted: unattempted,
-      testCode: "PreLoG-2027-01-FREE TIER"
+      testCode: "PreLoG-2027-1-FREE TIER"
     })
   }); 
   submitBtn.style.display = 'none';
@@ -1688,6 +1684,16 @@ const countdown = setInterval(() => {
 const startModal = document.getElementById('startModal');
 const startTestBtn = document.getElementById('startTestBtn');
 const startNameInput = document.getElementById('userName');
+
+// populate the start screen dynamically so this same code works
+// no matter how many questions / what marking scheme this file has
+document.getElementById('startTitle').textContent =
+  document.querySelector('.title-block h1').textContent;
+document.getElementById('startQCount').textContent = QUESTIONS.length;
+document.getElementById('startMaxMarks').textContent = (QUESTIONS.length * CORRECT_MARKS).toFixed(0);
+document.getElementById('startCorrectMarks').textContent = '+' + CORRECT_MARKS.toFixed(2);
+document.getElementById('startIncorrectMarks').textContent = '−' + NEGATIVE_MARKS.toFixed(2);
+document.getElementById('startDuration').textContent = Math.round(seconds / 60);
 
 startTestBtn.addEventListener('click', () => {
   testStarted = true;
