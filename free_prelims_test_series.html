@@ -326,7 +326,7 @@
     gap:8px;
     padding:10px 20px;
     border-radius:100px;
-    background:linear-gradient(90deg, var(--gs1), var(--gs2) 30%, var(--gs3) 55%, var(--gs4) 75%, var(--ph));
+    background:linear-gradient(135deg, #4FB279, #2E8B57);
     color:#0B0D12;
     font-family:'IBM Plex Sans', sans-serif;
     font-weight:700;
@@ -336,13 +336,72 @@
     white-space:nowrap;
     cursor:pointer;
     flex:0 0 auto;
-    box-shadow:0 12px 26px -10px rgba(184,131,74,0.65);
+    box-shadow:0 12px 26px -10px rgba(46,139,87,0.65);
     transition:transform .2s ease, box-shadow .2s ease;
   }
-  .enroll-btn:hover{ transform:translateY(-2px); box-shadow:0 16px 32px -8px rgba(184,131,74,0.75); }
+  .enroll-btn:hover{ transform:translateY(-2px); box-shadow:0 16px 32px -8px rgba(46,139,87,0.75); }
   .enroll-btn:active{ transform:scale(0.97); }
   .enroll-btn:focus-visible{ outline:2px solid var(--paper); outline-offset:2px; }
   .enroll-btn svg{ width:15px; height:15px; flex:0 0 auto; }
+
+  /* wraps the enroll + already-enrolled CTAs so they sit side by side in the topbar */
+  .topbar-actions{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex:0 0 auto;
+  }
+
+  /* already-enrolled button — creamy white, sits next to (desktop) or below (mobile) the enroll button */
+  .already-enrolled-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 20px;
+    border-radius:100px;
+    background:#F3EEDF;
+    color:#0B0D12;
+    font-family:'IBM Plex Sans', sans-serif;
+    font-weight:700;
+    font-size:13.5px;
+    letter-spacing:0.02em;
+    text-decoration:none;
+    white-space:nowrap;
+    cursor:pointer;
+    flex:0 0 auto;
+    box-shadow:0 12px 26px -10px rgba(243,238,223,0.4);
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .already-enrolled-btn:hover{ transform:translateY(-2px); box-shadow:0 16px 32px -8px rgba(243,238,223,0.5); }
+  .already-enrolled-btn:active{ transform:scale(0.97); }
+  .already-enrolled-btn:focus-visible{ outline:2px solid var(--paper); outline-offset:2px; }
+
+  /* view live ranks button — amber/gold, sits next to (desktop) or above the schedule (mobile) */
+  .ranks-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 20px;
+    border-radius:100px;
+    background:linear-gradient(135deg, #E4C55E, #B58D2E);
+    color:#0B0D12;
+    font-family:'IBM Plex Sans', sans-serif;
+    font-weight:700;
+    font-size:13.5px;
+    letter-spacing:0.02em;
+    text-decoration:none;
+    white-space:nowrap;
+    cursor:pointer;
+    flex:0 0 auto;
+    box-shadow:0 12px 26px -10px rgba(181,141,46,0.55);
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .ranks-btn:hover{ transform:translateY(-2px); box-shadow:0 16px 32px -8px rgba(181,141,46,0.65); }
+  .ranks-btn:active{ transform:scale(0.97); }
+  .ranks-btn:focus-visible{ outline:2px solid var(--paper); outline-offset:2px; }
+
+  /* mobile-only "View Live Ranks" banner, sits above everything (including the schedule) */
+  .mobile-ranks-wrap{ display:none; }
 
   /* mobile inline enroll card — hidden by default, shown only on mobile via media query below */
   .enroll-inline-wrap{ display:none; }
@@ -381,17 +440,41 @@
     .topbar{ margin:16px 6vw 0; }
     .back-btn{ padding:8px 13px; font-size:12.5px; }
 
-    /* on mobile, the top-right CTA steps aside for the inline card after test 5 */
-    .enroll-btn-top{ display:none; }
-    .enroll-inline-wrap{
+    /* on mobile, the top-right CTAs step aside for the inline card after test 5 */
+    .topbar-actions{ display:none; }
+    .mobile-ranks-wrap{
       display:flex;
       justify-content:center;
       width:100%;
-      margin-left:40px;
+      padding:0 6vw;
+      margin:8px 0 0;
+    }
+    .mobile-ranks-wrap .ranks-btn{
+      width:100%;
+      max-width:260px;
+      justify-content:center;
+      padding:13px 16px;
+      font-size:14px;
+    }
+    .enroll-inline-wrap{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      width:100%;
+      margin-left:0;
     }
     .enroll-inline-wrap .enroll-btn{
       width:100%;
-      max-width:400px;
+      max-width:260px;
+      justify-content:center;
+      padding:13px 16px;
+      font-size:14px;
+    }
+    .enroll-inline-wrap .already-enrolled-btn{
+      width:100%;
+      max-width:260px;
       justify-content:center;
       padding:13px 16px;
       font-size:14px;
@@ -432,19 +515,31 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
     UPSC LoG
   </button>
-  <a class="enroll-btn enroll-btn-top" href="prelims_sectional/qr.html" id="enrollNowTop" target="_blank" rel="noopener noreferrer" aria-label="Enroll now">
-    Enroll Now
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-  </a>
+  <div class="topbar-actions">
+    <a class="ranks-btn" href="ranks_tests/daily_rankings.html" target="_blank" rel="noopener noreferrer" aria-label="View live ranks">
+      View Live Ranks
+    </a>
+    <a class="enroll-btn enroll-btn-top" href="prelims_sectional/qr.html" id="enrollNowTop" target="_blank" rel="noopener noreferrer" aria-label="Enroll now">
+      Enroll Now
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+    <a class="already-enrolled-btn" href="https://upscprelog.github.io/prelog/" target="_blank" rel="noopener noreferrer" aria-label="Already enrolled">
+      Already enrolled -&gt;
+    </a>
+  </div>
 </div>
 
 <div class="wrap">
   <header>
     <h1>UPSC LoG - <br><em>Prelims Booster Test</em></h1>
-    <p>Test your knowledge and
-      <a href="ranks_tests/daily_rankings.html" target="_blank" style="display:inline-block;margin:0 2px;padding:4px 12px;border:1px solid rgba(200,166,70,.35);border-radius:999px;background:rgba(200,166,70,.10);color:#B58D2E;font-weight:800;font-size:.92em;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;transition:all .2s ease;">
-      SEE YOUR RANK [click me]</a><br>to compete with aspirants all over India.</p>
+    <p>View live ranks - compete with aspirants all over India.</p>
   </header>
+</div>
+
+<div class="mobile-ranks-wrap">
+  <a class="ranks-btn" href="ranks_tests/daily_rankings.html" target="_blank" rel="noopener noreferrer" aria-label="View live ranks">
+    View Live Ranks
+  </a>
 </div>
 
 <section class="pyq-section">
@@ -468,22 +563,27 @@ const BOXES = [
   { seal:"3",  tint:"gs3", title:"PreLoG-2027-03 [FREE]", sub:"<b><u>Current Affairs<br>[POLITY]</u></b><br><br>TEST-3                     : Q-50", href:"prelims_sectional/PreLoG-2027-03.html" },
   { seal:"4",  tint:"gs4", title:"PreLoG-2027-04 [FREE]", sub:"<b><u>Current Affairs<br>[ECONOMY]</u></b><br><br>TEST-4                    : Q-50", href:"prelims_sectional/PreLoG-2027-04.html" },
   { seal:"5",  tint:"gs4", title:"PreLoG-2027-05 [FREE]", sub:"<b><u>Economy<br>[BASIC ECONOMICS]</u></b><br><br>TEST-5                    : Q-50", href:"prelims_sectional/PreLoG-2027-05.html" },
-  { seal:"6",  tint:"gs4", title:"PreLoG-2027-06", sub:"<b><u>Economy<br>[BANKING SYSTEM]</u></b><br><br>TEST-6                     : Q-50", href:"prelims_sectional/qr.html" },
-  { seal:"7",  tint:"gs4", title:"PreLoG-2027-07", sub:"<b><u>Environment<br>[ECOLOGY BASICS]</u></b><br><br>TEST-7                 : Q-50", href:"prelims_sectional/qr.html" },
-  { seal:"8",  tint:"gs4", title:"PreLoG-2027-08", sub:"<b><u>Environment<br>[BIODIVERSITY]</u></b><br><br>TEST-8                   : Q-50", href:"prelims_sectional/qr.html" },
-  { seal:"9",  tint:"gs1", title:"PreLoG-2027-09", sub:"<b><u>Geography<br>[PHYSICAL GEOG.]</u></b><br><br>TEST-9                   : Q-50", href:"prelims_sectional/qr.html" },
-  { seal:"10",  tint:"gs2", title:"PreLoG-2027-10",sub:"<b><u>Geography<br>[CLIMATOLOGY]</u></b><br><br>TEST-10                     : Q-50", href:"prelims_sectional/qr.html" },
-  { seal:"11",  tint:"gs3", title:"PreLoG-2027-11",sub:"<b><u>Modern History<br>[EUROPEAN POWERS]</u></b><br><br>TEST-11            : Q-50", href:"prelims_sectional/qr.html" },
-  { seal:"12",  tint:"gs4", title:"PreLoG-2027-12",sub:"<b><u>Modern History<br>[BRITISH EXPANSION]</u></b><br><br>TEST-12          : Q-50", href:"prelims_sectional/qr.html" },
-  { seal:"13",  tint:"gs1", title:"PreLoG-2027-13",sub:"<b><u>Polity<br>[CONSTITUTION]</u></b><br><br>TEST-13                       : Q-50", href:"prelims_sectional/qr.html" },
-  { seal:"14",  tint:"gs2", title:"PreLoG-2027-14",sub:"<b><u>Polity<br>[FUNDAMENTAL RIGHTS]</u></b><br><br>TEST-14                 : Q-50", href:"prelims_sectional/qr.html" },
-  { seal:"15",  tint:"gs3", title:"PreLoG-2027-15",sub:"<b><u>Science & Tech<br>[APPLIED PHYSICS]</u></b><br><br>TEST-15            : Q-50", href:"prelims_sectional/qr.html" },
-  { seal:"16",  tint:"gs4", title:"PreLoG-2027-16",sub:"<b><u>Science & Tech<br>[APPLIED CHEMISTRY]</u></b><br><br>TEST-16            : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"6",  tint:"gs4", title:"PreLoG-2027-06", sub:"<b><u>Economy<br>[BANKING SYSTEM]</u></b><br><br>TEST-6                            : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"7",  tint:"gs4", title:"PreLoG-2027-07", sub:"<b><u>Environment<br>[ECOLOGY BASICS]</u></b><br><br>TEST-7                        : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"8",  tint:"gs4", title:"PreLoG-2027-08", sub:"<b><u>Environment<br>[BIODIVERSITY]</u></b><br><br>TEST-8                          : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"9",  tint:"gs1", title:"PreLoG-2027-09", sub:"<b><u>Geography<br>[PHYSICAL GEOG.]</u></b><br><br>TEST-9                          : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"10",  tint:"gs2", title:"PreLoG-2027-10",sub:"<b><u>Geography<br>[CLIMATOLOGY]</u></b><br><br>TEST-10                            : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"11",  tint:"gs3", title:"PreLoG-2027-11",sub:"<b><u>Modern History<br>[EUROPEAN POWERS]</u></b><br><br>TEST-11                   : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"12",  tint:"gs4", title:"PreLoG-2027-12",sub:"<b><u>Modern History<br>[BRITISH EXPANSION]</u></b><br><br>TEST-12                 : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"13",  tint:"gs1", title:"PreLoG-2027-13",sub:"<b><u>Polity<br>[CONSTITUTION]</u></b><br><br>TEST-13                              : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"14",  tint:"gs2", title:"PreLoG-2027-14",sub:"<b><u>Polity<br>[FUNDAMENTAL RIGHTS]</u></b><br><br>TEST-14                        : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"15",  tint:"gs3", title:"PreLoG-2027-15",sub:"<b><u>Science & Tech<br>[APPLIED PHYSICS]</u></b><br><br>TEST-15                   : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"16",  tint:"gs4", title:"PreLoG-2027-16",sub:"<b><u>Science & Tech<br>[APPLIED CHEMISTRY]</u></b><br><br>TEST-16                 : Q-50", href:"prelims_sectional/qr.html" },
   { seal:"17",  tint:"gs1", title:"PreLoG-2027-17",sub:"<b><u>Ancient Medieval Hist.<br>[VEDIC AGE]</u></b><br><br>TEST-17            : Q-50", href:"prelims_sectional/qr.html" },
   { seal:"18",  tint:"gs2", title:"PreLoG-2027-18",sub:"<b><u>Ancient Medieval Hist.<br>[RELIGIOUS MOVEMENTS]</u></b><br><br>TEST-18            : Q-50", href:"prelims_sectional/qr.html" },
   { seal:"19",  tint:"gs3", title:"PreLoG-2027-19",sub:"<b><u>International Relations<br>[CURRENT AFFAIRS]</u></b><br><br>TEST-19            : Q-50", href:"prelims_sectional/qr.html" },
   { seal:"20",  tint:"gs4", title:"PreLoG-2027-20",sub:"<b><u>Science and Tech<br>[CURRENT AFFAIRS]</u></b><br><br>TEST-20            : Q-50", href:"prelims_sectional/qr.html" },
   { seal:"21",  tint:"gs1", title:"PreLoG-2027-21",sub:"<b><u>Economy<br>[Public Finance]</u></b><br><br>TEST-21            : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"22",  tint:"gs2", title:"PreLoG-2027-22",sub:"<b><u>Economy<br>[EXTERNAL SECTOR]</u></b><br><br>TEST-22            : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"23",  tint:"gs3", title:"PreLoG-2027-23",sub:"<b><u>Environment<br>[PROTECTED AREAS]</u></b><br><br>TEST-23            : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"24",  tint:"gs4", title:"PreLoG-2027-24",sub:"<b><u>Environment<br>[FLORA FAUNA]</u></b><br><br>TEST-24            : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"25",  tint:"gs1", title:"PreLoG-2027-25",sub:"<b><u>Geography<br>[OCEANOGRAPHY]</u></b><br><br>TEST-25            : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"26",  tint:"gs2", title:"PreLoG-2027-26",sub:"<b><u>Geography<br>[BIO-GEOGRAPHY]</u></b><br><br>TEST-26            : Q-50", href:"prelims_sectional/qr.html" },
   { seal:"*",  tint:"gs4", title:"UPCOMING<br>[in two days]<br>Refer Syllabus", sub:"", href:"prelims_sectional/waiting_page.html", upcoming:true },
   { seal:"*",  tint:"gs4", title:"UPCOMING<br>[in four days]<br>Refer Syllabus", sub:"", href:"prelims_sectional/waiting_page.html", upcoming:true },
 
@@ -530,6 +630,9 @@ if (test5Anchor) {
     <a class="enroll-btn" href="prelims_sectional/qr.html" target="_blank" rel="noopener noreferrer" aria-label="Enroll now">
       Enroll Now
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+    <a class="already-enrolled-btn" href="https://upscprelog.github.io/prelog/" target="_blank" rel="noopener noreferrer" aria-label="Already enrolled">
+      Already enrolled -&gt;
     </a>
   `;
   test5Anchor.closest('.pyq-row').after(enrollWrap);
