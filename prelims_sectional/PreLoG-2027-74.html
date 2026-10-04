@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC LoG — Prelims Booster</title>
+<style>
+  :root{
+    --bg: #F3F4F1;
+    --paper: #FFFFFF;
+    --ink: #1D2A35;
+    --ink-soft: #5B6873;
+    --rule: #D8DCD6;
+    --navy: #1B3A5C;
+    --navy-deep: #12283F;
+    --gold: #B8862E;
+    --gold-soft: #EFDFB8;
+    --answered: #2F7D5A;
+    --answered-bg: #E4F3EC;
+    --skipped: #B8862E;
+    --skipped-bg: #FBF1DE;
+    --current-ring: #1B3A5C;
+    --wrong: #B23A2E;
+    --wrong-bg: #FBEAE7;
+    --shadow: 0 1px 2px rgba(20,30,40,0.06), 0 6px 20px rgba(20,30,40,0.05);
+    --serif: Georgia, 'Times New Roman', 'Iowan Old Style', serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --mono: 'Courier New', ui-monospace, monospace;
+  }
+  [data-theme="dark"]{
+    --bg: #0F1A24;
+    --paper: #17232E;
+    --ink: #E7ECEF;
+    --ink-soft: #97A5AF;
+    --rule: #2A3846;
+    --navy: #3E6E9E;
+    --navy-deep: #2A4E70;
+    --gold: #D9A441;
+    --gold-soft: #3A3220;
+    --answered: #4CAF7D;
+    --answered-bg: #163227;
+    --skipped: #D9A441;
+    --skipped-bg: #332A16;
+    --current-ring: #D9A441;
+    --wrong: #E07A6C;
+    --wrong-bg: #3A1E1A;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+    html, body{
+    overflow-x: hidden;
+    width: 100%;
+  }
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    min-height:100vh;
+    transition:background .3s ease, color .3s ease;
+  }
+
+  /* ---------- Header ---------- */
+  header.topbar{
+    background:linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color:#F4F1EA;
+    padding:0;
+    box-shadow:var(--shadow);
+    position:sticky; top:0; z-index:50;
+  }
+  .topbar-inner{
+    max-width:1280px; margin:0 auto;
+    display:flex; align-items:center; gap:20px;
+    padding:14px 28px;
+  }
+  .logo-slot{
+    width:52px; height:52px;
+    border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    overflow:hidden;
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .logo-slot img{
+    width:100%; height:100%;
+    object-fit:contain;
+  }
+  .logo-slot:hover{border-color:rgba(244,241,234,0.75); color:#F4F1EA;}
+  .title-block{flex:1; min-width:0;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gold-soft, #D9A441);
+    opacity:0.85;
+  }
+  .title-block h1{
+    font-family:var(--serif);
+    font-size:22px;
+    font-weight:400;
+    margin:2px 0 0 0;
+    letter-spacing:0.01em;
+  }
+  .subnote{
+    font-family:var(--mono);
+    font-size:11px;
+    color:rgba(244,241,234,0.65);
+    margin-top:6px;
+    letter-spacing:0.02em;
+  }
+  .subnote a{color:var(--gold-soft); text-decoration:none;}
+  .subnote a:hover{text-decoration:underline;}
+  .topbar-right{
+    display:flex; align-items:center; gap:18px; flex-shrink:0;
+  }
+  .timer{
+    font-family:var(--mono);
+    font-size:13px;
+    color:#F4F1EA;
+    border:1px solid rgba(244,241,234,0.3);
+    padding:6px 12px;
+    border-radius:6px;
+    background:rgba(0,0,0,0.12);
+    transition:background .2s ease;
+  }
+  .timer.urgent{background:var(--wrong); border-color:var(--wrong);}
+
+  /* dark mode switch */
+  .mode-switch{
+    display:flex; align-items:center; gap:8px;
+    font-size:12px; color:rgba(244,241,234,0.85);
+  }
+  .switch{
+    position:relative; width:44px; height:24px;
+    background:rgba(244,241,234,0.2);
+    border-radius:20px; cursor:pointer;
+    border:1px solid rgba(244,241,234,0.35);
+    flex-shrink:0;
+  }
+  .switch .knob{
+    position:absolute; top:2px; left:2px;
+    width:18px; height:18px; border-radius:50%;
+    background:#F4F1EA;
+    transition:transform .25s ease;
+    box-shadow:0 1px 3px rgba(0,0,0,0.3);
+  }
+  [data-theme="dark"] .switch .knob{
+    transform:translateX(20px);
+    background:var(--gold);
+  }
+
+  /* ---------- Layout ---------- */
+  .layout{
+    max-width:1280px; margin:0 auto;
+    display:grid;
+    grid-template-columns:1fr 320px;
+    gap:23px;
+    padding:32px 28px 60px;
+    align-items:start;
+  }
+
+  /* ---------- Question paper ---------- */
+  .paper{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:36px 44px 32px;
+    min-height:520px;
+    display:flex;
+    flex-direction:column;
+  }
+  .paper-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    border-bottom:1px solid var(--rule);
+    padding-bottom:14px; margin-bottom:28px;
+  }
+  .q-index{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--ink-soft);
+    letter-spacing:0.04em;
+  }
+  .q-index b{color:var(--navy); font-size:15px;}
+  [data-theme="dark"] .q-index b{color:var(--gold);}
+  .q-status-tag{
+    font-family:var(--mono);
+    font-size:13.5px;
+    font-weight:800;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    padding:7px 16px;
+    border-radius:20px;
+    border:2px solid transparent;
+  }
+  .q-status-tag.answered{background:var(--answered-bg); color:var(--answered); border-color:var(--answered);}
+  .q-status-tag.unanswered{background:var(--skipped-bg); color:var(--skipped); border-color:var(--skipped);}
+
+  .q-text{
+    font-family:var(--serif);
+    font-size:19px;
+    line-height:1.5;
+    color:var(--ink);
+    margin:0 0 32px 0;
+  }
+
+  .options{
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .option{
+    display:flex; align-items:flex-start; gap:14px;
+    padding:18px 18px;
+    border:1px solid var(--rule);
+    border-radius:8px;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+    background:transparent;
+  }
+  .option:hover{border-color:var(--navy); background:rgba(27,58,92,0.04);}
+  [data-theme="dark"] .option:hover{background:rgba(217,164,65,0.06); border-color:var(--gold);}
+  .option.selected{
+    border-color:var(--navy);
+    background:rgba(27,58,92,0.07);
+  }
+  [data-theme="dark"] .option.selected{
+    border-color:var(--gold);
+    background:rgba(217,164,65,0.1);
+  }
+  .option .tag{
+    font-family:var(--mono);
+    font-size:13px;
+    font-weight:bold;
+    width:24px; height:24px;
+    border-radius:50%;
+    border:1.5px solid var(--rule);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    color:var(--ink-soft);
+  }
+  .option.selected .tag{
+    border-color:var(--navy);
+    background:var(--navy);
+    color:#fff;
+  }
+  [data-theme="dark"] .option.selected .tag{
+    border-color:var(--gold);
+    background:var(--gold);
+    color:#17232E;
+  }
+  .option .opt-text{
+    font-size:15.5px; line-height:1.5; padding-top:1px;
+  }
+  .option.locked{cursor:default;}
+  .option.correct{
+    border-color:var(--answered);
+    background:var(--answered-bg);
+  }
+  .option.correct .tag{
+    border-color:var(--answered);
+    background:var(--answered);
+    color:#fff;
+  }
+  .option.incorrect{
+    border-color:var(--wrong);
+    background:var(--wrong-bg);
+  }
+  .option.incorrect .tag{
+    border-color:var(--wrong);
+    background:var(--wrong);
+    color:#fff;
+  }
+  .option.locked:hover{background:inherit; border-color:inherit;}
+  .q-status-tag.correct{background:var(--answered-bg); color:var(--answered); border-color:var(--answered); box-shadow:0 0 0 1px var(--answered) inset;}
+  .q-status-tag.incorrect{background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong); box-shadow:0 0 0 1px var(--wrong) inset;}
+  .q-status-tag.review-unanswered{
+    background:var(--wrong-bg);
+    color:var(--wrong);
+    border-color:var(--wrong);
+    box-shadow:0 0 0 1px var(--wrong) inset;
+  }
+
+  /* ---------- Explanation (review mode) ---------- */
+  .explain-box{
+    margin-top:26px;
+    background:var(--gold-soft);
+    border:1px solid var(--gold);
+    border-radius:8px;
+    padding:16px 20px;
+    font-size:14px;
+    line-height:1.65;
+    color:var(--ink);
+  }
+  [data-theme="dark"] .explain-box{background:rgba(217,164,65,0.08);}
+  .explain-box b{color:var(--navy);}
+  [data-theme="dark"] .explain-box b{color:var(--gold);}
+  .explain-box .exp-label{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-bottom:8px;
+  }
+
+  .paper-foot{
+    display:flex; justify-content:space-between;
+    margin-top:32px; padding-top:20px;
+    border-top:1px solid var(--rule);
+  }
+  button{
+    font-family:var(--sans);
+    font-size:14px;
+    font-weight:600;
+    padding:11px 22px;
+    border-radius:7px;
+    border:1px solid var(--rule);
+    background:var(--paper);
+    color:var(--ink);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  button:hover:not(:disabled){border-color:var(--navy); color:var(--navy);}
+  [data-theme="dark"] button:hover:not(:disabled){border-color:var(--gold); color:var(--gold);}
+  button:disabled{opacity:0.35; cursor:not-allowed;}
+  button.primary{
+    background:var(--navy); color:#F4F1EA; border-color:var(--navy);
+  }
+  button.primary:hover{filter:brightness(1.1); color:#F4F1EA;}
+  button.clear{background:transparent; border-color:transparent; color:var(--ink-soft); font-weight:500;}
+  .nav-group{display:flex; gap:10px;}
+
+  /* ---------- Sidebar palette ---------- */
+  .sidebar{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:24px;
+    position:sticky;
+    top:96px;
+  }
+  .sidebar h2{
+    font-family:var(--serif);
+    font-size:16px;
+    font-weight:400;
+    margin:0 0 4px 0;
+    color:var(--ink);
+  }
+  .sidebar .sub{
+    font-size:12px; color:var(--ink-soft); margin-bottom:18px;
+  }
+  .legend{
+    display:flex; flex-direction:column; gap:8px;
+    margin-bottom:20px;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  .legend span{display:flex; align-items:center; gap:8px;}
+  .dot{width:10px; height:10px; border-radius:3px; flex-shrink:0;}
+  .dot.answered{background:var(--answered);}
+  .dot.unanswered{background:var(--rule); border:1px solid var(--ink-soft);}
+  .dot.current{background:transparent; border:2px solid var(--current-ring);}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:8px;
+    margin-bottom:22px;
+  }
+  .cell{
+    aspect-ratio:1;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono);
+    font-size:13px;
+    border-radius:6px;
+    border:1px solid var(--rule);
+    background:transparent;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .cell:hover{border-color:var(--navy);}
+  [data-theme="dark"] .cell:hover{border-color:var(--gold);}
+  .cell.answered{
+    background:var(--answered-bg); color:var(--answered); border-color:var(--answered);
+    font-weight:bold;
+  }
+  .cell.incorrect{
+    background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong);
+    font-weight:bold;
+  }
+  .cell.current{
+    outline:2px solid var(--current-ring); outline-offset:2px;
+  }
+
+  .tally{
+    padding-top:16px; border-top:1px solid var(--rule);
+    color:var(--ink-soft);
+  }
+  .tally-plain{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-plain > div{flex:1; text-align:left;}
+  .tally b{color:var(--ink); font-size:16px; display:block; font-family:var(--sans);}
+  .tally b.stat-correct{color:var(--answered);}
+  .tally b.stat-incorrect{color:var(--wrong);}
+  .tally b.stat-unattempted{color:var(--skipped);}
+
+  .marks-line{
+    text-align:center;
+    background:var(--gold-soft);
+    border:1.5px solid var(--gold);
+    border-radius:8px;
+    padding:12px 10px;
+    margin-bottom:14px;
+  }
+  [data-theme="dark"] .marks-line{background:rgba(217,164,65,0.12);}
+  .marks-line b{
+    font-size:26px; color:var(--navy); font-family:var(--serif); font-weight:700;
+  }
+  [data-theme="dark"] .marks-line b{color:var(--gold);}
+  .marks-line span{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-top:2px;
+  }
+  .tally-grid{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-grid > div{flex:1; text-align:left;}
+
+  .score-breakdown{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+    max-width:420px;
+    margin:24px auto 0;
+  }
+  .score-breakdown .stat{
+    border:1.5px solid var(--rule);
+    border-radius:10px;
+    padding:14px 10px;
+  }
+  .score-breakdown .stat b{
+    display:block; font-size:24px; font-family:var(--sans); margin-bottom:4px;
+  }
+  .score-breakdown .stat span{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft);
+  }
+  .score-breakdown .stat.correct{border-color:var(--answered); background:var(--answered-bg);}
+  .score-breakdown .stat.correct b{color:var(--answered);}
+  .score-breakdown .stat.incorrect{border-color:var(--wrong); background:var(--wrong-bg);}
+  .score-breakdown .stat.incorrect b{color:var(--wrong);}
+  .score-breakdown .stat.unattempted{border-color:var(--skipped); background:var(--skipped-bg);}
+  .score-breakdown .stat.unattempted b{color:var(--skipped);}
+
+  #submitBtn{width:100%; margin-top:20px;}
+
+  /* ---------- Result overlay ---------- */
+  .result-card{
+    background:var(--paper); border:1px solid var(--rule); border-radius:10px;
+    box-shadow:var(--shadow); padding:44px; text-align:center;
+  }
+  .result-card .score{
+    font-family:var(--serif); font-size:52px; color:var(--navy); margin:8px 0;
+  }
+  [data-theme="dark"] .result-card .score{color:var(--gold);}
+  .result-card .percent{
+    font-family:var(--mono); font-size:13px; color:var(--ink-soft);
+    letter-spacing:0.04em; margin-top:-4px;
+  }
+  .hidden{display:none !important;}
+
+  /* ---------- Confirm submit modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background:rgba(15,20,25,0.55);
+    display:flex; align-items:center; justify-content:center;
+    z-index:200;
+    padding:20px;
+  }
+  .modal-box{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:12px;
+    box-shadow:var(--shadow);
+    padding:30px 30px 24px;
+    max-width:380px;
+    width:100%;
+    text-align:center;
+  }
+  .modal-box .modal-icon{
+    font-size:26px;
+    margin-bottom:6px;
+  }
+  .modal-box p{
+    font-family:var(--sans);
+    font-size:15px;
+    line-height:1.55;
+    color:var(--ink);
+    margin:10px 0 22px;
+  }
+  .modal-box p b{color:var(--navy);}
+  [data-theme="dark"] .modal-box p b{color:var(--gold);}
+  .modal-box .modal-warn{
+    font-family:var(--mono);
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--skipped);
+    background:var(--skipped-bg);
+    border:1px solid var(--skipped);
+    border-radius:6px;
+    padding:8px 10px;
+    margin:0 0 18px;
+    text-align:left;
+    line-height:1.5;
+  }
+  .modal-actions{
+    display:flex; gap:12px;
+  }
+  .modal-actions button{
+    flex:1;
+    padding:12px 10px;
+  }
+  #modalGoBack{color:var(--ink);}
+  #modalConfirm{background:var(--navy); color:#F4F1EA; border-color:var(--navy);}
+  #modalConfirm:hover{filter:brightness(1.1); color:#F4F1EA;}
+
+  /* ---------- Start-test modal ---------- */
+  .start-box{
+    max-width:420px;
+    text-align:left;
+  }
+  .start-box .modal-icon{font-size:30px; margin-bottom:2px;}
+  .start-title{
+    font-family:var(--serif);
+    font-size:21px;
+    color:var(--ink);
+    text-align:center;
+    margin:2px 0 4px;
+  }
+  .start-sub{
+    font-family:var(--mono);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:var(--ink-soft);
+    text-align:center;
+    margin:0 0 20px;
+  }
+  .stat-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:20px;
+  }
+  .stat-grid .stat-box{
+    border:1px solid var(--rule);
+    border-radius:8px;
+    padding:11px 12px;
+    background:var(--bg);
+  }
+  .stat-grid .stat-box .k{
+    font-family:var(--mono); font-size:10px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft); display:block; margin-bottom:4px;
+  }
+  .stat-grid .stat-box .v{
+    font-family:var(--sans); font-size:16px; font-weight:700; color:var(--navy);
+  }
+  [data-theme="dark"] .stat-grid .stat-box .v{color:var(--gold);}
+  .start-rules{
+    list-style:none; margin:0 0 22px; padding:0;
+    display:flex; flex-direction:column; gap:7px;
+  }
+  .start-rules li{
+    font-size:13px; line-height:1.5; color:var(--ink-soft);
+    padding-left:18px; position:relative;
+  }
+  .start-rules li::before{
+    content:"—"; position:absolute; left:0; color:var(--gold);
+  }
+  .start-field label{
+    display:block;
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft); margin-bottom:6px;
+  }
+  .start-field input{
+    width:100%;
+    font-family:var(--sans); font-size:14.5px;
+    padding:11px 14px;
+    border:1px solid var(--rule); border-radius:7px;
+    background:var(--paper); color:var(--ink);
+    margin-bottom:20px;
+  }
+  .start-field input:focus{ outline:none; border-color:var(--navy); }
+  [data-theme="dark"] .start-field input:focus{ border-color:var(--gold); }
+  #startTestBtn{
+    width:100%; padding:13px 10px; font-size:15px;
+  }
+
+  @media (max-width: 430px){
+    .start-box{ padding:24px 20px 20px; max-width:100%; }
+    .stat-grid{ grid-template-columns:1fr 1fr; gap:8px; }
+    .start-title{ font-size:18px; }
+  }
+
+  /* small name field inside submit-confirm modal */
+  .modal-name-field{ text-align:left; margin:-6px 0 18px; }
+  .modal-name-field label{
+    display:block;
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft); margin-bottom:6px;
+  }
+  .modal-name-field input{
+    width:100%;
+    font-family:var(--sans); font-size:14px;
+    padding:10px 13px;
+    border:1px solid var(--rule); border-radius:7px;
+    background:var(--paper); color:var(--ink);
+  }
+  .modal-name-field input:focus{ outline:none; border-color:var(--navy); }
+  [data-theme="dark"] .modal-name-field input:focus{ border-color:var(--gold); }
+
+  :root{
+    --desktop-width: 1440;
+}
+
+@media (max-width: 1024px){
+  .layout{
+    grid-template-columns: 1fr;
+  }
+  .sidebar{
+    position: static;      /* was sticky at top:96px — no longer needed once stacked */
+    top: auto;
+  }
+}
+@media (max-width: 600px){
+  .topbar-inner{
+    flex-wrap: wrap;
+    padding: 14px 16px;
+    gap: 10px;
+  }
+  .topbar-right{
+    flex-shrink: 1;        /* was 0 before — this is what caused the overflow */
+    flex-basis: 100%;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+  .subnote{
+    white-space: normal;
+  }
+}
+@media (max-width: 430px){
+  .layout{
+    padding: 20px 12px 40px;
+  }
+  .paper{
+    padding: 24px 18px 22px;
+  }
+  .sidebar{
+    padding: 18px;
+  }
+  .paper-head{
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .q-status-tag{
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+@media (max-width: 600px){
+  .title-block h1{
+    font-size: 17px;
+  }
+  .eyebrow{
+    font-size: 9.5px;
+  }
+  .subnote{
+    font-size: 10px;
+  }
+  .timer{
+    font-size: 11px;
+    padding: 5px 9px;
+  }
+  .mode-switch{
+    font-size: 11px;
+  }
+}
+@media (max-width: 430px){
+  .result-card{
+    padding: 24px 18px;
+  }
+  .score-breakdown{
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    max-width: 100%;
+  }
+  .score-breakdown .stat{
+    padding: 10px 6px;
+  }
+  .score-breakdown .stat b{
+    font-size: 19px;
+  }
+  .result-card .score{
+    font-size: 38px;
+  }
+}
+
+</style>
+</head>
+<body data-theme="light">
+
+<header class="topbar">
+  <div class="topbar-inner">
+
+    <!-- <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">UPSC<br>LOGO</a> -->
+    <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">
+  <img src="https://raw.githubusercontent.com/upsclog/upsclog/refs/heads/main/logo.png" alt="UPSC LoG" style="width:100%; height:100%; object-fit:contain; border-radius:6px;">
+</a>
+    <div class="title-block">
+      <div class="eyebrow">UPSC LoG · Prelims Booster 2027</div>
+      <h1>PreLoG-2027-74-FREE TIER</h1>
+      <div class="subnote" style="font-size: 12px;">
+        <span id="qTotalNote">7</span> Questions · +2 Correct / −0.67 Incorrect ·
+        <a href="https://t.me/upsclog" target="_blank" rel="noopener"> Join UPSC-LoG Telegram ↗</a>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="timer" id="timer">60:00</div>
+      <div class="mode-switch">
+        <span>Light</span>
+        <div class="switch" id="themeSwitch" role="button" aria-label="Toggle dark mode">
+          <div class="knob"></div>
+        </div>
+        <span>Dark</span>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="layout">
+
+  <div class="paper" id="paperView">
+    <div class="paper-head">
+      <div class="q-index">Question <b id="qNum">1</b> of <span id="qTotal">7</span></div>
+      <div class="q-status-tag unanswered" id="qStatusTag">Not Answered</div>
+    </div>
+
+    <p class="q-text" id="qText">Loading question…</p>
+
+    <div class="options" id="optionsList"></div>
+
+    <div class="explain-box hidden" id="explainBox">
+      <span class="exp-label">Explanation</span>
+      <div id="explainText"></div>
+    </div>
+
+    <div class="paper-foot">
+      <div class="nav-group">
+        <button id="prevBtn">← Previous</button>
+        <button class="clear" id="clearBtn">Clear response</button>
+      </div>
+      <button id="nextBtn" class="primary">Next →</button>
+    </div>
+  </div>
+
+  <div class="result-card hidden" id="resultView">
+    <div class="eyebrow" style="color:var(--ink-soft); letter-spacing:0.14em; font-family:var(--mono); font-size:11px; text-transform:uppercase;">Marks Sent for rank PDF</div>
+    <div class="score" id="scoreText">0.00 / 14.00</div>
+    <div class="percent" id="scorePercent">0.00%</div>
+    <div class="score-breakdown" id="scoreBreakdown"></div>
+    <p style="color:var(--ink-soft); font-size:14px; margin:20px 0 24px;">You can review your answers and explanations using the palette on the right.</p>
+    <h2>Check <a href="https://upsclog.github.io/upsclog/ranks_tests/daily_rankings.html" target="_blank">[RANKINGS]</a> - for Daily Rankings [PDF]</h2>
+    <button class="primary" id="reviewBtn">Review Answers</button>
+  </div>
+
+  <aside class="sidebar">
+    <h2>* Explanations attached for each question after you submit the test<br><br></h2>
+    <h2>* Auto-Submission in 30 minutes</h2>
+    <h2>* Dark <-> Bright modes for ease</h2>
+    <div class="sub"></div>
+
+    <div class="legend">
+      <span><span class="dot answered"></span> Answered / Correct</span>
+      <span><span class="dot" style="background:var(--wrong);"></span> Incorrect</span>
+      <span><span class="dot unanswered"></span> Not answered</span>
+      <span><span class="dot current"></span> Currently viewing</span>
+    </div>
+
+    <div class="grid" id="paletteGrid"></div>
+
+    <div class="tally" id="tallyRow">
+      <div class="tally-plain">
+        <div><b id="answeredCount">0</b>Answered</div>
+        <div><b id="skippedCount">7</b>Remaining</div>
+      </div>
+    </div>
+
+    <button class="primary" id="submitBtn">Submit Test</button>
+  </aside>
+
+</div>
+
+<div class="modal-overlay hidden" id="confirmModal">
+  <div class="modal-box">
+    <div class="modal-icon" id="modalIcon">📝</div>
+    <p id="modalMessage">Submit test?</p>
+    <div class="modal-name-field">
+      <label for="modalUserName">Name for rank (optional)</label>
+      <input type="text" id="modalUserName" placeholder="Enter your name" maxlength="40">
+    </div>
+    <div class="modal-actions">
+      <button id="modalGoBack">Go Back</button>
+      <button id="modalConfirm" class="primary">Yes, Submit</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="startModal">
+  <div class="modal-box start-box">
+    <div class="modal-icon">🖋️</div>
+    <div class="start-title" id="startTitle">Loading…</div>
+    <div class="start-sub">UPSC LoG · Prelims Booster</div>
+
+    <div class="stat-grid">
+      <div class="stat-box"><span class="k">Questions</span><span class="v" id="startQCount">–</span></div>
+      <div class="stat-box"><span class="k">Max Marks</span><span class="v" id="startMaxMarks">–</span></div>
+      <div class="stat-box"><span class="k">Correct</span><span class="v" id="startCorrectMarks">–</span></div>
+      <div class="stat-box"><span class="k">Incorrect</span><span class="v" id="startIncorrectMarks">–</span></div>
+    </div>
+
+    <ul class="start-rules">
+      <li>Total duration: <span id="startDuration">60</span> minutes. The test auto-submits when time runs out.</li>
+      <li>Explanations for every question unlock after you submit.</li>
+      <li>Use the palette on the right to jump between questions anytime.</li>
+    </ul>
+
+    <div class="start-field">
+      <label for="userName">Your name (for the rankings)</label>
+      <input type="text" id="userName" placeholder="Enter your name" maxlength="40">
+    </div>
+
+    <button class="primary" id="startTestBtn">Start Test →</button>
+  </div>
+</div>
+
+<script>
+const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyamXySn2AagAN935BcpYuf6oTJNuIkLMuAby7CqWJ20rgdNgdWypVNTjMyWJBxW9OObw/exec";
+const QUESTIONS = [
+    {
+        q: "Nepal follows a distinctive time zone of UTC+5:45, placing it 15 minutes ahead of Indian Standard Time. Which one of the following pairs of countries is also known for adopting such a fractional (non-whole-hour) time-zone offset?",
+        opts: [
+            "Bangladesh and Myanmar",
+            "Sri Lanka and Bhutan",
+            "Pakistan and China",
+            "Afghanistan and Iran"
+        ],
+        ans: 3,
+        exp: "Afghanistan (UTC+4:30) and Iran (UTC+3:30) are well-known examples of countries using half-hour time-zone offsets rather than whole-hour ones, similar in spirit to Nepal's unusual 45-minute offset. In contrast, Bangladesh, Myanmar (UTC+6:30 is an exception, not a pair here), Sri Lanka, Bhutan, Pakistan and China all use standard whole-hour offsets from UTC as designated national time zones."
+    },
+    {
+        q: "With reference to India's push for NavIC adoption in smartphones, consider the following statements: <br> 1. As per Ministry of Electronics and Information Technology guidelines, all new 5G smartphones sold in India were required to support NavIC by January 1, 2025, with other phones mandated by December 2025.<br>2. This mandate was introduced primarily to comply with an international treaty obligation under the ITU, rather than a domestic self-reliance objective.<br>3. The push for NavIC adoption is limited exclusively to smartphones and does not extend to sectors like automotive navigation or IoT devices.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "All three statements are correct",
+            "Only one of the statements is correct",
+            "Only statement 3",
+            "Statement 2 alone"
+        ],
+        ans: 1,
+        exp: "The MeitY mandate requiring 5G phones to support NavIC by January 2025, and other phones by December 2025, is indeed accurate, making statement 1 correct. However, the driving motivation is India's Atmanirbhar Bharat push to reduce dependence on foreign satellite systems rather than any ITU treaty obligation, and NavIC adoption extends well beyond smartphones into automotive, IoT and fleet-tracking applications, making statements 2 and 3 incorrect."
+    },
+    {
+        q: "With reference to Mawsynram in Meghalaya, consider the following statements: <br> 1. It records the highest average annual rainfall in the world, surpassing the nearby town of Cherrapunji (Sohra).<br>2. This exceptionally high rainfall is primarily attributed to the funnel-shaped topography of the Khasi Hills, which forces moisture-laden monsoon winds from the Bay of Bengal to rise abruptly.<br>3. Mawsynram lies in the rain-shadow region of the Western Ghats.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1 and 3 only",
+            "1 and 2 only",
+            "2 and 3 only",
+            "1, 2 and 3"
+        ],
+        ans: 1,
+        exp: "Mawsynram is widely recognised as the wettest inhabited place on Earth, a phenomenon caused by the funnel-shaped topography of the Khasi Hills forcing monsoon winds to rise sharply and shed heavy orographic rainfall, making statements 1 and 2 correct. It has no connection to the Western Ghats, which lie in an entirely different part of the country and have their own separate rain-shadow effect on the leeward side, making statement 3 incorrect."
+    },
+    {
+        q: "With reference to the Montreux Record maintained under the Ramsar Convention, consider the following statements: <br> 1. It is a register of wetland sites where ecological character has changed, is changing, or is likely to change due to human interference.<br>2. As of 2026, India has two sites on the Montreux Record — Keoladeo National Park and Loktak Lake.<br>3. Chilika Lake continues to remain on the Montreux Record due to unresolved issues of siltation and reduced salinity.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1 and 3 only",
+            "1 and 2 only",
+            "1, 2 and 3",
+            "2 and 3 only"
+        ],
+        ans: 1,
+        exp: "The Montreux Record is indeed a Ramsar Convention register for wetlands facing ecological deterioration, and India currently has Keoladeo National Park and Loktak Lake on it, making statements 1 and 2 correct. Chilika Lake was placed on the Montreux Record in 1993 but was removed in 2002 after successful restoration measures, making statement 3 incorrect."
+    },
+    {
+        q: "With reference to constitutional and legal provisions concerning the depiction of maps of India, consider the following statements: <br> 1. Customs Notification No. 19-Cus (1976), issued under Section 11 of the Customs Act, 1962, absolutely prohibits the import of any book, map, or document that questions India's frontiers or territorial integrity.<br>2. The Geospatial Information Regulation Bill, which proposed heavy fines and imprisonment for publishing maps with incorrect boundaries of India, has been duly enacted into law by Parliament.<br>3. Under Section 69A of the Information Technology Act, 2000, only courts — and not the government — have the power to order the blocking of online content depicting India's boundaries incorrectly.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1 and 2 only",
+            "2 only",
+            "1 and 3 only",
+            "1 only"
+        ],
+        ans: 3,
+        exp: "The 1976 Customs notification does genuinely prohibit the import of material questioning India's frontiers or territorial integrity, making statement 1 correct. However, the Geospatial Information Regulation Bill remains only a draft that was never passed by Parliament, and Section 69A actually empowers the Central Government (through a designated authority), not exclusively courts, to order blocking of such online content, making statements 2 and 3 incorrect."
+    },
+    {
+        q: "With reference to Biosphere Reserves in India, consider the following statements: <br> 1. India's Biosphere Reserve Programme was launched in 1972 under the Wildlife (Protection) Act.<br>2. India has enacted a dedicated 'National Biosphere Reserve Act' that legally establishes biosphere reserves.<br>3. As of 2025, all Biosphere Reserves notified by India have been inscribed under UNESCO's World Network of Biosphere Reserves.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1 and 2 only",
+            "1, 2 and 3",
+            "2 only",
+            "None of the statements is correct"
+        ],
+        ans: 3,
+        exp: "India's Biosphere Reserve scheme was actually launched in 1986 under the Ministry of Environment, Forest and Climate Change in line with UNESCO's 1971 Man and Biosphere Programme, not in 1972 under the Wildlife (Protection) Act. There is no standalone Biosphere Reserve Act—core zones are protected under existing laws like the Wildlife (Protection) Act, 1972—and of India's 18 notified Biosphere Reserves, only 13 have so far been recognised under UNESCO's World Network of Biosphere Reserves, making all three statements incorrect."
+    },
+    {
+        q: "Assertion (A): A National Park offers stricter legal protection than a Wildlife Sanctuary under the Wildlife (Protection) Act, 1972.<br>Reason (R): Unlike in a Sanctuary, no rights of any person — such as grazing or the collection of forest produce — can continue inside a National Park except with the permission of the Chief Wildlife Warden.<br>Which one of the following is correct in respect of the above two statements?",
+        opts: [
+            "A is false, but R is true",
+            "A is true, but R is false",
+            "Both A and R are true, and R is the correct explanation of A",
+            "Both A and R are true, but R is NOT the correct explanation of A"
+        ],
+        ans: 2,
+        exp: "Under the Wildlife (Protection) Act, 1972, a National Park (Section 35) is accorded a higher degree of protection than a Wildlife Sanctuary (Section 33), since sanctuaries permit certain existing human rights to continue until formally acquired or settled, while national parks generally bar such activities except with specific permission from the Chief Wildlife Warden. Since R accurately identifies the legal basis for the greater strictness described in A, R is the correct explanation of A."
+    },
+    {
+        q: "With reference to challenges associated with the McMahon Line, consider the following statements: <br> 1. It was drawn during the Simla Convention of 1913-14 as an agreement between British India and Tibet.<br>2. China was a signatory to the Simla Convention and has always recognised the McMahon Line as the legitimate international boundary.<br>3. The Line is based on the watershed principle, running along the crest of the Eastern Himalayas.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1 and 3 only",
+            "None of the above",
+            "2 only",
+            "Only statement 3"
+        ],
+        ans: 0,
+        exp: "The McMahon Line was indeed the product of a bilateral agreement between British India and Tibet at the Simla Convention, following the Himalayan watershed principle, making statements 1 and 3 correct. China, however, refused to ratify the Convention and continues to reject the McMahon Line, referring to the area south of it as 'South Tibet', making statement 2 incorrect."
+    },
+    {
+        q: "With reference to the structure and composition of maps published under India's National Map Policy, 2005, consider the following statements: <br> 1. Survey of India maps are broadly divided into two series — Defence Series Maps (DSMs) and Open Series Maps (OSMs).<br>2. DSMs are prepared with full content and accuracy for defence and national security purposes, while OSMs are published with certain sensitive details diluted for civilian and commercial use.<br>3. Both series are prepared on the Everest or WGS-84 datum, using Polyconic or UTM projections, as specified under the Policy.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "All three statements are correct",
+            "Exactly two of the statements are correct",
+            "Statement 3 alone",
+            "1 and 3 only"
+        ],
+        ans: 0,
+        exp: "The National Map Policy, 2005 does create two distinct series — the high-accuracy Defence Series Maps for security purposes and the diluted-content Open Series Maps for public use — and specifies that these be prepared using the Everest or WGS-84 datum with Polyconic or UTM projections. All three statements accurately reflect the Policy's technical and structural framework."
+    },
+    {
+        q: "With reference to the Thwaites Glacier, a location frequently in the news, consider the following statements: <br> 1. It is located in West Antarctica and has been a focus of scientific concern due to accelerated ice loss, earning it the nickname 'Doomsday Glacier'.<br>2. It is roughly the size of the US state of Florida, and its complete collapse alone is projected to raise global sea levels by over 60 centimetres.<br>3. Thwaites Glacier drains directly into the Arctic Ocean.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "All of the above",
+            "Statement 3 alone",
+            "Both 1 and 3",
+            "Exactly two of the statements are correct"
+        ],
+        ans: 3,
+        exp: "Thwaites Glacier in West Antarctica is indeed roughly the size of Florida, and scientists project its complete collapse could raise sea levels by over half a metre, justifying its 'Doomsday Glacier' nickname, making statements 1 and 2 correct. However, being located in Antarctica, it drains into the Amundsen Sea, part of the Southern Ocean, not the Arctic Ocean at the opposite pole, making statement 3 incorrect."
+    },
+    {
+        q: "Which of the following national parks was officially notified as India's 107th National Park in April 2025, after having been proposed for such status for over four decades?",
+        opts: [
+            "Dihing Patkai National Park, Assam",
+            "Bhitarkanika National Park, Odisha",
+            "Sikhna Jwhwlao National Park, Assam",
+            "Simlipal National Park, Odisha"
+        ],
+        ans: 3,
+        exp: "Simlipal in Odisha's Mayurbhanj district, long recognised as a Tiger Reserve and UNESCO Biosphere Reserve, was formally notified as India's 107th National Park in April 2025, nearly 45 years after it was first proposed for the status in 1980. Sikhna Jwhwlao (Assam) was separately notified around the same time as Assam's eighth National Park, while Bhitarkanika and Dihing Patkai were established well before 2025."
+    },
+    {
+        q: "With reference to the National Board for Wildlife (NBWL), consider the following statements: <br> 1. It is a statutory body constituted under Section 5A of the Wildlife (Protection) Act, 1972.<br>2. The Prime Minister of India serves as its ex-officio Chairperson.<br>3. Its Standing Committee is chaired by the President of India.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Only two of the statements are correct",
+            "1 and 3 only",
+            "All of the statements are correct",
+            "Both 2 and 3"
+        ],
+        ans: 0,
+        exp: "The NBWL was given statutory status through Section 5A of the Wildlife (Protection) Act, 1972, and the Prime Minister is its ex-officio Chairperson, making statements 1 and 2 correct. Its Standing Committee, however, is chaired by the Union Minister of Environment, Forest and Climate Change (who is the NBWL's Vice-Chairperson), not the President, so statement 3 is incorrect."
+    },
+    {
+        q: "With reference to reforms in India's border management, consider the following statements: <br> 1. The Madhukar Gupta Committee (2016) was constituted specifically to address vulnerabilities in border fencing along the India-Bangladesh border.<br>2. The Committee recommended a Comprehensive Integrated Border Management System combining technologies such as thermal imagers and fibre-optic sensors with physical fencing.<br>3. The Border Infrastructure and Management Scheme has since been continued as a central sector scheme to fund fencing, floodlighting and border roads across multiple international borders, including with Pakistan, Bangladesh and China.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1 and 3 only",
+            "None of the statements are correct",
+            "Both 1 and 2",
+            "Both 2 and 3"
+        ],
+        ans: 3,
+        exp: "The Madhukar Gupta Committee recommended a technology-driven, integrated approach to plugging gaps in border fencing, and the Border Infrastructure and Management Scheme has indeed been continued to fund fencing, floodlighting, roads and outposts across several international borders, making statements 2 and 3 correct. However, the Committee was set up after the Pathankot attack specifically to address vulnerabilities along the India-Pakistan border, not the India-Bangladesh border, making statement 1 incorrect."
+    },
+    {
+        q: "In 2025-2026, Israel became the first country to formally recognise which self-declared but internationally unrecognised territory, located in the north-western part of the Somali Peninsula and bordering Djibouti, Ethiopia and Somalia?",
+        opts: [
+            "Somaliland",
+            "Galmudug",
+            "Puntland",
+            "Jubaland"
+        ],
+        ans: 0,
+        exp: "Somaliland declared independence from Somalia in 1991 and has functioned as a de facto autonomous state with its own currency and government, though it remains internationally unrecognised. Israel's recognition was widely linked to strategic interests around the Bab-el-Mandeb chokepoint, unlike Puntland, Jubaland and Galmudug, which are autonomous federal member states within Somalia rather than separatist entities."
+    },
+    {
+        q: "With reference to Biosphere Reserves in India, a recurring theme in past UPSC Prelims questions, consider the following statements: <br> 1. The Nilgiri Biosphere Reserve encompasses parts of the Bandipur, Nagarhole, Mudumalai and Wayanad National Parks.<br>2. Kanha National Park lies within the boundaries of the Achanakmar-Amarkantak Biosphere Reserve.<br>3. The Nilgiri Biosphere Reserve, notified in 1989, was the first Biosphere Reserve to be established in India.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1 only",
+            "None of the statements is correct",
+            "1 and 3 only",
+            "2 only"
+        ],
+        ans: 0,
+        exp: "The Nilgiri Biosphere Reserve does span parts of Bandipur, Nagarhole, Mudumalai and Wayanad National Parks across Karnataka, Tamil Nadu and Kerala, making statement 1 correct. However, Kanha National Park is a standalone Tiger Reserve not situated within any notified Biosphere Reserve, and the Nilgiri Biosphere Reserve was actually India's first, notified in 1986 (not 1989), making statements 2 and 3 incorrect."
+    },
+    {
+        q: "With reference to the National Geospatial Policy, 2022, consider the following statements: <br> 1. It was notified by the Ministry of Home Affairs primarily to regulate geospatial data for internal security purposes.<br>2. It imposes stricter restrictions on private and foreign participation in geospatial data compared to the pre-2021 regime.<br>3. It aims to achieve a high-accuracy Digital Elevation Model (DEM) for the entire country by the year 2047, coinciding with 'India@100'.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "2 and 3 only",
+            "1 and 2 only",
+            "None of the statements is correct",
+            "1, 2 and 3"
+        ],
+        ans: 2,
+        exp: "The National Geospatial Policy, 2022 was actually notified by the Department of Science and Technology, not the Ministry of Home Affairs, and it liberalised rather than tightened restrictions on private and foreign participation, building on the deregulatory 2021 Guidelines. Its target for a high-accuracy Digital Elevation Model and high-resolution topographical mapping is the year 2030, not 2047, making all three statements incorrect."
+    },
+    {
+        q: "With reference to constitutional and legal provisions concerning Biosphere Reserves in India, consider the following statements: <br> 1. There is no standalone statutory 'Biosphere Reserve Act'; the core zone typically derives legal protection from its pre-existing notification as a National Park or Wildlife Sanctuary under the Wildlife (Protection) Act, 1972.<br>2. The wider Biosphere Reserve, including its buffer and transition zones, is designated through an administrative notification of the Union Government rather than a specific parliamentary statute.<br>3. Biosphere Reserves derive their legal mandate directly from Article 48A of the Constitution, which specifically names 'Biosphere Reserves' as a category to be protected by the State.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "All of the above",
+            "Only two of the statements are correct",
+            "Exactly one of the statements is correct",
+            "2 and 3 only"
+        ],
+        ans: 1,
+        exp: "India has no dedicated Biosphere Reserve Act — core zones rely on their existing status under the Wildlife (Protection) Act, 1972, while the wider reserve is notified through an administrative order of the Union Government, making statements 1 and 2 correct. Article 48A is a general Directive Principle urging the State to protect the environment, forests and wildlife; it does not specifically name or mandate 'Biosphere Reserves', making statement 3 incorrect."
+    },
+    {
+        q: "With reference to the functions and powers of CSIR-National Physical Laboratory (NPL) concerning India's Standard Time, consider the following statements: <br> 1. NPL, New Delhi, is India's custodian of the country's 'legal time', maintaining atomic clocks synchronised with Coordinated Universal Time (UTC).<br>2. NPL's role is limited to maintaining clocks for scientific research, and it does not disseminate time signals to any external user agencies.<br>3. Any change to India's officially notified Standard Time is a policy decision of the Union Government, with NPL serving as the technical custodian rather than the policy-making authority.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Only statement 3",
+            "2 and 3 only",
+            "None of the above",
+            "Exactly two of the statements are correct"
+        ],
+        ans: 3,
+        exp: "CSIR-NPL does maintain India's atomic-clock-based 'legal time' synchronised with UTC, and any decision to alter India's officially notified Standard Time rests with the Union Government as a policy matter, with NPL acting as technical custodian, making statements 1 and 3 correct. NPL does, however, actively disseminate Indian Standard Time to external agencies through satellite- and internet-based services, making statement 2 incorrect."
+    },
+    {
+        q: "Indian Standard Time (IST = UTC+5:30) is based on the reference meridian of 82.5° East longitude, which passes closest to which one of the following Indian towns?",
+        opts: [
+            "Mirzapur",
+            "Allahabad (Prayagraj)",
+            "Varanasi",
+            "Kanpur"
+        ],
+        ans: 0,
+        exp: "India's single time zone is anchored to the 82.5° E meridian, chosen as it runs approximately through the middle of the country and passes very close to Mirzapur in Uttar Pradesh, making it the reference point for IST. Since one hour of time difference corresponds to 15° of longitude, this meridian yields the fixed UTC+5:30 offset used uniformly across the country."
+    },
+    {
+        q: "With reference to the List of World Heritage in Danger, consider the following statements: <br> 1. It is maintained to draw international attention to World Heritage Sites facing serious threats such as armed conflict, natural disasters, or uncontrolled urbanisation.<br>2. As of 2026, at least one World Heritage Site in India is included in the List of World Heritage in Danger.<br>3. Following the outbreak of conflict, sites such as Kyiv's Saint Sophia Cathedral and the Odesa Historic Centre in Ukraine have been inscribed on the List of World Heritage in Danger.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1, 2 and 3",
+            "1 and 3 only",
+            "1 and 2 only",
+            "2 and 3 only"
+        ],
+        ans: 1,
+        exp: "The Danger List exists precisely to flag sites under serious threat, and Ukraine's Saint Sophia Cathedral in Kyiv and the Historic Centre of Odesa were added to it following the outbreak of war, making statements 1 and 3 correct. No World Heritage Site in India currently features on this list, making statement 2 incorrect."
+    },
+    {
+        q: "With reference to the background and evolution of Biosphere Reserves, consider the following statements: <br> 1. UNESCO's Man and the Biosphere (MAB) Programme, which laid the international framework for Biosphere Reserves, was launched in 1971.<br>2. India's own Biosphere Reserve scheme was launched in 1986, with the Nilgiri Biosphere Reserve, notified the same year, being India's first.<br>3. Every Biosphere Reserve notified under a country's national programme automatically becomes part of UNESCO's World Network of Biosphere Reserves.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "2 and 3 only",
+            "1 and 3 only",
+            "1, 2 and 3",
+            "1 and 2 only"
+        ],
+        ans: 3,
+        exp: "UNESCO's MAB Programme did begin in 1971, and India launched its own scheme in 1986 with Nilgiri as its first Biosphere Reserve that same year, making statements 1 and 2 correct. However, national notification does not guarantee automatic international recognition — only 13 of India's 18 Biosphere Reserves have so far been separately inscribed in UNESCO's World Network, making statement 3 incorrect."
+    },
+    {
+        q: "With reference to the functions and powers of the Survey of India, consider the following statements: <br> 1. It is India's national mapping agency, under the Department of Science and Technology, responsible for demarcating the country's external boundaries and advising on inter-state boundaries.<br>2. It maintains the National Topographic Database and has a nodal officer designated under Section 69A of the Information Technology Act, 2000, to address wrong depiction of India's international boundary online.<br>3. It was established in 1950, immediately after India's independence, specifically to meet the mapping needs of the newly formed nation.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1 and 2 only",
+            "1 and 3 only",
+            "2 and 3 only",
+            "1, 2 and 3"
+        ],
+        ans: 0,
+        exp: "The Survey of India, functioning under the Department of Science and Technology, is indeed tasked with demarcating external boundaries, advising on inter-state boundaries and maintaining the National Topographic Database, and it has a nodal officer for online boundary-depiction complaints under IT Act Section 69A, making statements 1 and 2 correct. However, it was established way back in 1767, making it one of the oldest scientific departments in the country, and was merely reorganised into directorates in 1950, so statement 3 is incorrect."
+    },
+    {
+        q: "Which one of the following statements best explains why the length of one degree of longitude decreases from the equator towards the poles, while the length of one degree of latitude remains nearly constant across all latitudes?",
+        opts: [
+            "The variation occurs only because of the Earth's slightly flattened (oblate) shape, and would not occur on a perfect sphere.",
+            "Both longitude and latitude lines converge equally towards the poles due to the Earth's rotation.",
+            "Latitude lines converge towards the poles, whereas longitude lines remain equidistant from each other.",
+            "Longitude lines (meridians) converge towards the poles, whereas latitude lines (parallels) remain roughly equidistant from each other throughout."
+        ],
+        ans: 3,
+        exp: "Meridians of longitude all converge to meet at the North and South Poles, so the actual ground distance covered by one degree of longitude shrinks progressively (following a cosine-of-latitude relationship) as one moves poleward, reaching zero at the poles. Parallels of latitude, by contrast, remain roughly equidistant from each other everywhere because the Earth is nearly spherical, so one degree of latitude stays close to about 111 km throughout — a convergence effect, not primarily a consequence of the Earth's minor oblateness."
+    },
+    {
+        q: "With reference to the World Heritage Committee of UNESCO, consider the following statements: <br> 1. It consists of representatives from 21 States Parties to the World Heritage Convention.<br>2. Every member State serves a fixed, non-renewable six-year term with no provision for a shorter tenure.<br>3. Its seven-member Bureau is chaired by the Director-General of UNESCO.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "2 and 3 only",
+            "1 only",
+            "1 and 3 only",
+            "None of the statements is correct"
+        ],
+        ans: 1,
+        exp: "The World Heritage Committee does comprise representatives from 21 States Parties, elected by the General Assembly of States Parties, making statement 1 correct. However, although the formal term is six years, most States Parties voluntarily serve only four years to allow rotation, and the Bureau's Chairperson is elected from among the 21 member states rather than being the UNESCO Director-General, making statements 2 and 3 incorrect."
+    },
+    {
+        q: "With reference to recent additions to India's UNESCO World Heritage List, a recurring theme in UPSC Prelims, consider the following statements: <br> 1. Santiniketan (West Bengal) and the Sacred Ensembles of the Hoysalas (Karnataka) were both inscribed in 2023, taking India's tally to 42 sites.<br>2. The Moidams, the mound-burial system of the Ahom dynasty in Assam, became India's first cultural World Heritage Site from North-East India.<br>3. At the 46th session of the World Heritage Committee held in New Delhi in 2024, Kaziranga National Park was declared India's first UNESCO 'Mixed Heritage' Site.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1 and 3 only",
+            "1, 2 and 3",
+            "2 and 3 only",
+            "1 and 2 only"
+        ],
+        ans: 3,
+        exp: "Santiniketan and the Sacred Ensembles of the Hoysalas were indeed inscribed in 2023, taking India to 42 World Heritage Sites, and the Moidams became India's first cultural World Heritage Site from the North-East, making statements 1 and 2 correct. However, Kaziranga National Park is a Natural Heritage Site, not a Mixed one — India's only Mixed Heritage Site is Khangchendzonga National Park in Sikkim — making statement 3 incorrect."
+    },
+    {
+        q: "With reference to the functions and powers exercised under the Wetlands (Conservation and Management) Rules, 2017, consider the following statements: <br> 1. A single Central Wetlands Regulatory Authority retains sole power to approve or deny all activities across every notified wetland in the country.<br>2. State Wetland Authorities are empowered to unilaterally change the ecological character of a Ramsar Site without any obligation to inform the Ramsar Secretariat.<br>3. The Rules apply only to sites already recognised as Ramsar Sites and have no application to other wetlands within India.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1, 2 and 3",
+            "1 and 2 only",
+            "None of the statements is correct",
+            "2 and 3 only"
+        ],
+        ans: 2,
+        exp: "The 2017 Rules actually decentralised wetland regulation to State Wetland Authorities headed by the state's Environment Minister, replacing any single central authority, so statement 1 is wrong. Any change to a Ramsar Site's ecological character must be reported to the Ramsar Secretariat under the Convention, and the Rules apply broadly to all notified wetlands, not just Ramsar Sites, making statements 2 and 3 incorrect as well — so none of the statements holds true."
+    },
+    {
+        q: "With reference to the International Seabed Authority (ISA), a location frequently in the news, consider the following statements: <br> 1. Headquartered in Kingston, Jamaica, it was established under UNCLOS to regulate mineral-related activities in the deep seabed beyond national jurisdiction.<br>2. As of 2026, the ISA has granted several countries commercial mining licences for seabed minerals, generating substantial global revenue.<br>3. The Secretary-General of the ISA is directly appointed by the UN Secretary-General for a two-year term.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "None of the above",
+            "Only two of the statements are correct",
+            "Statement 1 alone",
+            "3 only"
+        ],
+        ans: 2,
+        exp: "The ISA, based in Kingston, Jamaica, was indeed established under UNCLOS to organise and control mineral-related activities in 'the Area' for the benefit of humankind, making statement 1 correct. However, the Authority has so far granted only exploration contracts and no commercial mining licences, and its Secretary-General is elected by the Assembly from candidates recommended by the Council for a four-year term, not appointed by the UN Secretary-General, making statements 2 and 3 incorrect."
+    },
+    {
+        q: "With reference to the constitutional and legal framework governing Ramsar Sites in India, consider the following statements: <br> 1. The Ramsar Convention is an intergovernmental treaty, and there is no standalone provision for wetlands in the Constitution of India.<br>2. Wetlands in India are protected under a dedicated Directive Principle, Article 48B, which specifically mandates their conservation.<br>3. Under the Wetlands (Conservation and Management) Rules, 2017, a Central Wetlands Regulatory Authority is the sole body responsible for identifying and managing all wetlands across every state.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "None of the statements is correct",
+            "1 only",
+            "2 only",
+            "1 and 3 only"
+        ],
+        ans: 1,
+        exp: "Wetland protection in India rests on subordinate legislation such as the Wetlands (Conservation and Management) Rules, 2017, framed under the Environment (Protection) Act, 1986, rather than any standalone constitutional provision, making statement 1 correct. There is no Article 48B in the Constitution, and the 2017 Rules actually decentralised wetland management to State Wetland Authorities headed by state Environment Ministers rather than a single central authority, making statements 2 and 3 incorrect."
+    },
+    {
+        q: "With reference to internationally significant boundary lines, a recurring theme in Prelims questions, consider the following statements: <br> 1. The Durand Line, demarcated in 1893, forms the boundary between Pakistan and Afghanistan.<br>2. The 38th Parallel historically served as the dividing line between North and South Korea.<br>3. The 49th Parallel forms a significant stretch of the boundary between the United States and Mexico.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "3 only",
+            "2 and 3 only",
+            "1, 2 and 3",
+            "1 and 2 only"
+        ],
+        ans: 3,
+        exp: "The Durand Line does mark the Pakistan-Afghanistan boundary, and the 38th Parallel is the historic dividing line between North and South Korea, making statements 1 and 2 correct. The 49th Parallel, however, forms a major stretch of the boundary between the United States and Canada, not Mexico, whose border instead follows the Rio Grande and a separately surveyed land boundary, making statement 3 incorrect."
+    },
+    {
+        q: "With reference to the functions and powers of forces guarding India's international borders, consider the following statements: <br> 1. The Border Security Force (BSF) guards both the India-Pakistan and India-Bangladesh borders.<br>2. The Indo-Tibetan Border Police (ITBP) is responsible for guarding the India-China border, given its specialised training for high-altitude terrain.<br>3. The Sashastra Seema Bal (SSB) guards the India-Myanmar border, while the Assam Rifles guards the India-Nepal and India-Bhutan borders.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1 and 3 only",
+            "1, 2 and 3",
+            "2 and 3 only",
+            "1 and 2 only"
+        ],
+        ans: 3,
+        exp: "Under the 'one border, one force' policy, the BSF indeed guards both the India-Pakistan and India-Bangladesh borders, and the ITBP, trained for high-altitude terrain, guards the India-China border, making statements 1 and 2 correct. However, the assignment in statement 3 is reversed — it is the SSB that guards the India-Nepal and India-Bhutan borders, while the Assam Rifles guards the India-Myanmar border — making statement 3 incorrect."
+    },
+    {
+        q: "With reference to the constitutional and legal provisions concerning UNESCO World Heritage cultural sites in India, consider the following statements: <br> 1. The Ancient Monuments and Archaeological Sites and Remains Act, 1958 (AMASR Act) provides the domestic legal framework under which many of India's UNESCO World Heritage cultural sites are protected.<br>2. Under this Act, the area within 100 metres of a protected monument is a 'prohibited area', while the next 200 metres constitute a 'regulated area' requiring permission for construction activity.<br>3. The National Monuments Authority, a statutory body established in 2011, functions under the provisions of this Act to regulate construction in prohibited and regulated areas.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Both 2 and 3",
+            "Only one of the statements is correct",
+            "1, 2 and 3",
+            "Both 1 and 3"
+        ],
+        ans: 2,
+        exp: "The AMASR Act, 1958 does form the backbone of domestic legal protection for centrally protected monuments, including many UNESCO-listed cultural sites, and it defines a 100-metre prohibited zone followed by a 200-metre regulated zone around such monuments. The National Monuments Authority, established in 2011 to oversee construction activity in these zones, also functions under this very Act — making all three statements correct."
+    },
+    {
+        q: "With reference to Erta Ale, a location that has been in the news, consider the following statements: <br> 1. It is a shield volcano situated in the Danakil Depression of Ethiopia.<br>2. It has formed due to the subduction of the Somali Plate beneath the Nubian Plate.<br>3. It is the tallest volcano in the world by elevation above sea level.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "2 only",
+            "1 and 2 only",
+            "None of the above",
+            "1 only"
+        ],
+        ans: 3,
+        exp: "Erta Ale is indeed a shield volcano located in Ethiopia's Danakil Depression, known for hosting one of the world's few persistent lava lakes. However, it arises from rifting/divergence at the Afar Triple Junction rather than subduction, and at only around 613 metres, it is far from being the world's tallest volcano."
+    },
+    {
+        q: "With reference to the background and evolution of the World Heritage Convention, consider the following statements: <br> 1. It was adopted by UNESCO's General Conference in Paris in 1972 and entered into force in 1975.<br>2. India ratified the Convention in 1977, though its first sites — Agra Fort, Ajanta Caves, Ellora Caves and the Taj Mahal — were inscribed only in 1983.<br>3. The Convention originally recognised only 'cultural' and 'natural' heritage, with the 'mixed heritage' category added through a formal amendment in the 1990s.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1 and 2 only",
+            "2 and 3 only",
+            "1, 2 and 3",
+            "1 and 3 only"
+        ],
+        ans: 0,
+        exp: "The Convention was indeed adopted in Paris in 1972 and entered into force in 1975, and India, having ratified it in 1977, saw its first four sites inscribed in 1983, making statements 1 and 2 correct. The concept of 'mixed' heritage — sites meeting both cultural and natural criteria — existed from the Convention's original framework rather than being introduced by a later amendment, making statement 3 incorrect."
+    },
+    {
+        q: "If a topographical map is enlarged or reduced through photocopying, which one of the following ways of representing its scale remains valid?",
+        opts: [
+            "Linear (graphical/bar) scale",
+            "Representative Fraction (R.F.) scale",
+            "Verbal (statement) scale",
+            "All the above remain equally valid"
+        ],
+        ans: 0,
+        exp: "A linear or graphical scale is drawn as a physical bar on the map itself, so when the map is enlarged or reduced, the bar scales proportionally along with the rest of the map, keeping it accurate. A Representative Fraction (e.g., 1:50,000) or a verbal statement (e.g., '1 cm represents 1 km') refers to a fixed ratio that becomes incorrect the moment the map's physical size is altered by photocopying."
+    },
+    {
+        q: "The Strait of Hormuz, which frequently features in the news due to threats of closure amid tensions in West Asia and is a critical chokepoint for global oil shipments, connects which two water bodies?",
+        opts: [
+            "Persian Gulf and Arabian Sea directly, without passing through the Gulf of Oman",
+            "Red Sea and Gulf of Aden",
+            "Gulf of Aden and Arabian Sea",
+            "Persian Gulf and Gulf of Oman"
+        ],
+        ans: 3,
+        exp: "The Strait of Hormuz lies between Iran and Oman, linking the Persian Gulf to the Gulf of Oman, from where shipping continues into the wider Arabian Sea. The Red Sea-Gulf of Aden link is instead formed by the Bab-el-Mandeb Strait, a different chokepoint often confused with Hormuz."
+    },
+    {
+        q: "With reference to the Great Barrier Reef, consider the following statements: <br> 1. Located off the coast of Queensland, Australia, it is the world's largest living structure, visible even from outer space.<br>2. It is composed of nearly 2,900 individual reefs and around 900 islands.<br>3. It was inscribed as a UNESCO World Heritage Site in the 'Mixed' category, recognising both its natural and cultural significance.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Both 2 and 3",
+            "1 and 2 only",
+            "Exactly one of the statements is correct",
+            "All three statements are correct"
+        ],
+        ans: 1,
+        exp: "The Great Barrier Reef is indeed the world's largest living structure, visible from space, and is made up of roughly 2,900 reefs and 900 islands, making statements 1 and 2 correct. It was inscribed in 1981 purely as a Natural Heritage Site, not under the 'Mixed' category, since its Outstanding Universal Value rests on natural rather than cultural criteria, making statement 3 incorrect."
+    },
+    {
+        q: "With reference to time-keeping policy in India, consider the following statements: <br> 1. India has followed a single standard time, based on the 82.5° E meridian, since 1 January 1906.<br>2. A High-Level Committee constituted by the Government in 2002 recommended the introduction of two separate time zones for India.<br>3. The CSIR-National Physical Laboratory functions as India's official timekeeper, maintaining Indian Standard Time using atomic clocks.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1 and 2 only",
+            "1, 2 and 3",
+            "1 and 3 only",
+            "2 and 3 only"
+        ],
+        ans: 2,
+        exp: "India adopted a single standard time based on 82.5° E longitude with effect from 1 January 1906, and CSIR-NPL is India's official timekeeper using caesium atomic clocks, making statements 1 and 3 correct. However, the 2002 High-Level Committee actually rejected the idea of two time zones, recommending instead that work timings in the North-East be advanced administratively, so statement 2 is incorrect."
+    },
+    {
+        q: "With reference to reforms and recommendations concerning Antarctica, consider the following statements: <br> 1. The Madrid Protocol of 1991 designates Antarctica as a 'natural reserve, devoted to peace and science' and bans all mineral resource activity except for scientific research.<br>2. This ban on mining is permanent and cannot be reviewed or modified under any circumstances.<br>3. India acceded to the Antarctic Treaty only in 1998, decades after most other nations, and does not hold Consultative Party status.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Both 2 and 3",
+            "Exactly one of the statements is correct",
+            "Only two of the statements are correct",
+            "1 and 3 only"
+        ],
+        ans: 1,
+        exp: "The Madrid Protocol does designate Antarctica a natural reserve for peace and science while banning mineral activity, making statement 1 correct. However, the mining ban can actually be reviewed through a conference after 2048 (50 years from the Protocol's 1998 entry into force), and India acceded to the Antarctic Treaty much earlier, in 1983, and holds Consultative Party status, making statements 2 and 3 incorrect."
+    },
+    {
+        q: "With reference to the functions and powers of NavIC (IRNSS), India's regional satellite navigation system, consider the following statements: <br> 1. Developed by ISRO, it provides accurate positioning services covering the Indian landmass and a region extending up to 1,500 km beyond its borders.<br>2. It offers two services — the Standard Positioning Service (SPS) for all users, and the encrypted Restricted Service (RS) for authorised users only.<br>3. Unlike GPS, NavIC's satellite constellation orbits at the same low-earth-orbit altitude as the International Space Station.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1 and 3 only",
+            "1, 2 and 3",
+            "2 and 3 only",
+            "1 and 2 only"
+        ],
+        ans: 3,
+        exp: "NavIC does cover India and a 1,500 km buffer beyond its borders and does offer both an open Standard Positioning Service and an encrypted Restricted Service, making statements 1 and 2 correct. However, its satellites operate in much higher geosynchronous/geostationary orbits, not the low-earth orbit used by the International Space Station, making statement 3 incorrect."
+    },
+    {
+        q: "With reference to recent additions to India's UNESCO World Heritage List, consider the following statements: <br> 1. The 'Maratha Military Landscapes of India' were inscribed at the 47th session of the World Heritage Committee held in Paris in July 2025, becoming India's 44th World Heritage property.<br>2. The inscribed property comprises twelve forts, all of them located within the state of Maharashtra.<br>3. This inscription came a year after the Moidams of Charaideo in Assam were inscribed in 2024, extending India's recent streak of new World Heritage additions.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1 and 2 only",
+            "Exactly two of the statements are correct",
+            "Only one of the statements is correct",
+            "Only statement 2"
+        ],
+        ans: 1,
+        exp: "The Maratha Military Landscapes were indeed inscribed at the 47th WHC session in Paris in July 2025, making India's tally 44 sites, and this followed the Moidams of Charaideo's inscription in 2024, making statements 1 and 3 correct. However, of the twelve forts in this landscape, eleven are in Maharashtra while one — Gingee Fort — is located in Tamil Nadu, making statement 2 incorrect."
+    },
+    {
+        q: "With reference to Biosphere Reserves, consider the following statements: <br> 1. A Biosphere Reserve is typically organised into a legally protected core zone, a buffer zone, and an outer transition zone.<br>2. Human habitation and economic activities are completely prohibited even in the buffer and transition zones of a Biosphere Reserve.<br>3. Encroachment and unregulated tourism in buffer zones are frequently cited as challenges undermining the conservation objectives of Biosphere Reserves in India.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "None of the above",
+            "Statement 2 alone",
+            "Exactly one of the statements is correct",
+            "1 and 3 only"
+        ],
+        ans: 3,
+        exp: "Biosphere Reserves follow a three-tier zonation of core, buffer and transition zones, and encroachment together with unregulated tourism in the buffer zones remains a well-documented conservation challenge in India, making statements 1 and 3 correct. However, unlike the strictly protected core, the buffer and transition zones are designed to allow regulated human activity and sustainable resource use to coexist with conservation, making statement 2 incorrect."
+    },
+    {
+        q: "With reference to the administrative functions and powers governing Biosphere Reserves in India, consider the following statements: <br> 1. They are declared and administered by the Ministry of Environment, Forest and Climate Change on the recommendation of an Expert Committee, without a separate statutory authority akin to the National Tiger Conservation Authority.<br>2. The core zone of a Biosphere Reserve functions under the powers already vested in the authority managing the National Park or Wildlife Sanctuary with which it is coterminous.<br>3. State governments have no administrative role in the functioning of Biosphere Reserves, as these are managed exclusively by the Union Government.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Both 2 and 3",
+            "1 and 2 only",
+            "Only one of the statements is correct",
+            "Statement 3 alone"
+        ],
+        ans: 1,
+        exp: "Biosphere Reserves are administered by the MoEFCC on expert recommendation without any dedicated statutory body, and their core zones rely on the pre-existing legal powers of the National Park/Sanctuary authority under the Wildlife (Protection) Act, 1972, making statements 1 and 2 correct. State governments, however, play a significant administrative role through their forest and environment departments in managing buffer and transition zones, making statement 3 incorrect."
+    },
+    {
+        q: "With reference to Chandigarh, consider the following statements: <br> 1. It serves as the joint capital of both Punjab and Haryana but is not a part of either state, being administered as a Union Territory.<br>2. It is governed under Article 239AA of the Constitution, which grants it a separate legislative assembly.<br>3. The Governor of Punjab holds additional charge as the Administrator of the Union Territory of Chandigarh.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "2 and 3 only",
+            "1 and 3 only",
+            "1 and 2 only",
+            "1, 2 and 3"
+        ],
+        ans: 1,
+        exp: "Chandigarh is a Union Territory administered under Article 239 (through the Punjab Reorganisation Act, 1966) and has no legislature of its own, and its Administrator is the Governor of Punjab holding additional charge, making statements 1 and 3 correct. Article 239AA is a special provision applicable only to the National Capital Territory of Delhi, granting it a legislative assembly, which does not apply to Chandigarh, making statement 2 incorrect."
+    },
+    {
+        q: "With reference to India's border trading points, a recurring theme in Prelims questions, consider the following statements: <br> 1. Nathu La, Shipki La and Lipulekh are the three officially designated points for India's border trade with China/Tibet, located respectively in Sikkim, Himachal Pradesh and Uttarakhand.<br>2. This border trade, suspended for several years due to the COVID-19 pandemic and border tensions, was resumed in 2026.<br>3. The Lipulekh Pass, used by pilgrims on the Kailash Mansarovar Yatra, lies within a region also claimed by Nepal as part of its territory.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "All of the above",
+            "Exactly two of the statements are correct",
+            "Statement 2 alone",
+            "Only two of the statements are correct"
+        ],
+        ans: 0,
+        exp: "Nathu La (Sikkim), Shipki La (Himachal Pradesh) and Lipulekh (Uttarakhand) are indeed India's three designated border-trade points with China/Tibet, this trade was suspended for years and resumed in 2026, and Lipulekh is also claimed by Nepal as part of the Kalapani dispute — making all three statements correct. This trio of passes is a classic 'match the pass with the state' theme frequently tested in Prelims."
+    },
+    {
+        q: "With reference to the institutional structure of the Ramsar Convention on Wetlands, consider the following statements: <br> 1. Its Secretariat is administered by the IUCN and is located within the IUCN Conservation Centre in Gland, Switzerland.<br>2. The Conference of the Contracting Parties (COP), the Convention's supreme decision-making body, ordinarily meets once every three years.<br>3. The Standing Committee, established in 1987, oversees Convention affairs and the Secretariat's work between meetings of the COP.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "2 and 3 only",
+            "1 and 3 only",
+            "1, 2 and 3",
+            "1 and 2 only"
+        ],
+        ans: 2,
+        exp: "The Ramsar Secretariat does operate under IUCN administration from Gland, Switzerland, the COP does meet on a three-year cycle as the Convention's apex body, and the Standing Committee, created by a 1987 resolution, does oversee affairs between COP sessions — making all three statements accurate. This layered structure of COP, Standing Committee and Secretariat is a recurring theme in questions on international environmental governance."
+    },
+    {
+        q: "With reference to the constitutional and legal basis of Indian Standard Time (IST), consider the following statements: <br> 1. IST is established through a specific Act of Parliament titled the 'Indian Standard Time Act'.<br>2. 'Time and time zones' does not appear as a specific entry in the Seventh Schedule's Union, State, or Concurrent Lists, and is generally treated as falling under the Union Government's residuary powers.<br>3. The Legal Metrology Act, 2009, which governs weights and measures standards in India, also explicitly defines and regulates the country's standard time zone.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "2 only",
+            "3 only",
+            "1 only",
+            "1 and 2 only"
+        ],
+        ans: 0,
+        exp: "There is no standalone 'Indian Standard Time Act'; IST originates from an administrative government notification rather than a dedicated parliamentary statute, making statement 1 incorrect. Since 'time' finds no specific mention in the Seventh Schedule, it is generally understood to fall under the Union's residuary powers, making statement 2 correct, while the Legal Metrology Act, 2009 governs weights and measures units, not the country's time zone, making statement 3 incorrect."
+    },
+    {
+        q: "With reference to the Constitution (One Hundredth Amendment) Act, 2015, consider the following statements: <br> 1. It was enacted to give effect to the India-Bangladesh Land Boundary Agreement of 1974 and its 2011 Protocol.<br>2. Under the exchange, India transferred a larger number of enclaves to Bangladesh than it received in return.<br>3. It resulted in changes to the boundaries of four Indian states, namely Assam, West Bengal, Meghalaya and Tripura.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1 and 2 only",
+            "1, 2 and 3",
+            "2 and 3 only",
+            "1 and 3 only"
+        ],
+        ans: 1,
+        exp: "The 100th Constitutional Amendment gave effect to the 1974 Land Boundary Agreement and its 2011 Protocol with Bangladesh, under which India transferred 111 enclaves to Bangladesh while receiving only 51 in return, affecting the boundaries of Assam, West Bengal, Meghalaya and Tripura. All three statements are therefore factually accurate, and the amendment required a special majority under Article 368 as it involved a change in Indian territory covered by the First Schedule."
+    },
+    {
+        q: "Survey of India's traditional topographical maps are based on the Everest ellipsoid as their geodetic datum. Which one of the following best explains why GPS-derived coordinates cannot be directly plotted on such maps without applying a transformation?",
+        opts: [
+            "GPS satellites broadcast coordinates only in the Everest system by default, so no conversion is required for Indian maps.",
+            "The Everest ellipsoid's centre does not coincide with the Earth's centre of mass, unlike the geocentric WGS-84 datum used by GPS.",
+            "Both datums use identical ellipsoid dimensions, and any mismatch arises only from printing errors on paper maps.",
+            "The Everest ellipsoid is a geocentric datum, while the WGS-84 datum used by GPS is a local datum applicable only to South Asia."
+        ],
+        ans: 1,
+        exp: "The Everest ellipsoid is a local, best-fit datum for the Indian subcontinent whose centre is displaced from the Earth's true centre of mass, whereas WGS-84 (used by GPS) is geocentric, causing positional differences that can run into hundreds of metres. This mismatch is why transformation parameters must be applied to convert GPS coordinates for use on Everest-based Survey of India toposheets, ruling out the other options which misstate the nature of the two datums."
+    },
+    {
+        q: "With reference to the SVAMITVA Scheme, consider the following statements: <br> 1. It uses satellite imagery rather than drones to map rural inhabited areas at a scale of about 1:10,000.<br>2. It is implemented in collaboration with the Ministry of Panchayati Raj and the Survey of India but does not result in the issuance of any legal ownership document to property holders.<br>3. As of early 2025, less than one-fourth of India's target villages had completed their drone survey under the scheme.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1 and 3 only",
+            "1, 2 and 3",
+            "2 only",
+            "None of the statements is correct"
+        ],
+        ans: 3,
+        exp: "The SVAMITVA Scheme actually uses drone-based surveys (not satellite imagery) to prepare high-resolution maps at roughly 1:500 scale, and it issues legally valid 'Property Cards' or Record of Rights to rural property holders, making statements 1 and 2 incorrect. Far from covering less than a fourth of target villages, about 92% of notified villages had completed their drone survey as of January 2025, making statement 3 incorrect as well, so none of the statements holds true."
+    },
+    {
+        q: "With reference to time-related practices and recommendations in Assam, consider the following statements: <br> 1. 'Chai Bagaan' or Tea Garden Time, an informal practice in Assam's tea estates that sets clocks an hour ahead of IST, was introduced during the British colonial period and has no statutory basis even today.<br>2. In 2014, Assam's Chief Minister proposed adopting a separate, formal time zone for the state, but this was never implemented by the Union Government.<br>3. Had the 2014 proposal been implemented, Assam's time zone would have effectively become equivalent to UTC+6:30.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1, 2 and 3",
+            "1 and 2 only",
+            "2 and 3 only",
+            "1 and 3 only"
+        ],
+        ans: 0,
+        exp: "The colonial-era 'Chai Bagaan Time' remains an informal, non-statutory practice in Assam's tea gardens, and in 2014 the state's Chief Minister did propose a separate formal time zone that the Centre never approved. Since IST is UTC+5:30, setting Assam's clocks an hour ahead would indeed have made it UTC+6:30 — making all three statements correct."
+    }
+];
+
+
+
+
+
+
+
+
+
+const CORRECT_MARKS = 2;
+const NEGATIVE_MARKS = 2 / 3;
+
+let current = 0;
+const responses = new Array(QUESTIONS.length).fill(null);
+let submitted = false;
+
+const qNumEl = document.getElementById('qNum');
+const qTotalEl = document.getElementById('qTotal');
+const qTotalNoteEl = document.getElementById('qTotalNote');
+const qTextEl = document.getElementById('qText');
+const optionsListEl = document.getElementById('optionsList');
+const qStatusTag = document.getElementById('qStatusTag');
+const explainBox = document.getElementById('explainBox');
+const explainText = document.getElementById('explainText');
+const paletteGrid = document.getElementById('paletteGrid');
+const answeredCountEl = document.getElementById('answeredCount');
+const skippedCountEl = document.getElementById('skippedCount');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const clearBtn = document.getElementById('clearBtn');
+const submitBtn = document.getElementById('submitBtn');
+const paperView = document.getElementById('paperView');
+const resultView = document.getElementById('resultView');
+const reviewBtn = document.getElementById('reviewBtn');
+const scoreText = document.getElementById('scoreText');
+const scorePercent = document.getElementById('scorePercent');
+
+const confirmModal = document.getElementById('confirmModal');
+const modalMessage = document.getElementById('modalMessage');
+const modalIcon = document.getElementById('modalIcon');
+const modalGoBack = document.getElementById('modalGoBack');
+const modalConfirm = document.getElementById('modalConfirm');
+
+qTotalEl.textContent = QUESTIONS.length;
+qTotalNoteEl.textContent = QUESTIONS.length;
+skippedCountEl.textContent = QUESTIONS.length;
+
+function buildPalette(){
+  paletteGrid.innerHTML = '';
+  QUESTIONS.forEach((_, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.textContent = i + 1;
+    cell.addEventListener('click', () => { current = i; render(); });
+    paletteGrid.appendChild(cell);
+  });
+}
+
+function render(){
+  const item = QUESTIONS[current];
+  qNumEl.textContent = current + 1;
+  qTextEl.innerHTML = item.q;
+
+  optionsListEl.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  const userChoice = responses[current];
+  item.opts.forEach((opt, idx) => {
+    const div = document.createElement('div');
+    let cls = 'option';
+    if (submitted){
+      cls += ' locked';
+      if (idx === item.ans) cls += ' correct';
+      else if (idx === userChoice) cls += ' incorrect';
+    } else if (userChoice === idx){
+      cls += ' selected';
+    }
+    div.className = cls;
+    div.innerHTML = `<span class="tag">${letters[idx]}</span><span class="opt-text"></span>`;
+    div.querySelector('.opt-text').textContent = opt;
+    div.addEventListener('click', () => {
+      if (submitted) return;
+      responses[current] = idx;
+      render();
+    });
+    optionsListEl.appendChild(div);
+  });
+
+  if (submitted){
+    if (userChoice === null){
+      qStatusTag.textContent = '⚠ Not Answered · Correct answer shown';
+      qStatusTag.className = 'q-status-tag review-unanswered';
+    } else if (userChoice === item.ans){
+      qStatusTag.textContent = '✓ Correct';
+      qStatusTag.className = 'q-status-tag correct';
+    } else {
+      qStatusTag.textContent = '✗ Incorrect';
+      qStatusTag.className = 'q-status-tag incorrect';
+    }
+    explainBox.classList.remove('hidden');
+    explainText.innerHTML = '<b>Correct Answer:</b> ' + letters[item.ans] + '. ' + item.opts[item.ans] + '<br><br>' + item.exp;
+  } else {
+    const answered = userChoice !== null;
+    qStatusTag.textContent = answered ? 'Answered' : 'Not Answered';
+    qStatusTag.className = 'q-status-tag ' + (answered ? 'answered' : 'unanswered');
+    explainBox.classList.add('hidden');
+  }
+
+  prevBtn.disabled = current === 0;
+  if (submitted){
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Back to Result' : 'Next →';
+    clearBtn.style.visibility = 'hidden';
+  } else {
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Finish' : 'Next →';
+    clearBtn.style.visibility = 'visible';
+  }
+
+  // palette
+  const cells = paletteGrid.children;
+  for (let i = 0; i < cells.length; i++){
+    cells[i].classList.toggle('current', i === current);
+    if (submitted){
+      const isIncorrect = responses[i] !== null && responses[i] !== QUESTIONS[i].ans;
+      const isCorrect = responses[i] === QUESTIONS[i].ans;
+      cells[i].classList.toggle('incorrect', isIncorrect);
+      cells[i].classList.toggle('answered', isCorrect);
+    } else {
+      cells[i].classList.toggle('answered', responses[i] !== null);
+      cells[i].classList.remove('incorrect');
+    }
+  }
+
+  const answeredTotal = responses.filter(r => r !== null).length;
+  if (submitted){
+    let correct = 0, incorrect = 0;
+    QUESTIONS.forEach((q, i) => {
+      if (responses[i] === null) return;
+      if (responses[i] === q.ans) correct++; else incorrect++;
+    });
+    const unattempted = QUESTIONS.length - answeredTotal;
+    const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+    document.getElementById('tallyRow').innerHTML = `
+      <div class="marks-line"><b>${marks.toFixed(2)}</b><span>Marks Scored</span></div>
+      <div class="tally-grid">
+        <div><b class="stat-correct">${correct}</b>Correct</div>
+        <div><b class="stat-incorrect">${incorrect}</b>Incorrect</div>
+        <div><b class="stat-unattempted">${unattempted}</b>Unattempted</div>
+      </div>
+    `;
+  } else {
+    answeredCountEl.textContent = answeredTotal;
+    skippedCountEl.textContent = QUESTIONS.length - answeredTotal;
+  }
+}
+
+prevBtn.addEventListener('click', () => { if (current > 0){ current--; render(); }});
+nextBtn.addEventListener('click', () => {
+  if (current < QUESTIONS.length - 1){ current++; render(); }
+  else if (submitted){
+    paperView.classList.add('hidden');
+    resultView.classList.remove('hidden');
+  } else {
+    openConfirmModal();
+  }
+});
+clearBtn.addEventListener('click', () => { responses[current] = null; render(); });
+
+submitBtn.addEventListener('click', openConfirmModal);
+
+/* ---------- Confirmation modal logic ---------- */
+function openConfirmModal(){
+  const nameVal = document.getElementById('userName').value.trim();
+  document.getElementById('modalUserName').value = nameVal;
+  refreshConfirmModalText();
+  confirmModal.classList.remove('hidden');
+}
+
+function refreshConfirmModalText(){
+  const nameVal = document.getElementById('modalUserName').value.trim();
+  if (nameVal){
+    modalIcon.textContent = '📝';
+    modalMessage.innerHTML = `Submit test : <b>${escapeHtml(nameVal)}</b> ?`;
+  } else {
+    modalIcon.textContent = '⚠️';
+    modalMessage.innerHTML = `You have not set your name, your rank will be set as: <b>Anonymous</b>`;
+  }
+}
+
+document.getElementById('modalUserName').addEventListener('input', refreshConfirmModalText);
+
+function closeConfirmModal(){
+  confirmModal.classList.add('hidden');
+}
+
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+modalGoBack.addEventListener('click', closeConfirmModal);
+modalConfirm.addEventListener('click', () => {
+  closeConfirmModal();
+  doSubmit();
+});
+confirmModal.addEventListener('click', (e) => {
+  if (e.target === confirmModal) closeConfirmModal();
+});
+
+function doSubmit(){
+  submitted = true;
+  clearInterval(countdown);
+  let correct = 0, incorrect = 0;
+  QUESTIONS.forEach((q, i) => {
+    if (responses[i] === null) return;
+    if (responses[i] === q.ans) correct++; else incorrect++;
+  });
+  const unattempted = QUESTIONS.length - (correct + incorrect);
+  const maxMarks = QUESTIONS.length * CORRECT_MARKS;
+  const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+  const percentage = (marks / maxMarks) * 100;
+
+  scoreText.textContent = marks.toFixed(2) + ' / ' + maxMarks.toFixed(2);
+  scorePercent.textContent = percentage.toFixed(2) + '%';
+  document.getElementById('scoreBreakdown').innerHTML = `
+    <div class="stat correct"><b>${correct}</b><span>Correct</span></div>
+    <div class="stat incorrect"><b>${incorrect}</b><span>Incorrect</span></div>
+    <div class="stat unattempted"><b>${unattempted}</b><span>Unattempted</span></div>
+  `;
+  const userName = document.getElementById('modalUserName').value.trim() || "Anonymous"; 
+  fetch(SHEET_ENDPOINT, {
+    method: "POST",
+    mode: "no-cors",
+    body: JSON.stringify({
+      name: userName,
+      marks: marks.toFixed(2),
+      correct: correct,
+      incorrect: incorrect,
+      unattempted: unattempted,
+      testCode: "PreLoG-2027-74-FREE TIER"
+    })
+  }); 
+  submitBtn.style.display = 'none';
+  paperView.classList.add('hidden');
+  resultView.classList.remove('hidden');
+  render();
+}
+
+reviewBtn.addEventListener('click', () => {
+  resultView.classList.add('hidden');
+  paperView.classList.remove('hidden');
+  current = 0;
+  render();
+});
+
+// theme toggle
+const themeSwitch = document.getElementById('themeSwitch');
+themeSwitch.addEventListener('click', () => {
+  const body = document.body;
+  const isDark = body.getAttribute('data-theme') === 'dark';
+  body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+});
+
+// countdown timer — only ticks once the test has been started
+let seconds = 60 * 60;
+let testStarted = false;
+const timerEl = document.getElementById('timer');
+const countdown = setInterval(() => {
+  if (!testStarted || seconds <= 0 || submitted) return;
+  seconds--;
+  const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+  const s = String(seconds % 60).padStart(2, '0');
+  timerEl.textContent = `${m}:${s}`;
+  timerEl.classList.toggle('urgent', seconds <= 60);
+  if (seconds === 0){
+    timerEl.textContent = 'Time Up!';
+    doSubmit();
+  }
+}, 1000);
+
+/* ---------- Start-test modal logic ---------- */
+const startModal = document.getElementById('startModal');
+const startTestBtn = document.getElementById('startTestBtn');
+const startNameInput = document.getElementById('userName');
+
+// populate the start screen dynamically so this same code works
+// no matter how many questions / what marking scheme this file has
+document.getElementById('startTitle').textContent =
+  document.querySelector('.title-block h1').textContent;
+document.getElementById('startQCount').textContent = QUESTIONS.length;
+document.getElementById('startMaxMarks').textContent = (QUESTIONS.length * CORRECT_MARKS).toFixed(0);
+document.getElementById('startCorrectMarks').textContent = '+' + CORRECT_MARKS.toFixed(2);
+document.getElementById('startIncorrectMarks').textContent = '−' + NEGATIVE_MARKS.toFixed(2);
+document.getElementById('startDuration').textContent = Math.round(seconds / 60);
+
+startTestBtn.addEventListener('click', () => {
+  testStarted = true;
+  startModal.classList.add('hidden');
+});
+
+// pressing Enter in the name field on the start screen also starts the test
+startNameInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') startTestBtn.click();
+});
+
+buildPalette();
+render();
+
+window.addEventListener('beforeunload', function(e){
+  const hasProgress = !submitted && responses.some(r => r !== null);
+  if (hasProgress){
+    e.preventDefault();
+    e.returnValue = 'Your answers have not been submitted. If you leave or refresh this page, all marked answers will be lost.';
+    return e.returnValue;
+  }
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC LoG — Prelims Booster</title>
+<style>
+  :root{
+    --bg: #F3F4F1;
+    --paper: #FFFFFF;
+    --ink: #1D2A35;
+    --ink-soft: #5B6873;
+    --rule: #D8DCD6;
+    --navy: #1B3A5C;
+    --navy-deep: #12283F;
+    --gold: #B8862E;
+    --gold-soft: #EFDFB8;
+    --answered: #2F7D5A;
+    --answered-bg: #E4F3EC;
+    --skipped: #B8862E;
+    --skipped-bg: #FBF1DE;
+    --current-ring: #1B3A5C;
+    --wrong: #B23A2E;
+    --wrong-bg: #FBEAE7;
+    --shadow: 0 1px 2px rgba(20,30,40,0.06), 0 6px 20px rgba(20,30,40,0.05);
+    --serif: Georgia, 'Times New Roman', 'Iowan Old Style', serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --mono: 'Courier New', ui-monospace, monospace;
+  }
+  [data-theme="dark"]{
+    --bg: #0F1A24;
+    --paper: #17232E;
+    --ink: #E7ECEF;
+    --ink-soft: #97A5AF;
+    --rule: #2A3846;
+    --navy: #3E6E9E;
+    --navy-deep: #2A4E70;
+    --gold: #D9A441;
+    --gold-soft: #3A3220;
+    --answered: #4CAF7D;
+    --answered-bg: #163227;
+    --skipped: #D9A441;
+    --skipped-bg: #332A16;
+    --current-ring: #D9A441;
+    --wrong: #E07A6C;
+    --wrong-bg: #3A1E1A;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+    html, body{
+    overflow-x: hidden;
+    width: 100%;
+  }
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    min-height:100vh;
+    transition:background .3s ease, color .3s ease;
+  }
+
+  /* ---------- Header ---------- */
+  header.topbar{
+    background:linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color:#F4F1EA;
+    padding:0;
+    box-shadow:var(--shadow);
+    position:sticky; top:0; z-index:50;
+  }
+  .topbar-inner{
+    max-width:1280px; margin:0 auto;
+    display:flex; align-items:center; gap:20px;
+    padding:14px 28px;
+  }
+  .logo-slot{
+    width:52px; height:52px;
+    border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    overflow:hidden;
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .logo-slot img{
+    width:100%; height:100%;
+    object-fit:contain;
+  }
+  .logo-slot:hover{border-color:rgba(244,241,234,0.75); color:#F4F1EA;}
+  .title-block{flex:1; min-width:0;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gold-soft, #D9A441);
+    opacity:0.85;
+  }
+  .title-block h1{
+    font-family:var(--serif);
+    font-size:22px;
+    font-weight:400;
+    margin:2px 0 0 0;
+    letter-spacing:0.01em;
+  }
+  .subnote{
+    font-family:var(--mono);
+    font-size:11px;
+    color:rgba(244,241,234,0.65);
+    margin-top:6px;
+    letter-spacing:0.02em;
+  }
+  .subnote a{color:var(--gold-soft); text-decoration:none;}
+  .subnote a:hover{text-decoration:underline;}
+  .topbar-right{
+    display:flex; align-items:center; gap:18px; flex-shrink:0;
+  }
+  .timer{
+    font-family:var(--mono);
+    font-size:13px;
+    color:#F4F1EA;
+    border:1px solid rgba(244,241,234,0.3);
+    padding:6px 12px;
+    border-radius:6px;
+    background:rgba(0,0,0,0.12);
+    transition:background .2s ease;
+  }
+  .timer.urgent{background:var(--wrong); border-color:var(--wrong);}
+
+  /* dark mode switch */
+  .mode-switch{
+    display:flex; align-items:center; gap:8px;
+    font-size:12px; color:rgba(244,241,234,0.85);
+  }
+  .switch{
+    position:relative; width:44px; height:24px;
+    background:rgba(244,241,234,0.2);
+    border-radius:20px; cursor:pointer;
+    border:1px solid rgba(244,241,234,0.35);
+    flex-shrink:0;
+  }
+  .switch .knob{
+    position:absolute; top:2px; left:2px;
+    width:18px; height:18px; border-radius:50%;
+    background:#F4F1EA;
+    transition:transform .25s ease;
+    box-shadow:0 1px 3px rgba(0,0,0,0.3);
+  }
+  [data-theme="dark"] .switch .knob{
+    transform:translateX(20px);
+    background:var(--gold);
+  }
+
+  /* ---------- Layout ---------- */
+  .layout{
+    max-width:1280px; margin:0 auto;
+    display:grid;
+    grid-template-columns:1fr 320px;
+    gap:23px;
+    padding:32px 28px 60px;
+    align-items:start;
+  }
+
+  /* ---------- Question paper ---------- */
+  .paper{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:36px 44px 32px;
+    min-height:520px;
+    display:flex;
+    flex-direction:column;
+  }
+  .paper-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    border-bottom:1px solid var(--rule);
+    padding-bottom:14px; margin-bottom:28px;
+  }
+  .q-index{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--ink-soft);
+    letter-spacing:0.04em;
+  }
+  .q-index b{color:var(--navy); font-size:15px;}
+  [data-theme="dark"] .q-index b{color:var(--gold);}
+  .q-status-tag{
+    font-family:var(--mono);
+    font-size:13.5px;
+    font-weight:800;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    padding:7px 16px;
+    border-radius:20px;
+    border:2px solid transparent;
+  }
+  .q-status-tag.answered{background:var(--answered-bg); color:var(--answered); border-color:var(--answered);}
+  .q-status-tag.unanswered{background:var(--skipped-bg); color:var(--skipped); border-color:var(--skipped);}
+
+  .q-text{
+    font-family:var(--serif);
+    font-size:19px;
+    line-height:1.5;
+    color:var(--ink);
+    margin:0 0 32px 0;
+  }
+
+  .options{
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .option{
+    display:flex; align-items:flex-start; gap:14px;
+    padding:18px 18px;
+    border:1px solid var(--rule);
+    border-radius:8px;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+    background:transparent;
+  }
+  .option:hover{border-color:var(--navy); background:rgba(27,58,92,0.04);}
+  [data-theme="dark"] .option:hover{background:rgba(217,164,65,0.06); border-color:var(--gold);}
+  .option.selected{
+    border-color:var(--navy);
+    background:rgba(27,58,92,0.07);
+  }
+  [data-theme="dark"] .option.selected{
+    border-color:var(--gold);
+    background:rgba(217,164,65,0.1);
+  }
+  .option .tag{
+    font-family:var(--mono);
+    font-size:13px;
+    font-weight:bold;
+    width:24px; height:24px;
+    border-radius:50%;
+    border:1.5px solid var(--rule);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    color:var(--ink-soft);
+  }
+  .option.selected .tag{
+    border-color:var(--navy);
+    background:var(--navy);
+    color:#fff;
+  }
+  [data-theme="dark"] .option.selected .tag{
+    border-color:var(--gold);
+    background:var(--gold);
+    color:#17232E;
+  }
+  .option .opt-text{
+    font-size:15.5px; line-height:1.5; padding-top:1px;
+  }
+  .option.locked{cursor:default;}
+  .option.correct{
+    border-color:var(--answered);
+    background:var(--answered-bg);
+  }
+  .option.correct .tag{
+    border-color:var(--answered);
+    background:var(--answered);
+    color:#fff;
+  }
+  .option.incorrect{
+    border-color:var(--wrong);
+    background:var(--wrong-bg);
+  }
+  .option.incorrect .tag{
+    border-color:var(--wrong);
+    background:var(--wrong);
+    color:#fff;
+  }
+  .option.locked:hover{background:inherit; border-color:inherit;}
+  .q-status-tag.correct{background:var(--answered-bg); color:var(--answered); border-color:var(--answered); box-shadow:0 0 0 1px var(--answered) inset;}
+  .q-status-tag.incorrect{background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong); box-shadow:0 0 0 1px var(--wrong) inset;}
+  .q-status-tag.review-unanswered{
+    background:var(--wrong-bg);
+    color:var(--wrong);
+    border-color:var(--wrong);
+    box-shadow:0 0 0 1px var(--wrong) inset;
+  }
+
+  /* ---------- Explanation (review mode) ---------- */
+  .explain-box{
+    margin-top:26px;
+    background:var(--gold-soft);
+    border:1px solid var(--gold);
+    border-radius:8px;
+    padding:16px 20px;
+    font-size:14px;
+    line-height:1.65;
+    color:var(--ink);
+  }
+  [data-theme="dark"] .explain-box{background:rgba(217,164,65,0.08);}
+  .explain-box b{color:var(--navy);}
+  [data-theme="dark"] .explain-box b{color:var(--gold);}
+  .explain-box .exp-label{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-bottom:8px;
+  }
+
+  .paper-foot{
+    display:flex; justify-content:space-between;
+    margin-top:32px; padding-top:20px;
+    border-top:1px solid var(--rule);
+  }
+  button{
+    font-family:var(--sans);
+    font-size:14px;
+    font-weight:600;
+    padding:11px 22px;
+    border-radius:7px;
+    border:1px solid var(--rule);
+    background:var(--paper);
+    color:var(--ink);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  button:hover:not(:disabled){border-color:var(--navy); color:var(--navy);}
+  [data-theme="dark"] button:hover:not(:disabled){border-color:var(--gold); color:var(--gold);}
+  button:disabled{opacity:0.35; cursor:not-allowed;}
+  button.primary{
+    background:var(--navy); color:#F4F1EA; border-color:var(--navy);
+  }
+  button.primary:hover{filter:brightness(1.1); color:#F4F1EA;}
+  button.clear{background:transparent; border-color:transparent; color:var(--ink-soft); font-weight:500;}
+  .nav-group{display:flex; gap:10px;}
+
+  /* ---------- Sidebar palette ---------- */
+  .sidebar{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:24px;
+    position:sticky;
+    top:96px;
+  }
+  .sidebar h2{
+    font-family:var(--serif);
+    font-size:16px;
+    font-weight:400;
+    margin:0 0 4px 0;
+    color:var(--ink);
+  }
+  .sidebar .sub{
+    font-size:12px; color:var(--ink-soft); margin-bottom:18px;
+  }
+  .legend{
+    display:flex; flex-direction:column; gap:8px;
+    margin-bottom:20px;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  .legend span{display:flex; align-items:center; gap:8px;}
+  .dot{width:10px; height:10px; border-radius:3px; flex-shrink:0;}
+  .dot.answered{background:var(--answered);}
+  .dot.unanswered{background:var(--rule); border:1px solid var(--ink-soft);}
+  .dot.current{background:transparent; border:2px solid var(--current-ring);}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:8px;
+    margin-bottom:22px;
+  }
+  .cell{
+    aspect-ratio:1;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono);
+    font-size:13px;
+    border-radius:6px;
+    border:1px solid var(--rule);
+    background:transparent;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .cell:hover{border-color:var(--navy);}
+  [data-theme="dark"] .cell:hover{border-color:var(--gold);}
+  .cell.answered{
+    background:var(--answered-bg); color:var(--answered); border-color:var(--answered);
+    font-weight:bold;
+  }
+  .cell.incorrect{
+    background:var(--wrong-bg); color:var(--wrong); border-color:var(--wrong);
+    font-weight:bold;
+  }
+  .cell.current{
+    outline:2px solid var(--current-ring); outline-offset:2px;
+  }
+
+  .tally{
+    padding-top:16px; border-top:1px solid var(--rule);
+    color:var(--ink-soft);
+  }
+  .tally-plain{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-plain > div{flex:1; text-align:left;}
+  .tally b{color:var(--ink); font-size:16px; display:block; font-family:var(--sans);}
+  .tally b.stat-correct{color:var(--answered);}
+  .tally b.stat-incorrect{color:var(--wrong);}
+  .tally b.stat-unattempted{color:var(--skipped);}
+
+  .marks-line{
+    text-align:center;
+    background:var(--gold-soft);
+    border:1.5px solid var(--gold);
+    border-radius:8px;
+    padding:12px 10px;
+    margin-bottom:14px;
+  }
+  [data-theme="dark"] .marks-line{background:rgba(217,164,65,0.12);}
+  .marks-line b{
+    font-size:26px; color:var(--navy); font-family:var(--serif); font-weight:700;
+  }
+  [data-theme="dark"] .marks-line b{color:var(--gold);}
+  .marks-line span{
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--ink-soft); display:block; margin-top:2px;
+  }
+  .tally-grid{
+    display:flex; justify-content:space-between;
+    font-family:var(--mono); font-size:12px;
+    gap:8px;
+  }
+  .tally-grid > div{flex:1; text-align:left;}
+
+  .score-breakdown{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+    max-width:420px;
+    margin:24px auto 0;
+  }
+  .score-breakdown .stat{
+    border:1.5px solid var(--rule);
+    border-radius:10px;
+    padding:14px 10px;
+  }
+  .score-breakdown .stat b{
+    display:block; font-size:24px; font-family:var(--sans); margin-bottom:4px;
+  }
+  .score-breakdown .stat span{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft);
+  }
+  .score-breakdown .stat.correct{border-color:var(--answered); background:var(--answered-bg);}
+  .score-breakdown .stat.correct b{color:var(--answered);}
+  .score-breakdown .stat.incorrect{border-color:var(--wrong); background:var(--wrong-bg);}
+  .score-breakdown .stat.incorrect b{color:var(--wrong);}
+  .score-breakdown .stat.unattempted{border-color:var(--skipped); background:var(--skipped-bg);}
+  .score-breakdown .stat.unattempted b{color:var(--skipped);}
+
+  #submitBtn{width:100%; margin-top:20px;}
+
+  /* ---------- Result overlay ---------- */
+  .result-card{
+    background:var(--paper); border:1px solid var(--rule); border-radius:10px;
+    box-shadow:var(--shadow); padding:44px; text-align:center;
+  }
+  .result-card .score{
+    font-family:var(--serif); font-size:52px; color:var(--navy); margin:8px 0;
+  }
+  [data-theme="dark"] .result-card .score{color:var(--gold);}
+  .result-card .percent{
+    font-family:var(--mono); font-size:13px; color:var(--ink-soft);
+    letter-spacing:0.04em; margin-top:-4px;
+  }
+  .hidden{display:none !important;}
+
+  /* ---------- Confirm submit modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background:rgba(15,20,25,0.55);
+    display:flex; align-items:center; justify-content:center;
+    z-index:200;
+    padding:20px;
+  }
+  .modal-box{
+    background:var(--paper);
+    border:1px solid var(--rule);
+    border-radius:12px;
+    box-shadow:var(--shadow);
+    padding:30px 30px 24px;
+    max-width:380px;
+    width:100%;
+    text-align:center;
+  }
+  .modal-box .modal-icon{
+    font-size:26px;
+    margin-bottom:6px;
+  }
+  .modal-box p{
+    font-family:var(--sans);
+    font-size:15px;
+    line-height:1.55;
+    color:var(--ink);
+    margin:10px 0 22px;
+  }
+  .modal-box p b{color:var(--navy);}
+  [data-theme="dark"] .modal-box p b{color:var(--gold);}
+  .modal-box .modal-warn{
+    font-family:var(--mono);
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--skipped);
+    background:var(--skipped-bg);
+    border:1px solid var(--skipped);
+    border-radius:6px;
+    padding:8px 10px;
+    margin:0 0 18px;
+    text-align:left;
+    line-height:1.5;
+  }
+  .modal-actions{
+    display:flex; gap:12px;
+  }
+  .modal-actions button{
+    flex:1;
+    padding:12px 10px;
+  }
+  #modalGoBack{color:var(--ink);}
+  #modalConfirm{background:var(--navy); color:#F4F1EA; border-color:var(--navy);}
+  #modalConfirm:hover{filter:brightness(1.1); color:#F4F1EA;}
+
+  /* ---------- Start-test modal ---------- */
+  .start-box{
+    max-width:420px;
+    text-align:left;
+  }
+  .start-box .modal-icon{font-size:30px; margin-bottom:2px;}
+  .start-title{
+    font-family:var(--serif);
+    font-size:21px;
+    color:var(--ink);
+    text-align:center;
+    margin:2px 0 4px;
+  }
+  .start-sub{
+    font-family:var(--mono);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:var(--ink-soft);
+    text-align:center;
+    margin:0 0 20px;
+  }
+  .stat-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:20px;
+  }
+  .stat-grid .stat-box{
+    border:1px solid var(--rule);
+    border-radius:8px;
+    padding:11px 12px;
+    background:var(--bg);
+  }
+  .stat-grid .stat-box .k{
+    font-family:var(--mono); font-size:10px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft); display:block; margin-bottom:4px;
+  }
+  .stat-grid .stat-box .v{
+    font-family:var(--sans); font-size:16px; font-weight:700; color:var(--navy);
+  }
+  [data-theme="dark"] .stat-grid .stat-box .v{color:var(--gold);}
+  .start-rules{
+    list-style:none; margin:0 0 22px; padding:0;
+    display:flex; flex-direction:column; gap:7px;
+  }
+  .start-rules li{
+    font-size:13px; line-height:1.5; color:var(--ink-soft);
+    padding-left:18px; position:relative;
+  }
+  .start-rules li::before{
+    content:"—"; position:absolute; left:0; color:var(--gold);
+  }
+  .start-field label{
+    display:block;
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft); margin-bottom:6px;
+  }
+  .start-field input{
+    width:100%;
+    font-family:var(--sans); font-size:14.5px;
+    padding:11px 14px;
+    border:1px solid var(--rule); border-radius:7px;
+    background:var(--paper); color:var(--ink);
+    margin-bottom:20px;
+  }
+  .start-field input:focus{ outline:none; border-color:var(--navy); }
+  [data-theme="dark"] .start-field input:focus{ border-color:var(--gold); }
+  #startTestBtn{
+    width:100%; padding:13px 10px; font-size:15px;
+  }
+
+  @media (max-width: 430px){
+    .start-box{ padding:24px 20px 20px; max-width:100%; }
+    .stat-grid{ grid-template-columns:1fr 1fr; gap:8px; }
+    .start-title{ font-size:18px; }
+  }
+
+  /* small name field inside submit-confirm modal */
+  .modal-name-field{ text-align:left; margin:-6px 0 18px; }
+  .modal-name-field label{
+    display:block;
+    font-family:var(--mono); font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--ink-soft); margin-bottom:6px;
+  }
+  .modal-name-field input{
+    width:100%;
+    font-family:var(--sans); font-size:14px;
+    padding:10px 13px;
+    border:1px solid var(--rule); border-radius:7px;
+    background:var(--paper); color:var(--ink);
+  }
+  .modal-name-field input:focus{ outline:none; border-color:var(--navy); }
+  [data-theme="dark"] .modal-name-field input:focus{ border-color:var(--gold); }
+
+  :root{
+    --desktop-width: 1440;
+}
+
+@media (max-width: 1024px){
+  .layout{
+    grid-template-columns: 1fr;
+  }
+  .sidebar{
+    position: static;      /* was sticky at top:96px — no longer needed once stacked */
+    top: auto;
+  }
+}
+@media (max-width: 600px){
+  .topbar-inner{
+    flex-wrap: wrap;
+    padding: 14px 16px;
+    gap: 10px;
+  }
+  .topbar-right{
+    flex-shrink: 1;        /* was 0 before — this is what caused the overflow */
+    flex-basis: 100%;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+  .subnote{
+    white-space: normal;
+  }
+}
+@media (max-width: 430px){
+  .layout{
+    padding: 20px 12px 40px;
+  }
+  .paper{
+    padding: 24px 18px 22px;
+  }
+  .sidebar{
+    padding: 18px;
+  }
+  .paper-head{
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .q-status-tag{
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+@media (max-width: 600px){
+  .title-block h1{
+    font-size: 17px;
+  }
+  .eyebrow{
+    font-size: 9.5px;
+  }
+  .subnote{
+    font-size: 10px;
+  }
+  .timer{
+    font-size: 11px;
+    padding: 5px 9px;
+  }
+  .mode-switch{
+    font-size: 11px;
+  }
+}
+@media (max-width: 430px){
+  .result-card{
+    padding: 24px 18px;
+  }
+  .score-breakdown{
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    max-width: 100%;
+  }
+  .score-breakdown .stat{
+    padding: 10px 6px;
+  }
+  .score-breakdown .stat b{
+    font-size: 19px;
+  }
+  .result-card .score{
+    font-size: 38px;
+  }
+}
+
+</style>
+</head>
+<body data-theme="light">
+
+<header class="topbar">
+  <div class="topbar-inner">
+
+    <!-- <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">UPSC<br>LOGO</a> -->
+    <a class="logo-slot" href="https://upsclog.github.io/upsclog/" target="_blank" rel="noopener">
+  <img src="https://raw.githubusercontent.com/upsclog/upsclog/refs/heads/main/logo.png" alt="UPSC LoG" style="width:100%; height:100%; object-fit:contain; border-radius:6px;">
+</a>
+    <div class="title-block">
+      <div class="eyebrow">UPSC LoG · Prelims Booster 2027</div>
+      <h1>PreLoG-2027-27-FREE TIER</h1>
+      <div class="subnote" style="font-size: 12px;">
+        <span id="qTotalNote">7</span> Questions · +2 Correct / −0.67 Incorrect ·
+        <a href="https://t.me/upsclog" target="_blank" rel="noopener"> Join UPSC-LoG Telegram ↗</a>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="timer" id="timer">60:00</div>
+      <div class="mode-switch">
+        <span>Light</span>
+        <div class="switch" id="themeSwitch" role="button" aria-label="Toggle dark mode">
+          <div class="knob"></div>
+        </div>
+        <span>Dark</span>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="layout">
+
+  <div class="paper" id="paperView">
+    <div class="paper-head">
+      <div class="q-index">Question <b id="qNum">1</b> of <span id="qTotal">7</span></div>
+      <div class="q-status-tag unanswered" id="qStatusTag">Not Answered</div>
+    </div>
+
+    <p class="q-text" id="qText">Loading question…</p>
+
+    <div class="options" id="optionsList"></div>
+
+    <div class="explain-box hidden" id="explainBox">
+      <span class="exp-label">Explanation</span>
+      <div id="explainText"></div>
+    </div>
+
+    <div class="paper-foot">
+      <div class="nav-group">
+        <button id="prevBtn">← Previous</button>
+        <button class="clear" id="clearBtn">Clear response</button>
+      </div>
+      <button id="nextBtn" class="primary">Next →</button>
+    </div>
+  </div>
+
+  <div class="result-card hidden" id="resultView">
+    <div class="eyebrow" style="color:var(--ink-soft); letter-spacing:0.14em; font-family:var(--mono); font-size:11px; text-transform:uppercase;">Marks Sent for rank PDF</div>
+    <div class="score" id="scoreText">0.00 / 14.00</div>
+    <div class="percent" id="scorePercent">0.00%</div>
+    <div class="score-breakdown" id="scoreBreakdown"></div>
+    <p style="color:var(--ink-soft); font-size:14px; margin:20px 0 24px;">You can review your answers and explanations using the palette on the right.</p>
+    <h2>Check <a href="https://upsclog.github.io/upsclog/ranks_tests/daily_rankings.html" target="_blank">[RANKINGS]</a> - for Daily Rankings [PDF]</h2>
+    <button class="primary" id="reviewBtn">Review Answers</button>
+  </div>
+
+  <aside class="sidebar">
+    <h2>* Explanations attached for each question after you submit the test<br><br></h2>
+    <h2>* Auto-Submission in 30 minutes</h2>
+    <h2>* Dark <-> Bright modes for ease</h2>
+    <div class="sub"></div>
+
+    <div class="legend">
+      <span><span class="dot answered"></span> Answered / Correct</span>
+      <span><span class="dot" style="background:var(--wrong);"></span> Incorrect</span>
+      <span><span class="dot unanswered"></span> Not answered</span>
+      <span><span class="dot current"></span> Currently viewing</span>
+    </div>
+
+    <div class="grid" id="paletteGrid"></div>
+
+    <div class="tally" id="tallyRow">
+      <div class="tally-plain">
+        <div><b id="answeredCount">0</b>Answered</div>
+        <div><b id="skippedCount">7</b>Remaining</div>
+      </div>
+    </div>
+
+    <button class="primary" id="submitBtn">Submit Test</button>
+  </aside>
+
+</div>
+
+<div class="modal-overlay hidden" id="confirmModal">
+  <div class="modal-box">
+    <div class="modal-icon" id="modalIcon">📝</div>
+    <p id="modalMessage">Submit test?</p>
+    <div class="modal-name-field">
+      <label for="modalUserName">Name for rank (optional)</label>
+      <input type="text" id="modalUserName" placeholder="Enter your name" maxlength="40">
+    </div>
+    <div class="modal-actions">
+      <button id="modalGoBack">Go Back</button>
+      <button id="modalConfirm" class="primary">Yes, Submit</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="startModal">
+  <div class="modal-box start-box">
+    <div class="modal-icon">🖋️</div>
+    <div class="start-title" id="startTitle">Loading…</div>
+    <div class="start-sub">UPSC LoG · Prelims Booster</div>
+
+    <div class="stat-grid">
+      <div class="stat-box"><span class="k">Questions</span><span class="v" id="startQCount">–</span></div>
+      <div class="stat-box"><span class="k">Max Marks</span><span class="v" id="startMaxMarks">–</span></div>
+      <div class="stat-box"><span class="k">Correct</span><span class="v" id="startCorrectMarks">–</span></div>
+      <div class="stat-box"><span class="k">Incorrect</span><span class="v" id="startIncorrectMarks">–</span></div>
+    </div>
+
+    <ul class="start-rules">
+      <li>Total duration: <span id="startDuration">60</span> minutes. The test auto-submits when time runs out.</li>
+      <li>Explanations for every question unlock after you submit.</li>
+      <li>Use the palette on the right to jump between questions anytime.</li>
+    </ul>
+
+    <div class="start-field">
+      <label for="userName">Your name (for the rankings)</label>
+      <input type="text" id="userName" placeholder="Enter your name" maxlength="40">
+    </div>
+
+    <button class="primary" id="startTestBtn">Start Test →</button>
+  </div>
+</div>
+
+<script>
+const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbyamXySn2AagAN935BcpYuf6oTJNuIkLMuAby7CqWJ20rgdNgdWypVNTjMyWJBxW9OObw/exec";
+const QUESTIONS = [
+    {
+        q: "With reference to the Factory Act of 1881 enacted during Lord Ripon's viceroyalty, consider the following statements: <br> 1. It prohibited the employment of children below the age of seven in factories.<br>2. It restricted the working hours of children employed in factories.<br>3. It was primarily enacted to protect Indian workers from exploitation, without any influence of British textile lobby interests.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Exactly two of the statements are correct",
+            "Only one of the statements is correct",
+            "All of the above",
+            "3 only"
+        ],
+        ans: 0,
+        exp: "The Factory Act of 1881 prohibited employment of children under seven and limited working hours for child labourers in factories. However, the Act was significantly influenced by pressure from British textile manufacturers seeking to curb cheap competition from Indian mills, not purely humanitarian motives."
+    },
+    {
+        q: "With reference to the Hunter Commission (Indian Education Commission) of 1882 constituted during Lord Ripon's tenure, consider the following statements: <br> 1. It was set up to review the progress of education since Wood's Despatch of 1854.<br>2. It recommended greater emphasis on primary education and its transfer to local bodies.<br>3. It recommended the complete withdrawal of government from higher education, leaving it entirely to private enterprise.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Both 1 and 2",
+            "All of the above",
+            "Only one of the statements is correct",
+            "Both 1 and 3"
+        ],
+        ans: 0,
+        exp: "The Hunter Commission reviewed progress since Wood's Despatch and recommended strengthening primary education through transfer to local bodies like municipalities and district boards. It encouraged private enterprise in higher education but did not call for complete government withdrawal from it."
+    },
+    {
+        q: "Consider the following statements regarding the legacy of Lord Ripon's viceroyalty: <br> 1. He is remembered as a champion of local self-government in India.<br>2. His resignation was directly triggered by the failure of the Ilbert Bill to be passed in any form.<br>3. He restored a significant measure of freedom to the vernacular press through repeal of restrictive legislation.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "3 only",
+            "None of the above",
+            "1 and 2 only",
+            "1 and 3 only"
+        ],
+        ans: 3,
+        exp: "Ripon is celebrated as the father of local self-government and repealed the Vernacular Press Act of 1878, restoring press freedom in 1882. His departure from India in 1884 was a routine end of tenure, not a resignation caused by the Ilbert Bill episode, which had been resolved through compromise a year earlier."
+    },
+    {
+        q: "With reference to Lord Curzon, who served as Viceroy of India, consider the following statements: <br> 1. He assumed office as Viceroy in 1899 at a relatively young age.<br>2. Prior to his viceroyalty, he had travelled extensively across Asia and authored works on Persia and Central Asia.<br>3. He served two consecutive terms as Viceroy of India.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Only statement 3",
+            "Only statement 1",
+            "Both 1 and 3",
+            "All of the above"
+        ],
+        ans: 3,
+        exp: "Curzon became Viceroy in 1899 at the age of 39, had travelled widely across Asia and written notable works on Persia and the Pamirs, and indeed served two terms as Viceroy, from 1899 to 1905, making him one of the few to hold the office for such an extended period."
+    },
+    {
+        q: "With reference to the Partition of Bengal in 1905 carried out by Lord Curzon, consider the following statements: <br> 1. The stated official reason for the partition was administrative convenience due to the large size of Bengal Presidency.<br>2. The partition created a Muslim-majority province of Eastern Bengal and Assam.<br>3. The partition was permanently annulled in 1911 during the reign of King George V.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "All three statements are correct",
+            "None of the above",
+            "Exactly two of the statements are correct",
+            "Only one of the statements is correct"
+        ],
+        ans: 0,
+        exp: "Curzon officially justified the 1905 partition as an administrative necessity, and it created the Muslim-majority province of Eastern Bengal and Assam, provoking the Swadeshi Movement. The partition was annulled in 1911 at the Delhi Durbar held during King George V's visit to India."
+    },
+    {
+        q: "With reference to Lord Irwin, who served as Viceroy of India, and the Gandhi-Irwin Pact of 1931, consider the following statements: <br> 1. Irwin assumed office as Viceroy in 1926, succeeding Lord Reading.<br>2. The Gandhi-Irwin Pact provided for the discontinuation of the Civil Disobedience Movement in exchange for the release of political prisoners.<br>3. Under the Pact, Indians were granted the right to manufacture salt for commercial purposes anywhere in British India.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1 only",
+            "Both 1 and 2",
+            "Both 2 and 3",
+            "1 and 3 only"
+        ],
+        ans: 1,
+        exp: "Irwin became Viceroy in 1926 succeeding Lord Reading, and the Gandhi-Irwin Pact of 1931 secured the suspension of Civil Disobedience in return for releasing political prisoners and permitting salt manufacture for personal, non-commercial consumption by those near the coast, not full commercial salt production rights."
+    },
+    {
+        q: "With reference to the Civil Disobedience Movement and the Round Table Conferences held during Lord Irwin's viceroyalty, consider the following statements: <br> 1. The Civil Disobedience Movement was formally launched with the Dandi March in 1930.<br>2. Mahatma Gandhi attended the Second Round Table Conference in London as the sole representative of the Indian National Congress.<br>3. The First Round Table Conference was boycotted by the Indian National Congress.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Exactly two of the statements are correct",
+            "All three statements are correct",
+            "Statement 3 alone",
+            "Statement 1 alone"
+        ],
+        ans: 1,
+        exp: "The Civil Disobedience Movement began with the Dandi Salt March in 1930, the Indian National Congress boycotted the First Round Table Conference of 1930-31, and Gandhi attended the Second Round Table Conference in 1931 as Congress's sole representative following the Gandhi-Irwin Pact."
+    },
+    {
+        q: "With reference to Lord Linlithgow and the Government of India Act, 1935, consider the following statements: <br> 1. Linlithgow assumed office as Viceroy in 1936, shortly after the passage of the Act.<br>2. The Government of India Act, 1935 provided for the establishment of an All-India Federation comprising provinces and princely states.<br>3. The federal part of the Government of India Act, 1935 was fully implemented during Linlithgow's tenure.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Statement 3 alone",
+            "1 only",
+            "None of the above",
+            "Exactly two of the statements are correct"
+        ],
+        ans: 3,
+        exp: "Linlithgow became Viceroy in 1936, closely following the enactment of the Government of India Act, 1935, which envisaged an All-India Federation of provinces and princely states. This federal scheme never came into force due to insufficient accession by princely states, so the provincial autonomy part alone was implemented."
+    },
+    {
+        q: "With reference to the Quit India Movement and World War II policies during Lord Linlithgow's viceroyalty, consider the following statements: <br> 1. India was declared a party to the Second World War by Linlithgow without consulting Indian political leaders.<br>2. The Quit India Movement was launched in 1942 following the failure of the Cripps Mission.<br>3. Linlithgow's tenure as Viceroy was the longest in the history of British India.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1, 2 and 3",
+            "Statement 3 alone",
+            "Both 1 and 3",
+            "Both 1 and 2"
+        ],
+        ans: 0,
+        exp: "Linlithgow declared India's involvement in World War II in 1939 unilaterally, leading to Congress ministries' resignation, and the Quit India Movement erupted in August 1942 after the Cripps Mission failed to satisfy nationalist demands. His tenure, from 1936 to 1943, remains the longest of any Viceroy of India."
+    },
+    {
+        q: "Consider the following statements regarding the comparative legacy of Lord Irwin and Lord Linlithgow as Viceroys of India: <br> 1. Irwin is often associated with a conciliatory approach towards Indian nationalism, exemplified by the Gandhi-Irwin Pact.<br>2. Linlithgow is generally associated with a firmer, less conciliatory approach, particularly evident in the suppression of the Quit India Movement.<br>3. Both Viceroys presided over the complete transfer of power to an independent Indian government during their respective tenures.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "3 only",
+            "Both 1 and 2",
+            "1, 2 and 3",
+            "Statement 1 alone"
+        ],
+        ans: 1,
+        exp: "Irwin's legacy is marked by conciliation towards the nationalist movement through the 1931 Pact, while Linlithgow is remembered for his rigid stance and the harsh crackdown on the Quit India Movement. Neither presided over India's independence, which occurred in 1947 under Lord Mountbatten, the last Viceroy."
+    },
+    {
+        q: "With reference to the Permanent Settlement of 1793 introduced by Lord Cornwallis, consider the following statements: <br> 1. It fixed the land revenue payable by zamindars to the Company in perpetuity.<br>2. It recognised zamindars as owners of land rather than mere revenue collectors.<br>3. It was implemented uniformly across all provinces of British India at the time.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Statement 1 alone",
+            "2 and 3 only",
+            "Only two of the statements are correct",
+            "Exactly one of the statements is correct"
+        ],
+        ans: 2,
+        exp: "The Permanent Settlement fixed land revenue in perpetuity and conferred proprietary rights on zamindars, converting them into landowners. It was implemented only in Bengal, Bihar, and parts of Odisha and Madras, not uniformly across all of British India, as other regions later adopted the Ryotwari or Mahalwari systems."
+    },
+    {
+        q: "With reference to the Cornwallis Code of 1793, consider the following statements: <br> 1. It was based on the principle of separation of powers, distinguishing the revenue and judicial functions of officials.<br>2. It laid down that European subjects could be tried by Indian judges in civil cases.<br>3. It reorganised the civil services by improving pay scales and prohibiting private trade by Company servants.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Only statement 2",
+            "All of the above",
+            "1 and 3 only",
+            "None of the statements are correct"
+        ],
+        ans: 2,
+        exp: "The Cornwallis Code established a clear separation between revenue collection and judicial functions and reformed civil service pay while banning private trade by officials to curb corruption. It specifically exempted Europeans from the jurisdiction of Indian judges, reflecting the racial discrimination embedded in the system."
+    },
+    {
+        q: "With reference to the judicial reforms carried out by Lord Cornwallis, consider the following statements: <br> 1. He established a hierarchy of civil courts culminating in the Sadar Diwani Adalat.<br>2. District Judges were made responsible for both civil and criminal justice at the district level under his reforms.<br>3. Cornwallis introduced the principle that the government could be sued in a court of law, popularly known as the principle of 'Sovereignty of Law'.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "All of the statements are correct",
+            "Statement 3 alone",
+            "Only two of the statements are correct",
+            "Only one of the statements is correct"
+        ],
+        ans: 0,
+        exp: "Cornwallis created a graded hierarchy of civil courts under the Sadar Diwani Adalat, placed District Judges in charge of both civil and criminal justice, and established the principle that the government itself could be sued in civil court, reinforcing the rule of law over arbitrary administration."
+    },
+    {
+        q: "Consider the following statements regarding the legacy of Lord Cornwallis's administration in India: <br> 1. His reforms are considered foundational to the modern civil service system in India.<br>2. The Permanent Settlement introduced by him is generally regarded by historians as having improved agricultural productivity across Bengal.<br>3. He is often referred to as the father of civil services in India.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Exactly one of the statements is correct",
+            "1 and 3 only",
+            "2 and 3 only",
+            "1 only"
+        ],
+        ans: 1,
+        exp: "Cornwallis's administrative reforms laid the foundation of the modern Indian civil service, and he is popularly regarded as the 'Father of Civil Services in India'. The Permanent Settlement is largely criticised by historians for encouraging absentee landlordism and neglecting agricultural investment rather than improving productivity."
+    },
+    {
+        q: "With reference to Lord Wellesley, who served as Governor-General of India, consider the following statements: <br> 1. He assumed office as Governor-General of India in 1798, succeeding Sir John Shore.<br>2. Prior to his appointment in India, he had served as a Lord of the Treasury in the British government.<br>3. He was recalled from India primarily due to the excessive financial burden caused by his wars and expansionist policies.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "All of the statements are correct",
+            "Only statement 3",
+            "1 and 3 only",
+            "None of the above"
+        ],
+        ans: 0,
+        exp: "Wellesley became Governor-General in 1798 succeeding Sir John Shore and had earlier served as a Lord of the Treasury in Britain. He was eventually recalled in 1805 largely because his continuous wars and annexations had drained Company finances, drawing criticism from the Court of Directors."
+    },
+    {
+        q: "With reference to the Indian Universities Act of 1904, enacted during Lord Curzon's tenure, consider the following statements: <br> 1. It aimed to tighten government control over university administration and curricula.<br>2. It reduced the number of elected fellows in university senates while increasing government-nominated members.<br>3. The Act was widely welcomed by Indian nationalist opinion as a progressive measure for higher education.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Both 1 and 2",
+            "2 and 3 only",
+            "Only statement 1",
+            "Statement 2 alone"
+        ],
+        ans: 0,
+        exp: "The Universities Act of 1904 increased government control over universities and curtailed the elected element in senates in favour of nominated officials. It was strongly criticised by Indian nationalists, who viewed it as a regressive measure aimed at curbing the growth of higher education and nationalist consciousness."
+    },
+    {
+        q: "With reference to the Police Reforms and the Ancient Monuments Preservation Act enacted during Lord Curzon's tenure, consider the following statements: <br> 1. The Police Commission of 1902-03 was constituted under Sir Andrew Fraser to examine police administration.<br>2. The Ancient Monuments Preservation Act, 1904 empowered the government to protect and maintain historical monuments and sites.<br>3. Curzon's police reforms led to the establishment of the Central Intelligence Department and provincial Criminal Investigation Departments (CIDs).<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1, 2 and 3",
+            "None of the statements are correct",
+            "Only two of the statements are correct",
+            "Both 1 and 2"
+        ],
+        ans: 2,
+        exp: "The Ancient Monuments Preservation Act of 1904 gave the government powers to protect and maintain historic sites, and Curzon's reforms led to the creation of the Central Intelligence Department and provincial CIDs to improve policing and intelligence gathering. The Police Commission of 1902-03 was headed by Sir Andrew Fraser as chairman, but it is more commonly associated with recommending these very structural reforms rather than Fraser's independent initiative."
+    },
+    {
+        q: "With reference to the Ilbert Bill Controversy during Lord Ripon's viceroyalty, consider the following statements: <br> 1. The Bill sought to allow Indian judges and magistrates to try European British subjects in criminal cases.<br>2. The Bill was passed in its original form without any amendments due to strong support from European planters in India.<br>3. The controversy is regarded as a significant factor contributing to the growth of Indian nationalist consciousness.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "None of the above",
+            "Both 1 and 3",
+            "Only one of the statements is correct",
+            "1 and 2 only"
+        ],
+        ans: 1,
+        exp: "The Ilbert Bill of 1883 aimed to empower Indian judges and magistrates to try European offenders, and the resulting controversy is seen as an important catalyst for nationalist political awakening in India. Due to fierce opposition from the European community, the Bill was significantly diluted through a compromise before being passed, not enacted in its original form."
+    },
+    {
+        q: "Consider the following statements regarding the legacy of Lord Canning's tenure as Viceroy: <br> 1. He is credited with overseeing the transition of India's governance from Company rule to direct Crown rule.<br>2. The Universities of Calcutta, Bombay, and Madras were established during his viceroyalty.<br>3. Canning's tenure witnessed the complete abolition of the practice of racial discrimination in judicial proceedings between Europeans and Indians.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Exactly two of the statements are correct",
+            "All three statements are correct",
+            "Both 1 and 3",
+            "Only one of the statements is correct"
+        ],
+        ans: 0,
+        exp: "Canning oversaw the transfer of power from the Company to the Crown in 1858, and the universities of Calcutta, Bombay, and Madras were established in 1857 based on Wood's Despatch recommendations. Racial discrimination in judicial matters persisted well beyond his tenure and became a major issue later, notably during the Ilbert Bill controversy under Ripon."
+    },
+    {
+        q: "With reference to Lord Ripon, who served as Viceroy of India, consider the following statements: <br> 1. He assumed office as Viceroy in 1880, succeeding Lord Lytton.<br>2. Prior to his appointment in India, he had served as the Secretary of State for India in Britain.<br>3. He is often regarded as one of the more liberal Viceroys due to his sympathetic approach towards Indian political aspirations.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1 and 3 only",
+            "2 and 3 only",
+            "Statement 2 alone",
+            "1 and 2 only"
+        ],
+        ans: 0,
+        exp: "Ripon became Viceroy in 1880 succeeding Lytton and is remembered as a liberal administrator sympathetic to Indian aspirations. He had not served as Secretary of State for India before his viceroyalty; rather, he held other British Cabinet positions, including President of the Council."
+    },
+    {
+        q: "With reference to the Local Self-Government Resolution of 1882 introduced by Lord Ripon, consider the following statements: <br> 1. It aimed to promote local self-government through rural and urban local bodies with elected non-official members.<br>2. Ripon has been referred to as the 'Father of Local Self-Government in India' due to this resolution.<br>3. The resolution led to the immediate transfer of complete financial autonomy to local bodies without any provincial government oversight.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Both 1 and 2",
+            "None of the above",
+            "Exactly one of the statements is correct",
+            "Only one of the statements is correct"
+        ],
+        ans: 0,
+        exp: "Ripon's 1882 Resolution sought to develop local self-government institutions with elected non-official majorities, earning him the title 'Father of Local Self-Government in India'. However, these bodies remained under considerable provincial government control and did not receive complete financial autonomy."
+    },
+    {
+        q: "With reference to the administrative and judicial reforms of Warren Hastings, consider the following statements: <br> 1. He established the Sadar Diwani Adalat and Sadar Nizamat Adalat as the highest civil and criminal courts of appeal in Bengal.<br>2. Under his administration, English replaced Persian as the official language of the courts in Bengal.<br>3. He introduced the practice of appointing District Collectors to oversee revenue collection and local administration.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Both 1 and 2",
+            "None of the above",
+            "Only two of the statements are correct",
+            "All three statements are correct"
+        ],
+        ans: 2,
+        exp: "Warren Hastings set up the Sadar Diwani Adalat and Sadar Nizamat Adalat as apex courts and introduced the office of District Collector for revenue and administrative purposes. Persian remained the official court language throughout his tenure and was replaced by English only much later, in 1837."
+    },
+    {
+        q: "With reference to the Regulating Act of 1773 and the subsequent impeachment of Warren Hastings, consider the following statements: <br> 1. The Regulating Act created a Governor-General-in-Council for Bengal with the power to superintend the Presidencies of Bombay and Madras.<br>2. The impeachment proceedings against Hastings were initiated in the British Parliament primarily on charges of financial corruption in India.<br>3. The trial of Warren Hastings concluded within two years of its commencement, resulting in a conviction.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Only one of the statements is correct",
+            "Exactly two of the statements are correct",
+            "All of the statements are correct",
+            "Exactly one of the statements is correct"
+        ],
+        ans: 1,
+        exp: "The Regulating Act of 1773 created a Governor-General-in-Council for Bengal with supervisory powers over Bombay and Madras, and Hastings was impeached mainly on charges of corruption, notably relating to the Rohilla War and dealings with Chait Singh and the Begums of Awadh. His trial dragged on for seven years and ended in his acquittal, not conviction."
+    },
+    {
+        q: "With reference to the wars and policies of Warren Hastings, consider the following statements: <br> 1. He provided mercenary assistance to the Nawab of Awadh in the Rohilla War in exchange for payment.<br>2. The First Anglo-Maratha War concluded during his tenure with the Treaty of Salbai in 1782.<br>3. He formed an alliance with the Nizam of Hyderabad against Tipu Sultan during the First Anglo-Mysore War.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Only two of the statements are correct",
+            "2 and 3 only",
+            "Statement 2 alone",
+            "Statement 1 alone"
+        ],
+        ans: 0,
+        exp: "Hastings sent Company troops to help the Nawab of Awadh subdue the Rohillas for a fee in 1774, and the First Anglo-Maratha War ended with the Treaty of Salbai in 1782 during his tenure. The First Anglo-Mysore War (1767-69) occurred before Hastings became Governor-General and did not involve him."
+    },
+    {
+        q: "Consider the following statements regarding the legacy of Warren Hastings' tenure as Governor-General: <br> 1. He is credited with laying the foundations of British administrative and judicial systems in India.<br>2. His patronage encouraged Orientalist scholarship, including the translation of Hindu and Muslim legal texts.<br>3. His impeachment trial had no lasting impact on the debate over the extent of the East India Company's powers in Britain.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Both 2 and 3",
+            "Both 1 and 3",
+            "Exactly two of the statements are correct",
+            "None of the statements are correct"
+        ],
+        ans: 2,
+        exp: "Hastings laid crucial administrative and judicial foundations in Bengal and patronised Orientalist scholarship, supporting the translation of texts like the Hindu and Muslim law digests used in courts. His trial significantly influenced British parliamentary debate over Company oversight, contributing to later reforms like the Charter Acts."
+    },
+    {
+        q: "With reference to Lord Cornwallis, who served as Governor-General of India, consider the following statements: <br> 1. He assumed office in 1786, succeeding Warren Hastings after a short intervening tenure.<br>2. Prior to his appointment in India, he had commanded British forces during the American War of Independence.<br>3. He was the first Governor-General to be granted both civil and military authority combined in his person.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Exactly two of the statements are correct",
+            "Only statement 2",
+            "None of the above",
+            "Both 2 and 3"
+        ],
+        ans: 0,
+        exp: "Cornwallis became Governor-General in 1786 after Sir John Macpherson's brief interim tenure following Hastings, and he had earlier commanded British forces that surrendered at Yorktown during the American War of Independence. The combination of civil and military authority in the Governor-General was actually introduced earlier by Pitt's India Act of 1784, before Cornwallis assumed office."
+    },
+    {
+        q: "With reference to the Revolt of 1857 and its aftermath during Lord Canning's tenure, consider the following statements: <br> 1. The revolt began at Meerut with the mutiny of sepoys of the Bengal Army.<br>2. Canning is credited with the policy of clemency towards rebels in certain regions, earning him the sobriquet 'Clemency Canning'.<br>3. The Doctrine of Lapse was formally revoked by Canning himself before the outbreak of the revolt.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Only two of the statements are correct",
+            "Both 2 and 3",
+            "Only one of the statements is correct",
+            "Statement 2 alone"
+        ],
+        ans: 0,
+        exp: "The Revolt of 1857 began at Meerut on 10 May 1857, and Canning's relatively lenient approach towards rebels earned him the title 'Clemency Canning' from his critics. The Doctrine of Lapse was withdrawn only after the revolt, through Queen Victoria's Proclamation of 1858, and not by Canning independently beforehand."
+    },
+    {
+        q: "With reference to the Government of India Act, 1858, enacted during Lord Canning's tenure, consider the following statements: <br> 1. It transferred the government of India from the East India Company directly to the British Crown.<br>2. It abolished the Board of Control and Court of Directors and created the post of Secretary of State for India.<br>3. It provided for the Secretary of State for India to be assisted by an Executive Council responsible to the British Parliament.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "None of the statements are correct",
+            "1 and 3 only",
+            "Only one of the statements is correct",
+            "All of the statements are correct"
+        ],
+        ans: 3,
+        exp: "The Act of 1858 ended Company rule and transferred power to the Crown, abolishing the Board of Control and Court of Directors while creating the office of Secretary of State for India. The Secretary of State was assisted by a Council of India, and he himself was responsible to the British Parliament."
+    },
+    {
+        q: "With reference to the political challenges faced by Lord Minto during his viceroyalty, consider the following statements: <br> 1. His tenure witnessed the rise of revolutionary and extremist activities, including incidents like the Alipore Bomb Case.<br>2. The Surat Split of 1907, dividing the Congress into Moderates and Extremists, occurred during his viceroyalty.<br>3. Minto's tenure saw the complete suppression of the Swadeshi Movement without any residual political impact.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "All of the above",
+            "2 and 3 only",
+            "Both 1 and 2",
+            "Only one of the statements is correct"
+        ],
+        ans: 2,
+        exp: "Minto's viceroyalty saw rising revolutionary activity, including the Alipore Bomb Case of 1908, and the Indian National Congress split into Moderates and Extremists at Surat in 1907. The Swadeshi Movement's influence persisted well beyond his tenure and continued to shape the freedom struggle."
+    },
+    {
+        q: "Consider the following statements regarding the legacy of Lord Minto's viceroyalty: <br> 1. His association with the Morley-Minto Reforms is seen as having institutionalised communal representation in Indian politics.<br>2. He is credited with initiating the process that eventually led to the reversal of the Partition of Bengal in 1911.<br>3. Minto's tenure is generally regarded by historians as a period of significant expansion of self-government at the provincial level.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "All of the above",
+            "1 only",
+            "Exactly two of the statements are correct",
+            "Both 1 and 3"
+        ],
+        ans: 2,
+        exp: "Minto's legacy is closely tied to the introduction of separate electorates, which institutionalised communalism, and his tenure saw the groundwork for annulling the Bengal Partition, though it was formally reversed in 1911 under his successor Hardinge. The reforms of 1909 offered only limited expansion of legislative, not genuine self-government."
+    },
+    {
+        q: "With reference to the Subsidiary Alliance System introduced by Lord Wellesley, consider the following statements: <br> 1. The Nawab of Awadh was compelled to accept the Subsidiary Alliance and cede a large part of his territory to the Company.<br>2. States accepting the Subsidiary Alliance were prohibited from having any diplomatic relations with other Indian states without British consent.<br>3. The Peshwa Baji Rao II accepted the Subsidiary Alliance through the Treaty of Bassein in 1802.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "None of the above",
+            "All of the statements are correct",
+            "Only one of the statements is correct",
+            "Only statement 1"
+        ],
+        ans: 1,
+        exp: "The Nawab of Awadh ceded significant territory upon accepting the alliance in 1801, subsidiary states lost the right to conduct independent diplomacy, and the Peshwa Baji Rao II signed the Treaty of Bassein in 1802, accepting the Subsidiary Alliance. All three statements are correct."
+    },
+    {
+        q: "With reference to the wars and territorial expansion carried out under Lord Wellesley, consider the following statements: <br> 1. Tipu Sultan was killed during the Fourth Anglo-Mysore War in 1799 at Seringapatam.<br>2. The Second Anglo-Maratha War during his tenure involved conflict with the Scindia and Bhonsle chiefs.<br>3. Wellesley's aggressive policy of expansion was formally termed the 'Policy of Ring Fence'.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Only one of the statements is correct",
+            "All three statements are correct",
+            "Statement 1 alone",
+            "Exactly two of the statements are correct"
+        ],
+        ans: 3,
+        exp: "Tipu Sultan died defending Seringapatam in the Fourth Anglo-Mysore War of 1799, and the Second Anglo-Maratha War (1803-05) was fought against the Scindia and Bhonsle chiefs. The 'Ring Fence' policy is associated with Warren Hastings' earlier defensive strategy, not with Wellesley's expansionist 'Subsidiary Alliance' approach."
+    },
+    {
+        q: "With reference to Fort William College, established by Lord Wellesley in 1800, consider the following statements: <br> 1. It was established primarily to train young Company civil servants in Indian languages and administration.<br>2. The Court of Directors of the East India Company fully supported the continuation of the college in its original form.<br>3. Scholars associated with the college contributed significantly to the development of prose literature in languages such as Hindi and Bengali.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Exactly one of the statements is correct",
+            "1 only",
+            "Only two of the statements are correct",
+            "None of the above"
+        ],
+        ans: 2,
+        exp: "Fort William College was set up to train young civil servants in Indian languages, administration, and culture, and its scholars significantly advanced prose literature in Hindi, Bengali, and Urdu. The Court of Directors, however, disapproved of its scale and expense, eventually curtailing it and converting it into a language training institution only."
+    },
+    {
+        q: "With reference to the administrative and financial reforms of Lord Canning, consider the following statements: <br> 1. The Indian Councils Act of 1861 was enacted during his tenure, providing for the association of Indians with law-making.<br>2. Canning introduced the system of separating the executive and judicial functions in district administration for the first time in India.<br>3. The Income Tax was introduced in India for the first time during Canning's tenure to meet financial difficulties caused by the 1857 revolt.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "2 and 3 only",
+            "Only two of the statements are correct",
+            "All three statements are correct",
+            "Only statement 1"
+        ],
+        ans: 1,
+        exp: "The Indian Councils Act of 1861 was passed under Canning and allowed limited Indian association with legislation, and Income Tax was introduced in 1860 by James Wilson to address the financial strain following the 1857 revolt. The separation of executive and judicial functions at the district level was a much later reform, not introduced under Canning."
+    },
+    {
+        q: "With reference to Lord Dalhousie, who served as Governor-General of India, consider the following statements: <br> 1. He assumed office as Governor-General of India in 1848 at a comparatively young age.<br>2. Prior to his appointment in India, he had served as the President of the Board of Trade in Britain.<br>3. His tenure coincided with the Second Anglo-Sikh War, which led to the annexation of Punjab.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "All three statements are correct",
+            "Only one of the statements is correct",
+            "Only two of the statements are correct",
+            "Exactly one of the statements is correct"
+        ],
+        ans: 0,
+        exp: "Lord Dalhousie became Governor-General in 1848 at the age of 35, having earlier served as President of the Board of Trade in Britain. During his tenure, the Second Anglo-Sikh War (1848-49) resulted in the annexation of Punjab to British India."
+    },
+    {
+        q: "With reference to the Doctrine of Lapse applied by Lord Dalhousie, consider the following statements: <br> 1. Under this doctrine, a princely state would be annexed by the British if the ruler died without a natural heir.<br>2. Satara was the first state to be annexed under the application of this doctrine.<br>3. The annexation of Awadh in 1856 was carried out by Dalhousie under the Doctrine of Lapse.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Only two of the statements are correct",
+            "Statement 1 alone",
+            "1 and 3 only",
+            "Only statement 2"
+        ],
+        ans: 0,
+        exp: "The Doctrine of Lapse held that a dependent state would lapse to the British if the ruler died without a natural male heir, and Satara was the first state annexed under it in 1848. Awadh was annexed in 1856 not under the Doctrine of Lapse but on grounds of alleged misgovernance."
+    },
+    {
+        q: "With reference to the administrative reforms of Lord Dalhousie, consider the following statements: <br> 1. The first railway line in India, connecting Bombay and Thane, was opened during his tenure.<br>2. The Public Works Department (PWD) was established at the provincial level for the first time under him.<br>3. The electric telegraph network connecting Calcutta with Agra and Bombay was developed during his tenure.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "All of the statements are correct",
+            "Exactly two of the statements are correct",
+            "Both 2 and 3",
+            "Exactly one of the statements is correct"
+        ],
+        ans: 0,
+        exp: "The first railway line between Bombay and Thane opened in 1853, and Dalhousie also established the Public Works Department and developed the telegraph network linking major cities like Calcutta, Agra, and Bombay. All these infrastructural initiatives are correctly attributed to his tenure."
+    },
+    {
+        q: "With reference to Wood's Despatch of 1854, issued during the tenure of Lord Dalhousie, consider the following statements: <br> 1. It recommended the establishment of universities at Calcutta, Bombay, and Madras.<br>2. It recommended the introduction of a grants-in-aid system to encourage private enterprise in education.<br>3. It is often referred to as the 'Magna Carta of English Education in India'.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1 and 2 only",
+            "Only statement 3",
+            "All of the above",
+            "Exactly one of the statements is correct"
+        ],
+        ans: 2,
+        exp: "Wood's Despatch of 1854 recommended setting up universities in the three presidency towns, introduced the grants-in-aid system, and is widely known as the 'Magna Carta of English Education in India' for laying down a comprehensive educational policy framework."
+    },
+    {
+        q: "Consider the following statements regarding the legacy of Lord Dalhousie's administration: <br> 1. He introduced a uniform postage system through the Post Office Act of 1854.<br>2. His annexationist policies, including the Doctrine of Lapse, are considered contributory factors to the discontent leading to the Revolt of 1857.<br>3. He annexed the state of Berar through the enforcement of a subsidiary alliance obligation.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Exactly one of the statements is correct",
+            "All of the above",
+            "Statement 3 alone",
+            "1 and 3 only"
+        ],
+        ans: 1,
+        exp: "Dalhousie introduced uniform postage rates and stamps through the Post Office Act of 1854, and his aggressive annexation policies, including the Doctrine of Lapse, contributed to widespread resentment that fed into the 1857 Revolt. Berar was annexed from the Nizam of Hyderabad in 1853 over unpaid subsidiary alliance dues."
+    },
+    {
+        q: "With reference to Lord Canning, who served as the last Governor-General and the first Viceroy of India, consider the following statements: <br> 1. He assumed office as Governor-General of India in 1856, prior to the outbreak of the Revolt of 1857.<br>2. He became the first Viceroy of India following the Government of India Act of 1858.<br>3. Prior to his appointment in India, he had held the position of Postmaster-General in Britain.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "All three statements are correct",
+            "Exactly one of the statements is correct",
+            "None of the above",
+            "Only two of the statements are correct"
+        ],
+        ans: 0,
+        exp: "Canning became Governor-General in 1856 and presided over the 1857 Revolt, subsequently becoming the first Viceroy of India in 1858 under the Government of India Act. He had earlier served as Postmaster-General in the British Cabinet before his appointment to India."
+    },
+    {
+        q: "With reference to the Subsidiary Alliance System introduced by Lord Wellesley, consider the following statements: <br> 1. The first Indian ruler to accept the Subsidiary Alliance was the Nizam of Hyderabad.<br>2. Under the system, the allied ruler had to disband his own army and accept a British force within his territory.<br>3. The Kingdom of Mysore was annexed outright by Wellesley through the application of this system after the Fourth Anglo-Mysore War.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Both 2 and 3",
+            "Both 1 and 3",
+            "Exactly two of the statements are correct",
+            "All of the statements are correct"
+        ],
+        ans: 2,
+        exp: "The Nizam of Hyderabad was the first to accept the Subsidiary Alliance in 1798, and the system required the allied state to maintain a British force at its own expense while disbanding its own. Mysore was not annexed after the Fourth Anglo-Mysore War (1799); instead, the Wodeyar dynasty was restored under a subsidiary alliance."
+    },
+    {
+        q: "With reference to Lord William Bentinck, who served as Governor-General of India, consider the following statements: <br> 1. He had earlier served as the Governor of Madras Presidency, from which he was recalled following the Vellore Mutiny.<br>2. He was the first Governor-General of India after the Charter Act of 1833 redesignated the post from Governor-General of Bengal.<br>3. His tenure is often described as one focused primarily on territorial expansion through warfare.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Statement 1 alone",
+            "Both 1 and 3",
+            "None of the statements are correct",
+            "Exactly two of the statements are correct"
+        ],
+        ans: 3,
+        exp: "Bentinck served as Governor of Madras and was recalled after the Vellore Mutiny of 1806, and he later became the first Governor-General of India under the Charter Act of 1833. His tenure is noted for reform and consolidation rather than territorial expansion, earning him a reputation as a peace-oriented administrator."
+    },
+    {
+        q: "With reference to the social reforms undertaken by Lord William Bentinck, consider the following statements: <br> 1. The Regulation abolishing Sati was passed in 1829 with the active support of Raja Ram Mohan Roy.<br>2. The suppression of Thuggee was carried out under the supervision of Captain William Sleeman.<br>3. Bentinck's Sati Regulation applied uniformly to all provinces of British India at the time of its enactment.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Statement 3 alone",
+            "None of the statements are correct",
+            "Only two of the statements are correct",
+            "Both 1 and 3"
+        ],
+        ans: 2,
+        exp: "Bentinck abolished Sati through Regulation XVII of 1829 with strong backing from Raja Ram Mohan Roy, and the Thuggee suppression campaign was led by Captain William Sleeman. The 1829 regulation initially applied only to Bengal Presidency and was extended to Madras and Bombay Presidencies later the same year."
+    },
+    {
+        q: "With reference to the administrative and financial reforms of Lord William Bentinck, consider the following statements: <br> 1. He abolished the provincial courts of appeal and circuit established by Lord Cornwallis.<br>2. Bengali replaced Persian as the language of lower courts throughout British India.<br>3. He is credited with the introduction of the Mahalwari system of land revenue in parts of North India.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Only two of the statements are correct",
+            "1 and 2 only",
+            "None of the above",
+            "Only one of the statements is correct"
+        ],
+        ans: 0,
+        exp: "Bentinck abolished the provincial courts of appeal and circuit as a financial economy measure and oversaw the extension of the Mahalwari system. Persian continued as the court language until 1837, when it was replaced by the vernacular languages and English, not specifically Bengali alone throughout India."
+    },
+    {
+        q: "With reference to the educational reforms under Lord William Bentinck, consider the following statements: <br> 1. Macaulay's Minute on Education (1835) advocated English as the medium of instruction for higher education in India.<br>2. The English Education Act of 1835 was passed based on the recommendations contained in Macaulay's Minute.<br>3. Macaulay's Minute proposed the 'Downward Filtration Theory' for the spread of English education in Indian society.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "1, 2 and 3",
+            "Both 2 and 3",
+            "None of the statements are correct",
+            "Only statement 2"
+        ],
+        ans: 0,
+        exp: "Macaulay's Minute of 1835 argued for English as the medium of instruction and formed the basis for the English Education Act of 1835, and it embodied the Downward Filtration Theory, aiming to educate a small elite class who would then spread knowledge to the masses. All three statements are correct."
+    },
+    {
+        q: "Consider the following statements regarding the legacy of Lord William Bentinck's tenure as Governor-General of India: <br> 1. He is often credited with laying the foundation for modern Western education in India.<br>2. His period saw the extension of the freedom of the press through the removal of restrictions imposed earlier.<br>3. Bentinck's reforms were universally welcomed by all sections of traditional Indian society without opposition.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Exactly one of the statements is correct",
+            "Both 1 and 2",
+            "All of the above",
+            "2 and 3 only"
+        ],
+        ans: 1,
+        exp: "Bentinck's educational reforms laid the groundwork for Western-style English education in India, and press restrictions were significantly eased during his period, building on earlier steps by Adam. His social reforms, particularly the abolition of Sati, faced considerable opposition from conservative sections such as the Dharma Sabha, making the third statement incorrect."
+    },
+    {
+        q: "With reference to Warren Hastings, consider the following statements: <br> 1. He became the first Governor-General of Fort William in Bengal under the Regulating Act of 1773.<br>2. He was impeached by the British Parliament on charges of corruption but was subsequently acquitted.<br>3. He founded the Asiatic Society of Bengal in 1784.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "2 and 3 only",
+            "Both 1 and 3",
+            "None of the above",
+            "1 and 2 only"
+        ],
+        ans: 3,
+        exp: "Warren Hastings was appointed the first Governor-General of Fort William under the Regulating Act, 1773, and was later impeached but acquitted after a long trial. The Asiatic Society of Bengal was founded by Sir William Jones in 1784, not by Hastings, who instead established the Calcutta Madrasa in 1781."
+    },
+    {
+        q: "With reference to the tenure of Lord Curzon as Viceroy of India, consider the following statements: <br> 1. The Ancient Monuments Preservation Act was enacted during his tenure.<br>2. He effected the Partition of Bengal in 1905.<br>3. He was responsible for establishing the Archaeological Survey of India for the first time.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Both 2 and 3",
+            "Both 1 and 2",
+            "2 only",
+            "Only one of the statements is correct"
+        ],
+        ans: 1,
+        exp: "Curzon enacted the Ancient Monuments Preservation Act, 1904, and carried out the controversial Partition of Bengal in 1905. However, the Archaeological Survey of India was first established in 1861 under Lord Canning with Alexander Cunningham as its head; Curzon only revived and strengthened it."
+    },
+    {
+        q: "With reference to Lord Minto (Gilbert Elliot, 4th Earl of Minto), consider the following statements: <br> 1. He succeeded Lord Curzon as Viceroy of India in 1905.<br>2. He had earlier served as the Governor-General of Canada.<br>3. He simultaneously held the post of Secretary of State for India during his viceroyalty.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Only statement 1",
+            "1 and 2 only",
+            "1 and 3 only",
+            "Only one of the statements is correct"
+        ],
+        ans: 1,
+        exp: "Lord Minto served as Governor-General of Canada from 1898 to 1904 before becoming Viceroy of India in 1905, succeeding Curzon. The post of Secretary of State for India during this period was held by John Morley in London, not by Minto himself."
+    },
+    {
+        q: "With reference to the Indian Councils Act of 1909 (Morley-Minto Reforms), consider the following statements: <br> 1. It increased the size of the legislative councils both at the Centre and in the provinces.<br>2. It introduced separate electorates for Muslims.<br>3. It provided for the appointment of a Muslim member as a Law Member of the Viceroy's Executive Council for the first time.<br>Which of the statements given above is/are correct?",
+        opts: [
+            "Only two of the statements are correct",
+            "All of the above",
+            "Statement 1 alone",
+            "Both 2 and 3"
+        ],
+        ans: 0,
+        exp: "The Act of 1909 enlarged the legislative councils and legalised separate electorates for Muslims, marking the formal introduction of communal representation. The first Indian to join the Viceroy's Executive Council in 1909 was Satyendra Prasad Sinha, a Hindu, not a Muslim member."
+    }
+];
+
+
+
+
+
+
+
+
+
+const CORRECT_MARKS = 2;
+const NEGATIVE_MARKS = 2 / 3;
+
+let current = 0;
+const responses = new Array(QUESTIONS.length).fill(null);
+let submitted = false;
+
+const qNumEl = document.getElementById('qNum');
+const qTotalEl = document.getElementById('qTotal');
+const qTotalNoteEl = document.getElementById('qTotalNote');
+const qTextEl = document.getElementById('qText');
+const optionsListEl = document.getElementById('optionsList');
+const qStatusTag = document.getElementById('qStatusTag');
+const explainBox = document.getElementById('explainBox');
+const explainText = document.getElementById('explainText');
+const paletteGrid = document.getElementById('paletteGrid');
+const answeredCountEl = document.getElementById('answeredCount');
+const skippedCountEl = document.getElementById('skippedCount');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const clearBtn = document.getElementById('clearBtn');
+const submitBtn = document.getElementById('submitBtn');
+const paperView = document.getElementById('paperView');
+const resultView = document.getElementById('resultView');
+const reviewBtn = document.getElementById('reviewBtn');
+const scoreText = document.getElementById('scoreText');
+const scorePercent = document.getElementById('scorePercent');
+
+const confirmModal = document.getElementById('confirmModal');
+const modalMessage = document.getElementById('modalMessage');
+const modalIcon = document.getElementById('modalIcon');
+const modalGoBack = document.getElementById('modalGoBack');
+const modalConfirm = document.getElementById('modalConfirm');
+
+qTotalEl.textContent = QUESTIONS.length;
+qTotalNoteEl.textContent = QUESTIONS.length;
+skippedCountEl.textContent = QUESTIONS.length;
+
+function buildPalette(){
+  paletteGrid.innerHTML = '';
+  QUESTIONS.forEach((_, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.textContent = i + 1;
+    cell.addEventListener('click', () => { current = i; render(); });
+    paletteGrid.appendChild(cell);
+  });
+}
+
+function render(){
+  const item = QUESTIONS[current];
+  qNumEl.textContent = current + 1;
+  qTextEl.innerHTML = item.q;
+
+  optionsListEl.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  const userChoice = responses[current];
+  item.opts.forEach((opt, idx) => {
+    const div = document.createElement('div');
+    let cls = 'option';
+    if (submitted){
+      cls += ' locked';
+      if (idx === item.ans) cls += ' correct';
+      else if (idx === userChoice) cls += ' incorrect';
+    } else if (userChoice === idx){
+      cls += ' selected';
+    }
+    div.className = cls;
+    div.innerHTML = `<span class="tag">${letters[idx]}</span><span class="opt-text"></span>`;
+    div.querySelector('.opt-text').textContent = opt;
+    div.addEventListener('click', () => {
+      if (submitted) return;
+      responses[current] = idx;
+      render();
+    });
+    optionsListEl.appendChild(div);
+  });
+
+  if (submitted){
+    if (userChoice === null){
+      qStatusTag.textContent = '⚠ Not Answered · Correct answer shown';
+      qStatusTag.className = 'q-status-tag review-unanswered';
+    } else if (userChoice === item.ans){
+      qStatusTag.textContent = '✓ Correct';
+      qStatusTag.className = 'q-status-tag correct';
+    } else {
+      qStatusTag.textContent = '✗ Incorrect';
+      qStatusTag.className = 'q-status-tag incorrect';
+    }
+    explainBox.classList.remove('hidden');
+    explainText.innerHTML = '<b>Correct Answer:</b> ' + letters[item.ans] + '. ' + item.opts[item.ans] + '<br><br>' + item.exp;
+  } else {
+    const answered = userChoice !== null;
+    qStatusTag.textContent = answered ? 'Answered' : 'Not Answered';
+    qStatusTag.className = 'q-status-tag ' + (answered ? 'answered' : 'unanswered');
+    explainBox.classList.add('hidden');
+  }
+
+  prevBtn.disabled = current === 0;
+  if (submitted){
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Back to Result' : 'Next →';
+    clearBtn.style.visibility = 'hidden';
+  } else {
+    nextBtn.textContent = current === QUESTIONS.length - 1 ? 'Finish' : 'Next →';
+    clearBtn.style.visibility = 'visible';
+  }
+
+  // palette
+  const cells = paletteGrid.children;
+  for (let i = 0; i < cells.length; i++){
+    cells[i].classList.toggle('current', i === current);
+    if (submitted){
+      const isIncorrect = responses[i] !== null && responses[i] !== QUESTIONS[i].ans;
+      const isCorrect = responses[i] === QUESTIONS[i].ans;
+      cells[i].classList.toggle('incorrect', isIncorrect);
+      cells[i].classList.toggle('answered', isCorrect);
+    } else {
+      cells[i].classList.toggle('answered', responses[i] !== null);
+      cells[i].classList.remove('incorrect');
+    }
+  }
+
+  const answeredTotal = responses.filter(r => r !== null).length;
+  if (submitted){
+    let correct = 0, incorrect = 0;
+    QUESTIONS.forEach((q, i) => {
+      if (responses[i] === null) return;
+      if (responses[i] === q.ans) correct++; else incorrect++;
+    });
+    const unattempted = QUESTIONS.length - answeredTotal;
+    const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+    document.getElementById('tallyRow').innerHTML = `
+      <div class="marks-line"><b>${marks.toFixed(2)}</b><span>Marks Scored</span></div>
+      <div class="tally-grid">
+        <div><b class="stat-correct">${correct}</b>Correct</div>
+        <div><b class="stat-incorrect">${incorrect}</b>Incorrect</div>
+        <div><b class="stat-unattempted">${unattempted}</b>Unattempted</div>
+      </div>
+    `;
+  } else {
+    answeredCountEl.textContent = answeredTotal;
+    skippedCountEl.textContent = QUESTIONS.length - answeredTotal;
+  }
+}
+
+prevBtn.addEventListener('click', () => { if (current > 0){ current--; render(); }});
+nextBtn.addEventListener('click', () => {
+  if (current < QUESTIONS.length - 1){ current++; render(); }
+  else if (submitted){
+    paperView.classList.add('hidden');
+    resultView.classList.remove('hidden');
+  } else {
+    openConfirmModal();
+  }
+});
+clearBtn.addEventListener('click', () => { responses[current] = null; render(); });
+
+submitBtn.addEventListener('click', openConfirmModal);
+
+/* ---------- Confirmation modal logic ---------- */
+function openConfirmModal(){
+  const nameVal = document.getElementById('userName').value.trim();
+  document.getElementById('modalUserName').value = nameVal;
+  refreshConfirmModalText();
+  confirmModal.classList.remove('hidden');
+}
+
+function refreshConfirmModalText(){
+  const nameVal = document.getElementById('modalUserName').value.trim();
+  if (nameVal){
+    modalIcon.textContent = '📝';
+    modalMessage.innerHTML = `Submit test : <b>${escapeHtml(nameVal)}</b> ?`;
+  } else {
+    modalIcon.textContent = '⚠️';
+    modalMessage.innerHTML = `You have not set your name, your rank will be set as: <b>Anonymous</b>`;
+  }
+}
+
+document.getElementById('modalUserName').addEventListener('input', refreshConfirmModalText);
+
+function closeConfirmModal(){
+  confirmModal.classList.add('hidden');
+}
+
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+modalGoBack.addEventListener('click', closeConfirmModal);
+modalConfirm.addEventListener('click', () => {
+  closeConfirmModal();
+  doSubmit();
+});
+confirmModal.addEventListener('click', (e) => {
+  if (e.target === confirmModal) closeConfirmModal();
+});
+
+function doSubmit(){
+  submitted = true;
+  clearInterval(countdown);
+  let correct = 0, incorrect = 0;
+  QUESTIONS.forEach((q, i) => {
+    if (responses[i] === null) return;
+    if (responses[i] === q.ans) correct++; else incorrect++;
+  });
+  const unattempted = QUESTIONS.length - (correct + incorrect);
+  const maxMarks = QUESTIONS.length * CORRECT_MARKS;
+  const marks = (correct * CORRECT_MARKS) - (incorrect * NEGATIVE_MARKS);
+  const percentage = (marks / maxMarks) * 100;
+
+  scoreText.textContent = marks.toFixed(2) + ' / ' + maxMarks.toFixed(2);
+  scorePercent.textContent = percentage.toFixed(2) + '%';
+  document.getElementById('scoreBreakdown').innerHTML = `
+    <div class="stat correct"><b>${correct}</b><span>Correct</span></div>
+    <div class="stat incorrect"><b>${incorrect}</b><span>Incorrect</span></div>
+    <div class="stat unattempted"><b>${unattempted}</b><span>Unattempted</span></div>
+  `;
+  const userName = document.getElementById('modalUserName').value.trim() || "Anonymous"; 
+  fetch(SHEET_ENDPOINT, {
+    method: "POST",
+    mode: "no-cors",
+    body: JSON.stringify({
+      name: userName,
+      marks: marks.toFixed(2),
+      correct: correct,
+      incorrect: incorrect,
+      unattempted: unattempted,
+      testCode: "PreLoG-2027-27-FREE TIER"
+    })
+  }); 
+  submitBtn.style.display = 'none';
+  paperView.classList.add('hidden');
+  resultView.classList.remove('hidden');
+  render();
+}
+
+reviewBtn.addEventListener('click', () => {
+  resultView.classList.add('hidden');
+  paperView.classList.remove('hidden');
+  current = 0;
+  render();
+});
+
+// theme toggle
+const themeSwitch = document.getElementById('themeSwitch');
+themeSwitch.addEventListener('click', () => {
+  const body = document.body;
+  const isDark = body.getAttribute('data-theme') === 'dark';
+  body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+});
+
+// countdown timer — only ticks once the test has been started
+let seconds = 60 * 60;
+let testStarted = false;
+const timerEl = document.getElementById('timer');
+const countdown = setInterval(() => {
+  if (!testStarted || seconds <= 0 || submitted) return;
+  seconds--;
+  const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+  const s = String(seconds % 60).padStart(2, '0');
+  timerEl.textContent = `${m}:${s}`;
+  timerEl.classList.toggle('urgent', seconds <= 60);
+  if (seconds === 0){
+    timerEl.textContent = 'Time Up!';
+    doSubmit();
+  }
+}, 1000);
+
+/* ---------- Start-test modal logic ---------- */
+const startModal = document.getElementById('startModal');
+const startTestBtn = document.getElementById('startTestBtn');
+const startNameInput = document.getElementById('userName');
+
+// populate the start screen dynamically so this same code works
+// no matter how many questions / what marking scheme this file has
+document.getElementById('startTitle').textContent =
+  document.querySelector('.title-block h1').textContent;
+document.getElementById('startQCount').textContent = QUESTIONS.length;
+document.getElementById('startMaxMarks').textContent = (QUESTIONS.length * CORRECT_MARKS).toFixed(0);
+document.getElementById('startCorrectMarks').textContent = '+' + CORRECT_MARKS.toFixed(2);
+document.getElementById('startIncorrectMarks').textContent = '−' + NEGATIVE_MARKS.toFixed(2);
+document.getElementById('startDuration').textContent = Math.round(seconds / 60);
+
+startTestBtn.addEventListener('click', () => {
+  testStarted = true;
+  startModal.classList.add('hidden');
+});
+
+// pressing Enter in the name field on the start screen also starts the test
+startNameInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') startTestBtn.click();
+});
+
+buildPalette();
+render();
+
+window.addEventListener('beforeunload', function(e){
+  const hasProgress = !submitted && responses.some(r => r !== null);
+  if (hasProgress){
+    e.preventDefault();
+    e.returnValue = 'Your answers have not been submitted. If you leave or refresh this page, all marked answers will be lost.';
+    return e.returnValue;
+  }
+});
+
+</script>
+
+</body>
+</html>
