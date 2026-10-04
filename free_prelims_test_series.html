@@ -440,45 +440,29 @@
     .topbar{ margin:16px 6vw 0; }
     .back-btn{ padding:8px 13px; font-size:12.5px; }
 
-    /* on mobile, the top-right CTAs step aside for the inline card after test 5 */
-    .topbar-actions{ display:none; }
-    .mobile-ranks-wrap{
+    /* on mobile, the three nav links drop onto their own row under the back button */
+    .topbar{ flex-wrap:wrap; row-gap:12px; }
+    .topbar-actions{
       display:flex;
-      justify-content:center;
+      flex:1 1 100%;
+      flex-wrap:wrap;
+      gap:8px;
       width:100%;
-      padding:0 6vw;
-      margin:8px 0 0;
     }
-    .mobile-ranks-wrap .ranks-btn{
-      width:100%;
-      max-width:260px;
+    .topbar-actions .enroll-btn,
+    .topbar-actions .ranks-btn,
+    .topbar-actions .already-enrolled-btn{
+      flex:1 1 auto;
       justify-content:center;
-      padding:13px 16px;
-      font-size:14px;
+      padding:9px 12px;
+      font-size:12.5px;
+      gap:6px;
     }
-    .enroll-inline-wrap{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      width:100%;
-      margin-left:0;
-    }
-    .enroll-inline-wrap .enroll-btn{
-      width:100%;
-      max-width:260px;
-      justify-content:center;
-      padding:13px 16px;
-      font-size:14px;
-    }
-    .enroll-inline-wrap .already-enrolled-btn{
-      width:100%;
-      max-width:260px;
-      justify-content:center;
-      padding:13px 16px;
-      font-size:14px;
-    }
+    .topbar-actions .enroll-btn svg{ width:13px; height:13px; }
+
+    /* the old mobile-only duplicates are no longer needed */
+    .mobile-ranks-wrap,
+    .enroll-inline-wrap{ display:none !important; }
 
     .pyq-section{ padding:36px 6vw 64px; }
     .pyq-spine{ display:none; }
