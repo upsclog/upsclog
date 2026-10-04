@@ -9,13 +9,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#0B0D12;
-    --ink-2:#12151C;
+    --ink:#F2F2E6;
+    --ink-2:#E8E8DC;
     --card:#151922;
-    --card-border:rgba(233,231,222,0.10);
-    --paper:#E9E7DE;
-    --paper-dim:#9A9C9C;
-    --paper-faint:rgba(233,231,222,0.55);
+    --card-border:rgba(21,25,34,0.12);
+    --paper:#151922;
+    --paper-dim:#66695F;
+    --paper-faint:rgba(21,25,34,0.62);
 
     --gs1: #B8834A;   /* history / geography / society — clay, terrain */
     --gs1-soft: rgba(184,131,74,0.14);
@@ -32,7 +32,7 @@
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
-    background:var(--ink);
+    background:#F2F2E6;
     color:var(--paper);
     font-family:'IBM Plex Sans', sans-serif;
     -webkit-font-smoothing:antialiased;
@@ -44,8 +44,8 @@
   .grid-veil{
     position:fixed; inset:0; pointer-events:none; z-index:0;
     background-image:
-      linear-gradient(rgba(233,231,222,0.035) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(233,231,222,0.035) 1px, transparent 1px);
+      linear-gradient(rgba(21,25,34,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(21,25,34,0.035) 1px, transparent 1px);
     background-size:44px 44px;
     mask-image:radial-gradient(ellipse 90% 70% at 50% 0%, black 40%, transparent 85%);
   }
@@ -141,7 +141,7 @@
     border-radius:14px;
     background:
       radial-gradient(120% 160% at 0% 0%, var(--tint-soft), transparent 65%),
-      var(--card);
+      #DFDFD7;
     border:1px solid var(--card-border);
     text-decoration:none;
     color:var(--paper);
@@ -207,7 +207,7 @@
     position:relative;
     min-height:120px;
     background:
-      linear-gradient(rgba(11,13,18,0.68), rgba(11,13,18,0.72)),
+      linear-gradient(rgba(11,13,18,0.05), rgba(11,13,18,0.02)),
       var(--featured-img) center/cover no-repeat,
       var(--card);
   }
@@ -240,7 +240,7 @@
 
   /* ===== Upcoming card override — plain cream/white on black ===== */
   .pyq-box.upcoming{
-    background: #0B0D12;
+    background: #D7D7CF;
   }
   .pyq-box.upcoming .pyq-seal{
     border-color: rgba(233,231,222,0.35);
@@ -314,9 +314,9 @@
     transition:border-color .25s, background .25s, transform .15s;
     flex:0 0 auto;
   }
-  .back-btn:hover{ border-color:rgba(233,231,222,0.4); background:#191D27; }
+  .back-btn:hover{ border-color:rgba(21,25,34,0.28); background:#DEDED2; }
   .back-btn:active{ transform:scale(0.96); }
-  .back-btn:focus-visible{ outline:2px solid var(--paper); outline-offset:2px; }
+  .back-btn:focus-visible{ outline:2px solid #151922; outline-offset:2px; }
   .back-btn svg{ width:15px; height:15px; flex:0 0 auto; }
 
   /* enroll button — prominent CTA, top-right of topbar on tablet/desktop */
@@ -556,7 +556,7 @@
 const BOXES = [
   // { seal:"O", tint:"gs2",  title:"UPSC PRELIMS PYQs", sub:"Sit for CSE PYQs and see where do you stand", href:"prelims_pyq/pyq_navigator.html" },
 
-  { seal:"PDF", tint:"ph",  title:"PreLoG Schedule 2027<br>[CLICK ME]", sub:"", href:"UPSC_LoG_Prelims_Booster_Schedule.pdf", img:"pdf_img.png" },
+  { seal:"PDF", tint:"ph",  title:"", sub:"", href:"UPSC_LoG_Prelims_Booster_Schedule.pdf", img:"pdf_img.png" },
 
   { seal:"1",  tint:"gs1", title:"PreLoG-2027-01 [FREE]", sub:"<b><u>Ancient Medieval<br>Art  Culture</u></b><br><br>TEST-1               : Q-50", href:"prelims_sectional/PreLoG-2027-01.html" },
   { seal:"14",  tint:"gs2", title:"PreLoG-2027-14 [FREE]", sub:"<b><u>Polity<br>[FUNDAMENTAL RIGHTS]</u></b><br><br>TEST-14                : Q-50", href:"prelims_sectional/PreLoG-2027-14.html" },
