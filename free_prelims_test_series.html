@@ -440,45 +440,29 @@
     .topbar{ margin:16px 6vw 0; }
     .back-btn{ padding:8px 13px; font-size:12.5px; }
 
-    /* on mobile, the top-right CTAs step aside for the inline card after test 5 */
-    .topbar-actions{ display:none; }
-    .mobile-ranks-wrap{
+    /* on mobile, the three nav links drop onto their own row under the back button */
+    .topbar{ flex-wrap:wrap; row-gap:12px; }
+    .topbar-actions{
       display:flex;
-      justify-content:center;
+      flex:1 1 100%;
+      flex-wrap:wrap;
+      gap:8px;
       width:100%;
-      padding:0 6vw;
-      margin:8px 0 0;
     }
-    .mobile-ranks-wrap .ranks-btn{
-      width:100%;
-      max-width:260px;
+    .topbar-actions .enroll-btn,
+    .topbar-actions .ranks-btn,
+    .topbar-actions .already-enrolled-btn{
+      flex:1 1 auto;
       justify-content:center;
-      padding:13px 16px;
-      font-size:14px;
+      padding:9px 12px;
+      font-size:12.5px;
+      gap:6px;
     }
-    .enroll-inline-wrap{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      width:100%;
-      margin-left:0;
-    }
-    .enroll-inline-wrap .enroll-btn{
-      width:100%;
-      max-width:260px;
-      justify-content:center;
-      padding:13px 16px;
-      font-size:14px;
-    }
-    .enroll-inline-wrap .already-enrolled-btn{
-      width:100%;
-      max-width:260px;
-      justify-content:center;
-      padding:13px 16px;
-      font-size:14px;
-    }
+    .topbar-actions .enroll-btn svg{ width:13px; height:13px; }
+
+    /* the old mobile-only duplicates are no longer needed */
+    .mobile-ranks-wrap,
+    .enroll-inline-wrap{ display:none !important; }
 
     .pyq-section{ padding:36px 6vw 64px; }
     .pyq-spine{ display:none; }
@@ -567,10 +551,10 @@ const BOXES = [
 
 
 
-  { seal:"2",  tint:"gs2", title:"PreLoG-2027-02", sub:"<b><u>Ancient Medieval<br>Art  Culture</u></b><br><br>TEST-1                       : Q-50", href:"prelims_sectional/qr.html" },
-  { seal:"3",  tint:"gs3", title:"PreLoG-2027-03", sub:"<b><u>Current Affairs<br>[POLITY]</u></b><br><br>TEST-3                            : Q-50", href:"prelims_sectional/qr.html" },
-  { seal:"4",  tint:"gs4", title:"PreLoG-2027-04", sub:"<b><u>Current Affairs<br>[ECONOMY]</u></b><br><br>TEST-4                           : Q-50", href:"prelims_sectional/qr.html" },
-  { seal:"5",  tint:"gs1", title:"PreLoG-2027-05", sub:"<b><u>Economy<br>[BASIC ECONOMICS]</u></b><br><br>TEST-5                           : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"2",  tint:"gs2", title:"PreLoG-2027-02", sub:"<b><u>Ancient Medieval<br>Art  Culture</u></b><br><br>TEST-1               : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"3",  tint:"gs3", title:"PreLoG-2027-03", sub:"<b><u>Current Affairs<br>[POLITY]</u></b><br><br>TEST-3                     : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"4",  tint:"gs4", title:"PreLoG-2027-04", sub:"<b><u>Current Affairs<br>[ECONOMY]</u></b><br><br>TEST-4                    : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"5",  tint:"gs1", title:"PreLoG-2027-05", sub:"<b><u>Economy<br>[BASIC ECONOMICS]</u></b><br><br>TEST-5                    : Q-50", href:"prelims_sectional/qr.html" },
   { seal:"6",  tint:"gs2", title:"PreLoG-2027-06", sub:"<b><u>Economy<br>[BANKING SYSTEM]</u></b><br><br>TEST-6                            : Q-50", href:"prelims_sectional/qr.html" },
   { seal:"7",  tint:"gs3", title:"PreLoG-2027-07", sub:"<b><u>Environment<br>[ECOLOGY BASICS]</u></b><br><br>TEST-7                        : Q-50", href:"prelims_sectional/qr.html" },
   { seal:"8",  tint:"gs4", title:"PreLoG-2027-08", sub:"<b><u>Environment<br>[BIODIVERSITY]</u></b><br><br>TEST-8                          : Q-50", href:"prelims_sectional/qr.html" },
@@ -582,24 +566,19 @@ const BOXES = [
   { seal:"14",  tint:"gs2", title:"PreLoG-2027-14 [FREE]", sub:"<b><u>Polity<br>[FUNDAMENTAL RIGHTS]</u></b><br><br>TEST-14                : Q-50", href:"prelims_sectional/PreLoG-2027-14.html" },
   { seal:"15",  tint:"gs3", title:"PreLoG-2027-15",sub:"<b><u>Science & Tech<br>[APPLIED PHYSICS]</u></b><br><br>TEST-15                   : Q-50", href:"prelims_sectional/qr.html" },
   { seal:"16",  tint:"gs4", title:"PreLoG-2027-16",sub:"<b><u>Science & Tech<br>[APPLIED CHEMISTRY]</u></b><br><br>TEST-16                 : Q-50", href:"prelims_sectional/qr.html" },
-  { seal:"17",  tint:"gs1", title:"PreLoG-2027-17",sub:"<b><u>Ancient Medieval Hist.<br>[VEDIC AGE]</u></b><br><br>TEST-17                 : Q-50", href:"prelims_sectional/qr.html" },
-  { seal:"18",  tint:"gs2", title:"PreLoG-2027-18",sub:"<b><u>Ancient Medieval Hist.<br>[RELIGIOUS MOVEMENTS]</u></b><br><br>TEST-18       : Q-50", href:"prelims_sectional/qr.html" },
-  { seal:"19",  tint:"gs3", title:"PreLoG-2027-19",sub:"<b><u>International Relations<br>[CURRENT AFFAIRS]</u></b><br><br>TEST-19          : Q-50", href:"prelims_sectional/qr.html" },
-  { seal:"20",  tint:"gs4", title:"PreLoG-2027-20",sub:"<b><u>Science and Tech<br>[CURRENT AFFAIRS]</u></b><br><br>TEST-20                 : Q-50", href:"prelims_sectional/qr.html" },
-  { seal:"21",  tint:"gs1", title:"PreLoG-2027-21",sub:"<b><u>Economy<br>[Public Finance]</u></b><br><br>TEST-21                           : Q-50", href:"prelims_sectional/qr.html" },
-  { seal:"22",  tint:"gs2", title:"PreLoG-2027-22",sub:"<b><u>Economy<br>[EXTERNAL SECTOR]</u></b><br><br>TEST-22                          : Q-50", href:"prelims_sectional/qr.html" },
-  { seal:"23",  tint:"gs3", title:"PreLoG-2027-23 [FREE]", sub:"<b><u>Environment<br>[PROTECTED AREAS]</u></b><br><br>TEST-23              : Q-50", href:"prelims_sectional/PreLoG-2027-23.html" },
-  { seal:"24",  tint:"gs4", title:"PreLoG-2027-24",sub:"<b><u>Environment<br>[FLORA FAUNA]</u></b><br><br>TEST-24                          : Q-50", href:"prelims_sectional/qr.html" },
-  { seal:"25",  tint:"gs1", title:"PreLoG-2027-25",sub:"<b><u>Geography<br>[OCEANOGRAPHY]</u></b><br><br>TEST-25                           : Q-50", href:"prelims_sectional/qr.html" },
-  { seal:"26",  tint:"gs2", title:"PreLoG-2027-26",sub:"<b><u>Geography<br>[BIO-GEOGRAPHY]</u></b><br><br>TEST-26                          : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"17",  tint:"gs1", title:"PreLoG-2027-17",sub:"<b><u>Ancient Medieval Hist.<br>[VEDIC AGE]</u></b><br><br>TEST-17            : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"18",  tint:"gs2", title:"PreLoG-2027-18",sub:"<b><u>Ancient Medieval Hist.<br>[RELIGIOUS MOVEMENTS]</u></b><br><br>TEST-18            : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"19",  tint:"gs3", title:"PreLoG-2027-19",sub:"<b><u>International Relations<br>[CURRENT AFFAIRS]</u></b><br><br>TEST-19            : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"20",  tint:"gs4", title:"PreLoG-2027-20",sub:"<b><u>Science and Tech<br>[CURRENT AFFAIRS]</u></b><br><br>TEST-20            : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"21",  tint:"gs1", title:"PreLoG-2027-21",sub:"<b><u>Economy<br>[Public Finance]</u></b><br><br>TEST-21            : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"22",  tint:"gs2", title:"PreLoG-2027-22",sub:"<b><u>Economy<br>[EXTERNAL SECTOR]</u></b><br><br>TEST-22            : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"23",  tint:"gs3", title:"PreLoG-2027-23 [FREE]", sub:"<b><u>Environment<br>[PROTECTED AREAS]</u></b><br><br>TEST-23                : Q-50", href:"prelims_sectional/PreLoG-2027-23.html" },
+  { seal:"24",  tint:"gs4", title:"PreLoG-2027-24",sub:"<b><u>Environment<br>[FLORA FAUNA]</u></b><br><br>TEST-24            : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"25",  tint:"gs1", title:"PreLoG-2027-25",sub:"<b><u>Geography<br>[OCEANOGRAPHY]</u></b><br><br>TEST-25            : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"26",  tint:"gs2", title:"PreLoG-2027-26",sub:"<b><u>Geography<br>[BIO-GEOGRAPHY]</u></b><br><br>TEST-26            : Q-50", href:"prelims_sectional/qr.html" },
   { seal:"27",  tint:"gs3", title:"PreLoG-2027-27 [FREE]", sub:"<b><u>Modern History<br>[GOVERNOR GENERALS]</u></b><br><br>TEST-27         : Q-50", href:"prelims_sectional/PreLoG-2027-27.html" },
-  { seal:"28",  tint:"gs4", title:"PreLoG-2027-28",sub:"<b><u>Modern History<br>[ADMINISTRATION]</u></b><br><br>TEST-28                    : Q-50", href:"prelims_sectional/qr.html" },
-  { seal:"29",  tint:"gs1", title:"PreLoG-2027-29",sub:"<b><u>Polity<br>[DPSP]</u></b><br><br>TEST-29                                      : Q-50", href:"prelims_sectional/qr.html" },
-  { seal:"30",  tint:"gs2", title:"PreLoG-2027-30",sub:"<b><u>Polity<br>[FUNDAMENTAL DUTIES]</u></b><br><br>TEST-30                        : Q-50", href:"prelims_sectional/qr.html" },
-  { seal:"31",  tint:"gs3", title:"PreLoG-2027-31",sub:"<b><u>Science & Tech<br>[BIOLOGY]</u></b><br><br>TEST-31                           : Q-50", href:"prelims_sectional/qr.html" },
-  { seal:"32",  tint:"gs4", title:"PreLoG-2027-32",sub:"<b><u>Science & Tech<br>[SPACE TECHNOLOGY]</u></b><br><br>TEST-32                  : Q-50", href:"prelims_sectional/qr.html" },
-  { seal:"33",  tint:"gs1", title:"PreLoG-2027-33",sub:"<b><u>Ancient Medieval Hist.<br>[MAHAJANAPADAS & EMPIRES]</u></b><br><br>TEST-33   : Q-50", href:"prelims_sectional/qr.html" },
-
+  { seal:"28",  tint:"gs4", title:"PreLoG-2027-28",sub:"<b><u>Modern History<br>[ADMINISTRATION]</u></b><br><br>TEST-28            : Q-50", href:"prelims_sectional/qr.html" },
+  { seal:"29",  tint:"gs1", title:"PreLoG-2027-29",sub:"<b><u>Polity<br>[DPSP]</u></b><br><br>TEST-29                           : Q-50", href:"prelims_sectional/qr.html" },
   
   { seal:"*",  tint:"gs4", title:"UPCOMING<br>[in two days]<br>Refer Syllabus", sub:"", href:"prelims_sectional/waiting_page.html", upcoming:true },
   { seal:"*",  tint:"gs4", title:"UPCOMING<br>[in four days]<br>Refer Syllabus", sub:"", href:"prelims_sectional/waiting_page.html", upcoming:true },
