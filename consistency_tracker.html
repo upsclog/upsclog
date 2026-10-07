@@ -17,6 +17,7 @@
     --pine: #2F6F4E;
     --pine-deep: #1F5138;
     --brass: #B08B2E;
+    --brass-bright: #DDB654;
     --brass-soft: #F1E6C8;
     --danger: #B34B3C;
     --radius: 14px;
@@ -24,6 +25,7 @@
   }
 
   *{ box-sizing: border-box; }
+  [hidden]{ display:none !important; }
 
   html,body{
     margin:0; padding:0;
@@ -34,21 +36,25 @@
   }
 
   body{
-    background-image:
-      radial-gradient(circle at 1px 1px, rgba(31,42,36,0.05) 1px, transparent 0);
+    background-image: radial-gradient(circle at 1px 1px, rgba(31,42,36,0.05) 1px, transparent 0);
     background-size: 22px 22px;
   }
 
+  button{ font-family: inherit; }
+  button:focus-visible, input:focus-visible, select:focus-visible{
+    outline: 2px solid var(--pine);
+    outline-offset: 2px;
+  }
+
   .wrap{
-    max-width: 760px;
+    max-width: 1180px;
     margin: 0 auto;
     padding: 28px 18px 64px;
   }
 
-  header.page-head{
-    margin-bottom: 22px;
-    text-align: left;
-  }
+  /* ---------- HEADER (unchanged) ---------- */
+
+  header.page-head{ margin-bottom: 22px; text-align:left; }
 
   .eyebrow{
     font-family:'IBM Plex Mono', monospace;
@@ -84,142 +90,46 @@
     font-size: 14.5px;
     max-width: 46ch;
     line-height: 1.5;
+    margin: 0;
   }
 
-  /* ---------- LEDGER (leaderboard) ---------- */
+  /* ---------- TWO-COLUMN LAYOUT ---------- */
 
-  .ledger-card{
+  .layout{
+    display:grid;
+    grid-template-columns: minmax(0, 1.18fr) minmax(0, 1fr);
+    gap: 22px;
+    align-items: start;
+  }
+  .col-left{ display:flex; flex-direction:column; gap: 18px; min-width:0; }
+  .col-right{ position: sticky; top: 18px; min-width:0; }
+
+  @media (max-width: 940px){
+    .layout{ grid-template-columns: minmax(0,1fr); }
+    .col-right{ position: static; }
+  }
+
+  .card{
     background: var(--paper-raised);
     border: 1px solid var(--line);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
-    overflow: hidden;
-    margin-bottom: 28px;
+    padding: 20px;
   }
 
-  .ledger-head{
-    display:flex; align-items:center; justify-content:space-between;
-    padding: 14px 18px 12px;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .ledger-title{
-    font-family:'Fraunces', serif;
-    font-weight: 600;
-    font-size: 17px;
-  }
-
-  .ledger-meta{
-    font-family:'IBM Plex Mono', monospace;
-    font-size: 11.5px;
-    color: var(--ink-soft);
-  }
-
-  .ledger-scroll{
-    max-height: 320px;
-    overflow-y: auto;
-    overflow-x: auto;
-  }
-
-  table.ledger{
-    border-collapse: collapse;
-    width: 100%;
-    min-width: 620px;
-    font-size: 13.5px;
-  }
-
-  table.ledger thead th{
-    position: sticky;
-    top: 0;
-    background: var(--paper-raised);
-    text-align: center;
-    font-family:'IBM Plex Mono', monospace;
-    font-weight: 600;
-    font-size: 10.5px;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    padding: 10px 8px;
-    border-bottom: 1px solid var(--line);
-    white-space: nowrap;
-    z-index: 2;
-  }
-
-  table.ledger thead th:first-child{
-    text-align:left;
-    left:0;
-    z-index:3;
-  }
-
-  table.ledger tbody td{
-    padding: 10px 8px;
-    text-align:center;
-    border-bottom: 1px solid var(--line);
-    white-space: nowrap;
-  }
-
-  table.ledger tbody tr:last-child td{ border-bottom:none; }
-
-  table.ledger tbody td:first-child{
-    text-align:left;
-    font-weight: 600;
-    background: var(--paper-raised);
-  }
-
-  .name-cell{
-    display:flex; align-items:center; gap:8px;
-  }
-  .name-dot{
-    width:7px; height:7px; border-radius:50%;
-    background: var(--brass);
-    flex-shrink:0;
-  }
-
-  .mark-yes{
-    color: var(--pine-deep);
-    font-weight: 700;
-    font-size: 15px;
-  }
-  .mark-no{
-    color: var(--line);
-    font-weight: 700;
-  }
-
-  .updated-cell{
-    font-family:'IBM Plex Mono', monospace;
-    font-size: 11px;
-    color: var(--ink-soft);
-  }
-
-  .ledger-empty, .ledger-error{
-    padding: 30px 18px;
-    text-align:center;
-    color: var(--ink-soft);
-    font-size: 13.5px;
-  }
-  .ledger-error{ color: var(--danger); }
-
-  /* ---------- FORM CARD ---------- */
-
-  .form-card{
-    background: var(--paper-raised);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 22px 20px 24px;
-  }
-
-  .form-card h2{
+  .card h2{
     font-family:'Fraunces', serif;
     font-size: 19px;
     font-weight: 600;
     margin: 0 0 4px;
   }
-  .form-card p.hint{
-    margin: 0 0 18px;
+  .card p.hint{
+    margin: 0 0 16px;
     color: var(--ink-soft);
     font-size: 13.5px;
   }
+
+  /* ---------- IDENTITY FORM (same as before) ---------- */
 
   label.field-label{
     display:block;
@@ -243,95 +153,242 @@
     margin-bottom: 6px;
     transition: border-color .15s ease, background .15s ease;
   }
-  input#nameInput{ margin-bottom: 20px; }
+  input#nameInput{ margin-bottom: 16px; }
   input#nameInput:focus, input#emailInput:focus{
     outline: none;
     border-color: var(--pine);
     background: #fff;
   }
-  input#emailInput.field-invalid{
-    border-color: var(--danger);
-  }
+  input#emailInput.field-invalid{ border-color: var(--danger); }
 
   .field-note{
     font-size: 12px;
     color: var(--ink-soft);
-    margin: 0 0 20px;
+    margin: 0;
   }
   .field-note.err{ color: var(--danger); }
 
-  .stamp-grid{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 22px;
-  }
-  @media (max-width: 460px){
-    .stamp-grid{ grid-template-columns: 1fr; }
-  }
-
-  .stamp{
-    display:flex;
-    align-items:center;
-    gap: 12px;
-    padding: 12px 12px;
-    border: 1.5px solid var(--line);
+  .btn{
+    padding: 11px 20px;
     border-radius: 10px;
+    border: 1.5px solid var(--line);
+    background: transparent;
+    color: var(--ink);
+    font-size: 14px;
+    font-weight: 600;
     cursor:pointer;
-    user-select:none;
+    transition: background .15s ease, transform .1s ease, border-color .15s ease;
+  }
+  .btn:hover{ background: var(--paper); }
+  .btn:active{ transform: scale(0.97); }
+  .btn:disabled{ opacity:.4; cursor:not-allowed; }
+  .btn-main{
+    background: var(--ink);
+    border-color: var(--ink);
+    color:#fff;
+    min-width: 108px;
+  }
+  .btn-main:hover{ background: var(--pine-deep); border-color: var(--pine-deep); }
+
+  /* ---------- YOUR DAY ---------- */
+
+  .day-card{ padding: 0; overflow:hidden; }
+  .day-top{
+    padding: 22px 22px 18px;
+    background:
+      radial-gradient(120% 160% at 100% 0%, rgba(221,182,84,0.18) 0%, transparent 55%),
+      linear-gradient(180deg, #F4F8F5 0%, #FFFFFF 100%);
+    border-bottom: 1px solid var(--line);
+  }
+  .day-row{
+    display:flex; align-items:flex-end; justify-content:space-between; gap: 16px;
+  }
+  .day-eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--pine-deep);
+    margin-bottom: 6px;
+  }
+  .day-top h2{ font-size: 24px; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .day-top .hint{ margin: 0; max-width: 34ch; }
+  .tiles-total{
+    text-align:right; flex-shrink:0;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing:.08em; text-transform:uppercase;
+    color: var(--ink-soft);
+  }
+  .tiles-total b{
+    display:block;
+    font-family:'Fraunces', serif;
+    font-size: 38px; line-height: 1.05;
+    font-weight: 700; letter-spacing: -0.02em;
+    text-transform:none;
+    color: var(--ink);
+  }
+  .seg-bar{
+    display:flex; gap: 3px;
+    height: 10px;
+    border-radius: 10px;
+    overflow:hidden;
+    background: #E6ECE7;
+    margin-top: 18px;
+  }
+  .seg-bar i{ display:block; height:100%; width:0%; border-radius: 3px; transition: width .4s ease; }
+
+  .day-body{ padding: 18px 22px 22px; }
+
+  .add-row{
+    display:flex; gap: 8px;
+    padding: 5px;
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
     background: var(--paper);
     transition: border-color .15s ease, background .15s ease;
   }
-  .stamp:active{ transform: scale(0.99); }
+  .add-row:focus-within{ border-color: var(--pine); background:#fff; }
+  .add-row input{
+    flex:1; min-width:0;
+    padding: 9px 10px;
+    font-size: 14.5px;
+    font-family:'Inter', sans-serif;
+    border: none; background: transparent;
+    color: var(--ink);
+  }
+  .add-row input:focus{ outline:none; }
+  .add-row .btn{ padding: 9px 16px; border-radius: 8px; min-width:0; }
 
-  .stamp input{ display:none; }
+  .quick{
+    display:flex; flex-wrap:wrap; gap: 6px;
+    margin: 12px 0 18px;
+    align-items:center;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+  .quick button{
+    padding: 5px 11px;
+    border-radius: 20px;
+    border: 1px solid var(--line);
+    background: var(--paper-raised);
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    cursor:pointer;
+    transition: all .15s ease;
+  }
+  .quick button::before{ content:"+ "; color: var(--pine); font-weight:700; }
+  .quick button:hover{ border-color: var(--pine); color: var(--pine-deep); background:#F1F7F3; }
 
-  .stamp-circle{
-    width: 26px; height:26px;
-    border-radius:50%;
-    border: 2px solid var(--ink-soft);
-    flex-shrink:0;
+  .tiles-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(188px, 1fr));
+    gap: 12px;
+  }
+  .tiles-empty{
+    grid-column: 1 / -1;
+    padding: 30px 16px;
+    text-align:center;
+    border: 1.5px dashed var(--line);
+    border-radius: 14px;
+    color: var(--ink-soft);
+    font-size: 13.5px;
+    line-height: 1.5;
+    background: var(--paper);
+  }
+
+  .tile{
+    --tc: var(--pine);
     position:relative;
-    transition: transform .18s cubic-bezier(.34,1.56,.64,1), border-color .15s ease, background .15s ease;
+    background: var(--paper-raised);
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 14px 14px;
+    overflow:hidden;
+    transition: border-color .15s ease, background .15s ease, box-shadow .2s ease, transform .15s ease;
   }
-  .stamp-circle::after{
-    content:"✓";
-    position:absolute; inset:0;
-    display:flex; align-items:center; justify-content:center;
-    color:#fff;
-    font-size: 14px;
-    font-weight: 700;
-    opacity:0;
-    transform: scale(0.4);
-    transition: opacity .12s ease, transform .18s cubic-bezier(.34,1.56,.64,1);
+  .tile::before{
+    content:""; position:absolute; left:0; top:0; bottom:0; width:4px;
+    background: var(--tc);
+  }
+  .tile:hover{ box-shadow: 0 8px 20px -14px rgba(31,42,36,.5); }
+  .tile.running{
+    border-color: var(--tc);
+    background: color-mix(in srgb, var(--tc) 8%, #fff);
+    box-shadow: 0 10px 24px -14px var(--tc);
   }
 
-  .stamp span.stamp-text{
-    font-size: 14px;
-    font-weight: 500;
+  .tile-top{ display:flex; align-items:center; justify-content:space-between; gap: 6px; }
+  .tile-name{
+    font-weight: 600; font-size: 14.5px;
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+  .tile-status{
+    display:none;
+    align-items:center; gap:5px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 10.5px; letter-spacing:.08em; text-transform:uppercase;
+    color: var(--tc);
+    margin-top: 3px;
+  }
+  .tile.running .tile-status{ display:flex; }
+  .tile-status::before{
+    content:""; width:6px; height:6px; border-radius:50%;
+    background: var(--tc);
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+  .tile-del{
+    border:none; background:transparent;
+    color: #9AA59D;
+    font-size: 17px; line-height:1;
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    cursor:pointer; flex-shrink:0;
+    align-self:flex-start;
+  }
+  .tile-del:hover{ background: var(--paper); color: var(--danger); }
+  .tile-del.armed{ background: var(--danger); color:#fff; font-size: 11px; width:auto; padding: 0 7px; }
+
+  .tile-time{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 26px; font-weight: 500;
+    letter-spacing: -0.04em;
+    margin: 12px 0 14px;
     color: var(--ink);
   }
 
-  .stamp input:checked ~ .stamp-circle{
-    background: var(--pine);
-    border-color: var(--pine-deep);
-    transform: rotate(-8deg) scale(1.05);
+  .tile-actions{ display:flex; align-items:center; gap: 6px; }
+  .t-play{
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: var(--tc);
+    color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; flex-shrink:0;
+    box-shadow: 0 6px 14px -6px var(--tc);
+    transition: transform .12s ease;
   }
-  .stamp input:checked ~ .stamp-circle::after{
-    opacity:1;
-    transform: scale(1) rotate(8deg);
+  .t-play:active{ transform: scale(0.92); }
+  .t-play svg{ width: 16px; height: 16px; }
+  .t-adj{
+    flex:1;
+    padding: 9px 0;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--paper);
+    color: var(--ink-soft);
+    font-size: 12px; font-weight: 600;
+    font-family:'IBM Plex Mono', monospace;
+    cursor:pointer;
+    transition: all .15s ease;
   }
-  .stamp:has(input:checked){
-    border-color: var(--pine);
-    background: #F1F7F3;
-  }
+  .t-adj:hover{ background:#fff; border-color: var(--tc); color: var(--ink); }
+
+  .submit-wrap{ margin-top: 20px; }
 
   button#submitBtn{
     width:100%;
     padding: 14px;
     font-size: 15px;
     font-weight: 600;
-    font-family:'Inter', sans-serif;
     color: #fff;
     background: var(--ink);
     border: none;
@@ -342,10 +399,6 @@
   }
   button#submitBtn:hover{ background: var(--pine-deep); }
   button#submitBtn:active{ transform: scale(0.985); }
-  button#submitBtn:disabled{
-    background: var(--ink-soft);
-    cursor: not-allowed;
-  }
 
   .form-msg{
     margin-top: 12px;
@@ -355,6 +408,154 @@
   }
   .form-msg.ok{ color: var(--pine-deep); }
   .form-msg.err{ color: var(--danger); }
+
+  /* ---------- LEDGER (right side) ---------- */
+
+  .ledger-card{
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .ledger-head{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 14px 18px 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .ledger-title{
+    font-family:'Fraunces', serif;
+    font-weight: 600;
+    font-size: 17px;
+  }
+  .ledger-meta{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    color: var(--ink-soft);
+  }
+
+  .ledger-stats{
+    display:grid; grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--line);
+    background: #F7F9F7;
+  }
+  .ledger-stats div{
+    padding: 10px 18px;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+  .ledger-stats div + div{ border-left: 1px solid var(--line); }
+  .ledger-stats b{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 17px; font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+  }
+
+  .ledger-scroll{
+    max-height: calc(100vh - 250px);
+    min-height: 220px;
+    overflow-y: auto;
+    padding: 6px 0;
+  }
+  @media (max-width: 940px){
+    .ledger-scroll{ max-height: 560px; }
+  }
+
+  .ledger-empty, .ledger-error{
+    padding: 34px 18px;
+    text-align:center;
+    color: var(--ink-soft);
+    font-size: 13.5px;
+  }
+  .ledger-error{ color: var(--danger); }
+
+  .person{
+    display:flex; gap: 12px;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--line);
+  }
+  .person:last-child{ border-bottom: none; }
+  .person.me{ background: #F1F7F3; }
+
+  .p-rank{
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--paper);
+    color: var(--ink-soft);
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12px; font-weight: 600;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    margin-top: 1px;
+  }
+  .person.top .p-rank{ background: var(--brass-soft); color: #6B551E; }
+
+  .p-main{ flex:1; min-width:0; }
+  .p-top{
+    display:flex; align-items:baseline; gap: 8px;
+  }
+  .p-name{
+    font-weight: 600; font-size: 14.5px;
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+  .p-you{
+    font-size: 11px;
+    padding: 1px 7px;
+    border-radius: 10px;
+    background: var(--pine);
+    color:#fff;
+    font-weight: 600;
+    flex-shrink:0;
+  }
+  .p-time{
+    margin-left:auto;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 15px; font-weight: 500;
+    letter-spacing: -0.02em;
+    white-space:nowrap;
+  }
+
+  .p-track{
+    height: 7px;
+    border-radius: 7px;
+    background: var(--paper);
+    margin: 9px 0 9px;
+    overflow:hidden;
+  }
+  .p-fill{
+    height:100%;
+    display:flex;
+    border-radius: 7px;
+    overflow:hidden;
+  }
+  .p-fill i{ display:block; height:100%; }
+
+  .p-chips{ display:flex; flex-wrap:wrap; gap: 5px; }
+  .p-chip{
+    display:inline-flex; align-items:center; gap: 6px;
+    font-size: 12px;
+    padding: 3px 9px 3px 8px;
+    border-radius: 20px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    color: var(--ink);
+  }
+  .p-chip b{ width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+  .p-chip em{
+    font-style:normal;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+  }
+  .p-upd{
+    margin-top: 8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+  }
 
   /* ---------- MODAL ---------- */
 
@@ -367,27 +568,22 @@
     pointer-events:none;
     transition: opacity .2s ease;
   }
-  .modal-backdrop.open{
-    opacity:1;
-    pointer-events:auto;
-  }
-  @media (min-width: 560px){
-    .modal-backdrop{ align-items:center; }
-  }
+  .modal-backdrop.open{ opacity:1; pointer-events:auto; }
+  @media (min-width: 560px){ .modal-backdrop{ align-items:center; } }
 
   .modal-card{
     background: var(--paper-raised);
     width: 100%;
-    max-width: 400px;
+    max-width: 420px;
     border-radius: 18px 18px 0 0;
     padding: 26px 22px 22px;
     box-shadow: 0 -8px 30px rgba(0,0,0,0.18);
     transform: translateY(16px);
     transition: transform .22s cubic-bezier(.2,.8,.2,1);
+    max-height: 92vh;
+    overflow-y:auto;
   }
-  @media (min-width: 560px){
-    .modal-card{ border-radius: 16px; margin: 0 16px; }
-  }
+  @media (min-width: 560px){ .modal-card{ border-radius: 16px; margin: 0 16px; } }
   .modal-backdrop.open .modal-card{ transform: translateY(0); }
 
   .modal-eyebrow{
@@ -398,7 +594,6 @@
     color: var(--ink-soft);
     margin-bottom: 8px;
   }
-
   .modal-name{
     font-family:'Fraunces', serif;
     font-size: 24px;
@@ -406,7 +601,6 @@
     margin: 0 0 6px;
     word-break: break-word;
   }
-
   .modal-email{
     font-family:'IBM Plex Mono', monospace;
     font-size: 12.5px;
@@ -414,13 +608,11 @@
     margin: 0 0 14px;
     word-break: break-word;
   }
-
   .modal-q{
     color: var(--ink-soft);
     font-size: 14px;
-    margin: 0 0 20px;
+    margin: 0 0 16px;
   }
-
   .modal-summary{
     display:flex; flex-wrap:wrap; gap:6px;
     margin-bottom: 22px;
@@ -439,11 +631,7 @@
     color: var(--ink-soft);
     border-color: var(--line);
   }
-
-  .modal-actions{
-    display:flex; flex-direction:column; gap:10px;
-  }
-
+  .modal-actions{ display:flex; flex-direction:column; gap:10px; }
   .btn-yes{
     padding: 13px;
     border-radius: 10px;
@@ -455,7 +643,7 @@
     cursor:pointer;
   }
   .btn-yes:hover{ background: var(--pine-deep); }
-
+  .btn-yes:disabled{ opacity:.6; cursor:wait; }
   .btn-back{
     padding: 13px;
     border-radius: 10px;
@@ -468,9 +656,7 @@
   }
   .btn-back:hover{ background: var(--paper); }
 
-  footer.setup-note{
-    margin-top: 30px;
-  }
+  footer.setup-note{ margin-top: 30px; }
   footer.setup-note summary{
     cursor:pointer;
     font-family:'IBM Plex Mono', monospace;
@@ -487,6 +673,7 @@
     font-size: 12.5px;
     color: var(--ink-soft);
     line-height: 1.6;
+    max-width: 720px;
   }
   footer.setup-note code{
     background: var(--paper);
@@ -496,6 +683,171 @@
     font-size: 11.5px;
     color: var(--ink);
   }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; }
+  }
+  /* ---------- CONSISTENT LAYOUT SYSTEM ---------- */
+  :root{ --radius: 12px; --gap: 12px; --pad: 16px; }
+
+  .wrap{ max-width: 1240px; padding: 14px 10px 44px; }
+  header.page-head{ margin-bottom: 14px; }
+  h1{ font-size: clamp(26px, 5vw, 32px); margin: 4px 0 4px; }
+  .sub{ font-size: 13.5px; max-width: none; }
+
+  .layout{ gap: var(--gap); }
+  .col-left{ gap: var(--gap); }
+  .col-right{ top: 10px; }
+
+  /* every top-level card shares the same radius, border, shadow, padding */
+  .card, .ledger-card{
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+  .card{ padding: var(--pad); }
+  .card h2{ font-size: 17px; margin: 0 0 2px; }
+  .card p.hint{ margin: 0 0 12px; font-size: 13px; }
+
+  /* identity */
+  .id-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 6px; }
+  .id-grid input#nameInput, .id-grid input#emailInput{ margin-bottom: 0; padding: 10px 12px; }
+  @media (max-width: 560px){ .id-grid{ grid-template-columns: 1fr; } }
+
+  /* your day */
+  .day-card{ padding: 0; }
+  .day-top{ padding: var(--pad); }
+  .day-top h2{ font-size: 17px; margin: 0 0 2px; }
+  .day-eyebrow{ margin-bottom: 4px; }
+  .tiles-total b{ font-size: 28px; }
+  .seg-bar{ margin-top: 12px; height: 8px; }
+  .day-body{ padding: 14px var(--pad) var(--pad); }
+  .quick{ margin: 10px 0 12px; }
+  .tiles-grid{ gap: 10px; grid-template-columns: repeat(auto-fill, minmax(168px, 1fr)); }
+  .tile{ padding: 12px; }
+  .tile-time{ font-size: 23px; margin: 8px 0 10px; }
+  .t-play{ width: 36px; height: 36px; }
+  .submit-wrap{ margin-top: 14px; }
+  button#submitBtn{ padding: 12px; }
+  .form-msg{ margin-top: 8px; }
+
+  /* today's entries */
+  .ledger-head{ padding: 12px var(--pad); }
+  .ledger-stats div{ padding: 8px var(--pad); }
+  .person{ padding: 12px var(--pad); }
+
+  @media (max-width: 460px){
+    .wrap{ padding: 10px 8px 36px; }
+    .card{ padding: 14px; }
+  }
+  /* ---------- FULL-WIDTH PAGE ---------- */
+  .wrap{ max-width: none; width: 100%; padding: 8px 6px 28px; }
+  header.page-head{
+    width: calc(100% + 12px);
+    margin-left: -6px;
+    margin-bottom: 10px;
+    padding: 16px 18px 18px;
+    background: linear-gradient(135deg, #1F2A24 0%, #263A31 100%);
+    color: var(--paper);
+    border-bottom: 1px solid rgba(221,182,84,0.22);
+    box-shadow: 0 8px 20px -16px rgba(18,28,23,0.65);
+  }
+  header.page-head .eyebrow{ color: #BFD1C5; }
+  header.page-head .eyebrow::before{ background: var(--brass-bright); }
+  header.page-head h1{ color: #FFFFFF; }
+  header.page-head .sub{ color: rgba(238,241,238,0.72); }
+  .id-card{
+    display:grid;
+    grid-template-columns: minmax(220px, 1.1fr) minmax(0,1fr) minmax(0,1fr);
+    gap: 4px 14px;
+    align-items:end;
+    padding: 12px var(--pad);
+    margin-bottom: var(--gap);
+  }
+  .id-card .id-title h2{ margin: 0 0 2px; }
+  .id-card .id-title .hint{ margin: 0; font-size: 12.5px; }
+  .id-card .field-label{ margin-bottom: 4px; }
+  .id-card input#nameInput, .id-card input#emailInput{ margin-bottom: 0; padding: 9px 12px; }
+  .id-card .field-note{ grid-column: 1 / -1; margin-top: 2px; }
+  @media (max-width: 860px){
+    .id-card{ grid-template-columns: 1fr 1fr; }
+    .id-card .id-title{ grid-column: 1 / -1; }
+  }
+  @media (max-width: 520px){ .id-card{ grid-template-columns: 1fr; } }
+  /* ---------- FINAL LAYOUT: workspace left, entries right ---------- */
+  .layout{
+    grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+    align-items: stretch;
+  }
+  .col-left{
+    display:flex;
+    flex-direction:column;
+    min-width:0;
+  }
+  .col-left .id-card{
+    flex:none;
+    width:100%;
+  }
+  .col-left .day-card{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+  }
+  .day-card .day-body{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+  }
+  .day-card .submit-wrap{
+    margin-top:auto;
+    padding-top:14px;
+  }
+
+  /* The entries panel occupies the entire right column, from top to bottom. */
+  .col-right{
+    position:relative;
+    top:auto;
+    min-width:0;
+    min-height:0;
+    display:flex;
+  }
+  .col-right-inner{
+    position:static;
+    inset:auto;
+    width:100%;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+  }
+  .ledger-card{
+    flex:1;
+    min-height:100%;
+    display:flex;
+    flex-direction:column;
+  }
+  .ledger-head, .ledger-stats{ flex:none; }
+  .ledger-scroll{
+    flex:1;
+    min-height:0;
+    max-height:none;
+    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+  }
+  .ledger-scroll .ledger-empty, .ledger-scroll .ledger-error{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+  }
+
+  @media (max-width: 940px){
+    .layout{ grid-template-columns: minmax(0,1fr); }
+    .col-right{ min-height:0; }
+    .col-right-inner{ height:auto; }
+    .ledger-card{ flex:none; min-height:0; }
+    .ledger-scroll{ max-height:520px; min-height:200px; }
+  }
 </style>
 </head>
 <body>
@@ -503,52 +855,99 @@
 <div class="wrap">
 
   <header class="page-head">
-    <div class="eyebrow">Today's register</div>
-    <h1>UPSC LoG Register</h1>
-    <p class="sub">Dont enter duplicate email id's<br><large>For Monthly Consistency pdf - UPSC LoG Telegram</large></p>
+    <div class="eyebrow">UPSC LoG · Daily Discipline</div>
+    <h1>UPSC LoG Daily Consistency Tracker</h1>
+    <p class="sub">Track your progress, stay consistent, and make every hour of study count.</p>
   </header>
 
-  <!-- LEADERBOARD / LEDGER -->
-  <section class="ledger-card">
-    <div class="ledger-head">
-      <div class="ledger-title">Today's entries</div>
-      <div class="ledger-meta" id="ledgerMeta">loading…</div>
-    </div>
-    <div class="ledger-scroll" id="ledgerScroll">
-      <div class="ledger-empty" id="ledgerLoading">Fetching today's entries…</div>
-    </div>
-  </section>
+  <div class="layout">
 
-  <!-- FORM -->
-  <section class="form-card">
-    <h2>Proper name & Email id</h2>
-    <p class="hint">"Remember, you can lie to anyone but God and yourself."</p>
+    <!-- ================= LEFT: your workspace ================= -->
+    <main class="col-left">
 
-    <label class="field-label" for="nameInput">Name</label>
-    <input id="nameInput" type="text" placeholder="e.g. Ananya" autocomplete="name" />
+      <!-- IDENTITY -->
+      <section class="card id-card">
+        <div class="id-title">
+          <h2>Proper name &amp; Email id</h2>
+          <p class="hint">"Remember, you can lie to anyone but God and yourself."</p>
+        </div>
+        <div class="id-field">
+          <label class="field-label" for="nameInput">Name</label>
+          <input id="nameInput" type="text" placeholder="e.g. Ananya" autocomplete="name" />
+        </div>
+        <div class="id-field">
+          <label class="field-label" for="emailInput">Email</label>
+          <input id="emailInput" type="email" placeholder="e.g. ananya@example.com" autocomplete="email" inputmode="email" />
+        </div>
+        <div class="field-note" id="emailNote">Used to identify you uniquely — required, and must contain @.</div>
+      </section>
 
-    <label class="field-label" for="emailInput">Email</label>
-    <input id="emailInput" type="email" placeholder="e.g. ananya@example.com" autocomplete="email" inputmode="email" />
-    <div class="field-note" id="emailNote">Used to identify you uniquely — required, and must contain @.</div>
 
-    <div class="stamp-grid" id="stampGrid">
-      <!-- generated by JS -->
-    </div>
+            
 
-    <button id="submitBtn">Submit entry</button>
-    <div class="form-msg" id="formMsg"></div>
-  </section>
+      <!-- TILES -->
+      <section class="card day-card">
+        <div class="day-top">
+          <div class="day-row">
+            <div>
+              <div class="day-eyebrow">Today's study</div>
+              <h2>Your day</h2>
+              <p class="hint">Add a tile for each subject, then press play to count time on it.</p>
+            </div>
+            <div class="tiles-total">Logged today<b id="tilesTotal">0m</b></div>
+          </div>
+          <div class="seg-bar" id="segBar" aria-hidden="true"></div>
+        </div>
+
+        <div class="day-body">
+        <div class="add-row">
+          <input id="tileInput" type="text" maxlength="24" placeholder="Name a tile, e.g. Optional" aria-label="New tile name" />
+          <button class="btn btn-main" id="tileAdd">Add tile</button>
+        </div>
+        <div class="quick" id="quickAdd"></div>
+
+        <div class="tiles-grid" id="tilesGrid"></div>
+
+        <div class="submit-wrap">
+          <button id="submitBtn">Submit entry</button>
+          <div class="form-msg" id="formMsg"></div>
+        </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ================= RIGHT: today's data ================= -->
+    <aside class="col-right">
+      <div class="col-right-inner">
+      <section class="ledger-card">
+        <div class="ledger-head">
+          <div class="ledger-title">Today's entries</div>
+          <div class="ledger-meta" id="ledgerMeta">loading…</div>
+        </div>
+        <div class="ledger-stats">
+          <div>Group total<b id="statTotal">–</b></div>
+          <div>Average per person<b id="statAvg">–</b></div>
+        </div>
+        <div class="ledger-scroll" id="ledgerScroll">
+          <div class="ledger-empty">Fetching today's entries…</div>
+        </div>
+      </section>
+      </div>
+    </aside>
+
+  </div>
 
   <footer class="setup-note">
     <details>
       <summary>by the UPSC LoG team</summary>
       <div class="box">
         This page needs a Google Apps Script Web App URL to store entries in a Google Sheet.
-        Open the accompanying <code>Code.gs</code> file's instructions, deploy it as a Web App
-        (Execute as: <b>Me</b>, Who has access: <b>Anyone</b>), copy the deployment URL, and paste it
-        into the <code>SCRIPT_URL</code> constant near the top of the <code>&lt;script&gt;</code> section
-        in this file. Until that's done, the ledger will show a connection message and submissions
-        won't be saved.
+        Paste the new <code>Code.gs</code> into your Apps Script project, deploy it as a Web App
+        (Execute as: <b>Me</b>, Who has access: <b>Anyone</b>), and put the deployment URL in the
+        <code>SCRIPT_URL</code> constant near the top of the <code>&lt;script&gt;</code> section
+        in this file. Tile names are chosen by each person, so entries are saved as a list of
+        tiles with minutes instead of fixed columns.
       </div>
     </details>
   </footer>
@@ -574,90 +973,336 @@
 (function(){
 
   // ============================================================
-  // 1. CONFIG — replace with your deployed Apps Script Web App URL
+  // 1. CONFIG — your deployed Apps Script Web App URL
   // ============================================================
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwPsTN-SYy2va1vxlNSI7cBr2IbrO1N-TmjJGGNz8U8YgF3GtShZUsv0vNmcHcDBb_3CQ/exec";
 
-  const TASKS = [
-    { key: "dca",              label: "DCA done",              short: "DCA" },
-    { key: "prelog",           label: "PreLog Test done",      short: "PreLog" },
-    { key: "answerWriting",    label: "Answer Writing",        short: "Ans. Writing" },
-    { key: "newspaper",        label: "Newspaper Read",        short: "Newspaper" },
-    { key: "gsRevision",       label: "GS revision",           short: "GS Rev" },
-    { key: "optionalRevision", label: "Optional Revision",     short: "Opt Rev" },
-  ];
+  const LS_KEY = 'upsc_log_workspace_v2';
+  const PALETTE = ['#2F6F4E','#B08B2E','#3F6C8F','#B34B3C','#7A5C99','#4C8F8B','#C26A2D','#6B7F3A'];
+  const SUGGESTIONS = ['Optional','GS revision','Answer writing','Newspaper','Current affairs','Test series'];
+  const MAX_TILES = 12;
+
+  const $ = id => document.getElementById(id);
 
   // ============================================================
-  // 2. Build the checkbox "stamp" grid
+  // 2. Helpers
   // ============================================================
-  const stampGrid = document.getElementById('stampGrid');
-  TASKS.forEach(t => {
-    const label = document.createElement('label');
-    label.className = 'stamp';
-    label.innerHTML = `
-      <input type="checkbox" data-key="${t.key}" />
-      <span class="stamp-circle"></span>
-      <span class="stamp-text">${t.label}</span>
-    `;
-    stampGrid.appendChild(label);
+  function pad(n){ return String(n).padStart(2,'0'); }
+
+  function todayKey(){
+    const d = new Date();
+    return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate());
+  }
+
+  function fmtHMS(ms){
+    const s = Math.floor(Math.max(0, ms) / 1000);
+    return pad(Math.floor(s/3600)) + ':' + pad(Math.floor(s%3600/60)) + ':' + pad(s%60);
+  }
+
+  // "1h 20m", "45m", "0m"
+  function fmtShort(ms){
+    const m = Math.floor(Math.max(0, ms) / 60000);
+    if(m < 60) return m + 'm';
+    const h = Math.floor(m / 60), r = m % 60;
+    return r ? h + 'h ' + r + 'm' : h + 'h';
+  }
+  function fmtMinutes(min){ return fmtShort(min * 60000); }
+
+  function escapeHtml(str){
+    return String(str).replace(/[&<>"']/g, c => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+  }
+
+  function hash(s){
+    let h = 0;
+    const t = String(s).toLowerCase();
+    for(let i=0;i<t.length;i++) h = (h*31 + t.charCodeAt(i)) >>> 0;
+    return h;
+  }
+  function colorFor(name){ return PALETTE[hash(name) % PALETTE.length]; }
+  function safeColor(c, name){ return /^#[0-9a-fA-F]{6}$/.test(c || '') ? c : colorFor(name); }
+
+  const ICON_PLAY  = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5z"/></svg>';
+  const ICON_PAUSE = '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="5.5" y="4" width="4.5" height="16" rx="1.2"/><rect x="14" y="4" width="4.5" height="16" rx="1.2"/></svg>';
+
+  // ============================================================
+  // 3. Persistent state (per browser; tile times reset every day)
+  // ============================================================
+  let state = loadState();
+
+  function loadState(){
+    let s = {};
+    try{ s = JSON.parse(localStorage.getItem(LS_KEY)) || {}; }catch(e){ s = {}; }
+    s.name  = typeof s.name  === 'string' ? s.name  : '';
+    s.email = typeof s.email === 'string' ? s.email : '';
+    s.tiles = Array.isArray(s.tiles) ? s.tiles.filter(t => t && t.id && t.name) : [];
+    s.tiles.forEach(t => { t.ms = Number(t.ms) || 0; t.since = t.since || null; t.color = safeColor(t.color, t.name); });
+    if(s.date !== todayKey()){
+      s.date = todayKey();
+      s.tiles.forEach(t => { t.ms = 0; t.since = null; });
+    }
+    return s;
+  }
+
+  function save(){
+    try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }catch(e){ /* storage unavailable — keep working in memory */ }
+  }
+
+  // ============================================================
+  // 4. Tiles
+  // ============================================================
+  const tilesGrid = $('tilesGrid');
+  const tileInput = $('tileInput');
+  const quickAdd  = $('quickAdd');
+  const segBar    = $('segBar');
+  const tilesTotal= $('tilesTotal');
+
+  function tileMs(t){ return t.ms + (t.since ? Date.now() - t.since : 0); }
+  function totalMs(){ return state.tiles.reduce((s,t) => s + tileMs(t), 0); }
+
+  function nextColor(){
+    const used = state.tiles.map(t => t.color);
+    return PALETTE.find(c => used.indexOf(c) === -1) || PALETTE[state.tiles.length % PALETTE.length];
+  }
+
+  function addTile(name){
+    name = String(name || '').trim().replace(/\s+/g,' ');
+    if(!name) return false;
+    if(state.tiles.length >= MAX_TILES){ flashMsg('You can keep up to ' + MAX_TILES + ' tiles. Remove one to add another.', true); return false; }
+    if(state.tiles.some(t => t.name.toLowerCase() === name.toLowerCase())){
+      flashMsg('You already have a tile called "' + name + '".', true);
+      return false;
+    }
+    state.tiles.push({
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+      name: name, color: nextColor(), ms: 0, since: null
+    });
+    save();
+    renderTiles();
+    return true;
+  }
+
+  function pauseAll(except){
+    const now = Date.now();
+    state.tiles.forEach(t => {
+      if(t.since && t.id !== except){ t.ms += now - t.since; t.since = null; }
+    });
+  }
+
+  function toggleTile(id){
+    const t = state.tiles.find(x => x.id === id);
+    if(!t) return;
+    if(t.since){
+      t.ms += Date.now() - t.since;
+      t.since = null;
+    } else {
+      pauseAll(id);
+      t.since = Date.now();
+    }
+    save();
+    renderTiles();
+  }
+
+  function adjustTile(id, deltaMin){
+    const t = state.tiles.find(x => x.id === id);
+    if(!t) return;
+    const cur = tileMs(t);
+    const target = Math.max(0, cur + deltaMin * 60000);
+    t.ms = t.since ? target - (Date.now() - t.since) : target;
+    save();
+    updateTileTimes();
+  }
+
+  function removeTile(id){
+    state.tiles = state.tiles.filter(t => t.id !== id);
+    save();
+    renderTiles();
+  }
+
+  function addMsToTile(id, ms){
+    const t = state.tiles.find(x => x.id === id);
+    if(!t || ms < 1000) return null;
+    t.ms += ms;
+    save();
+    updateTileTimes();
+    return t;
+  }
+
+  function renderTiles(){
+    tilesGrid.innerHTML = '';
+    if(!state.tiles.length){
+      const e = document.createElement('div');
+      e.className = 'tiles-empty';
+      e.textContent = 'No tiles yet. Name your first one above — for example Optional or GS revision — and press play when you start.';
+      tilesGrid.appendChild(e);
+    }
+    state.tiles.forEach(t => {
+      const el = document.createElement('div');
+      el.className = 'tile' + (t.since ? ' running' : '');
+      el.style.setProperty('--tc', t.color);
+      el.dataset.id = t.id;
+      el.innerHTML =
+        '<div class="tile-top"><div style="min-width:0"><div class="tile-name"></div><div class="tile-status">Running</div></div>' +
+        '<button class="tile-del" data-act="del" title="Remove tile" aria-label="Remove tile">×</button></div>' +
+        '<div class="tile-time" data-time>00:00:00</div>' +
+        '<div class="tile-actions">' +
+          '<button class="t-play" data-act="play" aria-label="' + (t.since ? 'Pause' : 'Start') + '">' + (t.since ? ICON_PAUSE : ICON_PLAY) + '</button>' +
+          '<button class="t-adj" data-act="minus" aria-label="Subtract 10 minutes">−10m</button>' +
+          '<button class="t-adj" data-act="plus" aria-label="Add 10 minutes">+10m</button>' +
+        '</div>';
+      el.querySelector('.tile-name').textContent = t.name;
+      tilesGrid.appendChild(el);
+    });
+
+    // segmented bar
+    segBar.innerHTML = '';
+    state.tiles.forEach(t => {
+      const i = document.createElement('i');
+      i.style.background = t.color;
+      i.dataset.id = t.id;
+      segBar.appendChild(i);
+    });
+
+    renderQuick();
+    updateTileTimes();
+  }
+
+  function renderQuick(){
+    quickAdd.innerHTML = '';
+    const have = state.tiles.map(t => t.name.toLowerCase());
+    const left = SUGGESTIONS.filter(s => have.indexOf(s.toLowerCase()) === -1);
+    if(!left.length || state.tiles.length >= MAX_TILES) return;
+    const lab = document.createElement('span');
+    lab.textContent = 'Quick add:';
+    quickAdd.appendChild(lab);
+    left.forEach(s => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = s;
+      b.addEventListener('click', () => addTile(s));
+      quickAdd.appendChild(b);
+    });
+  }
+
+  function updateTileTimes(){
+    const total = totalMs();
+    tilesGrid.querySelectorAll('.tile').forEach(el => {
+      const t = state.tiles.find(x => x.id === el.dataset.id);
+      if(!t) return;
+      const node = el.querySelector('[data-time]');
+      const txt = fmtHMS(tileMs(t));
+      if(node.textContent !== txt) node.textContent = txt;
+    });
+    segBar.querySelectorAll('i').forEach(i => {
+      const t = state.tiles.find(x => x.id === i.dataset.id);
+      i.style.width = (t && total > 0 ? (tileMs(t) / total * 100) : 0).toFixed(2) + '%';
+    });
+    tilesTotal.textContent = fmtShort(total);
+  }
+
+  tilesGrid.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-act]');
+    if(!btn) return;
+    const el = btn.closest('.tile');
+    if(!el) return;
+    const id = el.dataset.id;
+    const act = btn.dataset.act;
+    if(act === 'play') toggleTile(id);
+    else if(act === 'plus') adjustTile(id, 10);
+    else if(act === 'minus') adjustTile(id, -10);
+    else if(act === 'del'){
+      if(btn.classList.contains('armed')){ removeTile(id); return; }
+      btn.classList.add('armed');
+      btn.textContent = 'Remove?';
+      setTimeout(() => { if(btn.isConnected){ btn.classList.remove('armed'); btn.textContent = '×'; } }, 2500);
+    }
   });
 
-  const nameInput   = document.getElementById('nameInput');
-  const emailInput  = document.getElementById('emailInput');
-  const emailNote   = document.getElementById('emailNote');
-  const submitBtn   = document.getElementById('submitBtn');
-  const formMsg     = document.getElementById('formMsg');
-  const modal       = document.getElementById('modalBackdrop');
-  const modalName   = document.getElementById('modalName');
-  const modalEmail  = document.getElementById('modalEmail');
-  const modalSummary= document.getElementById('modalSummary');
-  const modalYes    = document.getElementById('modalYes');
-  const modalBack   = document.getElementById('modalBack');
+  $('tileAdd').addEventListener('click', () => { if(addTile(tileInput.value)){ tileInput.value = ''; } tileInput.focus(); });
+  tileInput.addEventListener('keydown', e => {
+    if(e.key === 'Enter'){ e.preventDefault(); if(addTile(tileInput.value)){ tileInput.value = ''; } }
+  });
 
-  function isValidEmail(v){
-    // must contain @ with something on both sides — deliberately simple, not a full RFC check
-    return /^[^\s@]+@[^\s@]+$/.test(v);
+  // ============================================================
+  // 7. Master tick
+  // ============================================================
+  setInterval(() => {
+    // new day → clear tile times
+    if(state.date !== todayKey()){
+      state.date = todayKey();
+      state.tiles.forEach(t => { t.ms = 0; t.since = null; });
+      save();
+      renderTiles();
+    }
+    updateTileTimes();
+  }, 100);
+
+  // keep running tiles safe if the tab is closed
+  window.addEventListener('pagehide', save);
+  setInterval(save, 15000);
+
+  // ============================================================
+  // 8. Identity + submit (same flow as before)
+  // ============================================================
+  const nameInput   = $('nameInput');
+  const emailInput  = $('emailInput');
+  const emailNote   = $('emailNote');
+  const submitBtn   = $('submitBtn');
+  const formMsg     = $('formMsg');
+  const modal       = $('modalBackdrop');
+  const modalName   = $('modalName');
+  const modalEmail  = $('modalEmail');
+  const modalSummary= $('modalSummary');
+  const modalYes    = $('modalYes');
+  const modalBack   = $('modalBack');
+
+  nameInput.value  = state.name;
+  emailInput.value = state.email;
+  nameInput.addEventListener('input',  () => { state.name  = nameInput.value;  save(); });
+  emailInput.addEventListener('input', () => {
+    state.email = emailInput.value; save();
+    emailInput.classList.remove('field-invalid');
+    emailNote.textContent = 'Used to identify you uniquely — required, and must contain @.';
+    emailNote.classList.remove('err');
+    renderLedgerFromCache();
+  });
+
+  function isValidEmail(v){ return /^[^\s@]+@[^\s@]+$/.test(v); }
+
+  function flashMsg(text, isErr){
+    formMsg.textContent = text;
+    formMsg.className = 'form-msg ' + (isErr ? 'err' : 'ok');
   }
 
-  function getChecks(){
-    const boxes = stampGrid.querySelectorAll('input[type=checkbox]');
-    const result = {};
-    boxes.forEach(b => result[b.dataset.key] = b.checked);
-    return result;
+  function snapshot(){
+    return state.tiles.map(t => ({ name: t.name, minutes: Math.round(tileMs(t) / 60000), color: t.color }));
   }
 
-  function openModal(name, email, checks){
+  function openModal(name, email, tiles){
     modalName.textContent = name;
     modalEmail.textContent = email;
-    modalSummary.innerHTML = "";
-    const doneTasks = TASKS.filter(t => checks[t.key]);
-    if(doneTasks.length === 0){
+    modalSummary.innerHTML = '';
+    const used = tiles.filter(t => t.minutes > 0);
+    if(!used.length){
       const chip = document.createElement('span');
       chip.className = 'chip chip-none';
-      chip.textContent = 'Nothing ticked yet';
+      chip.textContent = 'No time logged yet';
       modalSummary.appendChild(chip);
     } else {
-      doneTasks.forEach(t => {
+      used.forEach(t => {
         const chip = document.createElement('span');
         chip.className = 'chip';
-        chip.textContent = t.short;
+        chip.textContent = t.name + ' · ' + fmtMinutes(t.minutes);
         modalSummary.appendChild(chip);
       });
     }
     modal.classList.add('open');
   }
-  function closeModal(){
-    modal.classList.remove('open');
-  }
-
-  emailInput.addEventListener('input', () => {
-    emailInput.classList.remove('field-invalid');
-    emailNote.textContent = 'Used to identify you uniquely — required, and must contain @.';
-    emailNote.classList.remove('err');
-  });
+  function closeModal(){ modal.classList.remove('open'); }
 
   modalBack.addEventListener('click', closeModal);
-  modal.addEventListener('click', (e) => { if(e.target === modal) closeModal(); });
+  modal.addEventListener('click', e => { if(e.target === modal) closeModal(); });
 
   submitBtn.addEventListener('click', () => {
     const name = nameInput.value.trim();
@@ -668,9 +1313,9 @@
     emailNote.classList.remove('err');
 
     if(!name){
-      formMsg.textContent = 'Please enter your name first.';
-      formMsg.className = 'form-msg err';
+      flashMsg('Please enter your name first.', true);
       nameInput.focus();
+      nameInput.scrollIntoView({ behavior:'smooth', block:'center' });
       return;
     }
     if(!email || !isValidEmail(email)){
@@ -678,19 +1323,21 @@
       emailNote.textContent = 'A valid email (with @) is required — entries can\'t be made without one.';
       emailNote.classList.add('err');
       emailInput.focus();
+      emailInput.scrollIntoView({ behavior:'smooth', block:'center' });
       return;
     }
-    openModal(name, email, getChecks());
+    openModal(name, email, snapshot());
   });
 
   modalYes.addEventListener('click', async () => {
     const name = nameInput.value.trim();
     const email = emailInput.value.trim();
-    const checks = getChecks();
+    const tiles = snapshot();
+    const totalMinutes = tiles.reduce((s,t) => s + t.minutes, 0);
     modalYes.disabled = true;
     modalYes.textContent = 'Submitting…';
 
-    const payload = Object.assign({ name, email }, checks);
+    const payload = { name: name, email: email, totalMinutes: totalMinutes, tiles: tiles };
 
     try{
       if(SCRIPT_URL.indexOf('PASTE_YOUR') !== -1){
@@ -705,13 +1352,11 @@
       const result = await res.json();
       if(result.status !== 'success') throw new Error(result.message || 'Server rejected the entry');
 
-      formMsg.textContent = `Saved — thanks, ${name}!`;
-      formMsg.className = 'form-msg ok';
+      flashMsg('Saved — thanks, ' + name + '!', false);
       closeModal();
       loadLedger();
     } catch(err){
-      formMsg.textContent = "Couldn't save your entry. Check the setup note below and try again.";
-      formMsg.className = 'form-msg err';
+      flashMsg("Couldn't save your entry. Check the setup note below and try again.", true);
       closeModal();
     } finally {
       modalYes.disabled = false;
@@ -720,16 +1365,16 @@
   });
 
   // ============================================================
-  // 3. Ledger (leaderboard) — fixed-size scrollable box, fed by GET
+  // 9. Today's entries (right side)
   // ============================================================
-  const ledgerScroll = document.getElementById('ledgerScroll');
-  const ledgerMeta   = document.getElementById('ledgerMeta');
+  const ledgerScroll = $('ledgerScroll');
+  const ledgerMeta   = $('ledgerMeta');
+  let cachedRows = null;
 
   function timeAgo(dateStr){
     const d = new Date(dateStr);
     if(isNaN(d)) return '';
-    const diffMs = Date.now() - d.getTime();
-    const mins = Math.floor(diffMs / 60000);
+    const mins = Math.floor((Date.now() - d.getTime()) / 60000);
     if(mins < 1) return 'just now';
     if(mins < 60) return mins + 'm ago';
     const hrs = Math.floor(mins / 60);
@@ -741,70 +1386,82 @@
     return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate();
   }
 
-  function truthy(v){
-    return v === true || v === 'TRUE' || v === 'true' || v === 1 || v === '1';
+  function parseTiles(r){
+    let t = r.Tiles;
+    if(typeof t === 'string'){ try{ t = JSON.parse(t); }catch(e){ t = []; } }
+    if(!Array.isArray(t)) t = [];
+    return t.filter(x => x && x.name).map(x => ({
+      name: String(x.name),
+      minutes: Math.max(0, Number(x.minutes) || 0),
+      color: safeColor(x.color, x.name)
+    }));
   }
 
   function renderLedger(rows){
-    // Keep only today's rows, then latest entry per person wins.
     const today = new Date();
     const latestByEmail = {};
     rows.forEach(r => {
       if(!r.Name || !r.Email) return;
       const ts = new Date(r.Timestamp);
-      if(!isSameDay(ts, today)) return;
+      if(isNaN(ts) || !isSameDay(ts, today)) return;
       const key = String(r.Email).trim().toLowerCase();
       const existing = latestByEmail[key];
-      if(!existing || new Date(existing.Timestamp) < ts){
-        latestByEmail[key] = r;
-      }
+      if(!existing || new Date(existing.Timestamp) < ts) latestByEmail[key] = r;
     });
 
-    const people = Object.values(latestByEmail).sort((a,b) => {
-      const scoreA = TASKS.reduce((s,t) => s + (truthy(a[headerFor(t)]) ? 1 : 0), 0);
-      const scoreB = TASKS.reduce((s,t) => s + (truthy(b[headerFor(t)]) ? 1 : 0), 0);
-      return scoreB - scoreA || String(a.Name).localeCompare(String(b.Name));
-    });
+    const people = Object.keys(latestByEmail).map(k => {
+      const r = latestByEmail[k];
+      const tiles = parseTiles(r).filter(t => t.minutes > 0).sort((a,b) => b.minutes - a.minutes);
+      const sum = tiles.reduce((s,t) => s + t.minutes, 0);
+      const total = Number(r['Total Minutes']);
+      return { key: k, name: r.Name, ts: r.Timestamp, tiles: tiles, total: isNaN(total) || r['Total Minutes'] === '' ? sum : total };
+    }).sort((a,b) => b.total - a.total || String(a.name).localeCompare(String(b.name)));
 
     ledgerMeta.textContent = people.length + (people.length === 1 ? ' entry today' : ' entries today');
 
-    if(people.length === 0){
+    const groupTotal = people.reduce((s,p) => s + p.total, 0);
+    $('statTotal').textContent = people.length ? fmtMinutes(groupTotal) : '–';
+    $('statAvg').textContent   = people.length ? fmtMinutes(Math.round(groupTotal / people.length)) : '–';
+
+    if(!people.length){
       ledgerScroll.innerHTML = '<div class="ledger-empty">No one has logged today yet — be the first.</div>';
       return;
     }
 
-    let html = '<table class="ledger"><thead><tr><th>Name</th>';
-    TASKS.forEach(t => html += `<th>${t.short}</th>`);
-    html += '<th>Updated</th></tr></thead><tbody>';
+    const max = Math.max.apply(null, people.map(p => p.total)) || 1;
+    const myKey = emailInput.value.trim().toLowerCase();
+    let html = '';
 
-    people.forEach(p => {
-      html += `<tr><td><span class="name-cell"><span class="name-dot"></span>${escapeHtml(p.Name)}</span></td>`;
-      TASKS.forEach(t => {
-        const done = truthy(p[headerFor(t)]);
-        html += `<td>${done ? '<span class="mark-yes">✓</span>' : '<span class="mark-no">–</span>'}</td>`;
-      });
-      html += `<td class="updated-cell">${timeAgo(p.Timestamp)}</td></tr>`;
+    people.forEach((p, i) => {
+      const me = myKey && p.key === myKey;
+      const pct = Math.max(3, p.total / max * 100);
+      html += '<article class="person' + (me ? ' me' : '') + (i === 0 && p.total > 0 ? ' top' : '') + '">' +
+        '<div class="p-rank">' + (i + 1) + '</div>' +
+        '<div class="p-main">' +
+          '<div class="p-top"><span class="p-name">' + escapeHtml(p.name) + '</span>' +
+          (me ? '<span class="p-you">you</span>' : '') +
+          '<span class="p-time">' + fmtMinutes(p.total) + '</span></div>';
+
+      if(p.tiles.length){
+        html += '<div class="p-track"><div class="p-fill" style="width:' + pct.toFixed(1) + '%">';
+        p.tiles.forEach(t => { html += '<i style="flex:' + t.minutes + ';background:' + t.color + '"></i>'; });
+        html += '</div></div><div class="p-chips">';
+        p.tiles.forEach(t => {
+          html += '<span class="p-chip"><b style="background:' + t.color + '"></b>' + escapeHtml(t.name) + ' <em>' + fmtMinutes(t.minutes) + '</em></span>';
+        });
+        html += '</div>';
+      } else {
+        html += '<div class="p-chips" style="margin-top:8px"><span class="p-chip"><em>nothing logged yet</em></span></div>';
+      }
+
+      html += '<div class="p-upd">updated ' + timeAgo(p.ts) + '</div></div></article>';
     });
 
-    html += '</tbody></table>';
     ledgerScroll.innerHTML = html;
   }
 
-  // Maps our task keys to the exact column headers written by Code.gs
-  const HEADER_MAP = {
-    dca: 'DCA',
-    prelog: 'PreLog Test',
-    answerWriting: 'Answer Writing',
-    newspaper: 'Newspaper',
-    gsRevision: 'GS Revision',
-    optionalRevision: 'Optional Revision'
-  };
-  function headerFor(t){ return HEADER_MAP[t.key]; }
-
-  function escapeHtml(str){
-    return String(str).replace(/[&<>"']/g, c => ({
-      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-    }[c]));
+  function renderLedgerFromCache(){
+    if(cachedRows) renderLedger(cachedRows);
   }
 
   async function loadLedger(){
@@ -817,15 +1474,20 @@
       const res = await fetch(SCRIPT_URL, { method: 'GET' });
       if(!res.ok) throw new Error('bad response');
       const rows = await res.json();
-      renderLedger(Array.isArray(rows) ? rows : []);
+      cachedRows = Array.isArray(rows) ? rows : [];
+      renderLedger(cachedRows);
     } catch(err){
       ledgerMeta.textContent = 'error';
-      ledgerScroll.innerHTML = '<div class="ledger-error">Could not load the ledger right now. Pull to refresh or check back shortly.</div>';
+      ledgerScroll.innerHTML = '<div class="ledger-error">Could not load today\'s entries right now. Check back shortly.</div>';
     }
   }
 
+  // ============================================================
+  // 10. Start
+  // ============================================================
+  renderTiles();
   loadLedger();
-  setInterval(loadLedger, 30000); // keep the group ledger fresh
+  setInterval(loadLedger, 30000);
 
 })();
 </script>
